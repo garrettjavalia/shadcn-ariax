@@ -10,7 +10,7 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-docs'],
   staticDirs: ['../public'],
   core: { disableTelemetry: true },
-  async viteFinal(config) {
+  async viteFinal(config, { configType }) {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -21,7 +21,7 @@ const config: StorybookConfig = {
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'registry/ariax/styles/entry.css'),
     };
     config.plugins = [
-      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: false })]),
+      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: configType === 'DEVELOPMENT' })]),
       ...(config.plugins ?? []),
     ];
     config.server ??= {};
