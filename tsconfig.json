@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "paths": {
+      "@button": [
+        "./registry/ariax/ui/button.tsx"
+      ],
+      "@customizations": [
+        "./stories/customizations.ts"
+      ]
+    }
+  },
+  "include": [
+    ".storybook",
+    "stories",
+    "registry",
+    "tests",
+    "playwright.config.ts",
+    "scripts",
+    "reference",
+    "generated/reference",
+    "tests/types"
+  ]
+}

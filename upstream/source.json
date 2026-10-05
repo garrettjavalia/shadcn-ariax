@@ -1,0 +1,19 @@
+{
+  "repository": "shadcn-ui/ui",
+  "commit": "3b1ae6e43f082dd82d0e5710b813cfad929abdb4",
+  "base": "aria",
+  "style": "nova",
+  "paths": [
+    "LICENSE.md",
+    "apps/v4/registry/bases/aria",
+    "apps/v4/registry/styles/style-nova.css",
+    "apps/v4/registry/themes.ts",
+    "apps/v4/app/globals.css",
+    "apps/v4/examples/aria",
+    "apps/v4/content/docs/components/aria"
+  ],
+  "requiredFiles": [
+    "apps/v4/registry/bases/aria/ui/button.tsx",
+    "apps/v4/content/docs/components/aria/button.mdx"
+  ]
+}

@@ -1,0 +1,4 @@
+// Original side uses real Tailwind utilities, never a shared CSS imitation.
+export const rounded = { className: 'rounded-full' };
+export const customized = { className: 'h-11 min-w-40 rounded-xl px-5 hover:opacity-80' };
+export const dynamic = (width: number) => ({ style: { width } });
