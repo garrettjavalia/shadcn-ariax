@@ -1,3 +1,4 @@
+import { SeparatorContext } from 'react-aria-components';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Separator } from '@separator';
 import { separatorMenu, separatorCustom } from '@customizations';
@@ -16,3 +17,6 @@ export const Menu: Story = { tags: ['viewport-390'], render: () => <div classNam
 export const List: Story = { render: () => <div className="separator-list">{[1, 2, 3].map(n => <div key={n}>{n > 1 && <Separator />}<dl><dt>Item {n}</dt><dd>Value {n}</dd></dl></div>)}</div> };
 export const Semantics: Story = { render: () => <div className="separator-semantics"><Separator id="default-separator" aria-label="Sections" /><Separator elementType="div" aria-label="Horizontal sections" /><Separator orientation="vertical" aria-label="Columns" /><Separator elementType="hr" orientation="vertical" aria-label="Explicit hr vertical" /><Separator elementType="div" slot="divider" /></div> };
 export const Customized: Story = { render: () => <Separator {...separatorCustom} /> };
+
+export const Context: Story = { render: () => <SeparatorContext.Provider value={{ elementType: 'div' }}><div className="separator-description"><div>First section</div><Separator /><div>Second section</div><Separator orientation="vertical" /></div></SeparatorContext.Provider> };
+export const Render: Story = { render: () => <div className="separator-description"><Separator render={props => <div {...props} />} /><Separator orientation="vertical" render={({ ref: _ref, ...props }) => <hr {...props} />} /></div> };

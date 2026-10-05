@@ -9,16 +9,17 @@ export type SeparatorProps = Omit<ComponentProps<typeof SeparatorPrimitive>, 'cl
   style?: never;
 };
 const styles = stylex.create({
-  base: { display: 'block', flexShrink: 0, borderWidth: 0, backgroundColor: 'var(--border)' },
-  horizontal: { height: 1, width: '100%' },
-  vertical: { width: 1, alignSelf: 'stretch' },
+  base: {
+    display: 'block', flexShrink: 0, borderWidth: 0, backgroundColor: 'var(--border)',
+    '--ariax-separator-height': { default: 'auto', ':is(hr, [aria-orientation="horizontal"])': '1px' },
+    '--ariax-separator-width': { default: 'auto', ':is(hr, [aria-orientation="horizontal"])': '100%', ':is([aria-orientation="vertical"])': '1px' },
+    '--ariax-separator-align': { default: 'auto', ':is([aria-orientation="vertical"])': 'stretch' },
+    height: 'var(--ariax-separator-height)', width: 'var(--ariax-separator-width)', alignSelf: 'var(--ariax-separator-align)',
+  },
 });
 export function Separator({ orientation = 'horizontal', xstyle, className: _className, style: _style, ...props }: SeparatorProps) {
-  // Match pinned RAC output: horizontal div and explicit hr + vertical have no
-  // orientation attribute (the latter renders a div), so upstream sizes neither.
-  const dimensions = orientation === 'vertical'
-    ? props.elementType !== 'hr' && styles.vertical
-    : (!props.elementType || props.elementType === 'hr') && styles.horizontal;
-  const applied = stylex.props(styles.base, dimensions, xstyle);
+  // Select dimensions from the rendered DOM, including RAC context and render props.
+  // Local variables keep a later xstyle width/height override unconditional.
+  const applied = stylex.props(styles.base, xstyle);
   return <SeparatorPrimitive data-slot="separator" orientation={orientation} {...props} className={applied.className} style={applied.style} />;
 }

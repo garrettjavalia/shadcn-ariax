@@ -65,4 +65,4 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 
 ## Separator 검증 범위
 
-공식 기본·세로·메뉴·목록·RTL 예제를 light/dark에서 비교한다. 메뉴는 390px도 검사한다. 기본 hr, elementType=div, 세로 전환, DOM props, xstyle 치수·색상 덮어쓰기를 검증한다. 원본의 horizontal div는 aria-orientation 속성이 없어 높이 1px 스타일이 적용되지 않으므로 같은 조건을 보존한다. 사용자 스타일 비교는 원본의 hr 선택자와 동등한 Tailwind 유틸리티를 사용한다.
+공식 기본·세로·메뉴·목록·RTL 예제를 light/dark에서 비교한다. 메뉴는 390px도 검사한다. 기본 hr, elementType=div, 세로 전환, SeparatorContext, DOM props, xstyle 치수·색상 덮어쓰기를 검증한다. 원본의 horizontal div는 aria-orientation 속성이 없어 높이 1px 스타일이 적용되지 않으므로 같은 조건을 보존한다. 사용자 스타일 비교는 원본의 hr 선택자와 동등한 Tailwind 유틸리티를 사용한다.
