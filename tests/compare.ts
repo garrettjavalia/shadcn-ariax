@@ -75,11 +75,18 @@ export function differences(a: unknown, b: unknown, path = ''): { path: string; 
 export async function settle(page: Page) {
   await page.evaluate(async () => {
     await document.fonts.ready;
-    // Infinite spinners are sampled at a fixed phase, not disabled.
-    for (const a of document.getAnimations()) if (a.effect?.getComputedTiming().iterations === Infinity) { a.pause(); a.currentTime = 250; }
-    // Wait for finite transitions to end; do not disable them or change their CSS.
-    await Promise.all(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => {})));
-    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const frames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    // Let React effects and focus restoration start their transitions before sampling.
+    await frames();
+    for (;;) {
+      const animations = document.getAnimations();
+      // Infinite spinners are sampled at a fixed phase, not disabled.
+      for (const animation of animations) if (animation.effect?.getComputedTiming().iterations === Infinity) { animation.pause(); animation.currentTime = 250; }
+      const finite = animations.filter(a => a.effect?.getComputedTiming().iterations !== Infinity && (a.playState === 'running' || a.pending));
+      if (!finite.length) break;
+      await Promise.all(finite.map(a => a.finished.catch(() => {})));
+      await frames();
+    }
   });
 }
 
