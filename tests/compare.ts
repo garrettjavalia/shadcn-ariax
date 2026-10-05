@@ -1,0 +1,110 @@
+import { expect, type Page, type TestInfo } from '@playwright/test';
+import { PNG } from 'pngjs';
+import { isDeepStrictEqual } from 'node:util';
+
+export async function snapshot(page: Page) {
+  const captured = await page.evaluate(() => {
+    const root = document.querySelector('#parity-root');
+    if (!root) throw new Error('Missing parity root');
+    // Explicitly registered portals are compared alongside the story tree.
+    const roots = [root, ...document.querySelectorAll('[data-parity-portal]')];
+    const elements = roots.flatMap(r => [r, ...r.querySelectorAll('*')]);
+    const ids = new Map(elements.filter(e => e.id).map((e, i) => [e.id, e.id.startsWith('react-aria') ? `generated:${i}` : e.id]));
+    // React Aria collection tokens are not DOM IDs. Remove only the random
+    // provider prefix; retain the React-local identity and equality relationships.
+    const providers = new Map<string, number>();
+    const collectionToken = (value: string) => value.replace(/^react-aria\d+-/, prefix => {
+      if (!providers.has(prefix)) providers.set(prefix, providers.size);
+      return `react-aria-provider:${providers.get(prefix)}-`;
+    });
+    const references = new Set(['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'aria-activedescendant', 'for']);
+    const styleBank: Record<string, string>[] = [];
+    const styleIds = new Map<string, number>();
+    const style = (element: Element, pseudo?: string) => {
+      const css = getComputedStyle(element, pseudo);
+      const values = Object.fromEntries([...css].filter(k => !k.startsWith('--')).sort().map(k => [k, css.getPropertyValue(k)]));
+      const key = JSON.stringify(values);
+      let id = styleIds.get(key);
+      if (id === undefined) { id = styleBank.length; styleBank.push(values); styleIds.set(key, id); }
+      return { $style: id };
+    };
+    const rect = (r: DOMRect) => ({ x: r.x, y: r.y, width: r.width, height: r.height });
+    const nodes = (node: Node, path: string): unknown => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const range = document.createRange(); range.selectNodeContents(node);
+        return { path, text: node.textContent, rects: [...range.getClientRects()].map(rect) };
+      }
+      if (!(node instanceof Element)) return { path, type: node.nodeType };
+      return {
+        path, tag: node.tagName,
+        attrs: Object.fromEntries([...node.attributes]
+          .filter(a => !['class', 'style'].includes(a.name))
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : a.name === 'data-collection' ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(id => ids.get(id) ?? `external:${id}`).join(' ') : a.value])),
+        css: style(node),
+        pseudos: Object.fromEntries(['::before', '::after', '::marker'].map(p => [p, style(node, p)])),
+        rect: rect(node.getBoundingClientRect()),
+        scroll: [node.scrollWidth, node.scrollHeight, node.scrollLeft, node.scrollTop],
+        focused: document.activeElement === node,
+        children: [...node.childNodes].map((n, i) => nodes(n, `${path}/${i}`)),
+      };
+    };
+    return { roots: roots.map((r, i) => nodes(r, `root:${i}`)), styleBank };
+  });
+  // Intern identical computed styles to avoid sending thousands of duplicates over CDP.
+  // Values are compared exactly; no hashes, property allowlists or numeric tolerances.
+  const expand = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(expand);
+    if (value && typeof value === "object") {
+      if ("$style" in value) return captured.styleBank[(value as { $style: number }).$style];
+      return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, expand(v)]));
+    }
+    return value;
+  };
+  return expand(captured.roots);
+}
+
+export function differences(a: unknown, b: unknown, path = ''): { path: string; upstream: unknown; stylex: unknown }[] {
+  if (Object.is(a, b)) return [];
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    return [...new Set([...Object.keys(a), ...Object.keys(b)])].flatMap(k => differences((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], `${path}/${k}`));
+  }
+  return [{ path, upstream: a, stylex: b }];
+}
+
+export async function settle(page: Page) {
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    // Infinite spinners are sampled at a fixed phase, not disabled.
+    for (const a of document.getAnimations()) if (a.effect?.getComputedTiming().iterations === Infinity) { a.pause(); a.currentTime = 250; }
+    // Wait for finite transitions to end; do not disable them or change their CSS.
+    await Promise.all(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => {})));
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  });
+}
+
+export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true) {
+  const started = performance.now();
+  await Promise.all([settle(a), settle(b)]);
+  const settled = performance.now();
+  const [left, right] = await Promise.all([snapshot(a), snapshot(b)]);
+  const captured = performance.now();
+  // Passing comparisons need only exact equality. Build detailed path/value
+  // differences on failure, avoiding per-property path strings and arrays on success.
+  const diff = isDeepStrictEqual(left, right) ? [] : differences(left, right);
+  const compared = performance.now();
+  if (diff.length) await info.attach(`${state}-dom-css-diff`, { body: JSON.stringify(diff, null, 2), contentType: 'application/json' });
+  expect(diff.length, `${state}: ${JSON.stringify(diff.slice(0, 8))} (full diff attached)`).toBe(0);
+  if (pixels) {
+    const portals = await a.locator('[data-parity-portal]').count();
+    const shots = await Promise.all([a, b].map(p => portals ? p.screenshot({ caret: 'hide', fullPage: true }) : p.locator('#parity-root').screenshot({ caret: 'hide' })));
+    const [x, y] = shots.map(buffer => PNG.sync.read(buffer));
+    const equal = x.width === y.width && x.height === y.height && x.data.equals(y.data);
+    if (!equal) for (let i = 0; i < 2; i++) await info.attach(`${state}-${i ? 'stylex' : 'upstream'}`, { body: shots[i], contentType: 'image/png' });
+    expect(equal, `${state}: exact RGBA screenshot equality`).toBe(true);
+  }
+  if (process.env.PARITY_PROFILE === '1') info.annotations.push({
+    type: 'parity-timing',
+    description: JSON.stringify({ state, settleMs: settled - started, snapshotMs: captured - settled, diffMs: compared - captured, pixelsMs: performance.now() - compared }),
+  });
+}

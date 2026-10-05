@@ -1,0 +1,44 @@
+import { test, expect } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import { compare } from './compare';
+import { environments, buttonDocumentation, type StoryEntry } from './catalog';
+
+for (const { theme, width, requiredTag } of environments) test(`registered stories / ${theme} / ${width}`, async ({ browser, request }, info) => {
+  test.setTimeout(240_000);
+  const leftIndex = await (await request.get('http://127.0.0.1:4100/index.json')).json();
+  const rightIndex = await (await request.get('http://127.0.0.1:4200/index.json')).json();
+  const select = (index: { entries: Record<string, StoryEntry> }) => Object.values(index.entries)
+    .filter(s => s.type === 'story' && s.tags?.includes('parity') && (!requiredTag || s.tags.includes(requiredTag)) && (!process.env.PARITY_COMPONENT || s.id.startsWith(process.env.PARITY_COMPONENT))).map(s => s.id).sort();
+  const ids = select(leftIndex);
+  expect(select(rightIndex), 'Both implementations must publish the same stories').toEqual(ids);
+  test.skip(ids.length === 0 && !!requiredTag, 'No selected stories declare this additional viewport.');
+  expect(ids.length, 'No parity stories discovered').toBeGreaterThan(0);
+  const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
+  const a = await context.newPage(); const b = await context.newPage();
+  try {
+    for (const id of ids) await test.step(id, async () => {
+      // Full navigation resets React state; pages are reused to bound browser overhead.
+      const started = performance.now();
+      await Promise.all(([[a, 4100], [b, 4200]] as const).map(async ([page, port]) => {
+        await page.goto(`http://127.0.0.1:${port}/iframe.html?id=${id}&viewMode=story&globals=theme:${theme}`);
+        await expect(page.locator('#parity-root')).toBeVisible();
+        await expect(page.locator('html')).toHaveClass(theme === 'dark' ? /\bdark\b/ : /^(?!.*\bdark\b).*$/);
+        await page.mouse.move(0, 0);
+      }));
+      if (process.env.PARITY_PROFILE === '1') info.annotations.push({ type: 'parity-navigation', description: JSON.stringify({ id, ms: performance.now() - started }) });
+      try { await compare(a, b, info, `${id}-rest`); }
+      catch (error) { expect.soft(false, String(error)).toBe(true); }
+    });
+  } finally { await context.close(); }
+});
+
+test('every official Button documentation example has a registered parity story', async ({ request }) => {
+  const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/button.mdx', 'utf8');
+  const examples = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m => m[1]);
+  const index = await (await request.get('http://127.0.0.1:4200/index.json')).json();
+  expect(examples.length).toBeGreaterThan(0);
+  for (const name of examples) {
+    expect(buttonDocumentation[name], `Unmapped official example: ${name}`).toBeTruthy();
+    expect(index.entries[`components-button--${buttonDocumentation[name]}`]?.tags).toContain('parity');
+  }
+});
