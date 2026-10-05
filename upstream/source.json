@@ -14,6 +14,8 @@
   ],
   "requiredFiles": [
     "apps/v4/registry/bases/aria/ui/button.tsx",
-    "apps/v4/content/docs/components/aria/button.mdx"
+    "apps/v4/content/docs/components/aria/button.mdx",
+    "apps/v4/registry/bases/aria/ui/skeleton.tsx",
+    "apps/v4/content/docs/components/aria/skeleton.mdx"
   ]
 }
