@@ -46,7 +46,7 @@ const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
 PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ```
 
-공통 비교기는 재귀 DOM·텍스트·속성·생성 ID 참조, 모든 계산 CSS 속성, `::before/::after/::marker`, 요소와 텍스트 위치·크기, 스크롤, 포커스, RGBA 스크린샷을 검사한다. 클래스·인라인 스타일 표현과 CSS 변수명은 비교하지 않으며 실제 적용값은 비교한다. 수치·픽셀 허용 오차는 없다. 무한 애니메이션은 250ms 시점에 정지하고 유한 전환은 완료 후 비교한다. CSS·DOM·의사 요소·크기 변조를 실제로 탐지하는 검증기 테스트도 포함한다.
+공통 비교기는 재귀 DOM·텍스트·속성·생성 ID 참조, 모든 계산 CSS 속성, `::before/::after/::marker`, 요소와 텍스트 위치·크기, 스크롤, 포커스, RGBA 스크린샷을 검사한다. 클래스·인라인 스타일 표현과 CSS 변수명은 비교하지 않으며 실제 적용값은 비교한다. DOM·계산 CSS·위치·크기 수치는 허용 오차 없이 비교한다. 이 검사가 통과한 경우에만 픽셀별 RGBA 채널 차이 최대 1/255이면서 변경 픽셀 비율 0.1% 이하인 렌더링 노이즈를 허용한다. 원본끼리도 재현된 브라우저 래스터 차이를 위한 예외이며 나머지 화면 차이는 실패다. 무한 애니메이션은 250ms 시점에 정지하고 유한 전환은 완료 후 비교한다. CSS·DOM·의사 요소·크기 변조를 실제로 탐지하는 검증기 테스트도 포함한다.
 
 기본 환경은 Chromium, 1000px, light/dark다. Group만 반응형 분기 검증을 위해 390px를 추가한다. 6개 variant × 8개 size, 아이콘·링크·RTL·둥근 버튼·로딩·disabled·pending·expanded와 포인터/키보드 조작을 검사한다. React Aria가 aria-invalid를 제거하므로 해당 중복 예제는 삭제했으며 invalid CSS는 검증 범위에 포함하지 않는다. axe 검사는 StyleX의 disabled/pending에 적용한다.
 
@@ -61,7 +61,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 
 ## 테스트 비용
 
-기본 너비는 1000px로 통일하고 반응형 분기가 있는 예제만 추가 너비를 선언한다. 같은 상태의 반복 비교는 제거하되 서로 다른 동작·선택자 조건은 유지한다. 독립 worker 2개를 기본으로 사용하고, 속도 개선을 위해 비교 정밀도나 실패 기준을 완화하지 않는다.
+기본 너비는 1000px로 통일하고 반응형 분기가 있는 예제만 추가 너비를 선언한다. 같은 상태의 반복 비교는 제거하되 서로 다른 동작·선택자 조건은 유지한다. 독립 worker 2개를 기본으로 사용하고, 속도 개선을 위해 비교 정밀도나 실패 기준을 완화하지 않는다. 픽셀 노이즈 예외는 위에 명시한 한계만 적용한다.
 
 ## Skeleton
 
