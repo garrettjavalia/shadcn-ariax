@@ -40,7 +40,7 @@ const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
 2. 공통 스토리에 `tags: ['parity']`를 지정하고 렌더링 영역을 `#parity-root`로 감싼다. 포털에는 `data-parity-portal`을 지정한다.
 3. 변형·크기·예제는 스토리로 선언한다. 공통 비교기가 1000px의 light/dark에서 검사한다. 반응형 분기가 있는 스토리만 `viewport-390` 태그로 추가 검사하고, 확인용 중복 스토리는 `!parity`로 제외한다.
 4. 키보드·선택·열림 등 고유 조작만 별도 시나리오에 추가한다. 조작 후 `compare()`를 호출하며 DOM/CSS 검사 로직은 재작성하지 않는다.
-5. 공식 문서 예제와 스토리의 대응표를 유지한다. Button은 고정한 공식 MDX의 모든 `ComponentPreview`가 대응되는지 자동 검사한다.
+5. 공식 문서 예제와 스토리의 대응표를 유지한다. Button·Separator는 고정한 공식 MDX의 모든 `ComponentPreview`가 대응되는지 자동 검사한다.
 
 ```sh
 PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
@@ -48,7 +48,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 
 공통 비교기는 재귀 DOM·텍스트·속성·생성 ID 참조, 모든 계산 CSS 속성, `::before/::after/::marker`, 요소와 텍스트 위치·크기, 스크롤, 포커스, RGBA 스크린샷을 검사한다. 클래스·인라인 스타일 표현과 CSS 변수명은 비교하지 않으며 실제 적용값은 비교한다. 수치·픽셀 허용 오차는 없다. 무한 애니메이션은 250ms 시점에 정지하고 유한 전환은 완료 후 비교한다. CSS·DOM·의사 요소·크기 변조를 실제로 탐지하는 검증기 테스트도 포함한다.
 
-기본 환경은 Chromium, 1000px, light/dark다. Group만 반응형 분기 검증을 위해 390px를 추가한다. 6개 variant × 8개 size, 아이콘·링크·RTL·둥근 버튼·로딩·disabled·pending·expanded와 포인터/키보드 조작을 검사한다. React Aria가 aria-invalid를 제거하므로 해당 중복 예제는 삭제했으며 invalid CSS는 검증 범위에 포함하지 않는다. axe 검사는 StyleX의 disabled/pending에 적용한다.
+기본 환경은 Chromium, 1000px, light/dark다. Group과 Separator Menu는 반응형 분기 검증을 위해 390px를 추가한다. 6개 variant × 8개 size, 아이콘·링크·RTL·둥근 버튼·로딩·disabled·pending·expanded와 포인터/키보드 조작을 검사한다. React Aria가 aria-invalid를 제거하므로 해당 중복 예제는 삭제했으며 invalid CSS는 검증 범위에 포함하지 않는다. axe 검사는 StyleX의 disabled/pending에 적용한다.
 
 ## Git에 포함할 파일
 
@@ -62,3 +62,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## 테스트 비용
 
 기본 너비는 1000px로 통일하고 반응형 분기가 있는 예제만 추가 너비를 선언한다. 같은 상태의 반복 비교는 제거하되 서로 다른 동작·선택자 조건은 유지한다. 독립 worker 2개를 기본으로 사용하고, 속도 개선을 위해 비교 정밀도나 실패 기준을 완화하지 않는다.
+
+## Separator 검증 범위
+
+공식 기본·세로·메뉴·목록·RTL 예제를 light/dark에서 비교한다. 메뉴는 390px도 검사한다. 기본 hr, elementType=div, 세로 전환, DOM props, xstyle 치수·색상 덮어쓰기를 검증한다. 원본의 horizontal div는 aria-orientation 속성이 없어 높이 1px 스타일이 적용되지 않으므로 같은 조건을 보존한다. 사용자 스타일 비교는 원본의 hr 선택자와 동등한 Tailwind 유틸리티를 사용한다.

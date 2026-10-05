@@ -1,5 +1,6 @@
 @import "tailwindcss" source(none);
 @source "./button.tsx";
+@source "./separator.tsx";
 @source "../../../reference/customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {

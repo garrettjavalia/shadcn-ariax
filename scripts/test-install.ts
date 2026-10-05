@@ -16,7 +16,7 @@ try {
   await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'] } }, include: ['src'] }));
   await writeFile(join(dir, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: 'aria-nova', rsc: false, tsx: true, tailwind: { config: '', css: 'src/index.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@/components', ui: '@/components/ui', utils: '@/lib/utils', lib: '@/lib', hooks: '@/hooks' } }));
   // Actual published CLI, actual generated registry file, fresh consumer files and dependencies.
-  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', resolve('public/r/button.json'), '--yes', '--cwd', dir]);
+  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', resolve('public/r/button.json'), resolve('public/r/separator.json'), '--yes', '--cwd', dir]);
   const button = await readFile(join(dir, 'src/components/ui/button.tsx'), 'utf8');
   assert.match(button, /react-aria-components/);
   assert.match(button, /@stylexjs\/stylex/);
@@ -25,7 +25,7 @@ try {
   assert.ok(installed.dependencies['@stylexjs/stylex']);
   assert.ok(!installed.dependencies.tailwindcss && !installed.devDependencies.tailwindcss);
   await writeFile(join(dir, 'index.html'), '<html><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>');
-  await writeFile(join(dir, 'src/main.tsx'), "import React from 'react'; import {createRoot} from 'react-dom/client'; import {Button,buttonProps} from './components/ui/button'; import * as stylex from '@stylexjs/stylex'; import './components/ui/ariax/styles/entry.css'; const styles=stylex.create({custom:{minWidth:160},dynamic:(width:number)=>({width})}); createRoot(document.getElementById('root')!).render(<><Button xstyle={[styles.custom,styles.dynamic(200)]}>Installed</Button><a {...buttonProps({xstyle:styles.custom})}>Link</a></>);");
+  await writeFile(join(dir, 'src/main.tsx'), "import React from 'react'; import {createRoot} from 'react-dom/client'; import {Separator} from './components/ui/separator'; import {Button,buttonProps} from './components/ui/button'; import * as stylex from '@stylexjs/stylex'; import './components/ui/ariax/styles/entry.css'; const styles=stylex.create({custom:{minWidth:160},dynamic:(width:number)=>({width})}); createRoot(document.getElementById('root')!).render(<><Separator orientation={'vertical'} xstyle={styles.custom}/><Button xstyle={[styles.custom,styles.dynamic(200)]}>Installed</Button><a {...buttonProps({xstyle:styles.custom})}>Link</a></>);");
   await writeFile(join(dir, 'vite.config.ts'), "import {defineConfig} from 'vite'; import stylex from '@stylexjs/unplugin'; export default defineConfig({plugins:[stylex.vite({useCSSLayers:false})],esbuild:{jsx:'automatic'}});");
   run('pnpm', ['install', '--ignore-workspace']);
   run('pnpm', ['exec', 'tsc', '--noEmit']);

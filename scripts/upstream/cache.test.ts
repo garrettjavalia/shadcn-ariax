@@ -15,7 +15,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await mkdir(join(dir, 'upstream'));
     await writeFile(join(dir, 'package.json'), '{"type":"module"}');
     const commit = 'a'.repeat(40);
-    const paths = ['apps/v4/registry/bases/aria/ui/button.tsx', 'apps/v4/registry/styles/style-nova.css'];
+    const paths = ['apps/v4/registry/bases/aria/ui/button.tsx', 'apps/v4/registry/bases/aria/ui/separator.tsx', 'apps/v4/registry/styles/style-nova.css'];
     for (const path of paths) {
       const target = join(dir, 'archive', `ui-${commit}`, path);
       await mkdir(resolve(target, '..'), { recursive: true });

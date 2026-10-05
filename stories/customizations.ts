@@ -9,3 +9,9 @@ export const rounded = { xstyle: styles.rounded };
 // The later style must override both the component defaults and the earlier array entry.
 export const customized = { xstyle: [styles.initial, styles.custom] };
 export const dynamic = (width: number) => ({ xstyle: styles.dynamic(width) });
+const separatorStyles = stylex.create({
+  menu: { display: { default: 'none', '@media (width >= 48rem)': 'block' } },
+  custom: { height: 4, width: 180, backgroundColor: 'var(--primary)' },
+});
+export const separatorMenu = { xstyle: separatorStyles.menu };
+export const separatorCustom = { xstyle: separatorStyles.custom };

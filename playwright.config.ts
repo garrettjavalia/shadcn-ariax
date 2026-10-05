@@ -1,3 +1,4 @@
+import { upstreamURL, stylexURL } from './tests/servers';
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests', timeout: 90_000, expect: { timeout: 15_000 },
@@ -6,7 +7,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results/results.json' }]],
   use: { browserName: 'chromium', viewport: { width: 1000, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light', trace: 'off' },
   webServer: [
-    { command: 'pnpm storybook:upstream', url: 'http://127.0.0.1:4100/index.json', reuseExistingServer: !process.env.CI, timeout: 120_000 },
-    { command: 'pnpm storybook', url: 'http://127.0.0.1:4200/index.json', reuseExistingServer: !process.env.CI, timeout: 120_000 },
+    { command: 'pnpm storybook:upstream', url: `${upstreamURL}/index.json`, reuseExistingServer: !process.env.CI, timeout: 120_000 },
+    { command: 'pnpm storybook', url: `${stylexURL}/index.json`, reuseExistingServer: !process.env.CI, timeout: 120_000 },
   ],
 });

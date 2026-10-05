@@ -1,0 +1,18 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Separator } from '@separator';
+import { separatorMenu, separatorCustom } from '@customizations';
+import './separator-fixtures.css';
+const meta = { title: 'Components/Separator', component: Separator, tags: ['parity'], decorators: [Story => <main id="parity-root"><Story /></main>] } satisfies Meta<typeof Separator>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+// Layout/text reproduce the five pinned documentation examples; fixture CSS is shared.
+function Description({ rtl = false }: { rtl?: boolean }) {
+  return <div className="separator-description" dir={rtl ? 'rtl' : undefined}><div className="separator-heading"><div style={{ lineHeight: 1, fontWeight: 500 }}>shadcn/ui</div><div style={{ color: 'var(--muted-foreground)' }}>{rtl ? 'الأساس لنظام التصميم الخاص بك' : 'The Foundation for your Design System'}</div></div><Separator /><div>{rtl ? 'مجموعة من المكونات المصممة بشكل جميل يمكنك تخصيصها وتوسيعها والبناء عليها.' : 'A set of beautifully designed components that you can customize, extend, and build on.'}</div></div>;
+}
+export const Demo: Story = { render: () => <Description /> };
+export const Rtl: Story = { render: () => <Description rtl /> };
+export const Vertical: Story = { render: () => <div className="separator-vertical"><div>Blog</div><Separator orientation="vertical" /><div>Docs</div><Separator orientation="vertical" /><div>Source</div></div> };
+export const Menu: Story = { tags: ['viewport-390'], render: () => <div className="separator-menu"><div><span>Settings</span><small>Manage preferences</small></div><Separator orientation="vertical" /><div><span>Account</span><small>Profile &amp; security</small></div><Separator orientation="vertical" {...separatorMenu} /><div className="separator-help"><span>Help</span><small>Support &amp; docs</small></div></div> };
+export const List: Story = { render: () => <div className="separator-list">{[1, 2, 3].map(n => <div key={n}>{n > 1 && <Separator />}<dl><dt>Item {n}</dt><dd>Value {n}</dd></dl></div>)}</div> };
+export const Semantics: Story = { render: () => <div className="separator-semantics"><Separator id="default-separator" aria-label="Sections" /><Separator elementType="div" aria-label="Horizontal sections" /><Separator orientation="vertical" aria-label="Columns" /><Separator elementType="hr" orientation="vertical" aria-label="Explicit hr vertical" /><Separator elementType="div" slot="divider" /></div> };
+export const Customized: Story = { render: () => <Separator {...separatorCustom} /> };

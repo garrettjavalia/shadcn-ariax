@@ -16,7 +16,7 @@ licenses/                         # 배포 라이선스 고지
 generated/                        # 전체 Git 제외
   upstream/shadcn/                # 원본 경로와 파일 내용 유지
     .download-complete.json       # 다운로드 완료 및 소스 설정 기록
-  reference/aria-nova/            # 변환된 Button과 Tailwind 진입점
+  reference/aria-nova/            # 변환된 Button·Separator와 Tailwind 진입점
 ```
 
 `pnpm test`, `pnpm typecheck`, Storybook 실행·빌드는 먼저 `upstream:prepare`를 실행한다. 다운로드 완료 기록의 소스 설정이 현재 설정과 같고 선택 경로 및 필수 파일이 존재하면 네트워크 없이 재사용한다. 기록이 없거나 설정이 달라지거나 필요한 파일이 누락되면 다시 다운로드한다. 컴포넌트를 추가할 때 디렉터리 안에서 실제로 사용하는 원본 파일은 `source.json`의 `requiredFiles`에도 추가한다.
@@ -27,7 +27,7 @@ generated/                        # 전체 Git 제외
 
 레퍼런스는 원본을 수정하지 않고 생성한다. 기본 API 비교는 같은 stories를 공유한다. 커스터마이징은 원본 어댑터의 실제 Tailwind 클래스와 StyleX 어댑터의 `xstyle`을 각각 적용한다. 헬퍼 비교 기준은 원본 Button의 최종 `cn(buttonVariants(...))` 스타일이며, 병합 전 Tailwind 문자열 동작은 호환 범위에서 제외한다.
 
-현재 선택 범위는 Aria 베이스·예제·문서 및 Nova/theme/globals/라이선스다. 원본 확보 범위와 이식 완료 범위는 다르며 현재 변환·검증 범위는 **Button / Nova / Neutral**이다.
+현재 선택 범위는 Aria 베이스·예제·문서 및 Nova/theme/globals/라이선스다. 원본 확보 범위와 이식 완료 범위는 다르며 현재 변환·검증 범위는 **Button·Separator / Nova / Neutral**이다.
 
 기준 갱신은 `source.json`의 커밋·선택 경로를 수정하고 `pnpm upstream:prepare`를 실행한 뒤 `pnpm verify`로 검증한다. 최초 실행·캐시 복구에는 네트워크가 필요하다.
 

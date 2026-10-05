@@ -23,6 +23,9 @@
       ],
       "@customizations": [
         "./stories/customizations.ts"
+      ],
+      "@separator": [
+        "./registry/ariax/ui/separator.tsx"
       ]
     }
   },
