@@ -1,0 +1,2 @@
+/* Shared layout equivalent to the official Demo/RTL space-y-2 utility. */
+.skeleton-demo-lines > :not(:last-child) { margin-block-start: 0; margin-block-end: 8px; }
