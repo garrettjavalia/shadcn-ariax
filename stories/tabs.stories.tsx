@@ -1,0 +1,14 @@
+import type {Meta,StoryObj} from '@storybook/react-vite';
+import {Tabs,TabsList,TabsTrigger,TabsContent} from '@tabs';
+import {DirectionProvider} from '@direction';
+import {width} from '@tabs-customizations';
+import {TabsDemo} from './tabs-examples/tabs-demo';
+import {TabsLine} from './tabs-examples/tabs-line';
+import {TabsVertical} from './tabs-examples/tabs-vertical';
+import {TabsDisabled} from './tabs-examples/tabs-disabled';
+import {TabsIcons} from './tabs-examples/tabs-icons';
+import {TabsRtl} from './tabs-examples/tabs-rtl';
+const meta={title:'Components/Tabs',component:Tabs,tags:['parity'],decorators:[Story=><main id="parity-root" style={{width:600,padding:24}}><Story/></main>]} satisfies Meta<typeof Tabs>;
+export default meta;type Story=StoryObj<typeof meta>;
+export const Demo:Story={render:()=> <TabsDemo/>};export const Line:Story={render:()=> <TabsLine/>};export const Vertical:Story={render:()=> <TabsVertical/>};export const Disabled:Story={render:()=> <TabsDisabled/>};export const Icons:Story={render:()=> <TabsIcons/>};export const Rtl:Story={render:()=> <DirectionProvider direction="rtl"><div dir="rtl"><TabsRtl/></div></DirectionProvider>};
+export const Usage:Story={render:()=> <Tabs {...width} defaultSelectedKey="account"><TabsList><TabsTrigger id="account">Account</TabsTrigger><TabsTrigger id="password">Password</TabsTrigger></TabsList><TabsContent id="account">Make changes to your account here.</TabsContent><TabsContent id="password">Change your password here.</TabsContent></Tabs>};
