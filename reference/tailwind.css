@@ -1,3 +1,4 @@
+@import "./cli.css";
 @import "tailwindcss" source(none);
 @source "./ui";
 @source "./lib";

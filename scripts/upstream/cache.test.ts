@@ -14,14 +14,14 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await cp(resolve(root, 'reference'), join(dir, 'reference'), { recursive: true });
     await mkdir(join(dir, 'upstream'));
     await cp(resolve(root, 'package.json'), join(dir, 'package.json'));
-    await cp(resolve(root, 'upstream/reference.json'), join(dir, 'upstream/reference.json'));
+    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'] }));
     await symlink(resolve(root, 'node_modules'), join(dir, 'node_modules'), 'dir');
     const commit = 'a'.repeat(40);
     const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
     const fixtures: Record<string, string> = {
       'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
       'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8; }',
-      'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
+      'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],css:{".reference-fixture":{color:"red"}},files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
       'apps/v4/registry/bases/aria/lib/_registry.ts': 'export const lib = [{name:"utils",type:"registry:lib",dependencies:["cn"],files:[{path:"lib/utils.ts",type:"registry:lib"}]}];',
       'apps/v4/registry/bases/aria/lib/utils.ts': 'export const helper = "fixture";',
     };
@@ -54,9 +54,18 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     assert.match(installedSource, /className="h-8"/);
     assert.match(installedSource, /@reference\/lib\/utils/);
     assert.doesNotMatch(installedSource, /cn-button/);
+    const cliCss = join(dir, 'generated/reference/aria-nova/cli.css');
+    const originalCss = await readFile(cliCss, 'utf8');
+    assert.match(originalCss, /reference-fixture/);
+    await writeFile(join(dir, 'reference/tailwind.css'), (await readFile(join(dir, 'reference/tailwind.css'), 'utf8')) + '\n/* local harness change */\n');
     const before = (await stat(installed)).mtimeMs;
     result = await run(true); assert.equal(result.code, 0, result.output);
     assert.equal((await stat(installed)).mtimeMs, before, 'Warm preparation must not rerun the CLI.');
+    assert.equal(await readFile(cliCss, 'utf8'), originalCss, 'Harness changes must preserve CLI-owned CSS.');
+    const tsconfig = join(dir, 'generated/reference/aria-nova/tsconfig.json');
+    await rm(tsconfig);
+    result = await run(true); assert.equal(result.code, 0, result.output);
+    assert.equal(JSON.parse(await readFile(tsconfig, 'utf8')).compilerOptions.jsx, 'react-jsx');
     await rm(installed);
     result = await run(true); assert.equal(result.code, 0, result.output);
     assert.equal(await readFile(installed, 'utf8'), installedSource, 'Missing installed output is recreated offline by the official CLI.');
@@ -64,7 +73,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['missing'] }));
     result = await run(true); assert.notEqual(result.code, 0, 'Unknown reference selection must fail.');
     assert.equal(await readFile(installed, 'utf8'), installedSource, 'Failed preparation must preserve the successful installation.');
-    await cp(resolve(root, 'upstream/reference.json'), join(dir, 'upstream/reference.json'));
+    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'] }));
     const rawFile = join(dir, 'generated/upstream/shadcn', paths[0]);
     await rm(rawFile);
     result = await run(); assert.equal(result.code, 0, result.output);

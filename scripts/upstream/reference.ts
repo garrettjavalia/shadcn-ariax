@@ -13,7 +13,7 @@ export async function referenceInputs(config: Source) {
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
   assert.equal(pkg.devDependencies.shadcn, installed.version, 'Install the pinned shadcn CLI before preparing references');
-  return { version: 2, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+  return { version: 3, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
 }
 
 export async function buildReference(directory: string, inputs: Awaited<ReturnType<typeof referenceInputs>>) {
@@ -68,8 +68,9 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   await writeFile(resolve(directory, 'registry.json'), JSON.stringify({ name: 'pinned-shadcn-reference', homepage: 'https://ui.shadcn.com', items }));
   await writeFile(resolve(directory, 'package.json'), JSON.stringify({ name: 'ariax-reference', private: true, type: 'module', dependencies: inputs.dependencies, devDependencies: inputs.devDependencies }));
   await writeFile(resolve(directory, 'tsconfig.json'), JSON.stringify({ compilerOptions: { jsx: 'react-jsx', baseUrl: '.', paths: { '@reference/*': ['./*'] } } }));
+  await writeFile(resolve(directory, 'cli.css'), '');
   await writeFile(resolve(directory, 'tailwind.css'), await readFile(resolve(root, 'reference/tailwind.css'), 'utf8'));
-  await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rsc: false, tsx: true, tailwind: { config: '', css: 'tailwind.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
+  await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rsc: false, tsx: true, tailwind: { config: '', css: 'cli.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
   const cli = resolve(root, 'node_modules/shadcn/dist/index.js');
   function run(args: string[]) {
     const result = spawnSync(process.execPath, [cli, ...args, '--cwd', directory], { cwd: directory, env: { ...process.env, CI: 'true', npm_config_offline: 'true' }, encoding: 'utf8', timeout: 120_000 });
@@ -77,7 +78,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   }
   run(['build', resolve(directory, 'registry.json'), '--output', resolve(directory, 'registry')]);
   run(['add', ...inputs.components.map(name => resolve(directory, 'registry', `${name}.json`)), '--yes', '--overwrite']);
-  const installedFiles: string[] = [];
+  const installedFiles = ['package.json', 'tsconfig.json', 'components.json', 'cli.css'];
   for (const group of ['ui', 'lib', 'hooks', 'components']) {
     async function collect(path: string) {
       for (const entry of await readdir(path, { withFileTypes: true }).catch(() => [])) {
