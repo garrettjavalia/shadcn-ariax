@@ -13,6 +13,7 @@ test('full and CI comparators enforce their declared snapshot contracts', async 
     {kind:'geometry', path:'/rect/y'},
   ] as const;
   await Promise.all([a,b].map(page => page.setContent(markup)));
+  await b.locator('button').evaluate(button => button.setAttribute('data-parity-trigger', 'true'));
   await compare(a,b,info,'equivalent-full',false);
   await compareDOMCSS(a,b,info,'equivalent-ci');
   for (const {kind,path} of mutations) await test.step(kind, async () => {

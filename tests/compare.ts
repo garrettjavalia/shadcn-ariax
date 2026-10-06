@@ -78,7 +78,9 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
       return {
         path, tag: node.tagName,
         attrs: Object.fromEntries([...node.attributes]
-          .filter(a => !['class', 'style'].includes(a.name))
+          // Test harness markers select roots, portals and interaction targets.
+          // Product attributes and all effects on computed styles remain checked.
+          .filter(a => !['class', 'style'].includes(a.name) && !a.name.startsWith('data-parity-'))
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : a.name === 'data-collection' ? collectionIdentity(a.value) : (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value)) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(referenceToken).join(' ') : a.value])),
         animations: animations(node).map(animation => {
