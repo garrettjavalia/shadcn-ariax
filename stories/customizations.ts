@@ -23,3 +23,6 @@ export const checkboxCustomized = (width:number) => ({xstyle:[checkboxStyles.ini
 const fieldStyles = stylex.create({ field: {gap:'1.25rem',padding:'0.75rem'}, dynamic:(width:number)=>({width}), label:{color:'var(--primary)',fontSize:'1.25rem',lineHeight:1.4} });
 export const fieldCustomized = {xstyle:[fieldStyles.field,fieldStyles.dynamic(280)],style:{gap:'1.5rem'}};
 export const fieldLabelCustomized = {xstyle:fieldStyles.label,style:{opacity:0.75}};
+
+const switchStyles=stylex.create({first:{width:60},last:{width:48},dynamic:(height:number)=>({height})});
+export const switchCustomized=(height:number)=>({xstyle:[switchStyles.first,switchStyles.last,switchStyles.dynamic(height)],style:({isSelected}:{isSelected:boolean})=>({opacity:isSelected?0.8:0.9})});

@@ -18,6 +18,7 @@ const config: StorybookConfig = {
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),
       '@checkbox': resolve(upstream ? 'generated/reference/aria-nova/ui/checkbox.tsx' : 'registry/ariax/ui/checkbox.tsx'),
+      '@switch': resolve(upstream ? 'generated/reference/aria-nova/ui/switch.tsx' : 'registry/ariax/ui/switch.tsx'),
       '@field': resolve(upstream ? 'generated/reference/aria-nova/ui/field.tsx' : 'registry/ariax/ui/field.tsx'),
       '@label': resolve(upstream ? 'generated/reference/aria-nova/ui/label.tsx' : 'registry/ariax/ui/label.tsx'),
       '@reference': resolve('generated/reference/aria-nova'),

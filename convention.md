@@ -85,3 +85,7 @@ Field·FieldSet·FieldLegend·FieldGroup·FieldContent·FieldLabel·FieldTitle·
 ## Field·Checkbox 조합
 
 Checkbox의 공식 Basic·Demo·Description·Disabled·Group·Invalid와 Field의 Checkbox·Group 예제는 실제 레지스트리 컴포넌트로 렌더링한다. 예제의 레이아웃 유틸리티만 공유 style로 표현한다. 라벨 클릭, 키보드 선택, 선택 카드의 포커스·테두리·링, 비활성 peer 라벨을 검증한다. 공식 RTL 변환과 Table 조합은 별도 후속 PR에서 검증한다.
+
+## Switch
+
+Switch는 Nova의 default·sm, 선택·disabled·invalid, render props·context와 동적 xstyle/style callback을 보존한다. 공식 7개 Switch 예제와 Field Switch 예제를 실제 Field·Label 조합으로 비교한다. 키보드·포인터 및 thumb 0/75/150ms 전환을 검사한다. RTL은 일반 ui에 dir을 적용한 범위이며 공식 ui-rtl 변환은 후속 검증 대상이다.

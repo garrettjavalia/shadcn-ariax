@@ -44,6 +44,9 @@
       ],
       "@field": [
         "./registry/ariax/ui/field.tsx"
+      ],
+      "@switch": [
+        "./registry/ariax/ui/switch.tsx"
       ]
     }
   },
