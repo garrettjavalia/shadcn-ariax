@@ -53,6 +53,12 @@
       ],
       "@dropdown-menu-customizations": [
         "./stories/dropdown-menu-customizations.ts"
+      ],
+      "@avatar": [
+        "./registry/ariax/ui/avatar.tsx"
+      ],
+      "@avatar-customizations": [
+        "./stories/avatar-customizations.ts"
       ]
     }
   },

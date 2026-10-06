@@ -15,9 +15,11 @@ import {DropdownMenuRadioIcons} from './dropdown-menu-examples/dropdown-menu-rad
 import {DropdownMenuDestructive} from './dropdown-menu-examples/dropdown-menu-destructive';
 import {DropdownMenuComplex} from './dropdown-menu-examples/dropdown-menu-complex';
 import {DropdownMenuRtl} from './dropdown-menu-examples/dropdown-menu-rtl';
+import {DropdownMenuAvatar} from './avatar-examples/dropdown-menu-avatar';
 import {TableActions} from './dropdown-menu-examples/table-actions';
 function Portals({children}:{children:React.ReactNode}){useEffect(()=>{const register=()=>{for(const child of document.body.children)if(!child.contains(document.querySelector('#parity-root'))&&child.querySelector('[role="menu"]'))child.setAttribute('data-parity-portal','');};const observer=new MutationObserver(register);observer.observe(document.body,{childList:true,subtree:true});register();return ()=>observer.disconnect();},[]);return <main id="parity-root">{children}</main>;}
 const meta={title:'Components/Dropdown Menu',component:DropdownMenu,tags:['parity'],decorators:[Story=><Portals><Story/></Portals>]} satisfies Meta<typeof DropdownMenu>;export default meta;type Story=StoryObj<typeof meta>;
+export const Avatar:Story={render:()=> <DropdownMenuAvatar/>};
 export const Basic:Story={render:()=> <DropdownMenuBasic/>};
 export const Demo:Story={render:()=> <DropdownMenuDemo/>};
 export const Submenu:Story={render:()=> <DropdownMenuSubmenu/>};

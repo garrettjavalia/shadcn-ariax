@@ -89,4 +89,8 @@ Checkbox 본체의 usage·selected·indeterminate·disabled·invalid·hover·키
 
 ## DropdownMenu draft 검증 범위
 
-10개 exports의 원본 API와 DOM을 보존한다. 원본 DropdownMenu의 일반 style은 내부 RAC Menu로 전달하며 xstyle은 외부 Popover에 적용한다. MenuItem/SubTrigger의 style callback에는 RAC 상태를 그대로 전달하고 StyleX 동적 변수보다 사용자 style이 우선한다. 외부 className은 거부한다. 포털은 data-parity-portal 비교 대상으로 포함하고 3단 하위 메뉴, 체크/라디오 선택, disabled, 키보드와 실제 table-actions를 검증한다. 공식 13개 preview 중 실제 Avatar 의존 예제는 TODO로 기록한다. RTL은 일반 ui 기준이며 공식 ui-rtl 변환 검증은 TODO다. 애니메이션은 고정 원본 tw-animate-css 1.4.0의 enter/exit 정의와 duration을 보존하고 --ariax 변수만 배포한다. 0/50/100ms 및 종료 후 비교를 통과해야 애니메이션 완료로 기록한다.
+10개 exports의 원본 API와 DOM을 보존한다. 원본 DropdownMenu의 일반 style은 내부 RAC Menu로 전달하며 xstyle은 외부 Popover에 적용한다. MenuItem/SubTrigger의 style callback에는 RAC 상태를 그대로 전달하고 StyleX 동적 변수보다 사용자 style이 우선한다. 외부 className은 거부한다. 포털은 data-parity-portal 비교 대상으로 포함하고 3단 하위 메뉴, 체크/라디오 선택, disabled, 키보드와 실제 table-actions를 검증한다. 공식 13개 preview 전체를 실제 컴포넌트로 연결하며 Avatar 예제는 실제 Avatar/AvatarImage/AvatarFallback 조합을 사용한다. RTL은 일반 ui 기준이며 공식 ui-rtl 변환 검증은 TODO다. 애니메이션은 고정 원본 tw-animate-css 1.4.0의 enter/exit 정의와 duration을 보존하고 --ariax 변수만 배포한다. 0/50/100ms 및 종료 후 비교를 통과해야 애니메이션 완료로 기록한다.
+
+## Avatar 검증 범위
+
+원본 native div/img의 6개 exports·sm/default/lg·이미지 상태·fallback peer·badge icon·group overlap/count has 선택자를 보존한다. 사용자 onLoad/onError가 내부 핸들러를 덮어쓰는 계약과 src 변경 시 state 초기화가 없는 원본 동작도 유지한다. 같은 요소에서는 사용자 style이 동적 xstyle 변수보다 우선한다. 공식 10개 preview 및 실제 dropdown-menu-avatar 조합을 공유하고 이미지 bytes를 고정 SVG로 제어하여 네트워크 가용성을 검증 결과에 섞지 않는다. 성공·오류·지연·이벤트 callback·동적 style을 light/dark에서 비교하고 반응형 Demo/RTL은 390px도 검사한다. Avatar 자체 원본에는 애니메이션이 없으며 결합 Dropdown animation phase 검사를 유지한다. 공식 ui-rtl 변환은 후속 TODO다.

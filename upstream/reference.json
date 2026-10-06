@@ -6,6 +6,7 @@
     "label",
     "checkbox",
     "table",
-    "dropdown-menu"
+    "dropdown-menu",
+    "avatar"
   ]
 }
