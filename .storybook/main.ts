@@ -10,7 +10,7 @@ const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   stories: ['../stories/**/*.stories.tsx', ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
   addons: ['@storybook/addon-docs'],
-  staticDirs: ['../public', ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }, { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }] : [])],
+  staticDirs: ['../public', { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }, ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
     // Preserve authored calculations and color notation in both parity builds.
