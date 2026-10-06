@@ -31,6 +31,7 @@ const caretBlink = stylex.keyframes({ '0%,70%,100%': {opacity:1}, '20%,50%': {op
 const shimmer = stylex.keyframes({from:{backgroundPosition:'100% 0'},to:{backgroundPosition:'0 0'}});
 
 export const animationStyles = stylex.create({
+  activeEnter: { animationName: { default: null, ":is([data-active])": enter, "@media (prefers-reduced-motion: reduce)": "none" } },
   overlay: { animationName: { default: null, ":is([data-entering])": enter, ":is([data-exiting])": exit } },
   pulse: { animationName: pulse },
   spin: { animationName: spin },
