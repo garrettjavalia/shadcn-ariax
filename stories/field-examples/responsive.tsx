@@ -1,0 +1,41 @@
+import { Button } from "@button"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@field"
+import { Input } from "@input"
+
+export function FieldResponsive() {
+  return (
+    <div style={{"width":"100%","maxWidth":"var(--container-lg, 32rem)"}}>
+      <form>
+        <FieldSet>
+          <FieldLegend>Profile</FieldLegend>
+          <FieldDescription>Fill in your profile information.</FieldDescription>
+          <FieldGroup>
+            <Field orientation="responsive">
+              <FieldContent>
+                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldDescription>
+                  Provide your full name for identification
+                </FieldDescription>
+              </FieldContent>
+              <Input id="name" placeholder="Evil Rabbit" required />
+            </Field>
+            <Field orientation="responsive">
+              <Button type="submit">Submit</Button>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+      </form>
+    </div>
+  )
+}

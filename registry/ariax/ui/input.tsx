@@ -14,7 +14,7 @@ export function Input({ xstyle, className: _className, style, type, ...props }: 
 }
 const ring = '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-input-ring), 0 0 0 0 #0000';
 const styles = stylex.create({ base: {
-  width: '100%', minWidth: 0, outlineStyle: 'none', height: { default: 'calc(var(--ariax-spacing, .25rem) * 8)', '::file-selector-button': 'calc(var(--ariax-spacing, .25rem) * 6)' }, borderRadius: 'var(--radius)',
+  width: {default:'100%', ':is(.ariax-field[data-orientation="responsive"] > *)':{default:'100%', '@container field-group (min-width: 28rem)':'auto'}}, minWidth: 0, outlineStyle: 'none', height: { default: 'calc(var(--ariax-spacing, .25rem) * 8)', '::file-selector-button': 'calc(var(--ariax-spacing, .25rem) * 6)' }, borderRadius: 'var(--radius)',
   borderWidth: { default: '1px', '::file-selector-button': 0 }, borderStyle: 'solid', paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2.5)', paddingBlock: 'calc(var(--ariax-spacing, .25rem) * 1)',
   fontSize: { default: '1rem', '@media (min-width: 48rem)': '0.875rem', '::file-selector-button': '0.875rem' },
   lineHeight: { default: 1.5, '@media (min-width: 48rem)': 'calc(1.25 / .875)', '::file-selector-button': 'calc(1.25 / .875)' },

@@ -19,7 +19,7 @@ export const InInputGroup: Story = { render: () => <InputGroup><InputGroupInput 
 export const Rtl: Story = { render: () => <div dir="rtl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>{demo}</div> };
 export const Overrides: Story = { render: () => <><Kbd {...customized}>Ctrl</Kbd><Kbd style={{ fontSize: 20 }}>Alt</Kbd><KbdGroup style={{ gap: 12 }} aria-label="Shortcut"><Kbd>Shift</Kbd><Kbd>F</Kbd></KbdGroup></> };
 export const Svg: Story = { render: () => <><Kbd><SearchIcon /></Kbd><Kbd><SearchIcon className="size-explicit" style={{ width: 22, height: 22 }} /></Kbd></> };
-// A plain ancestor checks the upstream CSS selector contract; Tooltip itself is pending.
+// This plain ancestor isolates the selector; InTooltip covers the actual Tooltip composition.
 export const TooltipSelector: Story = { render: () => <div data-slot="tooltip-content"><Kbd>Ctrl</Kbd></div> };
 
 export const RadiusToken: Story = { render: () => <div style={{ "--radius": "20px" } as CSSProperties}><Kbd>Ctrl</Kbd></div> };
