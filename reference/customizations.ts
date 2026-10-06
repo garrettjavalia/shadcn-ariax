@@ -9,3 +9,8 @@ export const checkboxCustomized = (width:number) => ({className:'h-6 opacity-80'
 
 export const fieldCustomized = {className:'gap-5 p-3 w-[280px]',style:{gap:'1.5rem'}};
 export const fieldLabelCustomized = {className:'text-primary text-xl',style:{opacity:0.75}};
+
+export const inlineSizing = { className: 'w-40' };
+export const inlineSkeletonSizing = { xstyle: 'w-40' };
+
+export const typographySizing={className:"text-[18px] leading-[2]"};

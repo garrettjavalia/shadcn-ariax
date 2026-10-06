@@ -5,7 +5,7 @@ export default defineConfig({
   // Bound browser concurrency; override with --workers=1 on constrained machines.
   fullyParallel: true, workers: 2,
   reporter: [['list'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results/results.json' }]],
-  use: { browserName: 'chromium', viewport: { width: 1000, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light', trace: 'off' },
+  use: { browserName: 'chromium', launchOptions: { args: ['--disable-partial-raster'] }, viewport: { width: 1000, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light', trace: 'off' },
   webServer: [
     { command: 'pnpm storybook:upstream', url: `${upstreamURL}/index.json`, reuseExistingServer: !process.env.CI, timeout: 120_000 },
     { command: 'pnpm storybook', url: `${stylexURL}/index.json`, reuseExistingServer: !process.env.CI, timeout: 120_000 },

@@ -11,20 +11,20 @@
 ## 지원 예정
 
 - [ ] Accordion
-- [ ] Alert
+- [x] Alert
 - [ ] Alert Dialog
-- [ ] Aspect Ratio
+- [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group
 - [ ] Calendar
-- [ ] Card
+- [x] Card
 - [ ] Carousel
 - [ ] Chart
-- [ ] Checkbox — 본체 구현·검증, 공식 8개 preview의 Field/Table 통합 대기
+- [ ] Checkbox
 - [ ] Collapsible
 - [ ] Combobox
 - [ ] Command
@@ -36,14 +36,14 @@
 - [ ] Drawer
 - [ ] Dropdown Menu
 - [ ] Empty
-- [ ] Field
+- [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card
-- [ ] Input
+- [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
 - [ ] Kbd
-- [ ] Label — 본체 및 실제 Checkbox Demo·RTL 구현·검증, field-demo 통합 대기
+- [ ] Label — 본체 구현·검증, Checkbox/Field 공식 교차 예제 통합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
@@ -71,5 +71,3 @@
 - [ ] Typography — 텍스트 스타일 예제
 
 Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
-
-Checkbox의 미완료 공식 preview: checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl, checkbox-table. Field/Table 구현 PR에서 실제 원본 예제를 공유 스토리로 연결하고 검증한 뒤 완료 표시한다.
