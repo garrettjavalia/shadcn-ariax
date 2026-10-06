@@ -50,7 +50,7 @@
 - [ ] Message Scroller
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [ ] Pagination
-- [ ] Popover
+- [x] Popover
 - [ ] Progress
 - [ ] Questionnaire
 - [x] Radio Group
