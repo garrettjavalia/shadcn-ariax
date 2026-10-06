@@ -17,7 +17,7 @@ const config: StorybookConfig = {
     config.build = {...config.build,cssMinify:false};
     config.resolve ??= {};
     // Reference namespaces and shared stories must use the same primitive contexts.
-    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react-aria-components', '@shadcn/react'])];
+    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react-aria-components', '@shadcn/react', 'recharts'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),
