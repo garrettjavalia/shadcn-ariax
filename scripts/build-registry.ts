@@ -1,15 +1,15 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton'];
+const componentNames = ['button', 'skeleton', 'separator'];
 const sharedFiles = [
   ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
 const items = componentNames.map(name => ({
-  name, type: 'registry:ui', title: `Ariax ${name}`,
-  description: `${name}, Aria base, Nova style, StyleX, Neutral light/dark tokens.`,
+  name, type: 'registry:ui', title: `Ariax ${name[0].toUpperCase()}${name.slice(1)}`,
+  description: `React Aria ${name}, Nova style, StyleX, Neutral light/dark tokens.`,
   dependencies: ['react-aria-components', '@stylexjs/stylex'].map(name => `${name}@${pkg.dependencies[name]}`),
   devDependencies: [`@stylexjs/unplugin@${pkg.devDependencies['@stylexjs/unplugin']}`],
   files: [{ path: `registry/ariax/ui/${name}.tsx`, type: 'registry:ui', target: `@ui/${name}.tsx` }, ...sharedFiles],
@@ -24,4 +24,4 @@ for (const item of items) {
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
 await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');
-console.log('Validated and built registry: button, skeleton (source, styles, licenses).');
+console.log('Validated and built registry: button, skeleton, separator (source, styles, licenses).');

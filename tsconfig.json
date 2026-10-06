@@ -24,6 +24,9 @@
       "@customizations": [
         "./stories/customizations.ts"
       ],
+      "@separator": [
+        "./registry/ariax/ui/separator.tsx"
+      ],
       "@skeleton": [
         "./registry/ariax/ui/skeleton.tsx"
       ],

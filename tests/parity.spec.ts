@@ -1,4 +1,4 @@
-import { upstreamPort, stylexPort } from './servers';
+import { upstreamPort, stylexPort, upstreamURL, stylexURL } from './servers';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { compare } from './compare';
@@ -6,8 +6,8 @@ import { environments, buttonDocumentation, type StoryEntry } from './catalog';
 
 for (const { theme, width, requiredTag } of environments) test(`registered stories / ${theme} / ${width}`, async ({ browser, request }, info) => {
   test.setTimeout(240_000);
-  const leftIndex = await (await request.get(`http://127.0.0.1:${upstreamPort}/index.json`)).json();
-  const rightIndex = await (await request.get(`http://127.0.0.1:${stylexPort}/index.json`)).json();
+  const leftIndex = await (await request.get(`${upstreamURL}/index.json`)).json();
+  const rightIndex = await (await request.get(`${stylexURL}/index.json`)).json();
   const select = (index: { entries: Record<string, StoryEntry> }) => Object.values(index.entries)
     .filter(s => s.type === 'story' && s.tags?.includes('parity') && (!requiredTag || s.tags.includes(requiredTag)) && (!process.env.PARITY_COMPONENT || s.id.startsWith(process.env.PARITY_COMPONENT))).map(s => s.id).sort();
   const ids = select(leftIndex);
@@ -36,10 +36,18 @@ for (const { theme, width, requiredTag } of environments) test(`registered stori
 test('every official Button documentation example has a registered parity story', async ({ request }) => {
   const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/button.mdx', 'utf8');
   const examples = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m => m[1]);
-  const index = await (await request.get(`http://127.0.0.1:${stylexPort}/index.json`)).json();
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
   expect(examples.length).toBeGreaterThan(0);
   for (const name of examples) {
     expect(buttonDocumentation[name], `Unmapped official example: ${name}`).toBeTruthy();
     expect(index.entries[`components-button--${buttonDocumentation[name]}`]?.tags).toContain('parity');
   }
+});
+
+ test('every official Separator documentation example has a registered parity story', async ({ request }) => {
+ const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/separator.mdx', 'utf8');
+ const examples = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m => m[1]);
+ const index = await (await request.get(`${stylexURL}/index.json`)).json();
+ expect(examples.length).toBeGreaterThan(0);
+ for (const name of examples) expect(index.entries[`components-separator--${name.replace('separator-', '')}`]?.tags, name).toContain('parity');
 });
