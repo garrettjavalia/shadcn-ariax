@@ -2,6 +2,7 @@
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@source "../../../reference/tooltip-customizations.ts";
 @source "./ui";
 @source "./lib";
 @source "./hooks";
@@ -9,7 +10,7 @@
 @source "../../../reference/textarea-customizations.ts";
 @source "../../../reference/input-group-customizations.ts";
 @source "../../../reference/customizations.ts";
-@source "../../../reference/tooltip-customizations.ts";
+@source "../../../reference/dropdown-menu-customizations.ts";
 @source "../../../reference/kbd-customizations.ts";
 @source "../../../reference/table-customizations.ts";
 @source "../../../reference/aspect-customizations.ts";

@@ -14,3 +14,7 @@ export const inlineSizing = { className: 'w-40' };
 export const inlineSkeletonSizing = { xstyle: 'w-40' };
 
 export const typographySizing={className:"text-[18px] leading-[2]"};
+
+export const nativeSelectCustomized=(width:number)=>({className:width===220?'w-[220px] opacity-80':'w-[280px] opacity-80',style:{opacity:0.6}});
+export const nativeSelectOptionCustomized={className:'text-primary font-medium',style:{color:'blue'}};
+export const nativeSelectGroupCustomized={className:'font-semibold',style:{fontWeight:400}};
