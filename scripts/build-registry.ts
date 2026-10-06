@@ -3,7 +3,7 @@ import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table'];
 const sharedFiles = [
-  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
