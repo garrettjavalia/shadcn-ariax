@@ -1,4 +1,2 @@
 .badge-row { display:flex; flex-wrap:wrap; gap:0.5rem; }
 .badge-row.centered { width:100%; justify-content:center; }
-.badge-spinner { animation:badge-spin 1s linear infinite; }
-@keyframes badge-spin { to { transform:rotate(360deg); } }
