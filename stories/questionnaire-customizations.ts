@@ -5,5 +5,5 @@ const styles=stylex.create({
  animated:{animationDuration:{default:null,':is([data-active])':'300ms'},animationTimingFunction:{default:null,':is([data-active])':'ease'},transitionDuration:{default:null,':is([data-active])':'300ms'},'--ariax-enter-opacity':{default:null,':is([data-active])':0},'--ariax-enter-y':{default:null,':is([data-active])':'.5rem'}},
 });
 export const questionnaireCentered={xstyle:styles.centered},questionnaireBottom={xstyle:styles.bottom},questionnaireMin={xstyle:styles.min},questionnaireFull={xstyle:styles.full},questionnaireStatus={xstyle:styles.status},questionnaireWide={xstyle:styles.wide},questionnaireWideFull={xstyle:styles.wideFull},questionnaireCenter={xstyle:styles.center},questionnaireSr={xstyle:styles.sr},questionnaireAnimated={xstyle:[animationStyles.activeEnter,styles.animated]};
-const customStyles=stylex.create({root:(width:number)=>({width,gap:20}),title:{fontSize:24,color:'var(--primary)'},description:{color:'var(--foreground)'}});
+const customStyles=stylex.create({root:(width:number)=>({width,gap:20}),title:{fontSize:24,lineHeight:1.5,color:'var(--primary)'},description:{color:'var(--foreground)'}});
 export const questionnaireCustom=(width:number)=>({xstyle:customStyles.root(width)}),questionnaireCustomTitle={xstyle:customStyles.title},questionnaireCustomDescription={xstyle:customStyles.description};
