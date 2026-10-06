@@ -2,26 +2,12 @@
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@source "../../../reference/tooltip-customizations.ts";
+@source "../../../reference/*customizations.ts";
 @source "./ui";
 @source "./lib";
 @source "./hooks";
 @source "./components";
-@source "../../../reference/textarea-customizations.ts";
-@source "../../../reference/input-group-customizations.ts";
-@source "../../../reference/customizations.ts";
-@source "../../../reference/button-group-customizations.ts";
-@source "../../../reference/avatar-customizations.ts";
-@source "../../../reference/dropdown-menu-customizations.ts";
-@source "../../../reference/kbd-customizations.ts";
-@source "../../../reference/table-customizations.ts";
-@source "../../../reference/aspect-customizations.ts";
-@source "../../../reference/skeleton-customizations.ts";
-@source "../../../reference/card-customizations.ts";
-@source "../../../reference/badge-customizations.ts";
 @source "../../../stories/reference-utilities.stories.tsx";
-@source "../../../reference/alert-customizations.ts";
-@source "../../../reference/calendar-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --breakpoint-3xl: 1600px;
@@ -78,20 +64,6 @@
   --color-selection-foreground: var(--selection-foreground);
 }
 
-@source "../../../reference/dialog-customizations.ts";
-@source "../../../reference/tabs-customizations.ts";
-@source "../../../reference/empty-customizations.ts";
-@source "../../../reference/alert-dialog-customizations.ts";
-@source "../../../reference/accordion-customizations.ts";
-@source "../../../reference/item-customizations.ts";
-@source "../../../reference/sheet-customizations.ts";
-@source "../../../reference/spinner-customizations.ts";
-@source "../../../reference/breadcrumb-customizations.ts";
-@source "../../../reference/pagination-customizations.ts";
-@source "../../../reference/scroll-area-customizations.ts";
 
-@source "../../../reference/collapsible-customizations.ts";
-@source "../../../reference/popover-customizations.ts";
 
-@source "../../../reference/chat-settings-customizations.ts";
 @custom-variant style-nova (&:where(.style-nova *));
