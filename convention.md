@@ -1,7 +1,7 @@
 # 개발 목표
 
 - shadcn의 React Aria 버전을 StyleX로 이식하여 모든 shadcn 컴포넌트를 제공하는 독립 shadcn 레지스트리를 만든다.
-- 원본의 기본 동작·DOM·스타일과 variant/size API를 보존한다. 커스터마이징은 StyleX 객체를 받는 xstyle만 지원하고 외부 className·인라인 style은 받지 않는다. 배포 컴포넌트는 Tailwind 없이 동작한다.
+- 원본의 기본 동작·DOM·스타일과 variant/size API를 보존한다. 커스터마이징은 StyleX 객체를 받는 xstyle과 원본 native style을 지원하고 외부 className은 받지 않는다. 배포 컴포넌트는 Tailwind 없이 동작한다.
 - 스타일 호환 기준은 원본 버튼에 최종 적용되는 CSS 속성이다. 헬퍼는 같은 스타일을 외부 요소에 적용할 수 있게 제공하며, Tailwind 클래스 문자열이나 병합 전 동작은 재현하지 않는다.
 - 비교 기준인 원본 커밋·디자인 스타일·의존성 버전을 고정하고, 전체 컴포넌트의 구현·검증 현황을 관리한다.
 
@@ -23,7 +23,7 @@
 
 ## StyleX 커스터마이징
 
-외부 `className`과 일반 인라인 `style`은 받지 않는다. `stylex.create()`로 만든 객체를 `xstyle`에 전달한다. 내부 스타일 뒤에서 병합하므로 충돌 속성은 사용자 스타일이 우선한다. 배열·조건부 스타일·동적 스타일도 지원한다. `xstyle`은 이 프로젝트의 prop 이름이며 StyleX가 강제하는 이름은 아니다.
+외부 `className`은 받지 않는다. 원본 React Aria native `style` 객체와 상태 콜백을 지원한다. `stylex.create()`로 만든 객체를 `xstyle`에 전달한다. 내부 스타일 뒤에서 병합하므로 충돌 속성은 사용자 스타일이 우선한다. 배열·조건부 스타일·동적 스타일도 지원한다. `xstyle`은 이 프로젝트의 prop 이름이며 StyleX가 강제하는 이름은 아니다.
 
 ```tsx
 const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
@@ -32,7 +32,7 @@ const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
 <a href="/" {...buttonProps({ variant: 'secondary', xstyle: styles.wide })}>홈</a>
 ```
 
-타입 검사로 외부 클래스·인라인 CSS·일반 CSS 객체 전달을 거부한다. 브라우저 검증은 크기·여백·hover·배열의 우선순위·동적 값의 React 갱신을 검사한다. 둥근 버튼은 원본의 실제 Tailwind `rounded-full`과 StyleX 정의를 비교하며, 공용 CSS로 흉내 내지 않는다. 테마 토큰은 기존 CSS 변수 기반을 유지한다. 기본 폰트는 shadcn의 `--font-sans`·`--font-mono`를 직접 참조하며 Tailwind 전용 `--default-*` 연결 변수는 배포하지 않는다. font feature/variation 기본값은 `normal`이고 일반 CSS 속성으로 설정할 수 있다.
+타입 검사로 외부 클래스와 xstyle에 전달한 일반 CSS 객체를 거부한다. 브라우저 검증은 크기·여백·hover·배열의 우선순위·동적 값의 React 갱신을 검사한다. 둥근 버튼은 원본의 실제 Tailwind `rounded-full`과 StyleX 정의를 비교하며, 공용 CSS로 흉내 내지 않는다. 테마 토큰은 기존 CSS 변수 기반을 유지한다. 기본 폰트는 shadcn의 `--font-sans`·`--font-mono`를 직접 참조하며 Tailwind 전용 `--default-*` 연결 변수는 배포하지 않는다. font feature/variation 기본값은 `normal`이고 일반 CSS 속성으로 설정할 수 있다.
 
 ## 컴포넌트 확장
 

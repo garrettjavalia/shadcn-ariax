@@ -26,7 +26,7 @@ for(const theme of ['light','dark'])for(const story of ['demo','choice-card','di
 
 test('radio generated name normalization preserves group relationships and explicit names',async({page})=>{
  const {snapshot,differences}=await import('./compare');
- const markup=(prefix:string,second='b',explicit='user-choice')=>`<main id="parity-root"><input type="radio" name="react-aria${prefix}-_r_a_"/><input type="radio" name="react-aria${prefix}-a"/><input type="radio" name="react-aria${prefix}-_r_${second}_"/><input type="radio" name="${explicit}"/></main>`;
+ const markup=(prefix:string,second='b',explicit='user-choice')=>`<main id="parity-root"><input type="radio" name="react-aria${prefix}-_r_a_"/><input type="radio" name="react-aria${prefix}-_r_a_"/><input type="radio" name="react-aria${prefix}-_r_${second}_"/><input type="radio" name="${explicit}"/></main>`;
  await page.setContent(markup('123'));const baseline=await snapshot(page);
  await page.setContent(markup('456'));expect(differences(baseline,await snapshot(page))).toEqual([]);
  await page.setContent(markup('456','a'));expect(differences(baseline,await snapshot(page)).some(d=>d.path.endsWith('/attrs/name'))).toBe(true);
