@@ -34,7 +34,7 @@
 - [ ] Dialog
 - [ ] Direction
 - [ ] Drawer
-- [ ] Dropdown Menu
+- [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 공식 조합 후속 통합 검증
 - [ ] Empty
 - [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card
@@ -42,7 +42,7 @@
 - [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd — 기본 설치 구현; 공식 Tooltip/ButtonGroup 조합 통합 대기
+- [ ] Kbd — 기본 설치·Tooltip 내용 구현; 공식 ButtonGroup 컨테이너 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker
 - [ ] Message
@@ -62,12 +62,12 @@
 - [ ] Sonner
 - [ ] Spinner
 - [x] Switch
-- [ ] Table — 기본 구현·Checkbox 조합 제공; Dropdown Actions 후속 통합 검증
+- [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀
 - [ ] Tabs
 - [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle
 - [ ] Toggle Group
-- [ ] Tooltip
+- [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
 - [ ] Typography — 텍스트 스타일 예제
 
 Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
