@@ -14,8 +14,10 @@ pnpm dev
 
 첫 실행에는 고정한 원본을 다운로드하므로 네트워크가 필요하다. 원본과 공식 shadcn CLI로 설치한 레퍼런스는 `generated/`에 자동 준비되며 정상 캐시는 이후 오프라인에서도 재사용한다. 이 폴더를 직접 준비하거나 Git에 추가할 필요는 없다.
 
-- [원본 Storybook](http://127.0.0.1:4100/?path=/story/components-button--gallery)
+- [원본 Storybook](http://127.0.0.1:4100/?path=/story/original-docs-button--original-button-demo)
 - [StyleX Storybook](http://127.0.0.1:4200/?path=/story/components-button--gallery)
+
+두 서버는 `.storybook/` 설정을 공유한다. 원본 문서 스토리는 `generated/original-stories/`에 자동 생성되고, StyleX 스토리는 `stories/`에서 개발한다.
 
 ## 검증과 개발 명령
 
