@@ -21,6 +21,7 @@
 @source "../../../reference/badge-customizations.ts";
 @source "../../../stories/reference-utilities.stories.tsx";
 @source "../../../reference/alert-customizations.ts";
+@source "../../../reference/calendar-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --breakpoint-3xl: 1600px;
@@ -93,3 +94,5 @@
 @source "../../../reference/popover-customizations.ts";
 
 @source "../../../reference/toggle-customizations.ts";
+@source "../../../reference/chat-settings-customizations.ts";
+@custom-variant style-nova (&:where(.style-nova *));

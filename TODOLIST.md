@@ -20,7 +20,7 @@
 - [x] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
-- [ ] Calendar
+- [x] Calendar
 - [x] Card
 - [ ] Carousel
 - [ ] Chart
@@ -31,7 +31,7 @@
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
 - [ ] Date Picker — 조합 예제 포함
-- [ ] Dialog — 기본·공식 문서/RTL 구현; ChatSettings의 Select·Tabs 조합 대기
+- [x] Dialog
 - [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
 - [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 조합 제공; 통합 회귀 후속 검증
