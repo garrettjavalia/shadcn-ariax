@@ -73,6 +73,14 @@ Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존�
 
 ## Table draft 검증 범위
 
-Table은 사용자 지시에 따라 일반 React `style`과 RAC `style` callback을 지원한다. 내부 StyleX 동적 변수 뒤에서 사용자 style을 병합한다. `xstyle` 배열·동적 갱신 및 외부 className 거부를 검사한다. 원본 공식 demo/footer/RTL을 공유 스토리에 대응시키고 empty/expanded/selection/hover/keyboard/scroll를 비교한다. RAC가 내부 생성하는 헤더 행의 descendant border는 설치되는 table.css에 보존한다. 공식 table-actions의 DropdownMenu 조합 및 checkbox-table의 Checkbox 조합은 TODO이며 draft를 유지한다.
+Table은 사용자 지시에 따라 일반 React `style`과 RAC `style` callback을 지원한다. 내부 StyleX 동적 변수 뒤에서 사용자 style을 병합한다. `xstyle` 배열·동적 갱신 및 외부 className 거부를 검사한다. 원본 공식 demo/footer/RTL을 공유 스토리에 대응시키고 empty/expanded/selection/hover/keyboard/scroll를 비교한다. RAC가 내부 생성하는 헤더 행의 descendant border는 설치되는 table.css에 보존한다. 공식 checkbox-table의 실제 Checkbox/Table 조합과 Label 클릭·전체/개별 선택·키보드 동작을 검증한다. 공식 table-actions의 DropdownMenu 조합은 TODO이며 draft를 유지한다.
 
 Table RTL 비교는 일반 aria-nova + Arabic/dir=rtl 기준이며 공식 ui-rtl의 CLI 방향 변환 검증은 후속 TODO다.
+
+## Label
+
+Label은 Nova typography, group/peer disabled 선택자와 RAC LabelContext 동작을 보존한다. `htmlFor`가 있고 `slot`이 없으면 부모 LabelContext를 해제하며, slot이 명시되면 컨텍스트를 유지한다. 새 Label은 `style`과 `xstyle`을 지원하며 동적 StyleX CSS 변수 뒤에 사용자 style을 병합한다. 외부 className은 제한한다. Demo·RTL은 실제 StyleX Checkbox를 사용하여 Label 연결과 선택 동작을 함께 검증한다. 공식 MDX의 교차 예제 field-demo는 Field 구현 PR에서 통합할 때까지 미완료다.
+
+## Checkbox 검증 범위
+
+Checkbox 본체의 usage·selected·indeterminate·disabled·invalid·hover·키보드 포커스와 선택·controlled·render props·CheckboxContext·CheckboxGroup·RTL·Field disabled 선택자를 고정 CLI 원본과 light/dark에서 비교한다. 상대 rem 크기, Nova 색상, 확대 클릭 영역과 CheckIcon DOM을 보존한다. 일반 style과 RAC style callback을 지원하고 동적 xstyle 변수 뒤에서 사용자 style을 병합한다. className은 제한한다. Label Demo·RTL은 실제 Checkbox와 결합한다. 공식 checkbox-basic·checkbox-demo·checkbox-description·checkbox-disabled·checkbox-group·checkbox-invalid·checkbox-rtl preview는 Field 통합 구현까지 미완료로 추적하며, 이 PR에서 전체 Checkbox 예제 지원 완료를 주장하지 않는다.

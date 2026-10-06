@@ -24,7 +24,7 @@
 - [ ] Card
 - [ ] Carousel
 - [ ] Chart
-- [ ] Checkbox
+- [ ] Checkbox — 본체 구현·검증, 공식 8개 preview의 Field/Table 통합 대기
 - [ ] Collapsible
 - [ ] Combobox
 - [ ] Command
@@ -43,7 +43,7 @@
 - [ ] Input OTP
 - [ ] Item
 - [ ] Kbd
-- [ ] Label
+- [ ] Label — 본체 및 실제 Checkbox Demo·RTL 구현·검증, field-demo 통합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
@@ -71,3 +71,5 @@
 - [ ] Typography — 텍스트 스타일 예제
 
 Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
+
+Checkbox의 미완료 공식 preview: checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl. checkbox-table은 Table PR의 실제 Checkbox/Table/Label 조합으로 검증한다. Field 구현 PR에서 실제 원본 예제를 공유 스토리로 연결하고 검증한 뒤 완료 표시한다.

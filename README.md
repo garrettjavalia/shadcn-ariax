@@ -55,4 +55,8 @@ pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 
 Skeleton과 Separator 설치는 소비 앱 CLI 명령의 `button.json`을 각각 `skeleton.json`, `separator.json`으로 바꾸면 된다.
 
-Table은 별도 draft 범위로 레지스트리에 제공한다. Table·Header·Body·Footer·Row·Head·Cell·Caption과 RAC의 선택·키보드 API, caption, empty state, expanded, hover, RTL 및 가로 스크롤을 공유 스토리로 비교한다. 커스터마이징은 `xstyle`과 일반 React `style`(RAC render callback 포함)을 지원하며 충돌 시 사용자 `style`이 우선한다. 외부 `className`은 지원하지 않는다. 현재 RTL 스토리는 일반 aria-nova 레퍼런스에서 Arabic 텍스트와 `dir=rtl`을 비교한다. 공식 `ui-rtl`의 논리 방향 변환(`text-start`, `pe-0`) 검증은 후속 RTL 작업의 TODO다. 공식 `table-actions`의 실제 DropdownMenu 조합과 `checkbox-table`의 실제 Checkbox 조합은 **미구현·미검증 TODO**이며 Table 완료로 주장하지 않는다. Data Table/TanStack 조합도 이 범위에 포함하지 않는다. 설치 시 위 CLI 명령의 경로를 `table.json`으로 바꾸면 된다.
+Table은 별도 draft 범위로 레지스트리에 제공한다. Table·Header·Body·Footer·Row·Head·Cell·Caption과 RAC의 선택·키보드 API, caption, empty state, expanded, hover, RTL 및 가로 스크롤을 공유 스토리로 비교한다. 커스터마이징은 `xstyle`과 일반 React `style`(RAC render callback 포함)을 지원하며 충돌 시 사용자 `style`이 우선한다. 외부 `className`은 지원하지 않는다. 현재 RTL 스토리는 일반 aria-nova 레퍼런스에서 Arabic 텍스트와 `dir=rtl`을 비교한다. 공식 `ui-rtl`의 논리 방향 변환(`text-start`, `pe-0`) 검증은 후속 RTL 작업의 TODO다. 공식 `checkbox-table`의 실제 Checkbox/Table 조합 및 Label 클릭 선택은 지원 범위다. 공식 `table-actions`의 실제 DropdownMenu 조합은 **미구현·미검증 TODO**이며 Table 완료로 주장하지 않는다. Data Table/TanStack 조합도 이 범위에 포함하지 않는다. 설치 시 위 CLI 명령의 경로를 `table.json`으로 바꾸면 된다.
+
+Label 본체는 `label.json`으로 설치할 수 있다. `htmlFor`, RAC LabelContext, `xstyle` 및 일반 `style`을 지원한다. 공식 Checkbox·Field 조합 예제의 통합이 남아 있으므로 전체 지원 완료 목록에는 아직 포함하지 않는다.
+
+Checkbox 본체는 `checkbox.json`으로 설치할 수 있다. 선택·중간·비활성·오류·키보드 포커스, RAC context/render props와 일반 `style` 및 `xstyle`을 지원한다. 공식 checkbox-table은 실제 Table/Checkbox 조합과 Label 클릭으로 검증한다. 나머지 7개 preview(checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl)는 Field 통합 검증이 남아 있다. Label Demo·RTL fixture는 실제 Checkbox를 사용한다.

@@ -3,6 +3,8 @@
     "button",
     "skeleton",
     "separator",
+    "label",
+    "checkbox",
     "table"
   ]
 }

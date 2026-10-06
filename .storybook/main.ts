@@ -19,6 +19,8 @@ const config: StorybookConfig = {
       '@table-customizations': resolve(upstream ? 'reference/table-customizations.ts' : 'stories/table-customizations.ts'),
       '@table': resolve(upstream ? 'generated/reference/aria-nova/ui/table.tsx' : 'registry/ariax/ui/table.tsx'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),
+      '@checkbox': resolve(upstream ? 'generated/reference/aria-nova/ui/checkbox.tsx' : 'registry/ariax/ui/checkbox.tsx'),
+      '@label': resolve(upstream ? 'generated/reference/aria-nova/ui/label.tsx' : 'registry/ariax/ui/label.tsx'),
       '@reference': resolve('generated/reference/aria-nova'),
       '@button': resolve(upstream ? 'reference/button.ts' : 'registry/ariax/ui/button.tsx'),
       '@customizations': resolve(upstream ? 'reference/customizations.ts' : 'stories/customizations.ts'),

@@ -1,3 +1,5 @@
+import {Checkbox} from '@checkbox';
+import {Label} from '@label';
 import {useState} from 'react';
 import {tableCustom,cellCustom} from '@table-customizations';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -17,3 +19,8 @@ export const Expanded: Story = {render:()=> <Table aria-label="Expanded"><TableH
 
 function CustomizedTable(){const [width,setWidth]=useState(150);return <><button onClick={()=>setWidth(240)}>Resize</button><Table aria-label="Custom" {...tableCustom} style={{fontSize:'1rem'}}><TableHeader><TableHead isRowHeader>Name</TableHead></TableHeader><TableBody><TableRow id="a" style={({isSelected,defaultStyle})=>({...defaultStyle,color:isSelected?'red':undefined})}><TableCell {...cellCustom(width)}>Customized</TableCell></TableRow></TableBody></Table><TableCaption style={{marginTop:24}}>Caption</TableCaption></>;}
 export const Customized: Story = {render:()=> <CustomizedTable/>};
+
+const users=[['1','Sarah Chen','sarah.chen@example.com','Admin'],['2','Marcus Rodriguez','marcus.rodriguez@example.com','User'],['3','Priya Patel','priya.patel@example.com','User'],['4','David Kim','david.kim@example.com','Editor']];
+function CheckboxTable({labels=false}:{labels?:boolean}){return <>{labels&&<div><Label htmlFor="select-all-checkbox">Select all</Label>{users.map(([id,name])=><Label key={id} htmlFor={`row-${id}-checkbox`}>Select {name}</Label>)}</div>}<Table aria-label="Users" selectionMode="multiple"><TableHeader><TableHead style={{width:'2rem'}}><Checkbox id="select-all-checkbox" name="select-all-checkbox" slot="selection"/></TableHead><TableHead isRowHeader>Name</TableHead><TableHead>Email</TableHead><TableHead>Role</TableHead></TableHeader><TableBody>{users.map(([id,name,email,role])=><TableRow key={id}><TableCell><Checkbox id={`row-${id}-checkbox`} name={`row-${id}-checkbox`} slot="selection"/></TableCell><TableCell style={{fontWeight:500}}>{name}</TableCell><TableCell>{email}</TableCell><TableCell>{role}</TableCell></TableRow>)}</TableBody></Table></>;}
+export const CheckboxSelection:Story={render:()=> <CheckboxTable/>};
+export const CheckboxLabels:Story={render:()=> <CheckboxTable labels/>};
