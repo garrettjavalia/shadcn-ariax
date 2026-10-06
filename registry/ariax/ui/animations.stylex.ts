@@ -27,6 +27,8 @@ const scrollRevealBottom = stylex.keyframes({
   // @ts-expect-error Registered CSS property.
   to: { '--scroll-fade-b': '0px' },
 });
+const caretBlink = stylex.keyframes({ '0%,70%,100%': {opacity:1}, '20%,50%': {opacity:0} });
+
 export const animationStyles = stylex.create({
   overlay: { animationName: { default: null, ":is([data-entering])": enter, ":is([data-exiting])": exit } },
   pulse: { animationName: pulse },
@@ -39,4 +41,5 @@ export const animationStyles = stylex.create({
    animationName:{default:null,'@supports (animation-timeline: scroll())':`${scrollRevealTop}, ${scrollRevealBottom}`},animationDuration:{default:null,'@supports (animation-timeline: scroll())':'1ms, 1ms'},animationTimingFunction:{default:null,'@supports (animation-timeline: scroll())':'ease-in-out, ease-in-out'},animationDelay:{default:null,'@supports (animation-timeline: scroll())':'0s, 0s'},animationIterationCount:{default:null,'@supports (animation-timeline: scroll())':'1, 1'},animationDirection:{default:null,'@supports (animation-timeline: scroll())':'normal, normal'},animationFillMode:{default:null,'@supports (animation-timeline: scroll())':'both, both'},animationPlayState:{default:null,'@supports (animation-timeline: scroll())':'running, running'},animationTimeline:{default:null,'@supports (animation-timeline: scroll())':'scroll(self y), scroll(self y)'},animationRange:{default:null,'@supports (animation-timeline: scroll())':'0 var(--scroll-fade-reveal, 6rem), calc(100% - var(--scroll-fade-reveal, 6rem)) 100%'},
    '--scroll-fade-t':{default:null,'@supports not (animation-timeline: scroll())':'var(--_scroll-fade-size-t)'},'--scroll-fade-b':{default:null,'@supports not (animation-timeline: scroll())':'var(--_scroll-fade-size-b)'},
   },
+  caretBlink: { animationName: caretBlink },
 });

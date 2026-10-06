@@ -151,7 +151,10 @@ export async function settle(page: Page) {
     // Let React effects and focus restoration start their transitions before sampling.
     await frames();
     for (;;) {
-      const animations = document.getAnimations();
+      // Scroll/view timelines reflect the current scroll position, not elapsed
+      // wall time. Preserve their effects for the snapshot instead of waiting
+      // for a scroll that the test has not requested or changing their phase.
+      const animations = document.getAnimations().filter(animation => animation.timeline instanceof DocumentTimeline);
       // Infinite spinners are sampled at a fixed phase, not disabled.
       for (const animation of animations) if (animation.effect?.getComputedTiming().iterations === Infinity) { animation.pause(); animation.currentTime = 250; }
       const finite = animations.filter(a => a.effect?.getComputedTiming().iterations !== Infinity && (a.playState === 'running' || a.pending));
