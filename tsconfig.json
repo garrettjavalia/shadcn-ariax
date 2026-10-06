@@ -80,6 +80,12 @@
       ],
       "@field": [
         "./registry/ariax/ui/field.tsx"
+      ],
+      "@input-group": [
+        "./registry/ariax/ui/input-group.tsx"
+      ],
+      "@input-group-customizations": [
+        "./stories/input-group-customizations.ts"
       ]
     }
   },
