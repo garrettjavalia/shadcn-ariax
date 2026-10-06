@@ -41,6 +41,12 @@
       ],
       "@input-customizations": [
         "./stories/input-customizations.ts"
+      ],
+      "@textarea": [
+        "./registry/ariax/ui/textarea.tsx"
+      ],
+      "@textarea-customizations": [
+        "./stories/textarea-customizations.ts"
       ]
     }
   },

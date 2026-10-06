@@ -54,3 +54,5 @@ pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 독립 작업트리는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 포트를 지정할 수 있다. 테스트에도 같은 환경 변수를 전달한다.
 
 Skeleton과 Separator 설치는 소비 앱 CLI 명령의 `button.json`을 각각 `skeleton.json`, `separator.json`으로 바꾸면 된다.
+
+Textarea는 `textarea.json`으로 설치한다. `Components/Textarea`에서 공식 Demo·Button, 독립 상태와 style callback을 확인할 수 있다. Field 의존 공식 예제 4개는 아직 미완료이며 [대응표](docs/upstream-structure.md#textarea-draft)를 참고한다. 일반 React `style`(객체·RAC callback)을 지원하며, `xstyle` 동적 변수를 보존하고 충돌 시 `style`이 우선한다.
