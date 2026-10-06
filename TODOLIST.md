@@ -59,7 +59,7 @@
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
 - [ ] Sidebar
-- [ ] Slider
+- [x] Slider
 - [ ] Sonner
 - [x] Spinner
 - [x] Switch
