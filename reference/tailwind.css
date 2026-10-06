@@ -93,5 +93,6 @@
 @source "../../../reference/collapsible-customizations.ts";
 @source "../../../reference/popover-customizations.ts";
 
+@source "../../../reference/toggle-customizations.ts";
 @source "../../../reference/chat-settings-customizations.ts";
 @custom-variant style-nova (&:where(.style-nova *));
