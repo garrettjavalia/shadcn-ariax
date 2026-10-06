@@ -25,7 +25,7 @@
 - [ ] Carousel
 - [ ] Chart
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
-- [ ] Collapsible
+- [x] Collapsible
 - [x] Combobox
 - [ ] Command
 - [ ] Context Menu
@@ -49,13 +49,13 @@
 - [ ] Message
 - [ ] Message Scroller
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
-- [ ] Pagination
+- [x] Pagination
 - [x] Popover
 - [ ] Progress
 - [ ] Questionnaire
 - [x] Radio Group
 - [ ] Resizable
-- [ ] Scroll Area
+- [x] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
 - [ ] Sidebar
