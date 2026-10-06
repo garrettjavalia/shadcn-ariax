@@ -3,7 +3,7 @@ const styles = stylex.create({
   rounded: { borderRadius: 'calc(infinity * 1px)' },
   initial: { height: 60, minWidth: 120 },
   dynamic: (width: number) => ({ width }),
-  custom: { height: 44, minWidth: 160, borderRadius: '0.75rem', paddingLeft: 20, paddingRight: 20, opacity: { default: null, ':hover': { default: null, '@media (hover: hover)': 0.8 } } },
+  custom: { height: 44, minWidth: 160, borderRadius: 'calc(var(--radius) * 1.4)', paddingLeft: 20, paddingRight: 20, opacity: { default: null, ':hover': { default: null, '@media (hover: hover)': 0.8 } } },
 });
 export const rounded = { xstyle: styles.rounded };
 // The later style must override both the component defaults and the earlier array entry.
@@ -21,3 +21,6 @@ export const labelCustomized = { xstyle: [labelStyles.custom, labelStyles.dynami
 // Dynamic StyleX width must survive a separate inline height override.
 export const inlineSizing = { xstyle: styles.dynamic(160) };
 export const inlineSkeletonSizing = inlineSizing;
+
+const typographyStyles=stylex.create({dynamic:(fontSize:number,lineHeight:number)=>({fontSize,lineHeight})});
+export const typographySizing={xstyle:typographyStyles.dynamic(18,2)};

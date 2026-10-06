@@ -8,3 +8,5 @@ export const labelCustomized = { className: 'text-2xl leading-none opacity-80', 
 
 export const inlineSizing = { className: 'w-40' };
 export const inlineSkeletonSizing = { xstyle: 'w-40' };
+
+export const typographySizing={className:"text-[18px] leading-[2]"};
