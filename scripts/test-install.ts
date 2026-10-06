@@ -32,6 +32,10 @@ try {
       const separator = declaration.lastIndexOf('@');
       const name = separator > 0 ? declaration.slice(0, separator) : declaration;
       assert.ok(installed.dependencies[name], `CLI did not install ${name} for ${item.name}`);
+      if (separator > 0) {
+        const installedPackage = JSON.parse(await readFile(join(dir, 'node_modules', name, 'package.json'), 'utf8'));
+        assert.equal(installedPackage.version, declaration.slice(separator + 1), `CLI resolved a different runtime pin for ${name}`);
+      }
     }
   }
   assert.ok(!installed.dependencies.tailwindcss && !installed.devDependencies.tailwindcss);

@@ -31,3 +31,20 @@ test('registry discovers primary components and follows imports, reexports, type
     await assert.rejects(componentSources(root, 'parent', {}), /escapes source directory/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
+
+test('UI runtime dependency metadata preserves exact peer pins and rejects unmatched declarations', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'ariax-registry-peers-'));
+  const base = join(root, 'registry/ariax/ui');
+  try {
+    await mkdir(base, { recursive: true });
+    await writeFile(join(base, 'chart.tsx'), 'import "recharts"; export const Chart = () => null;');
+    await writeFile(join(base, 'chart.dependencies.json'), JSON.stringify({ 'react-is': '18.3.1' }));
+    const pins = { recharts: '3.8.0', 'react-is': '18.3.1' };
+    assert.deepEqual((await componentSources(root, 'chart', pins)).dependencies, ['react-is@18.3.1', 'recharts@3.8.0']);
+    await assert.rejects(componentSources(root, 'chart', { ...pins, 'react-is': '19.3.0' }), /differs from repository pin/);
+    await writeFile(join(base, 'chart.dependencies.json'), JSON.stringify({ 'react-is': '^18.3.1' }));
+    await assert.rejects(componentSources(root, 'chart', pins), /must be exact/);
+    await writeFile(join(base, 'missing.dependencies.json'), '{}');
+    await assert.rejects(componentSources(root, 'chart', pins), /Extra UI dependency metadata/);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
