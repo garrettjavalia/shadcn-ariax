@@ -19,3 +19,5 @@ export const Inline: Story = {render:()=> <Badge {...dynamic} style={{height:32,
 
 export const Interaction: Story = {render:()=> <div className="badge-row">{variants.map(variant=><Badge key={variant} variant={variant} render={props=><a {...props} href="#link"/>}>{variant}</Badge>)}</div>};
 export const InlineOverride: Story = {render:()=> <Badge {...dynamic} style={{width:160}}>Inline override</Badge>};
+
+export const FontSizeOverride: Story = { render: () => <Badge style={{fontSize:20}}>Larger text</Badge> };
