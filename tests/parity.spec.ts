@@ -51,3 +51,35 @@ test('every official Button documentation example has a registered parity story'
  expect(examples.length).toBeGreaterThan(0);
  for (const name of examples) expect(index.entries[`components-separator--${name.replace('separator-', '')}`]?.tags, name).toContain('parity');
 });
+
+test('every official Alert documentation example has a registered parity story', async ({ request }) => {
+  const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/alert.mdx', 'utf8');
+  const examples = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m => m[1]);
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
+  expect(examples.length).toBeGreaterThan(0);
+  for (const name of examples) expect(index.entries[`components-alert--${name.replace('alert-', '')}`]?.tags, name).toContain('parity');
+});
+
+test('official Table documentation coverage records unsupported compositions explicitly', async ({request})=>{
+ const document=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/table.mdx','utf8');
+ const coverage: Record<string,{story?:string;todo?:string}>= {'table-demo':{story:'demo'},'table-footer':{story:'footer'},'table-rtl':{story:'rtl'},'table-actions':{story:'components-dropdown-menu--table-actions-example'}};
+ const examples=[...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m=>m[1]);
+ const index=await(await request.get(`${stylexURL}/index.json`)).json();
+ expect(examples.length).toBe(4);
+ for(const name of examples){expect(coverage[name],name).toBeTruthy();if(coverage[name].story)expect(index.entries[coverage[name].story!.startsWith('components-')?coverage[name].story!:`components-table--${coverage[name].story}`]?.tags).toContain('parity');else expect(coverage[name].todo).toBeTruthy();}
+});
+
+ test('every official Kbd documentation example is verified or explicitly pending', async ({ request }) => {
+  const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/kbd.mdx', 'utf8');
+  const names = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(match => match[1]);
+  const implemented: Record<string, string> = { 'kbd-demo': 'demo', 'kbd-group': 'group', 'kbd-button': 'in-button', 'kbd-input-group': 'in-input-group', 'kbd-rtl': 'rtl' };
+  const pending = { 'kbd-tooltip': 'Tooltip + Kbd is implemented; the official composition still requires ButtonGroup.' };
+  expect(names).toHaveLength(6);
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
+  for (const name of names) {
+    if (name in pending) continue;
+    expect(implemented[name], `Unmapped official Kbd preview: ${name}`).toBeTruthy();
+    expect(index.entries[`components-kbd--${implemented[name]}`]?.tags).toContain('parity');
+  }
+  expect(index.entries['components-kbd--usage']?.tags).toContain('parity');
+});

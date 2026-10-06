@@ -42,7 +42,7 @@ export async function snapshot(page: Page) {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : (a.name === 'data-collection' || (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value))) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(id => ids.get(id) ?? `external:${id}`).join(' ') : a.value])),
         css: style(node),
-        pseudos: Object.fromEntries(['::before', '::after', '::marker'].map(p => [p, style(node, p)])),
+        pseudos: Object.fromEntries(['::before', '::after', '::marker', ...(node.matches('input, textarea') ? ['::placeholder'] : []), ...(node.matches('input[type="file"]') ? ['::file-selector-button'] : [])].map(p => [p, style(node, p)])),
         rect: rect(node.getBoundingClientRect()),
         scroll: [node.scrollWidth, node.scrollHeight, node.scrollLeft, node.scrollTop],
         focused: document.activeElement === node,

@@ -3,9 +3,21 @@
     "button",
     "skeleton",
     "separator",
+    "badge",
+    "alert",
+    "card",
+    "aspect-ratio",
     "label",
+    "input",
     "checkbox",
+    "textarea",
     "field",
+    "input-group",
+    "table",
+    "kbd",
+    "native-select",
+    "dropdown-menu",
+    "tooltip",
     "radio-group"
   ]
 }

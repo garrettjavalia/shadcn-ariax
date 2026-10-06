@@ -11,20 +11,20 @@
 ## 지원 예정
 
 - [ ] Accordion
-- [ ] Alert
+- [x] Alert
 - [ ] Alert Dialog
-- [ ] Aspect Ratio
+- [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group
 - [ ] Calendar
-- [ ] Card
+- [x] Card
 - [ ] Carousel
 - [ ] Chart
-- [ ] Checkbox — 본체 구현·검증, 공식 8개 preview의 Field/Table 통합 대기
+- [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [ ] Collapsible
 - [ ] Combobox
 - [ ] Command
@@ -34,25 +34,25 @@
 - [ ] Dialog
 - [ ] Direction
 - [ ] Drawer
-- [ ] Dropdown Menu
+- [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 공식 조합 후속 통합 검증
 - [ ] Empty
-- [ ] Field
+- [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card
-- [ ] Input
-- [ ] Input Group
+- [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
+- [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd
-- [ ] Label — 본체 및 실제 Checkbox Demo·RTL 구현·검증, field-demo 통합 대기
+- [ ] Kbd — 기본 설치·Tooltip 내용 구현; 공식 ButtonGroup 컨테이너 통합 대기
+- [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
-- [ ] Native Select
+- [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [ ] Pagination
 - [ ] Popover
 - [ ] Progress
 - [ ] Questionnaire
-- [x] Radio Group — Nova, 공식 7 예제, Label/Field 조합, light/dark·키보드/포인터·native style/xstyle 검증
+- [x] Radio Group
 - [ ] Resizable
 - [ ] Scroll Area
 - [ ] Select
@@ -62,14 +62,12 @@
 - [ ] Sonner
 - [ ] Spinner
 - [ ] Switch
-- [ ] Table
+- [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀
 - [ ] Tabs
-- [ ] Textarea
+- [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle
 - [ ] Toggle Group
-- [ ] Tooltip
+- [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
 - [ ] Typography — 텍스트 스타일 예제
 
 Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
-
-Checkbox의 미완료 공식 preview: checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl, checkbox-table. Field/Table 구현 PR에서 실제 원본 예제를 공유 스토리로 연결하고 검증한 뒤 완료 표시한다.
