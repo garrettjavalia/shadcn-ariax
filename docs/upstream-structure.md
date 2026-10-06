@@ -2,6 +2,8 @@
 
 원본과 CLI 설치 결과는 Git에 넣지 않는다. 필요한 명령의 최초 실행 시 고정 커밋을 다운로드하고 `generated/`에 준비한다.
 
+공식 공통 CSS foundation은 공식 `shadcn/tailwind.css` 상태 variant, `tw-animate-css@1.4.0` 및 전체 theme alias를 적용한다. 컴포넌트 구현과 독립적으로 reference CSS의 source 합집합을 유지한다. 공유 Field의 선택 조건은 `data-selected="true"`, `data-state="checked"`, 또는 false가 아닌 `data-checked`이며 `:where()`로 원본 선택자 우선순위를 보존한다. 원본 group-has-data-horizontal은 후손의 `data-orientation="horizontal"`을 뜻하며 legacy `data-horizontal` 속성과 구별한다. 포커스 시 FieldLabel/선택 Checkbox의 ring border가 우선하고, `not-has-[:disabled,[data-disabled]]`의 raw 속성 조건은 false 값도 포함해 보존한다. empty/false 선택 속성과 가로 상태 두 조건은 기존 Field 스토리의 회귀 범위에 포함한다.
+
 ```text
 upstream/source.json              # 저장소·40자리 커밋·선택 경로·필수 파일
 upstream/reference.json           # 설치할 컴포넌트 이름 목록
