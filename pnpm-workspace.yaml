@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@stylexjs/stylex@0.19.1': patches/@stylexjs__stylex@0.19.1.patch
