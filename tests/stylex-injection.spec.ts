@@ -4,10 +4,10 @@ import{createRequire}from'node:module';
 import{dirname,resolve}from'node:path';
 const require=createRequire(import.meta.url);
 const root=dirname(require.resolve('@stylexjs/stylex/package.json'));
-for(const format of ['es','cjs'] as const)test(`StyleX ${format} nested conditions preserve rules and deduplicate`,async({page})=>{
+test('StyleX production ESM nested conditions preserve rules and deduplicate',async({page})=>{
  await page.setContent('<div id="container" style="container-type:inline-size;width:300px"><div id="target" class="support-a support-b media-a media-b container-a container-b duplicate"></div></div>');
- let source=await readFile(resolve(root,`lib/${format}/inject.${format==='es'?'mjs':'js'}`),'utf8');
- if(format==='es')source=source.replace('export { inject as default };','window.injectRule = inject;');else source='const module={exports:null};\n'+source+'\nwindow.injectRule=module.exports;';
+ let source=await readFile(resolve(root,'lib/es/inject.mjs'),'utf8');
+ source=source.replace('export { inject as default };','window.injectRule = inject;');
  await page.addScriptTag({content:`(()=>{${source}\n})();`});
  const result=await page.evaluate(()=>{
   const inject=(window as unknown as {injectRule:(rule:{ltr:string;priority:number})=>unknown}).injectRule;

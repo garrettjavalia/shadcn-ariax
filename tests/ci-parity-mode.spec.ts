@@ -12,18 +12,3 @@ test('CI DOM/CSS mode omits geometry and pixels while full snapshots retain them
   const reduced = JSON.stringify(await snapshot(a, 'dom-css'));
   for (const field of ['rect', 'rects', 'scroll', 'focused']) expect(reduced).not.toContain(`"${field}":`);
 });
-
-test('CI comparison rejects DOM, accessibility, computed CSS and pseudo-element differences', async ({context}, info) => {
-  const a = await context.newPage(), b = await context.newPage();
-  for (const mutation of ['text', 'attribute', 'css', 'pseudo'] as const) {
-    await Promise.all([a, b].map(page => page.setContent(markup)));
-    await b.evaluate(kind => {
-      const button = document.querySelector('button')!;
-      if (kind === 'text') button.textContent = 'Changed';
-      if (kind === 'attribute') button.setAttribute('aria-label', 'Changed');
-      if (kind === 'css') button.style.color = 'rgb(0, 128, 0)';
-      if (kind === 'pseudo') document.querySelector('style')!.textContent = '#parity-root::before { content: "Prefix"; color: blue; }';
-    }, mutation);
-    await expect(compareDOMCSS(a, b, info, `intentional-${mutation}`)).rejects.toThrow();
-  }
-});

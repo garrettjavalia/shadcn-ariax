@@ -26,9 +26,16 @@ for (const { theme, width, requiredTag } of selectedEnvironments) for (let batch
   test.skip(ids.length === 0, 'No selected stories in this batch.');
   const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
   await controlAvatarAssets(context);
-  const a = await context.newPage(); const b = await context.newPage();
+  const pages = [await context.newPage(), await context.newPage()] as const;
+  let calendarPages: typeof pages | undefined;
   try {
     for (const id of ids) await test.step(id, async () => {
+      // Calendar's current-date styling is deterministic; separate pages keep its clock local.
+      if (id.startsWith('components-calendar--') && !calendarPages) {
+        calendarPages = [await context.newPage(), await context.newPage()];
+        await Promise.all(calendarPages.map(page => page.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'))));
+      }
+      const [a, b] = id.startsWith('components-calendar--') ? calendarPages! : pages;
       // Full navigation resets React state; pages are reused to bound browser overhead.
       const started = performance.now();
       await Promise.all(([[a, upstreamPort], [b, stylexPort]] as const).map(async ([page, port]) => {
@@ -82,15 +89,13 @@ test('every official Table documentation example has a registered parity story',
  for(const name of examples){expect(coverage[name],name).toBeTruthy();if(coverage[name].story)expect(index.entries[coverage[name].story!.startsWith('components-')?coverage[name].story!:`components-table--${coverage[name].story}`]?.tags).toContain('parity');else expect(coverage[name].todo).toBeTruthy();}
 });
 
- test('every official Kbd documentation example is verified or explicitly pending', async ({ request }) => {
+ test('every official Kbd documentation example has a registered parity story', async ({ request }) => {
   const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/kbd.mdx', 'utf8');
   const names = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(match => match[1]);
-  const implemented: Record<string, string> = { 'kbd-demo': 'demo', 'kbd-group': 'group', 'kbd-button': 'in-button', 'kbd-input-group': 'in-input-group', 'kbd-rtl': 'rtl' };
-  const pending = { 'kbd-tooltip': 'Tooltip + Kbd is implemented; the official composition still requires ButtonGroup.' };
+  const implemented: Record<string, string> = { 'kbd-demo': 'demo', 'kbd-group': 'group', 'kbd-button': 'in-button', 'kbd-input-group': 'in-input-group', 'kbd-rtl': 'rtl', 'kbd-tooltip': 'in-tooltip' };
   expect(names).toHaveLength(6);
   const index = await (await request.get(`${stylexURL}/index.json`)).json();
   for (const name of names) {
-    if (name in pending) continue;
     expect(implemented[name], `Unmapped official Kbd preview: ${name}`).toBeTruthy();
     expect(index.entries[`components-kbd--${implemented[name]}`]?.tags).toContain('parity');
   }

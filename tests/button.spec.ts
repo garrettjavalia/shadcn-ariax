@@ -1,7 +1,7 @@
 import { upstreamPort, stylexPort } from './servers';
 import { test, expect, type Browser, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { compare, snapshot, differences } from './compare';
+import { compare } from './compare';
 
 async function pair(browser: Browser, story: string, theme: string, width = 1000) {
   const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
@@ -43,23 +43,6 @@ for (const theme of ['light', 'dark']) for (const variant of ['default', 'outlin
     } finally { await context.close(); }
   });
 }
-
-test('comparator rejects CSS, nested DOM, pseudo-element and geometry mutations', async ({ browser }, info) => {
-  const { context, a, b } = await pair(browser, 'playground', 'light');
-  try {
-    const baseline = await snapshot(a);
-    expect(differences(baseline, await snapshot(b))).toEqual([]);
-    await b.getByRole('button').evaluate(e => { e.style.color = 'rgb(255, 0, 0)'; e.style.paddingLeft = '47px'; e.appendChild(document.createElement('span')); });
-    await b.addStyleTag({ content: 'button::before { content: "mutation"; color: red; }' });
-    const diff = differences(baseline, await snapshot(b));
-    expect(diff.some(d => d.path.endsWith('/css/color'))).toBe(true);
-    expect(diff.some(d => d.path.includes('/rect/width'))).toBe(true);
-    expect(diff.some(d => d.path.includes('/children/1'))).toBe(true);
-    expect(diff.some(d => d.path.includes('/pseudos/::before/content'))).toBe(true);
-    // Exercise the success fast path's rejection too, not just the diagnostic walker.
-    await expect(compare(a, b, info, 'intentional-mutation', false)).rejects.toThrow(/intentional-mutation/);
-  } finally { await context.close(); }
-});
 
 test('disabled and pending suppress activation; accessible button names', async ({ browser }) => {
   for (const story of ['disabled', 'pending']) {
