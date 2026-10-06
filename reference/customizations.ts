@@ -7,3 +7,5 @@ export const separatorCustom = { className: '[:is(hr)]:h-1 [:is(hr)]:w-[180px] b
 
 export const inlineSizing = { className: 'w-40' };
 export const inlineSkeletonSizing = { xstyle: 'w-40' };
+
+export const typographySizing={className:"text-[18px] leading-[2]"};

@@ -5,7 +5,7 @@ import OfficialGroup from './official-group';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, LinkButton, buttonProps } from '@button';
-import { rounded, customized, dynamic } from '@customizations';
+import { rounded, customized, dynamic, typographySizing } from '@customizations';
 
 export const variants = ['default', 'outline', 'secondary', 'ghost', 'destructive', 'link'] as const;
 export const sizes = ['default', 'xs', 'sm', 'lg', 'icon', 'icon-xs', 'icon-sm', 'icon-lg'] as const;
@@ -53,6 +53,10 @@ export const Dynamic: Story = { render: () => <DynamicExample /> };
 // Reuse the generic parity suite for all exported style combinations.
 export const HelperMatrix: Story = { render: () => <main id="parity-root">{variants.map(variant => <section key={variant}><h2>{variant}</h2><div className="gallery">{sizes.map(size => <a key={size} href="#destination" aria-label={`${variant}-${size}`} {...buttonProps({variant, size})}><Icon />{!size.startsWith("icon") && <span>{size}</span>}</a>)}</div></section>)}</main> };
 
+// Nova small text changes font-size only; its line-height comes from the parent.
+export const InheritedLineHeight: Story = { render: () => <main id="parity-root" style={{ lineHeight: 'calc(1.25 / .875)' }}><div className="gallery"><Button size="sm">Small button</Button><LinkButton size="sm" href="#destination">Small link</LinkButton><a href="#destination" {...buttonProps({ size: 'sm' })}>Small helper</a><Button>Default button</Button></div></main> };
+
+export const FontSizeOverride: Story = { render: () => <main id="parity-root"><div className="gallery">{sizes.slice(0, 4).map(size => <div key={size}><Button size={size} style={{fontSize:20}} data-testid={`font-${size}-button`}>{size} button</Button><LinkButton size={size} href="#destination" style={{fontSize:20}} data-testid={`font-${size}-link`}>{size} link</LinkButton><a href="#destination" {...buttonProps({size,style:{fontSize:20}})} data-testid={`font-${size}-helper`}>{size} helper</a></div>)}</div></main> };
 function InlineStyleExample() {
   const [height, setHeight] = useState(44);
   return <main id="parity-root"><div className="gallery">
@@ -65,3 +69,5 @@ function InlineStyleExample() {
   </div></main>;
 }
 export const InlineStyle: Story = { render: () => <InlineStyleExample /> };
+
+export const TypographyOverride: Story = { render: () => <main id="parity-root"><Button {...typographySizing} style={{fontSize:20,lineHeight:1.25}}>Typography button</Button><LinkButton {...typographySizing} href="#destination" style={({isHovered})=>({fontSize:20,lineHeight:isHovered?1.25:1.5})}>Typography link</LinkButton><a href="#destination" {...buttonProps({...typographySizing,style:{fontSize:20,lineHeight:1.25}})}>Typography helper</a></main> };
