@@ -6,6 +6,7 @@ import { readdirSync } from 'node:fs';
 import { compare } from './compare';
 import { environments, buttonDocumentation, type StoryEntry } from './catalog';
 import { partitionStories } from './story-batches';
+import { waitForStoryReadiness } from './story-readiness';
 
 const storyFileCount = readdirSync('stories', { recursive: true, withFileTypes: true }).filter(file => file.isFile() && file.name.endsWith('.stories.tsx')).length;
 const batchCount = process.env.PARITY_COMPONENT ? 1 : Math.max(1, Math.ceil(storyFileCount / 4));
@@ -32,6 +33,7 @@ for (const { theme, width, requiredTag } of environments) for (let batch = 0; ba
         await page.goto(`http://127.0.0.1:${port}/iframe.html?id=${id}&viewMode=story&globals=theme:${theme}`);
         await expect(page.locator('#parity-root')).toBeVisible();
         await waitAvatarAssets(page);
+        await waitForStoryReadiness(page);
         await expect(page.locator('html')).toHaveClass(theme === 'dark' ? /\bdark\b/ : /^(?!.*\bdark\b).*$/);
         await page.mouse.move(0, 0);
       }));
