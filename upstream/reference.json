@@ -2,6 +2,11 @@
   "components": [
     "button",
     "skeleton",
-    "separator", "input"
+    "separator",
+    "badge",
+    "alert",
+    "card",
+    "aspect-ratio",
+    "input"
   ]
 }

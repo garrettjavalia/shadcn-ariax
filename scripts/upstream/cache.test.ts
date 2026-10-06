@@ -20,7 +20,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
     const fixtures: Record<string, string> = {
       'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
-      'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8; }',
+      'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8 ml-2; }',
       'apps/v4/public/r/colors/neutral.json': JSON.stringify({ inlineColors: {light:{background:'white'},dark:{background:'black'}}, cssVars: {light:{background:'0 0% 100%'},dark:{background:'0 0% 0%'}}, cssVarsV4:{light:{background:'oklch(1 0 0)'},dark:{background:'oklch(0 0 0)'}}, inlineColorsTemplate:'',cssVarsTemplate:'' }),
       'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],css:{".reference-fixture":{color:"red"}},files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
       'apps/v4/registry/bases/aria/lib/_registry.ts': 'export const lib = [{name:"utils",type:"registry:lib",dependencies:["cn"],files:[{path:"lib/utils.ts",type:"registry:lib"}]}];',
@@ -55,7 +55,8 @@ for (const module of [http, https]) { const request=module.request; module.reque
     assert.equal(await downloads(), 1, 'Warm cache must work with networking disabled.');
     const installed = join(dir, 'generated/reference/aria-nova/ui/button.tsx');
     const installedSource = await readFile(installed, 'utf8');
-    assert.match(installedSource, /className="h-8"/);
+    assert.match(installedSource, /className="h-8 ms-2"/);
+    assert.equal(JSON.parse(await readFile(join(dir, 'generated/reference/aria-nova/components.json'), 'utf8')).rtl, true);
     assert.match(installedSource, /@reference\/lib\/utils/);
     assert.doesNotMatch(installedSource, /cn-button/);
     const cliCss = join(dir, 'generated/reference/aria-nova/cli.css');

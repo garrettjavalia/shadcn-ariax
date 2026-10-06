@@ -14,7 +14,7 @@ export async function referenceInputs(config: Source) {
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
   assert.equal(pkg.devDependencies.shadcn, installed.version, 'Install the pinned shadcn CLI before preparing references');
-  return { version: 4, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+  return { version: 5, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
 }
 
 export async function buildReference(directory: string, inputs: Awaited<ReturnType<typeof referenceInputs>>) {
@@ -71,7 +71,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   await writeFile(resolve(directory, 'tsconfig.json'), JSON.stringify({ compilerOptions: { jsx: 'react-jsx', baseUrl: '.', paths: { '@reference/*': ['./*'] } } }));
   await writeFile(resolve(directory, 'cli.css'), '');
   await writeFile(resolve(directory, 'tailwind.css'), await readFile(resolve(root, 'reference/tailwind.css'), 'utf8'));
-  await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rsc: false, tsx: true, tailwind: { config: '', css: 'cli.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
+  await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rtl: inputs.rtl, rsc: false, tsx: true, tailwind: { config: '', css: 'cli.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
   const cli = resolve(root, 'node_modules/shadcn/dist/index.js');
   // CLI add also requests base-color metadata. Serve the committed response locally;
   // unknown endpoints fail closed instead of falling through to the live registry.

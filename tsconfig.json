@@ -18,6 +18,12 @@
       "vite/client"
     ],
     "paths": {
+      "@card-customizations": [
+        "./stories/card-customizations.ts"
+      ],
+      "@card": [
+        "./registry/ariax/ui/card.tsx"
+      ],
       "@button": [
         "./registry/ariax/ui/button.tsx"
       ],
@@ -35,6 +41,24 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@badge": [
+        "./registry/ariax/ui/badge.tsx"
+      ],
+      "@badge-customizations": [
+        "./stories/badge-customizations.ts"
+      ],
+      "@alert": [
+        "./registry/ariax/ui/alert.tsx"
+      ],
+      "@alert-customizations": [
+        "./stories/alert-customizations.ts"
+      ],
+      "@aspect-ratio": [
+        "./registry/ariax/ui/aspect-ratio.tsx"
+      ],
+      "@aspect-customizations": [
+        "./stories/aspect-customizations.ts"
       ],
       "@input": [
         "./registry/ariax/ui/input.tsx"
