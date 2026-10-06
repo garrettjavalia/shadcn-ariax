@@ -47,7 +47,7 @@
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
-- [ ] Native Select
+- [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [ ] Pagination
 - [ ] Popover
 - [ ] Progress

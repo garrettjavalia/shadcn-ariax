@@ -98,6 +98,9 @@
       ],
       "@kbd-customizations": [
         "./stories/kbd-customizations.ts"
+      ],
+      "@native-select": [
+        "./registry/ariax/ui/native-select.tsx"
       ]
     }
   },
