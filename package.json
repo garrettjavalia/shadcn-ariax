@@ -13,7 +13,7 @@
     "build": "pnpm registry:build && pnpm build:upstream && pnpm build:stylex",
     "registry:build": "node --import tsx scripts/build-registry.ts",
     "typecheck": "pnpm upstream:prepare && tsc --noEmit",
-    "test": "pnpm upstream:prepare && playwright test",
+    "test": "pnpm upstream:prepare && pnpm originals:generate && playwright test",
     "test:report": "playwright show-report --host 127.0.0.1",
     "test:install": "node --import tsx --test scripts/install-fixtures.test.ts scripts/registry-sources.test.ts && pnpm registry:build && node --import tsx scripts/test-install.ts",
     "verify": "pnpm test:upstream && pnpm upstream:check && pnpm typecheck && pnpm registry:build && pnpm test && pnpm test:install && pnpm build:upstream && pnpm build:stylex",
@@ -23,7 +23,7 @@
     "test:upstream": "node --import tsx --test scripts/upstream/cache.test.ts",
     "test:benchmark": "node --import tsx scripts/benchmark-tests.ts",
     "test:full": "pnpm verify",
-    "test:ci": "pnpm upstream:prepare && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity",
+    "test:ci": "pnpm upstream:prepare && pnpm originals:generate && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity",
     "originals:generate": "node --import tsx scripts/upstream/original-stories.ts"
   },
   "dependencies": {

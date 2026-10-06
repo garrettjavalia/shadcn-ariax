@@ -32,14 +32,15 @@ jobs:
             dist/upstream
             dist/stylex
             generated/upstream
-            generated/reference/aria-nova/.install-complete.json
-            generated/reference/aria-nova/ui
-            generated/reference/aria-nova/hooks
-            generated/reference/aria-nova/source
-            generated/reference/aria-nova/registry
-            generated/reference/aria-nova/registry.json
-            generated/reference/aria-nova/cli.css
-            generated/reference/aria-nova/tailwind.css
+            generated/original-stories/public
+            generated/reference/*/.install-complete.json
+            generated/reference/*/ui
+            generated/reference/*/hooks
+            generated/reference/*/source
+            generated/reference/*/registry
+            generated/reference/*/registry.json
+            generated/reference/*/cli.css
+            generated/reference/*/tailwind.css
             !**/node_modules/**
             !**/.git/**
             !**/.env*
