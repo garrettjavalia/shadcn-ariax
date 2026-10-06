@@ -8,7 +8,7 @@ import { Button } from '@button';
 import { Input } from '@input';
 import { Label } from '@label';
 import { Badge } from '@badge';
-import { fullWidthButton, customCard, customPart, dynamicCard } from '@card-customizations';
+import { fullWidthButton, customCard, customPart, dynamicCard, cardSpacingNativeStyle } from '@card-customizations';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@card';
 const meta = {title:'Components/Card',component:Card,tags:['parity'],decorators:[Story=><main id="parity-root"><Story /></main>]} satisfies Meta<typeof Card>;
 export default meta;
@@ -42,7 +42,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
                 <Label htmlFor="password">Password</Label>
                 <a
                   href="#"
-                  style={{"marginLeft":"auto","display":"inline-block","fontSize":".875rem","textUnderlineOffset":".25rem"}}
+                  {...cardSpacingNativeStyle("ml-auto inline-block text-sm underline-offset-4 hover:underline")}
                 >
                   Forgot your password?
                 </a>

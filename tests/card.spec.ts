@@ -10,11 +10,27 @@ test('official Card documentation examples have corresponding parity composition
   expect(examples).toHaveLength(6);
   for(const example of examples) expect(index.entries[`components-card--${example.replace('card-','')}`]?.tags,example).toContain('parity');
 });
-for(const theme of ['light','dark']) test(`Card spacing changes, nested small size and relative units / ${theme}`,async ({browser},info)=>{
+for(const theme of ['light','dark']) test(`Card form links, spacing controls and relative units / ${theme}`,async ({browser},info)=>{
   const context=await browser.newContext({viewport:{width:1000,height:900}});
   const a=await context.newPage(), b=await context.newPage();
   try {
-    for(const [page,url]of [[a,upstreamURL],[b,stylexURL]] as const){await page.goto(`${url}/iframe.html?id=components-card--spacing&viewMode=story&globals=theme:${theme}`);await expect(page.locator('#parity-root')).toBeVisible();}
+    for (const story of ['demo', 'spacing']) {
+      for (const [page,url] of [[a,upstreamURL],[b,stylexURL]] as const) {
+        await page.goto(`${url}/iframe.html?id=components-card--${story}&viewMode=story&globals=theme:${theme}`);
+        await expect(page.locator('#parity-root')).toBeVisible();
+        await page.getByRole('textbox', {name:'Email', exact:true}).fill('card@example.com');
+        await page.getByLabel('Password', {exact:true}).fill('example-password');
+        const link = page.getByRole('link', {name:'Forgot your password?', exact:true});
+        await link.hover();
+        await expect(link).toHaveCSS('text-decoration-line','underline');
+      }
+      await compare(a,b,info,`card-${story}-filled-link-hover`);
+      for (const page of [a,b]) {
+        await page.mouse.move(0,0);
+        await expect(page.getByRole('link',{name:'Forgot your password?',exact:true})).toHaveCSS('text-decoration-line','none');
+      }
+      await compare(a,b,info,`card-${story}-filled-link-rest`);
+    }
     for(const [label,pixels] of [['20px',20],['24px',24],['32px',32]] as const){
       await Promise.all([a,b].map(async page=>{const option=page.getByRole('radio',{name:label});await option.click();await expect(option).toBeChecked();}));
       await compare(a,b,info,`card-spacing-${label}`);
