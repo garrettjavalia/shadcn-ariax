@@ -15,6 +15,8 @@ const separatorStyles = stylex.create({
 });
 export const separatorMenu = { xstyle: separatorStyles.menu };
 export const separatorCustom = { xstyle: separatorStyles.custom };
+const labelStyles = stylex.create({ custom: { fontSize: '1.5rem', opacity: 0.8 }, dynamic: (width: number) => ({width}) });
+export const labelCustomized = { xstyle: [labelStyles.custom, labelStyles.dynamic(240)], style: { opacity: 0.6 } };
 
 // Dynamic StyleX width must survive a separate inline height override.
 export const inlineSizing = { xstyle: styles.dynamic(160) };

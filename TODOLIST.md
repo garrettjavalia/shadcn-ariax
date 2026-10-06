@@ -13,10 +13,10 @@
 - [ ] Accordion
 - [x] Alert
 - [ ] Alert Dialog
-- [ ] Aspect Ratio
+- [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group
@@ -43,7 +43,7 @@
 - [ ] Input OTP
 - [ ] Item
 - [ ] Kbd
-- [ ] Label
+- [ ] Label — 본체 구현·검증, Checkbox/Field 공식 교차 예제 통합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller

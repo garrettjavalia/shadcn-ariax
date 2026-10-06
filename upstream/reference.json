@@ -3,7 +3,10 @@
     "button",
     "skeleton",
     "separator",
+    "badge",
+    "alert",
     "card",
-    "alert"
+    "aspect-ratio",
+    "label"
   ]
 }

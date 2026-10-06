@@ -7,8 +7,10 @@
 @source "./hooks";
 @source "./components";
 @source "../../../reference/customizations.ts";
+@source "../../../reference/aspect-customizations.ts";
 @source "../../../reference/skeleton-customizations.ts";
 @source "../../../reference/card-customizations.ts";
+@source "../../../reference/badge-customizations.ts";
 @source "../../../stories/reference-utilities.stories.tsx";
 @source "../../../reference/alert-customizations.ts";
 @custom-variant dark (&:is(.dark *));
