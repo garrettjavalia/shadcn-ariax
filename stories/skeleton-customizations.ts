@@ -19,3 +19,5 @@ export const shapes = stylex.create({
   flex: { height: 16, flex: 1 },
   usage: { height: 20, width: 100, borderRadius: 'calc(infinity * 1px)' },
 });
+const cardStyles=stylex.create({root:{width:'100%',maxWidth:'20rem'}});
+export const skeletonCardStyle={xstyle:cardStyles.root};
