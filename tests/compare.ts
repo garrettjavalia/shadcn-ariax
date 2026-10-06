@@ -150,6 +150,7 @@ export async function settle(page: Page) {
     const frames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
     // Let React effects and focus restoration start their transitions before sampling.
     await frames();
+    let quiet = false;
     for (;;) {
       // Scroll/view timelines reflect the current scroll position, not elapsed
       // wall time. Preserve their effects for the snapshot instead of waiting
@@ -158,7 +159,10 @@ export async function settle(page: Page) {
       // Infinite spinners are sampled at a fixed phase, not disabled.
       for (const animation of animations) if (animation.effect?.getComputedTiming().iterations === Infinity) { animation.pause(); animation.currentTime = 250; }
       const finite = animations.filter(a => a.effect?.getComputedTiming().iterations !== Infinity && (a.playState === 'running' || a.pending));
-      if (!finite.length) break;
+      if (!finite.length && quiet) break;
+      // Completion handlers can restore focus or mount content on a later frame,
+      // starting another transition after the first empty animation inventory.
+      quiet = !finite.length;
       // Chromium may defer finished-promise delivery in content-visibility:
       // hidden subtrees. Observe actual play states across frames instead;
       // this also sees transitions started by React effects during completion.

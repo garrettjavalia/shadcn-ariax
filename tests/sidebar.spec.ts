@@ -221,6 +221,7 @@ for (const story of ['controlled', 'registry-inset', 'registry-floating', 'regis
     });
     await page.goto(`${url}/iframe.html?id=components-sidebar--${story}`);
     await expect(page.locator('[data-slot=sidebar-container]')).toBeVisible();
+    await page.mouse.move(0, 0);
     await settle(page);
     await page.keyboard.press('Control+b');
     await page.evaluate(async () => {

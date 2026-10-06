@@ -2,16 +2,29 @@ import { test, expect } from '@playwright/test';
 import { upstreamURL } from './servers';
 
 test('reference imports real enter/exit animation utilities and official state variants', async ({ page }) => {
+  await page.addInitScript(() => {
+    const handles = new WeakMap<Element, CSSAnimation>();
+    (window as Window & { utilityAnimations?: WeakMap<Element, CSSAnimation> }).utilityAnimations = handles;
+    document.addEventListener('animationstart', event => {
+      if (!(event.target instanceof Element) || !event.target.matches('[data-probe="enter"], [data-probe="exit"]')) return;
+      const animation = event.target.getAnimations().find(animation => animation instanceof CSSAnimation);
+      if (animation instanceof CSSAnimation) {
+        handles.set(event.target, animation);
+        animation.pause();
+        animation.currentTime = 0;
+      }
+    }, true);
+  });
   await page.goto(`${upstreamURL}/iframe.html?id=harness-reference-utilities--animations&viewMode=story`);
   await expect(page.locator('#parity-root')).toBeVisible();
   for (const [probe, name] of [['enter', 'enter'], ['exit', 'exit']] as const) {
     const element = page.locator(`[data-probe="${probe}"]`);
     await expect(element).toHaveCSS('animation-name', name);
     await expect(element).toHaveCSS('animation-duration', '0.2s');
-    const samples = await element.evaluate(node => {
-      const animation = node.getAnimations()[0];
+    const samples = await element.evaluate(async node => {
+      const animation = (window as Window & { utilityAnimations?: WeakMap<Element, CSSAnimation> }).utilityAnimations?.get(node);
       if (!animation) throw new Error('Animation utilities did not produce an animation');
-      animation.pause();
+      await animation.ready;
       return [0, 100, 199, 200].map(time => {
         animation.currentTime = time;
         const css = getComputedStyle(node);
