@@ -1,0 +1,12 @@
+@property --ariax-select-width { syntax: "*"; inherits: false; initial-value: fit-content; }
+.ariax-select-trigger [data-slot="select-value"] { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; display: flex; align-items: center; gap: .375rem; }
+.ariax-select-trigger svg, .ariax-select-item svg { pointer-events: none; flex-shrink: 0; }
+.ariax-select-trigger svg:not([class*="size-"]), .ariax-select-item svg:not([class*="size-"]) { width: 1rem; height: 1rem; }
+.ariax-select-item:not([data-variant="destructive"]):focus * { color: var(--accent-foreground); }
+.ariax-select-item > span:last-child { gap: .5rem; }
+/* Field's child-width contract must outrank the Select fit-content default. */
+.ariax-field[data-orientation="vertical"] > [data-slot="select"],
+.ariax-field[data-orientation="responsive"] > [data-slot="select"] { --ariax-select-width: var(--ariax-field-full); }
+@container field-group (min-width: 28rem) {
+  .ariax-field[data-orientation="responsive"] > [data-slot="select"] { --ariax-select-width: var(--ariax-field-auto); }
+}
