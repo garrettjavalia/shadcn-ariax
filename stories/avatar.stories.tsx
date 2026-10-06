@@ -32,3 +32,12 @@ export const States:Story={render:()=> <div {...avatarLayout('states')}>{(['sm',
 export const GroupSizes:Story={render:()=> <div {...avatarLayout('states')}>{(['sm','default','lg','mixed'] as const).map(size=><AvatarGroup key={size}><Avatar size={size==='mixed'?'lg':size}><AvatarFallback>A</AvatarFallback></Avatar><Avatar size={size==='mixed'?'sm':size}><AvatarFallback>B</AvatarFallback></Avatar><AvatarGroupCount><PlusIcon/></AvatarGroupCount></AvatarGroup>)}</div>};
 function Dynamic(){const[size,setSize]=useState(32);const[src,setSrc]=useState(image);return <><button onClick={()=>setSize(48)}>Resize</button><button onClick={()=>setSrc('/avatar-failure.svg')}>Fail image</button><button onClick={()=>setSrc(image)}>Recover image</button><Avatar {...avatarDynamic(size)} style={{height:40}}><AvatarImage src={src} alt="Dynamic" style={{opacity:.75}}/><AvatarFallback {...avatarFallbackCustom()} style={{fontWeight:500}}>CN</AvatarFallback></Avatar></>;}
 export const Customized:Story={render:()=> <Dynamic/>};
+
+import * as Registry from './avatar-examples/registry';
+export const RegistrySizes:Story={render:()=> <Registry.AvatarSizes/>};
+export const RegistryBadge:Story={render:()=> <Registry.AvatarWithBadge/>};
+export const RegistryBadgeIcon:Story={render:()=> <Registry.AvatarWithBadgeIcon/>};
+export const RegistryGroup:Story={render:()=> <Registry.AvatarGroupExample/>};
+export const RegistryGroupCount:Story={render:()=> <Registry.AvatarGroupWithCount/>};
+export const RegistryGroupCountIcon:Story={render:()=> <Registry.AvatarGroupWithIconCount/>};
+export const RegistryEmpty:Story={tags:['viewport-390'],render:()=> <Registry.AvatarInEmpty/>};

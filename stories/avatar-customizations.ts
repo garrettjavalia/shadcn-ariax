@@ -5,3 +5,6 @@ export function avatarCustom(key:keyof typeof map){return {xstyle:map[key]};}
 export function avatarLayout(key:'layout'|'sizes'|'states'){const {className,style}=stylex.props(styles[key]);return {className,style};}
 export function avatarDynamic(size:number){return {xstyle:[styles.dynamic(32),styles.dynamic(size)]};}
 export function avatarFallbackCustom(){return {xstyle:styles.fallback};}
+
+const registryStyles=stylex.create({empty:{width:'100%',flex:'none',borderWidth:1}});
+export const avatarRegistryEmpty={xstyle:registryStyles.empty};
