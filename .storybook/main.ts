@@ -16,6 +16,7 @@ const config: StorybookConfig = {
       ...config.resolve.alias,
       '@dropdown-menu': resolve(upstream ? 'generated/reference/aria-nova/ui/dropdown-menu.tsx' : 'registry/ariax/ui/dropdown-menu.tsx'),
       '@dropdown-menu-customizations': resolve(upstream ? 'reference/dropdown-menu-customizations.ts' : 'stories/dropdown-menu-customizations.ts'),
+      '@switch': resolve(upstream ? 'generated/reference/aria-nova/ui/switch.tsx' : 'registry/ariax/ui/switch.tsx'),
       '@table': resolve(upstream ? 'generated/reference/aria-nova/ui/table.tsx' : 'registry/ariax/ui/table.tsx'),
       '@table-customizations': resolve(upstream ? 'reference/table-customizations.ts' : 'stories/table-customizations.ts'),
       '@textarea': resolve(upstream ? 'generated/reference/aria-nova/ui/textarea.tsx' : 'registry/ariax/ui/textarea.tsx'),

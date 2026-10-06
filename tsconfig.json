@@ -113,6 +113,9 @@
       ],
       "@tooltip-customizations": [
         "./stories/tooltip-customizations.ts"
+      ],
+      "@switch": [
+        "./registry/ariax/ui/switch.tsx"
       ]
     }
   },

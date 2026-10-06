@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip'];
+const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip', 'switch'];
 const sharedFiles = [
   ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css', 'kbd-children.css', 'dropdown-menu.css', 'tooltip.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },

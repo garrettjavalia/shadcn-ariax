@@ -17,6 +17,7 @@
     "kbd",
     "native-select",
     "dropdown-menu",
-    "tooltip"
+    "tooltip",
+    "switch"
   ]
 }
