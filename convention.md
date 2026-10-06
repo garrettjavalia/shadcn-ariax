@@ -37,6 +37,7 @@ const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
 ## 컴포넌트 확장
 
 1. `upstream/reference.json`의 `components`에 원본 항목을 추가한다. 고정 원본 메타데이터와 공식 shadcn 변환 API·CLI build/add로 레퍼런스를 설치한다. 자체 클래스 치환은 만들지 않는다. StyleX 구현을 추가하고 `.storybook/main.ts`에 같은 import 별칭을 연결한다.
+   레퍼런스 CLI 설정은 `rtl: true`로 고정하여 공식 RTL 변환을 적용한다. 방향에 따라 바뀌는 여백·정렬은 StyleX의 논리 방향 속성으로 구현하고 LTR·RTL을 같은 컴포넌트에서 검증한다.
 2. 공통 스토리에 `tags: ['parity']`를 지정하고 렌더링 영역을 `#parity-root`로 감싼다. 포털에는 `data-parity-portal`을 지정한다.
 3. 변형·크기·예제는 스토리로 선언한다. 공통 비교기가 1000px의 light/dark에서 검사한다. 반응형 분기가 있는 스토리만 `viewport-390` 태그로 추가 검사하고, 확인용 중복 스토리는 `!parity`로 제외한다.
 4. 키보드·선택·열림 등 고유 조작만 별도 시나리오에 추가한다. 조작 후 `compare()`를 호출하며 DOM/CSS 검사 로직은 재작성하지 않는다.
