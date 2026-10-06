@@ -1,7 +1,7 @@
-@import "./cli.css";
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./cli.css";
 @source "../../../reference/*customizations.ts";
 @source "./ui";
 @source "./lib";
