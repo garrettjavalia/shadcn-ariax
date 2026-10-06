@@ -1,3 +1,6 @@
+import { Skeleton } from '@skeleton';
+import { Separator } from '@separator';
+import { inlineSizing, inlineSkeletonSizing } from '@customizations';
 import OfficialGroup from './official-group';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -37,7 +40,7 @@ export const RightIcons: Story = { render: () => <main id="parity-root">{variant
 export const Rounded: Story = { render: () => <main id="parity-root"><div className="gallery"><Button {...rounded}>Get Started</Button><Button variant="outline" size="icon" {...rounded} aria-label="Go up"><Icon /></Button></div></main> };
 function Spinner() { return <svg role="status" aria-label="Loading" className="fixture-spinner" data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3a9 9 0 1 1-9 9" /></svg>; }
 export const Loading: Story = { render: () => <main id="parity-root"><div className="gallery"><Button variant="outline" isDisabled><Spinner />Generating</Button><Button variant="secondary" isDisabled>Downloading<Spinner /></Button></div></main> };
-export const AsLink: Story = { render: () => <main id="parity-root"><a href="#destination" {...buttonProps({ variant: 'secondary', size: 'sm' })}>Login</a></main> };
+export const AsLink: Story = { render: () => <main id="parity-root"><a href="#destination" {...buttonProps({ variant: 'secondary', size: 'sm' })}>Login</a><a href="#destination" {...buttonProps()}>Default helper</a><a href="#destination" {...buttonProps(undefined)}>Undefined helper</a></main> };
 export const Rtl: Story = { render: () => <main id="parity-root" dir="rtl"><div className="gallery"><Button variant="outline">زر</Button><Button variant="destructive">حذف</Button><Button variant="outline">إرسال<Icon end /></Button><Button variant="outline" size="icon" aria-label="Add"><Icon /></Button><Button variant="secondary" isDisabled><Spinner />جاري التحميل</Button></div></main> };
 
 export const Group: Story = { tags: ['viewport-390'], render: () => <main id="parity-root"><OfficialGroup /></main> };
@@ -49,3 +52,16 @@ export const Dynamic: Story = { render: () => <DynamicExample /> };
 
 // Reuse the generic parity suite for all exported style combinations.
 export const HelperMatrix: Story = { render: () => <main id="parity-root">{variants.map(variant => <section key={variant}><h2>{variant}</h2><div className="gallery">{sizes.map(size => <a key={size} href="#destination" aria-label={`${variant}-${size}`} {...buttonProps({variant, size})}><Icon />{!size.startsWith("icon") && <span>{size}</span>}</a>)}</div></section>)}</main> };
+
+function InlineStyleExample() {
+  const [height, setHeight] = useState(44);
+  return <main id="parity-root"><div className="gallery">
+    <Button {...inlineSizing} style={{ height }} onPress={() => setHeight(52)}>Inline button</Button>
+    <LinkButton {...inlineSizing} href="#destination" style={({ isHovered }) => ({ height, opacity: isHovered ? 0.6 : 1 })}>Inline link</LinkButton>
+    <Button {...inlineSizing} style={({ isPressed }) => ({ height, opacity: isPressed ? 0.4 : 1 })}>State button</Button>
+    <a href="#destination" {...buttonProps({ ...inlineSizing, style: { height } })}>Inline helper</a>
+    <Skeleton {...inlineSkeletonSizing} data-testid="inline-skeleton" style={{ height }} />
+    <Separator {...inlineSizing} data-testid="inline-separator" style={{ height: 4, width: 140 }} />
+  </div></main>;
+}
+export const InlineStyle: Story = { render: () => <InlineStyleExample /> };
