@@ -70,3 +70,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## Skeleton
 
 Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.
+
+## Label
+
+Label은 Nova typography, group/peer disabled 선택자와 RAC LabelContext 동작을 보존한다. `htmlFor`가 있고 `slot`이 없으면 부모 LabelContext를 해제하며, slot이 명시되면 컨텍스트를 유지한다. 새 Label은 `style`과 `xstyle`을 지원하며 동적 StyleX CSS 변수 뒤에 사용자 style을 병합한다. 외부 className은 제한한다. Demo·RTL은 Label 자체 검증을 위한 native checkbox fixture를 쓰며 shadcn Checkbox 스타일 지원을 뜻하지 않는다. 공식 MDX의 교차 예제 field-demo는 Field 구현 PR에서 통합할 때까지 미완료다.

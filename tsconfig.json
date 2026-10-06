@@ -35,6 +35,9 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@label": [
+        "./registry/ariax/ui/label.tsx"
       ]
     }
   },
