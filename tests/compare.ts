@@ -26,13 +26,26 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
     const roots = [root, ...document.querySelectorAll('[data-parity-portal]')];
     const elements = roots.flatMap(r => [r, ...r.querySelectorAll('*')]);
     const ids = new Map(elements.filter(e => e.id).map((e, i) => [e.id, e.id.startsWith('react-aria') ? `generated:${i}` : e.id]));
-    // React Aria collection tokens are not DOM IDs. Remove only the random
-    // provider prefix; retain the React-local identity and equality relationships.
+    // Provider normalization retains local identities for unresolved references
+    // and radio names. Collection membership has its own bijection below.
     const providers = new Map<string, number>();
     const collectionToken = (value: string) => value.replace(/^react-aria\d+-/, prefix => {
       if (!providers.has(prefix)) providers.set(prefix, providers.size);
       return `react-aria-provider:${providers.get(prefix)}-`;
     });
+    // Collection identity is allocated by React.useId, whose local counter may
+    // differ after discarded mounts. Compare the bijection of collection/item
+    // memberships, retaining provider groups and any captured DOM-ID relation.
+    const collections = new Map<string, number>();
+    const collectionIdentity = (value: string) => {
+      if (!/^react-aria\d+-_r_[a-z0-9]+_$/.test(value)) return value;
+      const token = collectionToken(value);
+      const provider = token.slice(0, token.indexOf('-_r_'));
+      const target = ids.get(value);
+      if (target !== undefined) return `${provider}:dom:${target}`;
+      if (!collections.has(value)) collections.set(value, collections.size);
+      return `${provider}:collection:${collections.get(value)}`;
+    };
     // Missing React Aria labels/panels still carry stable local identities.
     // Only their random provider prefix is normalized; existing outside targets
     // and arbitrary user IDs retain the strict external-reference comparison.
@@ -67,7 +80,7 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
         attrs: Object.fromEntries([...node.attributes]
           .filter(a => !['class', 'style'].includes(a.name))
           .sort((a, b) => a.name.localeCompare(b.name))
-          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : (a.name === 'data-collection' || (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value))) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(referenceToken).join(' ') : a.value])),
+          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : a.name === 'data-collection' ? collectionIdentity(a.value) : (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value)) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(referenceToken).join(' ') : a.value])),
         animations: animations(node).map(animation => {
           const effect = animation.effect;
           if (!(effect instanceof KeyframeEffect)) throw new Error('Missing CSS animation keyframe effect');
