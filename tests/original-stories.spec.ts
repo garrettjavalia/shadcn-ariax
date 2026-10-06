@@ -21,6 +21,13 @@ test('original Storybook registers every pinned documentation preview from its o
   expect(registered.map(entry => entry.id).sort()).toEqual([...new Set(manifest.previews.map(preview => preview.storyId))].sort());
   for (const preview of manifest.previews) {
     expect(index.entries[preview.storyId]?.name).toBe(preview.name);
+    expect(preview.status).toBe(preview.counterparts.length ? 'mapped' : 'unmapped');
+    expect(preview.stylexStoryIds).toEqual(preview.counterparts.map(match => match.stylexStoryId).sort());
+    for (const match of preview.counterparts) {
+      expect(index.entries[match.storyId]?.name).toBe(preview.name);
+      expect(index.entries[match.storyId]?.tags).toContain('original-parity');
+      expect(match.metaSource).toMatch(/^stories\/.+\.stories\.tsx$/);
+    }
     expect(preview.source).toBe(`generated/upstream/shadcn/apps/v4/examples/aria/${preview.name}.tsx`);
     expect(await readFile(preview.source, 'utf8')).toMatch(/export\s/);
   }

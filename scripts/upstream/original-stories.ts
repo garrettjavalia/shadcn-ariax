@@ -36,6 +36,8 @@ export type OriginalPreview = {
   exportName: string;
   storyId: string;
   stylexStoryIds: string[];
+  status: 'mapped' | 'unmapped';
+  counterparts: { stylexStoryId: string; storyId: string; metaSource: string; exportName: string }[];
 };
 export type OriginalStoriesManifest = { version: 1; previews: OriginalPreview[] };
 
@@ -57,7 +59,7 @@ function componentExport(source: string, file: string): string {
 
 /** Only map renders that directly use a fixture corresponding to an official source. */
 async function fixtureMappings(repo: string, names: Set<string>) {
-  const mapping = new Map<string, Set<string>>();
+  const mapping = new Map<string, { stylexStoryId: string; metaSource: string; exportName: string }[]>();
   const metas = new Map<string, string>();
   for (const file of await files(resolve(repo, 'stories'), '.stories.tsx')) {
     const ast = parse(await readFile(file, 'utf8'), { sourceType: 'module', plugins: ['typescript', 'jsx'] });
@@ -71,7 +73,9 @@ async function fixtureMappings(repo: string, names: Set<string>) {
         const path = resolve(dirname(file), statement.source.value);
         const filename = basename(path).replace(/\.[jt]sx?$/, '');
         const parent = basename(dirname(path)).replace(/-examples$/, '');
-        const original = [filename, `${parent}-${filename}`].find(name => names.has(name));
+        const imported = specifier.type === 'ImportSpecifier' ? (specifier.imported.type === 'Identifier' ? specifier.imported.name : specifier.imported.value) : '';
+        const exportedName = imported.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+        const original = [`${parent}-${exportedName}`, filename, `${parent}-${filename}`].find(name => names.has(name));
         if (original) imports.set(specifier.local.name, original);
       }
       const declaration = statement.type === 'ExportNamedDeclaration' ? statement.declaration : statement;
@@ -98,9 +102,9 @@ async function fixtureMappings(repo: string, names: Set<string>) {
       if ((body.children as unknown[]).some(child => node(child)?.type !== 'JSXText' || String(node(child)?.value).trim())) continue;
       const original = imports.get(String(jsxName.name));
       if (!original) continue;
-      const ids = mapping.get(original) ?? new Set<string>();
-      ids.add(toId(typeof id === 'string' ? id : title, storyNameFromExport(exportName)));
-      mapping.set(original, ids);
+      const matches = mapping.get(original) ?? [];
+      matches.push({ stylexStoryId: toId(typeof id === 'string' ? id : title, storyNameFromExport(exportName)), metaSource: relative(repo, file), exportName });
+      mapping.set(original, matches);
     }
   }
   return { mapping, metas };
@@ -119,12 +123,16 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
       assert.ok((await stat(source).catch(() => undefined))?.isFile(), `Missing official preview source: ${source}`);
       const component = basename(document, '.mdx');
       const exportName = componentExport(await readFile(source, 'utf8'), source);
-      previews.push({ document: relative(repo, document), line: content.slice(0, match.index).split('\n').length, component, name, source: relative(repo, source), exportName, storyId: toId(`original-docs-${component}`, name), stylexStoryIds: [] });
+      previews.push({ document: relative(repo, document), line: content.slice(0, match.index).split('\n').length, component, name, source: relative(repo, source), exportName, storyId: toId(`original-docs-${component}`, name), stylexStoryIds: [], status: 'unmapped', counterparts: [] });
     }
   }
   assert.ok(previews.length, 'No official documentation previews found');
   const { mapping, metas } = await fixtureMappings(repo, new Set(previews.map(preview => preview.name)));
-  for (const preview of previews) preview.stylexStoryIds = [...mapping.get(preview.name) ?? []].sort();
+  for (const preview of previews) {
+    preview.counterparts = (mapping.get(preview.name) ?? []).map(match => ({ ...match, storyId: toId('original-parity-' + match.stylexStoryId, 'Original') }));
+    preview.stylexStoryIds = preview.counterparts.map(match => match.stylexStoryId).sort();
+    preview.status = preview.counterparts.length ? 'mapped' : 'unmapped';
+  }
   const output = resolve(repo, 'generated/original-stories');
   await rm(output, { recursive: true, force: true });
   await mkdir(resolve(output, 'public'), { recursive: true });
@@ -140,6 +148,13 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     // Explicit story IDs are derived from exported identifiers, not display names.
     for (const preview of entries) for (const occurrence of previews.filter(item => item.component === component && item.name === preview.name)) occurrence.storyId = toId(`original-docs-${component}`, storyNameFromExport(identifier(preview.name)));
     await writeFile(file, `${imports}\n${harness}export default { id: ${JSON.stringify(`original-docs-${component}`)}, title: ${JSON.stringify(`Original documentation/${component}`)}, tags: ['original-documentation'], decorators: ${decorators} };\n${stories}\n`);
+  }
+  // Each counterpart inherits the actual target CSF metadata and story decorators.
+  // Canonical documentation previews remain separately registered for unmapped sources.
+  for (const preview of new Map(previews.map(preview => [preview.name, preview])).values()) for (const match of preview.counterparts) {
+    const file = resolve(output, 'parity-' + match.stylexStoryId + '.stories.tsx');
+    const imported = preview.exportName === 'default' ? 'OfficialExample' : `{ ${preview.exportName} as OfficialExample }`;
+    await writeFile(file, `import ${imported} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};\nimport fixtureMeta, { ${match.exportName} as fixtureStory } from ${JSON.stringify(modulePath(file, resolve(repo, match.metaSource)))};\nexport default { ...fixtureMeta, id: ${JSON.stringify('original-parity-' + match.stylexStoryId)}, title: ${JSON.stringify('Original counterparts/' + match.stylexStoryId)}, tags: ['original-parity'] };\nexport const Original = { ...fixtureStory, tags: ['original-parity'], name: ${JSON.stringify(preview.name)}, render: () => <OfficialExample /> };\n`);
   }
   const manifest: OriginalStoriesManifest = { version: 1, previews };
   await writeFile(resolve(output, 'public/manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
