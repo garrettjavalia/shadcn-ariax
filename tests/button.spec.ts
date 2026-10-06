@@ -152,3 +152,10 @@ test('native style preserves dynamic StyleX values, overrides and RAC state call
     for (const p of [a, b]) await p.mouse.up();
   } finally { await context.close(); }
 });
+
+test('Button typography preserves unitless scaling and native style priority',async({browser},info)=>{
+ const first=await pair(browser,'font-size-override','light');
+ try{for(const p of [first.a,first.b])for(const [size,lineHeight] of [['default','28.5714px'],['xs','26.6667px'],['sm','30px'],['lg','28.5714px']])for(const api of ['button','link','helper']){await expect(p.getByTestId(`font-${size}-${api}`)).toHaveCSS('font-size','20px');await expect(p.getByTestId(`font-${size}-${api}`)).toHaveCSS('line-height',lineHeight);}await compare(first.a,first.b,info,'font-size-unitless');}finally{await first.context.close();}
+ const second=await pair(browser,'typography-override','light');
+ try{for(const p of [second.a,second.b]){await expect(p.getByRole('button',{name:'Typography button'})).toHaveCSS('line-height','25px');await expect(p.getByRole('link',{name:'Typography helper'})).toHaveCSS('line-height','25px');await expect(p.getByRole('link',{name:'Typography link'})).toHaveCSS('line-height','30px');await p.getByRole('link',{name:'Typography link'}).hover();await expect(p.getByRole('link',{name:'Typography link'})).toHaveCSS('line-height','25px');}await compare(second.a,second.b,info,'typography-callback-override');}finally{await second.context.close();}
+});

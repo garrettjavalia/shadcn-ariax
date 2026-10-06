@@ -11,17 +11,17 @@
 ## 지원 예정
 
 - [ ] Accordion
-- [ ] Alert
+- [x] Alert
 - [ ] Alert Dialog
-- [ ] Aspect Ratio
+- [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group
 - [ ] Calendar
-- [ ] Card
+- [x] Card
 - [ ] Carousel
 - [ ] Chart
 - [ ] Checkbox
@@ -38,12 +38,12 @@
 - [ ] Empty
 - [ ] Field
 - [ ] Hover Card
-- [ ] Input
+- [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
 - [ ] Kbd
-- [ ] Label
+- [ ] Label — 본체 구현·검증, Checkbox/Field 공식 교차 예제 통합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
@@ -64,7 +64,7 @@
 - [ ] Switch
 - [ ] Table
 - [ ] Tabs
-- [ ] Textarea
+- [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle
 - [ ] Toggle Group
 - [ ] Tooltip
