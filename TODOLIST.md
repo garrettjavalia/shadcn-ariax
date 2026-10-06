@@ -27,18 +27,18 @@
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [x] Collapsible
 - [x] Combobox
-- [ ] Command
+- [x] Command
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
 - [x] Date Picker — 조합 예제 포함
-- [ ] Dialog — 기본·공식 문서/RTL 구현; ChatSettings의 Select·Tabs 조합 대기
+- [x] Dialog
 - [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
 - [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 조합 제공; 통합 회귀 후속 검증
 - [x] Empty — 공식 문서·registry 조합, RTL·반응형·StyleX 커스터마이징
 - [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Form
-- [ ] Hover Card
+- [x] Hover Card
 - [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
 - [ ] Input OTP
@@ -66,7 +66,7 @@
 - [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀
 - [x] Tabs
 - [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
-- [ ] Toggle
+- [x] Toggle
 - [ ] Toggle Group
 - [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
 - [ ] Typography — 텍스트 스타일 예제
