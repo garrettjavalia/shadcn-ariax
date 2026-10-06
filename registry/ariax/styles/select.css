@@ -2,7 +2,7 @@
 .ariax-select-trigger [data-slot="select-value"] { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; display: flex; align-items: center; gap: calc(var(--ariax-spacing, .25rem) * 1.5); }
 .ariax-select-trigger svg, .ariax-select-item svg { pointer-events: none; flex-shrink: 0; }
 .ariax-select-trigger svg:not([class*="size-"]), .ariax-select-item svg:not([class*="size-"]) { width: calc(var(--ariax-spacing, .25rem) * 4); height: calc(var(--ariax-spacing, .25rem) * 4); }
-.ariax-select-item:not([data-variant="destructive"]):focus * { color: var(--accent-foreground); }
+.ariax-select-item:not(#\#):not(#\#):not(#\#):not([data-variant="destructive"]):focus * { color: var(--accent-foreground); }
 .ariax-select-item > span:last-child { gap: calc(var(--ariax-spacing, .25rem) * 2); }
 /* Field's child-width contract must outrank the Select fit-content default. */
 .ariax-field[data-orientation="vertical"] > [data-slot="select"],

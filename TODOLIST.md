@@ -15,11 +15,11 @@
 - [x] Alert Dialog
 - [x] Aspect Ratio
 - [x] Attachment — 공식 조합 검증; native trigger의 원본 Dialog 미연결 동작 보존
-- [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
+- [x] Avatar — 공식 예제·Empty/Dropdown 조합 포함
 - [x] Badge
 - [x] Breadcrumb
 - [x] Bubble
-- [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
+- [x] Button Group — 공식 문서·레지스트리 실제 조합; Field·Select·Popover·Dropdown·Label·RTL 동작 검증
 - [x] Calendar
 - [x] Card
 - [x] Carousel
