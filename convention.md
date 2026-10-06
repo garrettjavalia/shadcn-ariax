@@ -70,3 +70,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## Skeleton
 
 Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.
+
+## Card
+
+Card와 Header·Title·Description·Action·Content·Footer는 `xstyle` 및 React `style`을 지원한다. StyleX 동적 CSS 변수를 보존하며 일반 `style`이 같은 속성을 덮어쓴다. 외부 `className`은 받지 않는다. default/sm, `--card-spacing`, footer·description·action 존재 여부, 첫/마지막 이미지, 중첩, RTL, 상대단위, DOM props/ref를 검증한다. 공식 MDX 예제 6개는 공유 composition으로 대응한다. Input·Label·Badge는 공유 fixture, spacing 선택은 native select, 이미지는 고정 data URL을 사용하므로 해당 의존 컴포넌트의 동작 동일성 검증은 포함하지 않는다. 의존 컴포넌트 추가 후 실제 구현으로 교체한다.

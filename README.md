@@ -54,3 +54,5 @@ pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 독립 작업트리는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 포트를 지정할 수 있다. 테스트에도 같은 환경 변수를 전달한다.
 
 Skeleton과 Separator 설치는 소비 앱 CLI 명령의 `button.json`을 각각 `skeleton.json`, `separator.json`으로 바꾸면 된다.
+
+Card는 `card` 레지스트리 항목으로 설치하며, Storybook의 Components/Card에서 크기·구성·스타일 예제를 확인할 수 있습니다.

@@ -6,8 +6,14 @@
 @source "./components";
 @source "../../../reference/customizations.ts";
 @source "../../../reference/skeleton-customizations.ts";
+@source "../../../reference/card-customizations.ts";
 @custom-variant dark (&:is(.dark *));
+/* Theme aliases from pinned apps/v4/app/globals.css. */
 @theme inline {
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --radius-xl: calc(var(--radius) * 1.4);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);

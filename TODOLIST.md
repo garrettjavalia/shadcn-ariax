@@ -21,7 +21,7 @@
 - [ ] Bubble
 - [ ] Button Group
 - [ ] Calendar
-- [ ] Card
+- [x] Card
 - [ ] Carousel
 - [ ] Chart
 - [ ] Checkbox
