@@ -18,6 +18,8 @@
       "vite/client"
     ],
     "paths": {
+      "@*": ["./registry/ariax/ui/*"],
+      "@*-customizations": ["./stories/*-customizations.ts"],
       "@card-customizations": [
         "./stories/card-customizations.ts"
       ],
