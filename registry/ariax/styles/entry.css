@@ -24,6 +24,8 @@
 @import "./dialog.css";
 @import "./select.css";
 @import "./combobox.css";
+@import "./tabs-children.css";
 @import "./empty.css";
 @import "./alert-dialog.css";
 @import "./accordion-children.css";
+@import "./item.css";
