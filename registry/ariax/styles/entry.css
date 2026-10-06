@@ -3,7 +3,6 @@
 @import './reset.css' layer(base);
 @import './theme.css';
 @import './button-children.css';
-@import './skeleton.css';
 
 @import "./field-children.css";
 @import "./badge.css";

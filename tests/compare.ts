@@ -4,6 +4,22 @@ import { isDeepStrictEqual } from 'node:util';
 
 export async function snapshot(page: Page) {
   const captured = await page.evaluate(() => {
+    // A non-filling CSS animation disappears from getAnimations() at its end,
+    // while animation-name remains computed until React clears the state. Keep
+    // the observed effect handle to compare its real metadata at that boundary.
+    const scope = window as Window & { parityAnimationEffects?: WeakMap<Element, CSSAnimation[]> };
+    const effects = scope.parityAnimationEffects ??= new WeakMap<Element, CSSAnimation[]>();
+    const animations = (node: Element) => {
+      const active = node.getAnimations().filter((animation): animation is CSSAnimation => animation instanceof CSSAnimation);
+      const matching = (animation: CSSAnimation) => {
+        const effect = animation.effect as KeyframeEffect;
+        return getComputedStyle(node, effect.pseudoElement).animationName.split(',').map(name => name.trim()).includes(animation.animationName);
+      };
+      const previous = (effects.get(node) ?? []).filter(animation => matching(animation) && !active.some(current => current.animationName === animation.animationName && (current.effect as KeyframeEffect).pseudoElement === (animation.effect as KeyframeEffect).pseudoElement));
+      const observed = [...active, ...previous];
+      effects.set(node, observed);
+      return observed;
+    };
     const root = document.querySelector('#parity-root');
     if (!root) throw new Error('Missing parity root');
     // Explicitly registered portals are compared alongside the story tree.
@@ -41,6 +57,12 @@ export async function snapshot(page: Page) {
           .filter(a => !['class', 'style'].includes(a.name))
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : a.name === 'data-collection' ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(id => ids.get(id) ?? `external:${id}`).join(' ') : a.value])),
+        animations: animations(node).map(animation => {
+          const effect = animation.effect;
+          if (!(effect instanceof KeyframeEffect)) throw new Error('Missing CSS animation keyframe effect');
+          return { name: (animation as CSSAnimation).animationName, pseudo: effect.pseudoElement,
+            frames: effect.getKeyframes(), timing: { ...effect.getTiming(), iterations: effect.getTiming().iterations === Infinity ? 'Infinity' : effect.getTiming().iterations } };
+        }),
         css: style(node),
         pseudos: Object.fromEntries(['::before', '::after', '::marker', ...(node.matches('input, textarea') ? ['::placeholder'] : []), ...(node.matches('input[type="file"]') ? ['::file-selector-button'] : [])].map(p => [p, style(node, p)])),
         rect: rect(node.getBoundingClientRect()),
@@ -62,6 +84,36 @@ export async function snapshot(page: Page) {
     return value;
   };
   return expand(captured.roots);
+}
+
+// Generated CSS animation names are identifiers, but only equivalent effects may
+// share an identifier. Compare resolved keyframes and timing before rewriting CSS.
+export function normalizeAnimationSnapshots(left: unknown, right: unknown): [unknown, unknown] {
+  const collect = (value: unknown, path = ''): unknown[] => {
+    if (!value || typeof value !== 'object') return [];
+    const node = value as Record<string, unknown>;
+    const own = Array.isArray(node.animations) ? [{ path, effects: node.animations.map(({ name: _name, ...effect }) => effect) }] : [];
+    return [...own, ...Object.entries(node).filter(([key]) => key !== 'animations').flatMap(([key, child]) => collect(child, `${path}/${key}`))];
+  };
+  if (!isDeepStrictEqual(collect(left), collect(right))) return [left, right];
+  const normalize = (value: unknown): unknown => {
+    if (!value || typeof value !== 'object') return value;
+    if (Array.isArray(value)) return value.map(normalize);
+    const node = value as Record<string, unknown>;
+    if (Array.isArray(node.animations)) {
+      const effects = node.animations as { name: string; pseudo: string | null }[];
+      const css = (value: unknown, pseudo: string | null) => {
+        const properties = value as Record<string, string>;
+        const names = new Map(effects.flatMap((effect, index) => effect.pseudo === pseudo ? [[effect.name, `effect:${index}`] as const] : []));
+        return Object.fromEntries(Object.entries(properties).map(([key, value]) => [key, key === 'animation-name' ? value.split(',').map(name => names.get(name.trim()) ?? name.trim()).join(', ') : key === 'animation' ? value.split(' ').map(token => names.get(token) ?? token).join(' ') : value]));
+      };
+      return { ...node, animations: effects.map((effect, index) => ({ ...effect, name: `effect:${index}` })),
+        css: css(node.css, null), pseudos: Object.fromEntries(Object.entries(node.pseudos as Record<string, unknown>).map(([pseudo, value]) => [pseudo, css(value, pseudo)])),
+        children: normalize(node.children) };
+    }
+    return Object.fromEntries(Object.entries(node).map(([key, child]) => [key, normalize(child)]));
+  };
+  return [normalize(left), normalize(right)];
 }
 
 export function differences(a: unknown, b: unknown, path = ''): { path: string; upstream: unknown; stylex: unknown }[] {
@@ -105,11 +157,12 @@ export function pixelsMatch(a: PNG, b: PNG): boolean {
   return true;
 }
 
-export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true) {
+export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true, settleAnimations = true) {
   const started = performance.now();
-  await Promise.all([settle(a), settle(b)]);
+  if (settleAnimations) await Promise.all([settle(a), settle(b)]);
   const settled = performance.now();
-  const [left, right] = await Promise.all([snapshot(a), snapshot(b)]);
+  const raw = await Promise.all([snapshot(a), snapshot(b)]);
+  const [left, right] = normalizeAnimationSnapshots(raw[0], raw[1]);
   const captured = performance.now();
   // Passing comparisons need only exact equality. Build detailed path/value
   // differences on failure, avoiding per-property path strings and arrays on success.
