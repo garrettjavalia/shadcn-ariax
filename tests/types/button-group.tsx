@@ -15,3 +15,5 @@ const styles=stylex.create({dynamic:(width:number)=>({width})});
 <ButtonGroupText className="flex"/>;
 // @ts-expect-error External class names are unsupported.
 <ButtonGroupSeparator className="flex"/>;
+import {Label} from '../../registry/ariax/ui/label';
+<ButtonGroupText render={props=><Label {...props} htmlFor="real-input"/>} xstyle={styles.dynamic(180)} style={{width:200}}/>;

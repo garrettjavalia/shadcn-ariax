@@ -5,6 +5,11 @@ import {compare} from './compare';
 import {upstreamURL,stylexURL} from './servers';
 test('Avatar official documentation has all ten previews and real Dropdown Avatar composition',async({request})=>{
  const document=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/avatar.mdx','utf8');const names=[...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m=>m[1]);expect(names).toHaveLength(10);const index=await(await request.get(`${stylexURL}/index.json`)).json();for(const name of names)expect(index.entries[`components-avatar--${name.replace('avatar-','')}`]?.tags,name).toContain('parity');expect(index.entries['components-dropdown-menu--avatar']?.tags).toContain('parity');
+ const registry=await readFile('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/avatar-example.tsx','utf8');
+ const mapping:Record<string,string>={AvatarSizes:'registry-sizes',AvatarWithBadge:'registry-badge',AvatarWithBadgeIcon:'registry-badge-icon',AvatarGroupExample:'registry-group',AvatarGroupWithCount:'registry-group-count',AvatarGroupWithIconCount:'registry-group-count-icon',AvatarInEmpty:'registry-empty'};
+ expect([...registry.matchAll(/^function (Avatar\w+)\(/gm)].map(match=>match[1]).sort()).toEqual(Object.keys(mapping).sort());
+ for(const story of Object.values(mapping))expect(index.entries['components-avatar--'+story]?.tags,story).toContain('parity');
+
 });
 for(const theme of ['light','dark']) test(`Avatar missing/loading/loaded/error and original callback precedence / ${theme}`,async({browser},info)=>{
  const context=await browser.newContext({viewport:{width:1000,height:900},locale:'en-US',timezoneId:'UTC'});let finish!:()=>void;const delayed=new Promise<void>(resolve=>finish=resolve);await controlAvatarAssets(context,delayed);const a=await context.newPage();const b=await context.newPage();

@@ -1,3 +1,6 @@
+'use client';
+import {createElement} from 'react';
+import{RenderStylesContext}from'./render-styles.internal';
 import type { ComponentProps, HTMLAttributes, ReactNode } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import { Separator, type SeparatorProps } from './separator';
@@ -5,7 +8,7 @@ export type ButtonGroupOrientation = 'horizontal' | 'vertical';
 type Custom = { xstyle?: stylex.StyleXStyles; className?: never };
 export type ButtonGroupProps = Omit<ComponentProps<'div'>, 'className'> & Custom & { orientation?: ButtonGroupOrientation | null };
 const styles = stylex.create({
- group: { display: 'flex', width: 'fit-content', alignItems: 'stretch', gap: { default: null, ':has(>[data-slot="button-group"])': '0.5rem' } },
+ group: { display: 'flex', width: {default:'fit-content',':is(.ariax-field[data-orientation="vertical"] > *)':'100%',':is(.ariax-field[data-orientation="responsive"] > *)':{default:'100%','@container field-group (min-width: 28rem)':'auto'}}, alignItems: 'stretch', gap: { default: null, ':has(>[data-slot="button-group"])': '0.5rem' } },
  vertical: { flexDirection: 'column' },
  text: { backgroundColor: 'var(--muted)', gap: '0.5rem', borderRadius: 'var(--radius)', borderWidth: '1px', paddingInline: '0.625rem', fontSize: '0.875rem', lineHeight: 'calc(1.25 / 0.875)', fontWeight: 500, display: 'flex', alignItems: 'center' },
  // aria-orientation/hr dimension utilities outrank the data-orientation :where variants.
@@ -21,11 +24,11 @@ export const buttonGroupVariants = buttonGroupProps;
 export function ButtonGroup({ orientation, xstyle, className: _, style, ...props }: ButtonGroupProps) {
  return <div role="group" data-slot="button-group" data-orientation={orientation} {...props} {...buttonGroupProps({orientation,xstyle,style})} />;
 }
-export type ButtonGroupTextProps = Omit<ComponentProps<'div'>,'className'> & Custom & { render?: (props: HTMLAttributes<HTMLElement>) => ReactNode };
+export type ButtonGroupTextProps = Omit<ComponentProps<'div'>,'className'> & Custom & { render?: (props: Omit<HTMLAttributes<HTMLElement>,'className'>) => ReactNode };
 export function ButtonGroupText({ render, xstyle, className: _, style, ...props }: ButtonGroupTextProps) {
  const applied = stylex.props(styles.text,xstyle);
  const merged = { 'data-slot': 'button-group-text', ...props, className: ['ariax-button-group-text',applied.className].join(' '), style: {...applied.style,...style} };
- return render ? render(merged) : <div {...merged}/>;
+ return render ? createElement(RenderStylesContext.Provider,{value:[styles.text,xstyle]},render(merged)) : <div {...merged}/>;
 }
 export function ButtonGroupSeparator({ orientation = 'vertical', xstyle, ...props }: SeparatorProps) {
  return <Separator data-slot="button-group-separator" orientation={orientation} {...props} xstyle={[styles.separator,xstyle]} />;
