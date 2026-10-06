@@ -27,10 +27,10 @@
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [x] Collapsible
 - [x] Combobox
-- [ ] Command
+- [x] Command
 - [ ] Context Menu
-- [ ] Data Table — 조합 예제 포함
-- [ ] Date Picker — 조합 예제 포함
+- [x] Data Table — 조합 예제 포함
+- [x] Date Picker — 조합 예제 포함
 - [x] Dialog
 - [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
@@ -51,15 +51,15 @@
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [x] Pagination
 - [x] Popover
-- [ ] Progress
+- [x] Progress
 - [ ] Questionnaire
 - [x] Radio Group
-- [ ] Resizable
+- [x] Resizable
 - [x] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
 - [ ] Sidebar
-- [ ] Slider
+- [x] Slider
 - [ ] Sonner
 - [x] Spinner
 - [x] Switch
@@ -67,7 +67,7 @@
 - [x] Tabs
 - [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [x] Toggle
-- [ ] Toggle Group
+- [x] Toggle Group
 - [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
 - [ ] Typography — 텍스트 스타일 예제
 

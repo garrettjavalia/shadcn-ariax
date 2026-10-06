@@ -1,0 +1,31 @@
+import {useRef,useState} from 'react';
+import type {Meta,StoryObj} from '@storybook/react-vite';
+import type {PanelImperativeHandle,Layout} from 'react-resizable-panels';
+import {ResizablePanelGroup,ResizablePanel,ResizableHandle} from '@resizable';
+import {Button} from '@button';
+import {resizableCustom,resizableCustomHandle,resizableCustomPanel,resizableHandle} from '@resizable-customizations';
+import ResizableDemo from './resizable-examples/demo';
+import {ResizableVertical} from './resizable-examples/vertical';
+import ResizableHandleDemo from './resizable-examples/handle';
+import {ResizableRtl} from './resizable-examples/rtl';
+import * as Registry from './resizable-examples/registry';
+const meta={title:'Components/Resizable',component:ResizablePanelGroup,tags:['parity','viewport-390'],decorators:[Story=><main id="parity-root"><Story/></main>]} satisfies Meta<typeof ResizablePanelGroup>;
+export default meta;
+type Story=StoryObj<typeof meta>;
+export const Demo:Story={render:()=> <ResizableDemo/>};
+export const Vertical:Story={render:()=> <ResizableVertical/>};
+export const Handle:Story={render:()=> <ResizableHandleDemo/>};
+export const Rtl:Story={render:()=> <ResizableRtl/>};
+export const RegistryHorizontal:Story={render:()=> <Registry.ResizableHorizontal/>};
+export const RegistryVertical:Story={render:()=> <Registry.ResizableVertical/>};
+export const RegistryHandle:Story={render:()=> <Registry.ResizableWithHandle/>};
+export const RegistryNested:Story={render:()=> <Registry.ResizableNested/>};
+export const RegistryControlled:Story={render:()=> <Registry.ResizableControlled/>};
+export const Usage:Story={render:()=> <ResizablePanelGroup orientation="horizontal"><ResizablePanel>One</ResizablePanel><ResizableHandle/><ResizablePanel>Two</ResizablePanel></ResizablePanelGroup>};
+export const Customization:Story={render:()=> <ResizablePanelGroup {...resizableCustom} style={{width:360}}><ResizablePanel {...resizableCustomPanel} style={{padding:12}}>One</ResizablePanel><ResizableHandle {...resizableCustomHandle} style={{width:6}} withHandle/><ResizablePanel>Two</ResizablePanel></ResizablePanelGroup>};
+function ConstraintsExample({disabled=false,vertical=false}:{disabled?:boolean;vertical?:boolean}){const[layout,setLayout]=useState<Layout>({left:40,right:60});return <><ResizablePanelGroup {...resizableHandle} id="constraints" orientation={vertical?'vertical':'horizontal'} disabled={disabled} onLayoutChange={setLayout} style={{height:240}}><ResizablePanel id="left" defaultSize="40%" minSize="20%" maxSize="70%" collapsible collapsedSize="0%">One</ResizablePanel><ResizableHandle withHandle/><ResizablePanel id="right" minSize="30%">Two</ResizablePanel></ResizablePanelGroup><output aria-label="Layout">{Math.round(layout.left)} / {Math.round(layout.right)}</output></>;}
+export const Constraints:Story={render:()=> <ConstraintsExample/>};
+export const VerticalConstraints:Story={render:()=> <ConstraintsExample vertical/>};
+export const Disabled:Story={render:()=> <ConstraintsExample disabled/>};
+function ImperativeExample(){const ref=useRef<PanelImperativeHandle|null>(null);return <><div style={{display:'flex',gap:8}}><Button onPress={()=>ref.current?.collapse()}>Collapse</Button><Button onPress={()=>ref.current?.expand()}>Expand</Button><Button onPress={()=>ref.current?.resize('60%')}>Resize</Button></div><ResizablePanelGroup {...resizableHandle} style={{height:200}}><ResizablePanel panelRef={ref} defaultSize="40%" minSize="20%" collapsible collapsedSize="0%">One</ResizablePanel><ResizableHandle withHandle/><ResizablePanel>Two</ResizablePanel></ResizablePanelGroup></>;}
+export const Imperative:Story={render:()=> <ImperativeExample/>};

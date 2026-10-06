@@ -25,3 +25,24 @@ test('install fixtures reject missing, extra and duplicate component coverage', 
     await assert.rejects(collectInstallFixtures(root), /Duplicate install fixture: button/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
+
+test('composition fixture dependencies require matching exact repository pins and a fixture', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'ariax-fixture-dependencies-'));
+  try {
+    await mkdir(join(root,'public'));
+    await mkdir(join(root,'tests/install'),{recursive:true});
+    await writeFile(join(root,'public/registry.json'),JSON.stringify({name:'ariax',homepage:'https://example.com',items:[{name:'table',type:'registry:ui',files:[{path:'registry/ariax/ui/table.tsx',type:'registry:ui',target:'@ui/table.tsx'}]}]}));
+    await writeFile(join(root,'tests/install/table.tsx'),'export default function Fixture(){return null}');
+    await writeFile(join(root,'package.json'),JSON.stringify({devDependencies:{'@tanstack/react-table':'9.0.0'}}));
+    const sidecar=join(root,'tests/install/table.dependencies.json');
+    await writeFile(sidecar,JSON.stringify({'@tanstack/react-table':'9.0.0'}));
+    assert.deepEqual((await collectInstallFixtures(root))[0].dependencies,{'@tanstack/react-table':'9.0.0'});
+    await writeFile(sidecar,JSON.stringify({'@tanstack/react-table':'^9.0.0'}));
+    await assert.rejects(collectInstallFixtures(root),/must be exact/);
+    await writeFile(sidecar,JSON.stringify({'@tanstack/react-table':'9.0.1'}));
+    await assert.rejects(collectInstallFixtures(root),/differs from repository pin/);
+    await rm(sidecar);
+    await writeFile(join(root,'tests/install/extra.dependencies.json'),'{}');
+    await assert.rejects(collectInstallFixtures(root),/Extra install fixture dependencies/);
+  } finally {await rm(root,{recursive:true,force:true});}
+});
