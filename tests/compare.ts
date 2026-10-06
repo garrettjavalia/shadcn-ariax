@@ -156,7 +156,9 @@ export async function settle(page: Page) {
       for (const animation of animations) if (animation.effect?.getComputedTiming().iterations === Infinity) { animation.pause(); animation.currentTime = 250; }
       const finite = animations.filter(a => a.effect?.getComputedTiming().iterations !== Infinity && (a.playState === 'running' || a.pending));
       if (!finite.length) break;
-      await Promise.all(finite.map(a => a.finished.catch(() => {})));
+      // Chromium may defer finished-promise delivery in content-visibility:
+      // hidden subtrees. Observe actual play states across frames instead;
+      // this also sees transitions started by React effects during completion.
       await frames();
     }
   });
