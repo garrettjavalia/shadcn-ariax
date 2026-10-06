@@ -1,3 +1,4 @@
+import { Spinner } from '@spinner';
 import { Skeleton } from '@skeleton';
 import { Separator } from '@separator';
 import { inlineSizing, inlineSkeletonSizing } from '@customizations';
@@ -38,10 +39,9 @@ export const Links: Story = { render: () => <main id="parity-root"><div classNam
 export const TextMatrix: Story = { render: () => <main id="parity-root">{variants.map(variant => <div key={variant} className="gallery">{sizes.slice(0, 4).map(size => <Button key={size} variant={variant} size={size}>{variant} {size}</Button>)}</div>)}</main> };
 export const RightIcons: Story = { render: () => <main id="parity-root">{variants.map(variant => <div key={variant} className="gallery">{sizes.slice(0, 4).map(size => <Button key={size} variant={variant} size={size}>{variant}<Icon end /></Button>)}</div>)}</main> };
 export const Rounded: Story = { render: () => <main id="parity-root"><div className="gallery"><Button {...rounded}>Get Started</Button><Button variant="outline" size="icon" {...rounded} aria-label="Go up"><Icon /></Button></div></main> };
-function Spinner() { return <svg role="status" aria-label="Loading" className="fixture-spinner" data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3a9 9 0 1 1-9 9" /></svg>; }
-export const Loading: Story = { render: () => <main id="parity-root"><div className="gallery"><Button variant="outline" isDisabled><Spinner />Generating</Button><Button variant="secondary" isDisabled>Downloading<Spinner /></Button></div></main> };
+export const Loading: Story = { render: () => <main id="parity-root"><div className="gallery"><Button variant="outline" isDisabled><Spinner data-icon="inline-start" />Generating</Button><Button variant="secondary" isDisabled>Downloading<Spinner data-icon="inline-start" /></Button></div></main> };
 export const AsLink: Story = { render: () => <main id="parity-root"><a href="#destination" {...buttonProps({ variant: 'secondary', size: 'sm' })}>Login</a><a href="#destination" {...buttonProps()}>Default helper</a><a href="#destination" {...buttonProps(undefined)}>Undefined helper</a></main> };
-export const Rtl: Story = { render: () => <main id="parity-root" dir="rtl"><div className="gallery"><Button variant="outline">زر</Button><Button variant="destructive">حذف</Button><Button variant="outline">إرسال<Icon end /></Button><Button variant="outline" size="icon" aria-label="Add"><Icon /></Button><Button variant="secondary" isDisabled><Spinner />جاري التحميل</Button></div></main> };
+export const Rtl: Story = { render: () => <main id="parity-root" dir="rtl"><div className="gallery"><Button variant="outline">زر</Button><Button variant="destructive">حذف</Button><Button variant="outline">إرسال<Icon end /></Button><Button variant="outline" size="icon" aria-label="Add"><Icon /></Button><Button variant="secondary" isDisabled><Spinner data-icon="inline-start" />جاري التحميل</Button></div></main> };
 
 export const RtlIconSizes: Story = { render: () => <main id="parity-root" dir="rtl">{sizes.slice(0, 4).map(size => <div key={size} className="gallery">{[false, true].map(end => <section key={String(end)}><Button size={size}><Icon end={end} />زر</Button><LinkButton size={size} href="#destination"><Icon end={end} />رابط</LinkButton><a href="#destination" {...buttonProps({ size })}><Icon end={end} />رابط</a></section>)}</div>)}</main> };
 
