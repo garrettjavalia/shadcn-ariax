@@ -1,10 +1,11 @@
+import { upstreamPort, stylexPort } from './servers';
 import { test, expect, type Browser, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { compare, snapshot, differences } from './compare';
 
 async function pair(browser: Browser, story: string, theme: string, width = 1000) {
   const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
-  const pages = await Promise.all([4100, 4200].map(async port => {
+  const pages = await Promise.all([upstreamPort, stylexPort].map(async port => {
     const page = await context.newPage();
     await page.goto(`http://127.0.0.1:${port}/iframe.html?id=components-button--${story}&viewMode=story&globals=theme:${theme}`);
     await expect(page.locator('#parity-root')).toBeVisible();
