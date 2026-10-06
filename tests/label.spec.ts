@@ -8,7 +8,10 @@ test('Label documentation examples map to stories or the Field integration', asy
  const index=await(await request.get(`${stylexURL}/index.json`)).json();
  for(const name of ['demo','rtl','usage']) expect(index.entries[`components-label--${name}`]?.tags).toContain('parity');
 });
-test('Label click focuses control, toggles checkbox, and preserves context rules',async({page})=>{
+test('Label click focuses the actual Input, toggles checkbox, and preserves context rules',async({page})=>{
+ await page.goto(`${stylexURL}/iframe.html?id=components-label--usage&viewMode=story`);
+ await page.getByText('Your email address').click();
+ await expect(page.locator('[data-slot="input"]')).toBeFocused();
  await page.goto(`${stylexURL}/iframe.html?id=components-label--demo&viewMode=story`);
  await page.getByText('Accept terms and conditions').click();
  await expect(page.getByRole('checkbox')).toBeChecked();

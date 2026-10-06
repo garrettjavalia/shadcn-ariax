@@ -1,3 +1,4 @@
+import {CardSpacing} from './card-examples/spacing';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import './card-fixtures.css';
 import { useState } from 'react';
@@ -172,8 +173,7 @@ export const Small:Story={render:()=> <CardSmall/>};
 export const EdgeToEdge:Story={render:()=> <CardEdgeToEdge/>};
 export const Image:Story={render:()=> <CardImage/>};
 export const Rtl:Story={render:()=> <div dir="rtl"><CardRtlDemo/></div>};
-function SpacingDemo(){const [spacing,setSpacing]=useState('1rem');return <div style={{marginInline:'auto',display:'grid',width:'100%',maxWidth:'24rem',gap:'1rem'}}><label>Card spacing<select aria-label="Card spacing" value={spacing} onChange={e=>setSpacing(e.target.value)}>{['1rem','1.25rem','1.5rem','2rem'].map((value)=><option key={value}>{value}</option>)}</select></label><CardDemo spacing={spacing}/></div>}
-export const Spacing:Story={render:()=> <SpacingDemo/>};
+export const Spacing:Story={render:()=> <CardSpacing/>};
 export const Structure:Story={render:()=> <div style={{display:'grid',gap:'2rem'}}>{(['default','sm'] as const).map(size=><Card key={size} size={size}><CardHeader><CardTitle>Title only</CardTitle></CardHeader><CardHeader><CardTitle>Title</CardTitle><CardDescription>Description</CardDescription></CardHeader><CardHeader><CardTitle>Title</CardTitle><CardAction>Action</CardAction></CardHeader><CardContent>Content, without footer</CardContent></Card>)}<Card><img alt="First" width="160" height="90" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='90'/%3E"/><CardHeader><CardTitle>Image first child</CardTitle></CardHeader><img alt="Last" width="160" height="90" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='90'/%3E"/></Card><Card size="sm"><Card><CardHeader><CardTitle>Nested title inside a small card</CardTitle></CardHeader></Card></Card><CardTitle>Standalone title</CardTitle></div>};
 export const Customized:Story={render:()=> <Card {...customCard} style={{width:350}}><CardHeader {...customPart}><CardTitle {...customPart}>Custom title</CardTitle><CardDescription {...customPart}>Custom description</CardDescription><CardAction {...customPart}>Action</CardAction></CardHeader><CardContent {...customPart}>Content</CardContent><CardFooter {...customPart}>Footer</CardFooter></Card>};
 
