@@ -12,13 +12,12 @@ const styles = stylex.create({
   },
 });
 
-export type SkeletonProps = Omit<ComponentProps<'div'>, 'className' | 'style'> & {
+export type SkeletonProps = Omit<ComponentProps<'div'>, 'className'> & {
   xstyle?: stylex.StyleXStyles;
   className?: never;
-  style?: never;
 };
 
-export function Skeleton({ xstyle, className: _className, style: _style, ...props }: SkeletonProps) {
+export function Skeleton({ xstyle, className: _className, style: userStyle, ...props }: SkeletonProps) {
   const { className, style } = stylex.props(styles.base, xstyle);
-  return <div data-slot="skeleton" className={className} style={style} {...props} />;
+  return <div data-slot="skeleton" className={className} style={{ ...style, ...userStyle }} {...props} />;
 }

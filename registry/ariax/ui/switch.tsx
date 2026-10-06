@@ -23,7 +23,7 @@ const styles = stylex.create({
  },
  thumb:{pointerEvents:'none',display:'block',borderRadius:'3.40282e38px',backgroundColor:{default:'var(--background)',':is(.dark *):not([data-selected])':'var(--foreground)',':is(.dark *)[data-selected]':'var(--primary-foreground)'},
  boxShadow:'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0px currentcolor, 0 0 0 0 #0000',
- translate:{default:'0',':is([data-selected])':'calc(100% - 2px)'},transitionProperty:'transform, translate, scale, rotate',transitionDuration:'150ms',transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)'},
+ translate:{default:'0',':is([data-selected])':'calc(100% - 2px)',':is([data-selected]):where(:dir(rtl))':'calc(-100% + 2px)'},transitionProperty:'transform, translate, scale, rotate',transitionDuration:'150ms',transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)'},
 });
 const sizes=stylex.create({default:{height:'18.4px',width:'32px'},sm:{height:'14px',width:'24px'}});
 const thumbs=stylex.create({default:{height:'1rem',width:'1rem'},sm:{height:'0.75rem',width:'0.75rem'}});

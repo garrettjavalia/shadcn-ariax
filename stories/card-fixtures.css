@@ -1,0 +1,4 @@
+/* Shared non-Card layout from pinned card-edge-to-edge/card-image examples. */
+.card-fixture-terms > :not(:last-child) { margin-block-end: 1rem; }
+.card-fixture-cover { filter: brightness(.6) grayscale(1); }
+.dark .card-fixture-cover { filter: brightness(.4) grayscale(1); }
