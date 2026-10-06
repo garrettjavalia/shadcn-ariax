@@ -198,7 +198,7 @@ export async function compare(a: Page, b: Page, info: TestInfo, state: string, p
   expect(diff.length, `${state}: ${JSON.stringify(diff.slice(0, 8))} (full diff attached)`).toBe(0);
   if (pixels) {
     const portals = await a.locator('[data-parity-portal]').count();
-    const shots = await Promise.all([a, b].map(p => portals ? p.screenshot({ caret: 'hide', fullPage: true }) : p.locator('#parity-root').screenshot({ caret: 'hide' })));
+    const shots = await Promise.all([a, b].map(p => portals ? p.screenshot({ caret: 'hide' }) : p.locator('#parity-root').screenshot({ caret: 'hide' })));
     const [x, y] = shots.map(buffer => PNG.sync.read(buffer));
     // Only after exact DOM/CSS/geometry agreement: tolerate sparse 1/255 raster noise.
     const equal = pixelsMatch(x, y);
