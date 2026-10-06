@@ -17,9 +17,9 @@ test('distributed reset applies font defaults and CSS variable overrides without
     expect(font.features).toBe('normal');
     expect(font.variations).toBe('normal');
   }
-  await page.addStyleTag({ content: ':root { --default-font-family: Arial; --default-font-feature-settings: "ss01"; --default-font-variation-settings: "wght" 450; --default-mono-font-family: monospace; --default-mono-font-feature-settings: "liga" 0; --default-mono-font-variation-settings: "wght" 500; }' });
+  await page.addStyleTag({ content: ':root { --font-sans: Arial; --font-mono: monospace; }' });
   const overrides = await fonts();
-  expect(overrides[0]).toEqual({ family: 'Arial', features: '"ss01"', variations: '"wght" 450' });
+  expect(overrides[0]).toEqual({ family: 'Arial', features: 'normal', variations: 'normal' });
   expect(overrides[1]).toEqual(overrides[0]);
-  expect(overrides[2]).toEqual({ family: 'monospace', features: '"liga" 0', variations: '"wght" 500' });
+  expect(overrides[2]).toEqual({ family: 'monospace', features: 'normal', variations: 'normal' });
 });

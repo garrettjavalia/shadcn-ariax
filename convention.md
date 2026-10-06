@@ -32,7 +32,7 @@ const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
 <a href="/" {...buttonProps({ variant: 'secondary', xstyle: styles.wide })}>홈</a>
 ```
 
-타입 검사로 외부 클래스·인라인 CSS·일반 CSS 객체 전달을 거부한다. 브라우저 검증은 크기·여백·hover·배열의 우선순위·동적 값의 React 갱신을 검사한다. 둥근 버튼은 원본의 실제 Tailwind `rounded-full`과 StyleX 정의를 비교하며, 공용 CSS로 흉내 내지 않는다. 테마 토큰은 기존 CSS 변수 기반을 유지한다.
+타입 검사로 외부 클래스·인라인 CSS·일반 CSS 객체 전달을 거부한다. 브라우저 검증은 크기·여백·hover·배열의 우선순위·동적 값의 React 갱신을 검사한다. 둥근 버튼은 원본의 실제 Tailwind `rounded-full`과 StyleX 정의를 비교하며, 공용 CSS로 흉내 내지 않는다. 테마 토큰은 기존 CSS 변수 기반을 유지한다. 기본 폰트는 shadcn의 `--font-sans`·`--font-mono`를 직접 참조하며 Tailwind 전용 `--default-*` 연결 변수는 배포하지 않는다. font feature/variation 기본값은 `normal`이고 일반 CSS 속성으로 설정할 수 있다.
 
 ## 컴포넌트 확장
 
