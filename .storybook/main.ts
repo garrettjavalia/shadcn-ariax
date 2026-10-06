@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@input-group-customizations': resolve(upstream ? 'reference/input-group-customizations.ts' : 'stories/input-group-customizations.ts'),
+      '@input-group': resolve(upstream ? 'generated/reference/aria-nova/ui/input-group.tsx' : 'registry/ariax/ui/input-group.tsx'),
       '@input-customizations': resolve(upstream ? 'reference/input-customizations.ts' : 'stories/input-customizations.ts'),
       '@textarea': resolve(upstream ? 'generated/reference/aria-nova/ui/textarea.tsx' : 'registry/ariax/ui/textarea.tsx'),
       '@textarea-customizations': resolve(upstream ? 'reference/textarea-customizations.ts' : 'stories/textarea-customizations.ts'),

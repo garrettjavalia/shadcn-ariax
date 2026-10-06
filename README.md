@@ -56,3 +56,11 @@ pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 Skeleton과 Separator 설치는 소비 앱 CLI 명령의 `button.json`을 각각 `skeleton.json`, `separator.json`으로 바꾸면 된다.
 
 Textarea는 `textarea.json`으로 설치한다. `Components/Textarea`에서 공식 Demo·Button, 독립 상태와 style callback을 확인할 수 있다. Field 의존 공식 예제 4개는 아직 미완료이며 [대응표](docs/upstream-structure.md#textarea-draft)를 참고한다. 일반 React `style`(객체·RAC callback)을 지원하며, `xstyle` 동적 변수를 보존하고 충돌 시 `style`이 우선한다.
+
+## Input Group (작업 중)
+
+`input-group.json`은 InputGroup·InputGroupAddon·InputGroupButton·InputGroupText·InputGroupInput·InputGroupTextarea와 Button·Input·Textarea 의존 소스를 함께 설치한다. 네 가지 addon align, 네 가지 button size와 여섯 variant, disabled·invalid 및 일반 ui에 `dir="rtl"`을 적용한 상태와 addon 클릭 포커스를 공통 정밀 비교기로 검사한다. React Aria의 일반 style/콜백은 유지하고, StyleX 변수 뒤에서 사용자 style을 병합한다.
+
+공식 문서 Demo·Icon·Text·Textarea·Custom은 공유 스토리로 구현했다. 공식 inline-start·inline-end·block-start·block-end는 Field 구현 통합 대기, Button은 Popover 및 useCopyToClipboard 통합 대기, Kbd·Dropdown·Spinner는 각 컴포넌트 대기, RTL은 Field·Spinner·LanguageSelector 및 원본 RTL 변환 검증 대기다. 추가 단위 스토리는 이런 공식 조합의 완료를 의미하지 않는다.
+
+현재 RTL 비교는 일반 ui 레퍼런스에 `dir="rtl"`을 적용한 범위다. 공식 CLI `rtl: true` 변환은 아직 활성화하지 않았다. 실제 `transformDirection(source, true)`는 inline addon의 `pl/pr`, `ml/mr`와 부모의 입력 `pl/pr`를 `ps/pe`, `ms/me`로 바꾸므로, 공식 RTL 변환 지원에는 StyleX의 논리 방향 속성 전환과 추가 검증이 필요하다.

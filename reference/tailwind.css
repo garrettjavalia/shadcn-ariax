@@ -6,6 +6,7 @@
 @source "./components";
 @source "../../../reference/customizations.ts";
 @source "../../../reference/skeleton-customizations.ts";
+@source "../../../reference/input-group-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --color-background: var(--background);

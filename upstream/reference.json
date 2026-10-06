@@ -4,6 +4,7 @@
     "skeleton",
     "separator",
     "input",
-    "textarea"
+    "textarea",
+    "input-group"
   ]
 }
