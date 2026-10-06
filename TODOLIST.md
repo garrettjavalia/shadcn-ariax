@@ -23,7 +23,7 @@
 - [x] Calendar
 - [x] Card
 - [x] Carousel
-- [ ] Chart
+- [x] Chart
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [x] Collapsible
 - [x] Combobox
@@ -45,7 +45,7 @@
 - [x] Item — 공식 문서·registry 조합, 링크·메뉴·RTL·미디어
 - [ ] Kbd — 기본 설치·Tooltip 내용 구현; 공식 ButtonGroup 컨테이너 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
-- [ ] Marker
+- [ ] Marker — 구현·문서 예제 검증; Drawer 조합 통합 대기
 - [ ] Message
 - [ ] Message Scroller
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
@@ -69,6 +69,6 @@
 - [x] Toggle
 - [x] Toggle Group
 - [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
-- [ ] Typography — 텍스트 스타일 예제
+- [x] Typography — 공식 intrinsic 텍스트 스타일 예제
 
 Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.

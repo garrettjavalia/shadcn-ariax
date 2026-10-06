@@ -1,0 +1,3 @@
+[data-slot="marker"] svg:not([class*="size-"]),[data-slot="marker-icon"] svg:not([class*="size-"]){width:var(--ariax-marker-icon-size);height:var(--ariax-marker-icon-size)}
+[data-slot="marker-content"]>a{text-decoration-line:underline;text-underline-offset:3px}
+@media(hover:hover){[data-slot="marker-content"]>a:hover{color:var(--foreground)}}

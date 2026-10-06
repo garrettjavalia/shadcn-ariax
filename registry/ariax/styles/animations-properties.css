@@ -3,3 +3,6 @@
 @property --scroll-fade-s {syntax:"<length-percentage>";inherits:false;initial-value:0px}
 @property --scroll-fade-e {syntax:"<length-percentage>";inherits:false;initial-value:0px}
 @property --scroll-fade-mask {syntax:"*";inherits:false}
+@property --shimmer-angle{syntax:"<angle>";inherits:true;initial-value:20deg}
+@property --shimmer-image{syntax:"*";inherits:false}
+@property --shimmer-text-fill{syntax:"*";inherits:false}

@@ -35,7 +35,11 @@
 @import "./toggle-children.css";
 @import "./calendar.css";
 @import "./resizable.css";
+
+@import './chart.css';
 @import "./input-otp.css";
 @import "./context-menu.css";
 @import "./drawer.css";
+@import "./marker.css";
 @import "./animations-properties.css";
+@import './typography.css';

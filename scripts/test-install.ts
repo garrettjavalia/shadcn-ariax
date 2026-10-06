@@ -6,12 +6,15 @@ import { collectInstallFixtures } from './install-fixtures';
 const root = process.cwd();
 // Fail before running the CLI when the catalog and fixtures disagree.
 const fixtures = await collectInstallFixtures(root);
+const parentFiles = await Promise.all(['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'].map(async file => [file, await readFile(join(root, file), 'utf8')] as const));
 const dir = await mkdtemp(join(root, '.consumer-test-'));
 const run = (command: string, args: string[], cwd = dir) => {
   const r = spawnSync(command, args, { cwd, stdio: 'inherit', env: { ...process.env, CI: 'true' }, timeout: 180_000 });
   if (r.status !== 0) throw new Error(`${command} ${args.join(' ')} failed (${r.status}): ${r.error ?? ''}`);
 };
 try {
+  // shadcn launches pnpm itself, so a flag on our later install is insufficient.
+  await writeFile(join(dir, 'pnpm-workspace.yaml'), 'packages:\n  - "."\n');
   const pkg = JSON.parse(await readFile('package.json', 'utf8'));
   await writeFile(join(dir, 'package.json'), JSON.stringify({ name: 'ariax-consumer', private: true, type: 'module', dependencies: { react: pkg.dependencies.react, 'react-dom': pkg.dependencies['react-dom'], ...Object.assign({}, ...fixtures.map(fixture => fixture.dependencies)) }, devDependencies: { vite: pkg.devDependencies.vite, typescript: pkg.devDependencies.typescript, '@types/react': pkg.devDependencies['@types/react'], '@types/react-dom': pkg.devDependencies['@types/react-dom'] } }, null, 2));
   await mkdir(join(dir, 'src'), { recursive: true });
@@ -24,7 +27,7 @@ try {
   for (const fixture of fixtures) for (const [name, version] of Object.entries(fixture.dependencies)) assert.equal(installed.dependencies[name], version, `CLI changed composition fixture pin: ${name}`);
   for (const { item, installedPath } of fixtures) {
     const source = await readFile(join(dir, installedPath), 'utf8');
-    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}.tsx`), 'utf8');
+    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}${item.type === 'registry:file' ? '.recipe.stylex.ts' : '.tsx'}`), 'utf8');
     if (original.includes('@stylexjs/stylex')) {
       assert.match(source, /@stylexjs\/stylex/, `Installed ${item.name} must retain its StyleX import`);
     }
@@ -32,6 +35,10 @@ try {
       const separator = declaration.lastIndexOf('@');
       const name = separator > 0 ? declaration.slice(0, separator) : declaration;
       assert.ok(installed.dependencies[name], `CLI did not install ${name} for ${item.name}`);
+      if (separator > 0) {
+        const installedPackage = JSON.parse(await readFile(join(dir, 'node_modules', name, 'package.json'), 'utf8'));
+        assert.equal(installedPackage.version, declaration.slice(separator + 1), `CLI resolved a different runtime pin for ${name}`);
+      }
     }
   }
   assert.ok(!installed.dependencies.tailwindcss && !installed.devDependencies.tailwindcss);
@@ -50,5 +57,6 @@ createRoot(document.getElementById('root')!).render(<>${components}</>);
   run('pnpm', ['install', '--ignore-workspace']);
   run('pnpm', ['exec', 'tsc', '--noEmit']);
   run('pnpm', ['exec', 'vite', 'build']);
+  for (const [file, contents] of parentFiles) assert.equal(await readFile(join(root, file), 'utf8'), contents, `Consumer installation must not modify the parent ${file}.`);
   console.log('PASS: actual shadcn add, dependencies, typecheck and production Vite build without Tailwind.');
 } finally { await rm(dir, { recursive: true, force: true }); }

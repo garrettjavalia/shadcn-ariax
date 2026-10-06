@@ -1,0 +1,12 @@
+import * as stylex from '@stylexjs/stylex';
+import {animationStyles} from '../registry/ariax/ui/animations.stylex';
+import {markerVariants} from '@marker';
+const styles=stylex.create({column:{flexDirection:'column'},center:{justifyContent:'center'},flex:{flex:1},hover:{transitionProperty:'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to',transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)',transitionDuration:'150ms',color:{default:'var(--muted-foreground)',':hover':{default:null,'@media (hover: hover)':'var(--foreground)'}}},custom:(gap:number)=>({gap,color:'var(--primary)',padding:8}),icon:{width:20,height:20,'--ariax-marker-icon-size':'20px'}});
+export const markerShimmer={xstyle:animationStyles.shimmer};
+export const markerColumn={xstyle:styles.column};
+export const markerCenter={xstyle:styles.center};
+export const markerFlex={xstyle:styles.flex};
+export const markerHover={xstyle:styles.hover};
+export const markerCustom=(gap:number)=>({xstyle:styles.custom(gap)});
+export const markerCustomIcon={xstyle:styles.icon};
+export const markerHelper={xstyle:markerVariants({variant:'border'})};

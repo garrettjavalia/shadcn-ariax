@@ -68,6 +68,8 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
     items.push({ ...item, files, registryDependencies: item.registryDependencies?.map(name => resolve(directory, 'registry', `${name}.json`)) });
   }
   await writeFile(resolve(directory, 'registry.json'), JSON.stringify({ name: 'pinned-shadcn-reference', homepage: 'https://ui.shadcn.com', items }));
+  // Give the CLI's package-manager subprocess its own workspace boundary.
+  await writeFile(resolve(directory, 'pnpm-workspace.yaml'), 'packages:\n  - "."\n');
   await writeFile(resolve(directory, 'package.json'), JSON.stringify({ name: 'ariax-reference', private: true, type: 'module', dependencies: inputs.dependencies, devDependencies: inputs.devDependencies }));
   await writeFile(resolve(directory, 'tsconfig.json'), JSON.stringify({ compilerOptions: { jsx: 'react-jsx', baseUrl: '.', paths: { '@reference/*': ['./*'] } } }));
   await writeFile(resolve(directory, 'cli.css'), '');
