@@ -24,7 +24,8 @@
     "test:benchmark": "node --import tsx scripts/benchmark-tests.ts",
     "test:full": "pnpm verify",
     "test:ci": "pnpm upstream:prepare && pnpm originals:generate && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity",
-    "originals:generate": "node --import tsx scripts/upstream/original-stories.ts"
+    "originals:generate": "node --import tsx scripts/upstream/original-stories.ts",
+    "test:benchmark:ci": "node --import tsx scripts/benchmark-tests.ts --ci"
   },
   "dependencies": {
     "@base-ui/react": "1.6.0",

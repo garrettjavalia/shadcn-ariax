@@ -30,6 +30,7 @@ pnpm test:upstream  # 다운로드·캐시 처리 테스트
 pnpm verify         # 전체 검증: 타입·레지스트리·브라우저·CLI 설치·빌드
 pnpm test:report    # 브라우저 테스트 보고서 열기
 pnpm test:benchmark # 실행 시간 및 비교 횟수 측정
+pnpm test:benchmark:ci # CI 검사 전체 실행·시간 측정 (로컬 10분 예산)
 ```
 
 CI는 기본 스토리의 DOM·CSS를 비교한다. 동작·화면·실제 설치까지 확인하려면 로컬에서 `pnpm test:full`을 실행한다. `pnpm build`로 만든 Storybook을 검사하려면 `ARIAX_STATIC_STORYBOOK=1 pnpm test:ci`를 사용한다.
