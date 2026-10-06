@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LabelContext, TextField, Input } from 'react-aria-components';
 import { labelCustomized } from '@customizations';
+import { Checkbox } from '@checkbox';
 import { Label } from '@label';
 const meta = { title: 'Components/Label', component: Label, tags: ['parity'], decorators: [Story => <main id="parity-root"><Story /></main>] } satisfies Meta<typeof Label>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-// Native checkbox fixture isolates Label. The Checkbox component's styling is covered by its own future stories.
-function Example({ rtl = false }: { rtl?: boolean }) { return <div style={{ display: 'flex', gap: '0.5rem' }} dir={rtl ? 'rtl' : undefined}><input type="checkbox" id={rtl ? 'terms-rtl' : 'terms'} /><Label htmlFor={rtl ? 'terms-rtl' : 'terms'}>{rtl ? 'قبول الشروط والأحكام' : 'Accept terms and conditions'}</Label></div>; }
+function Example({ rtl = false }: { rtl?: boolean }) { return <div style={{ display: 'flex', gap: '0.5rem' }} dir={rtl ? 'rtl' : undefined}><Checkbox id={rtl ? 'terms-rtl' : 'terms'} /><Label htmlFor={rtl ? 'terms-rtl' : 'terms'}>{rtl ? 'قبول الشروط والأحكام' : 'Accept terms and conditions'}</Label></div>; }
 export const Demo: Story = { render: () => <Example /> };
 export const Rtl: Story = { render: () => <Example rtl /> };
 export const Usage: Story = { render: () => <><Label htmlFor="email">Your email address</Label><input id="email" /></> };
