@@ -1,0 +1,6 @@
+.ariax-calendar-cell:is(:last-child > [data-selected="true"]) > div { --ariax-day-start-end: var(--cell-radius); --ariax-day-end-end: var(--cell-radius); }
+.ariax-calendar-no-week-numbers:is(:first-child > [data-selected="true"]) > div { --ariax-day-start-start: var(--cell-radius); --ariax-day-end-start: var(--cell-radius); }
+.ariax-calendar-cell[data-unavailable="true"] > div { text-decoration-line: line-through; }
+.ariax-calendar-day > span { font-size: .75rem; line-height: calc(1 / .75); opacity: .7; }
+
+.ariax-calendar-week-numbers:is(:nth-child(2) > [data-selected="true"]) > div { --ariax-day-start-start: var(--cell-radius); --ariax-day-end-start: var(--cell-radius); }

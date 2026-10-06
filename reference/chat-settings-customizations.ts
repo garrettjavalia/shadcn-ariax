@@ -1,0 +1,10 @@
+export const dialog={className:'min-w-md'};
+export const column={className:'flex flex-col gap-4'};
+export const navigation={className:'w-full md:hidden'};
+export const tabs={className:'hidden w-full md:flex'};
+export const panel={className:'border **:data-[slot=select-trigger]:min-w-[125px] style-vega:min-h-[550px] style-vega:rounded-lg style-vega:p-6 style-nova:min-h-[460px] style-nova:rounded-lg style-nova:p-4 style-lyra:min-h-[450px] style-lyra:rounded-none style-lyra:p-4 style-maia:min-h-[550px] style-maia:rounded-xl style-maia:p-6 style-mira:min-h-[450px] style-mira:rounded-md style-mira:p-4 style-luma:min-h-[550px] style-luma:rounded-xl style-luma:p-6 style-rhea:min-h-[480px] style-rhea:rounded-2xl style-rhea:p-6'};
+export const normal={className:'font-normal'};
+export const nickname={className:'@md/field-group:max-w-[200px]'};
+export const tooltip={className:'flex items-center gap-2'};
+export const responsive={className:'@md/field-group:flex-col @2xl/field-group:flex-row'};
+export const textarea={className:'min-h-[120px] @md/field-group:min-w-full @2xl/field-group:min-w-[300px]'};
