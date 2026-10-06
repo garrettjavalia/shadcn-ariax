@@ -21,8 +21,8 @@
   2. Prevent adjustments of font size after orientation changes in iOS.
   3. Use a more readable tab size.
   4. Use the user's configured `sans` font-family by default.
-  5. Use the user's configured `sans` font-feature-settings by default.
-  6. Use the user's configured `sans` font-variation-settings by default.
+  5. Use normal font-feature-settings by default.
+  6. Use normal font-variation-settings by default.
   7. Disable tap highlights on iOS.
 */
 
@@ -32,7 +32,7 @@ html,
   -webkit-text-size-adjust: 100%; /* 2 */
   tab-size: 4; /* 3 */
   font-family: var(
-    --default-font-family,
+    --font-sans,
     ui-sans-serif,
     system-ui,
     sans-serif,
@@ -41,8 +41,8 @@ html,
     'Segoe UI Symbol',
     'Noto Color Emoji'
   ); /* 4 */
-  font-feature-settings: var(--default-font-feature-settings, normal); /* 5 */
-  font-variation-settings: var(--default-font-variation-settings, normal); /* 6 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
 }
 
@@ -102,8 +102,8 @@ strong {
 
 /*
   1. Use the user's configured `mono` font-family by default.
-  2. Use the user's configured `mono` font-feature-settings by default.
-  3. Use the user's configured `mono` font-variation-settings by default.
+  2. Use normal font-feature-settings by default.
+  3. Use normal font-variation-settings by default.
   4. Correct the odd `em` font sizing in all browsers.
 */
 
@@ -112,7 +112,7 @@ kbd,
 samp,
 pre {
   font-family: var(
-    --default-mono-font-family,
+    --font-mono,
     ui-monospace,
     SFMono-Regular,
     Menlo,
@@ -122,8 +122,8 @@ pre {
     'Courier New',
     monospace
   ); /* 1 */
-  font-feature-settings: var(--default-mono-font-feature-settings, normal); /* 2 */
-  font-variation-settings: var(--default-mono-font-variation-settings, normal); /* 3 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
   font-size: 1em; /* 4 */
 }
 

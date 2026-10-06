@@ -1,5 +1,6 @@
 {
   "components": [
-    "button"
+    "button",
+    "skeleton"
   ]
 }

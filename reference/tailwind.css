@@ -5,6 +5,7 @@
 @source "./hooks";
 @source "./components";
 @source "../../../reference/customizations.ts";
+@source "../../../reference/skeleton-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --color-background: var(--background);

@@ -24,6 +24,8 @@
     "apps/v4/registry/bases/aria/internal/_registry.ts",
     "apps/v4/registry/bases/aria/components/_registry.ts",
     "apps/v4/registry/bases/aria/blocks/_registry.ts",
-    "apps/v4/registry/bases/aria/examples/_registry.ts"
+    "apps/v4/registry/bases/aria/examples/_registry.ts",
+    "apps/v4/registry/bases/aria/ui/skeleton.tsx",
+    "apps/v4/content/docs/components/aria/skeleton.mdx"
   ]
 }
