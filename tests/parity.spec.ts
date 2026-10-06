@@ -5,6 +5,7 @@ import { readdirSync } from 'node:fs';
 import { compare, compareDOMCSS } from './compare';
 import { environments, type StoryEntry } from './catalog';
 import { partitionStories } from './story-batches';
+import {navigateStory} from './story-navigation';
 import { waitForStoryReadiness } from './story-readiness';
 import type { OriginalStoriesManifest } from '../scripts/upstream/original-stories';
 
@@ -41,11 +42,11 @@ for (const { theme, width, requiredTag } of selectedEnvironments) for (let batch
   await a.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));
   try {
     for (const id of ids) await test.step(id, async () => {
-      // Full navigation resets React state; pages are reused to bound browser overhead.
+      // CI reuses the official preview lifecycle within this isolated batch.
       const started = performance.now();
       await Promise.all(([[a, upstreamPort], [b, stylexPort]] as const).map(async ([page, port]) => {
         const storyId = port === upstreamPort ? originals.get(id) ?? id : id;
-        await page.goto(`http://127.0.0.1:${port}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`);
+        await navigateStory(page, `http://127.0.0.1:${port}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`, ciMode);
         await expect(page.locator('#parity-root')).toBeVisible();
         await waitAvatarAssets(page);
         await waitForStoryReadiness(page);
