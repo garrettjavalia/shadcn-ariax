@@ -107,6 +107,15 @@
       ],
       "@dropdown-menu-customizations": [
         "./stories/dropdown-menu-customizations.ts"
+      ],
+      "@tooltip": [
+        "./registry/ariax/ui/tooltip.tsx"
+      ],
+      "@tooltip-customizations": [
+        "./stories/tooltip-customizations.ts"
+      ],
+      "@switch": [
+        "./registry/ariax/ui/switch.tsx"
       ]
     }
   },
