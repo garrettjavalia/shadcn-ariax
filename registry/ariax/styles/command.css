@@ -1,0 +1,4 @@
+.ariax-command-group [cmdk-group-heading] { color: var(--muted-foreground); padding-inline: .5rem; padding-block: .375rem; font-size: .75rem; line-height: calc(1 / .75); font-weight: 500; }
+.ariax-command-item svg { pointer-events: none; flex-shrink: 0; }
+.ariax-command-item svg:not([class*="size-"]) { width: 1rem; height: 1rem; }
+.ariax-command-item:is([data-selected="true"],[data-focused]) > svg { color: var(--foreground); }

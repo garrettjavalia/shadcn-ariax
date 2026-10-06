@@ -27,7 +27,7 @@
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [x] Collapsible
 - [x] Combobox
-- [ ] Command
+- [x] Command
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
 - [ ] Date Picker — 조합 예제 포함
@@ -38,7 +38,7 @@
 - [x] Empty — 공식 문서·registry 조합, RTL·반응형·StyleX 커스터마이징
 - [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Form
-- [ ] Hover Card
+- [x] Hover Card
 - [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
 - [ ] Input OTP
