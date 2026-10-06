@@ -8,7 +8,7 @@ for (const theme of ['light', 'dark']) test(`real Field and Checkbox composition
   const b = await context.newPage();
   try {
     await Promise.all([[a, upstreamURL], [b, stylexURL]].map(async ([page, url]) => {
-      await (page as typeof a).goto(`${url}/iframe.html?id=compositions-fieldcheckbox--demo&viewMode=story&globals=theme:${theme}`);
+      await (page as typeof a).goto(`${url}/iframe.html?id=components-checkbox--demo&viewMode=story&globals=theme:${theme}`);
       await expect((page as typeof a).locator('#parity-root')).toBeVisible();
     }));
     await compare(a, b, info, 'initial');

@@ -3,13 +3,14 @@ import {assertSourceComponents} from './source-components';
 
 test('existing form documentation fixtures retain original UI component JSX uses',async()=>{
  const groups:Record<string,string[]>={
+  checkbox:['demo','basic','description','disabled','group','invalid','rtl','table'],
   select:['demo','groups','scrollable','disabled','invalid','autocomplete','rtl'],
   combobox:['basic','multiple','clear','groups','custom','invalid','disabled','input-group','rtl'],
   'toggle-group':['demo','outline','sizes','spacing','vertical','disabled','font-weight-selector','rtl'],
   'input-otp':['demo','pattern','separator','disabled','controlled','invalid','four-digits','alphanumeric','form','rtl'],
  };
  for(const [component,names]of Object.entries(groups))for(const name of names){
-  const filename=component==='input-otp'?name:component+'-'+name;
+  const filename=['input-otp','checkbox'].includes(component)?name:component+'-'+name;
   await assertSourceComponents(`generated/upstream/shadcn/apps/v4/examples/aria/${component}-${name}.tsx`,`stories/${component}-examples/${filename}.tsx`);
  }
  for(const name of ['demo','description','choice-card','fieldset','disabled','invalid','rtl'])await assertSourceComponents(`generated/upstream/shadcn/apps/v4/examples/aria/radio-group-${name}.tsx`,`stories/radio-group-${name}.tsx`);
