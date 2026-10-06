@@ -41,6 +41,12 @@
       ],
       "@badge-customizations": [
         "./stories/badge-customizations.ts"
+      ],
+      "@alert": [
+        "./registry/ariax/ui/alert.tsx"
+      ],
+      "@alert-customizations": [
+        "./stories/alert-customizations.ts"
       ]
     }
   },

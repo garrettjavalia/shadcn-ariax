@@ -19,3 +19,6 @@ export const separatorCustom = { xstyle: separatorStyles.custom };
 // Dynamic StyleX width must survive a separate inline height override.
 export const inlineSizing = { xstyle: styles.dynamic(160) };
 export const inlineSkeletonSizing = inlineSizing;
+
+const typographyStyles=stylex.create({dynamic:(fontSize:number,lineHeight:number)=>({fontSize,lineHeight})});
+export const typographySizing={xstyle:typographyStyles.dynamic(18,2)};
