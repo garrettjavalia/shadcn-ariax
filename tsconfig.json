@@ -72,6 +72,12 @@
       "@checkbox": [
         "./registry/ariax/ui/checkbox.tsx"
       ],
+      "@textarea": [
+        "./registry/ariax/ui/textarea.tsx"
+      ],
+      "@textarea-customizations": [
+        "./stories/textarea-customizations.ts"
+      ],
       "@field": [
         "./registry/ariax/ui/field.tsx"
       ]

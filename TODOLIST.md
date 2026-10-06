@@ -24,7 +24,7 @@
 - [x] Card
 - [ ] Carousel
 - [ ] Chart
-- [ ] Checkbox
+- [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [ ] Collapsible
 - [ ] Combobox
 - [ ] Command
@@ -43,7 +43,7 @@
 - [ ] Input OTP
 - [ ] Item
 - [ ] Kbd
-- [ ] Label — 본체 구현·검증, Checkbox/Field 공식 교차 예제 통합 대기
+- [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
@@ -64,7 +64,7 @@
 - [ ] Switch
 - [ ] Table
 - [ ] Tabs
-- [ ] Textarea
+- [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle
 - [ ] Toggle Group
 - [ ] Tooltip
