@@ -71,5 +71,3 @@
 - [ ] Typography — 텍스트 스타일 예제
 
 Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
-
-- [ ] 배포 애니메이션을 StyleX 키프레임으로 통합하고 시간별 동등성을 검증하는 별도 PR
