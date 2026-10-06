@@ -617,11 +617,13 @@ export const styles = stylex.create({
   },
   hoverAction: {
     opacity: {
-      default: null,
-      '@media (width >= 48rem)': 0,
-      ':is(.ariax-sidebar-menu-item:hover *)': 1,
-      ':is(.ariax-sidebar-menu-item:focus-within *)': 1,
-      ':is([aria-expanded="true"])': 1
+      default: 1,
+      '@media (width >= 48rem)': {
+        default: 0,
+        ':is(.ariax-sidebar-menu-item:hover *)': 1,
+        ':is(.ariax-sidebar-menu-item:focus-within *)': 1,
+        ':is([aria-expanded="true"])': 1
+      }
     },
     color: {
       default: 'var(--sidebar-foreground)',

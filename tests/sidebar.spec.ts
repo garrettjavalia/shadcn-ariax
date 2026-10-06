@@ -361,6 +361,10 @@ test('Sidebar actual Collapsible Tooltip DropdownMenu and language switching', a
           exact: true
         }).click();
       }
+      for (const page of pages) {
+        await page.mouse.move(0, 0);
+        await expect(page.getByRole('tooltip')).toHaveCount(0);
+      }
       await compare(pages[0], pages[1], info, `language-${language}`);
       for (const page of pages) await page.keyboard.press('Control+b');
       await compare(pages[0], pages[1], info, `language-collapsed-${language}`);
