@@ -51,3 +51,18 @@ test('every official Button documentation example has a registered parity story'
  expect(examples.length).toBeGreaterThan(0);
  for (const name of examples) expect(index.entries[`components-separator--${name.replace('separator-', '')}`]?.tags, name).toContain('parity');
 });
+
+ test('every official Kbd documentation example is verified or explicitly pending', async ({ request }) => {
+  const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/kbd.mdx', 'utf8');
+  const names = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(match => match[1]);
+  const implemented: Record<string, string> = { 'kbd-demo': 'demo', 'kbd-group': 'group', 'kbd-button': 'in-button', 'kbd-input-group': 'in-input-group', 'kbd-rtl': 'rtl' };
+  const pending = { 'kbd-tooltip': 'Tooltip is not implemented; official composition remains pending.' };
+  expect(names).toHaveLength(6);
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
+  for (const name of names) {
+    if (name in pending) continue;
+    expect(implemented[name], `Unmapped official Kbd preview: ${name}`).toBeTruthy();
+    expect(index.entries[`components-kbd--${implemented[name]}`]?.tags).toContain('parity');
+  }
+  expect(index.entries['components-kbd--usage']?.tags).toContain('parity');
+});

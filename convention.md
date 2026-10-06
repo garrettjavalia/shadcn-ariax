@@ -76,3 +76,7 @@ Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존�
 Input은 원본 React Aria Input을 감싸며 Nova 기본·disabled·invalid·focus-visible·file·placeholder·RTL·768px 텍스트 크기를 보존한다. 사용자 `style` 객체와 React Aria 상태 콜백은 StyleX가 만든 동적 CSS 변수 뒤에 병합되어 사용자 값이 우선한다. `xstyle`과 일반 `style`을 지원하고 `className`은 제한한다. 
 
 현재 독립 Input의 light/dark·1000/390px DOM/CSS/픽셀, 포커스·편집·파일 선택과 파일 버튼 의사 요소를 검사한다. 공식 Basic 예제는 재현했다. Field·Badge·ButtonGroup·InputGroup·Select에 의존하는 공식 조합 예제는 해당 정식 컴포넌트 추가 후 검증해야 하므로 Input을 지원 완료로 표시하지 않는다.
+
+## Kbd (Tooltip 조합 대기)
+
+Kbd·KbdGroup은 React Aria Keyboard를 사용해 모두 kbd DOM을 보존한다. Kbd의 muted 배경, sans 폰트, unitless line-height, SVG 크기 선택자와 사용자 스타일 우선순위를 보존한다. 공식 6개 ComponentPreview를 자동 매핑하고 Tooltip 하나는 명시적 pending으로 남긴다. Demo·Group·Button·Input Group·RTL·Usage와 20px font-size, SVG의 명시적 size 클래스 제외, 일반 DOM 조상으로 Tooltip 색상 선택자 분기(실제 Tooltip 지원과 구별), xstyle 배열·동적 변수와 일반 style 우선순위를 공통 비교기로 검사한다. 공식 방향 변환은 Kbd 본체를 변경하지 않으며 현재 RTL 비교는 일반 ui+dir 조건이다.

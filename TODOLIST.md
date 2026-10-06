@@ -42,7 +42,7 @@
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd
+- [ ] Kbd — Kbd·KbdGroup 레지스트리 구현, 공식 Demo·Group·Button·Input Group·RTL 및 Usage 검증; Tooltip 공식 조합 대기
 - [ ] Label
 - [ ] Marker
 - [ ] Message

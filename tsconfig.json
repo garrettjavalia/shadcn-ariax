@@ -56,6 +56,12 @@
       ],
       "@input-group-customizations": [
         "./stories/input-group-customizations.ts"
+      ],
+      "@kbd": [
+        "./registry/ariax/ui/kbd.tsx"
+      ],
+      "@kbd-customizations": [
+        "./stories/kbd-customizations.ts"
       ]
     }
   },

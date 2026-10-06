@@ -64,3 +64,9 @@ Textarea는 `textarea.json`으로 설치한다. `Components/Textarea`에서 공�
 공식 문서 Demo·Icon·Text·Textarea·Custom은 공유 스토리로 구현했다. 공식 inline-start·inline-end·block-start·block-end는 Field 구현 통합 대기, Button은 Popover 및 useCopyToClipboard 통합 대기, Kbd·Dropdown·Spinner는 각 컴포넌트 대기, RTL은 Field·Spinner·LanguageSelector 및 원본 RTL 변환 검증 대기다. 추가 단위 스토리는 이런 공식 조합의 완료를 의미하지 않는다.
 
 현재 RTL 비교는 일반 ui 레퍼런스에 `dir="rtl"`을 적용한 범위다. 공식 CLI `rtl: true` 변환은 아직 활성화하지 않았다. 실제 `transformDirection(source, true)`는 inline addon의 `pl/pr`, `ml/mr`와 부모의 입력 `pl/pr`를 `ps/pe`, `ms/me`로 바꾸므로, 공식 RTL 변환 지원에는 StyleX의 논리 방향 속성 전환과 추가 검증이 필요하다.
+
+## Kbd (공식 Tooltip 조합 대기)
+
+`kbd.json`을 CLI로 설치하면 React Aria Keyboard 기반 `Kbd`와 `KbdGroup`을 사용할 수 있다. 두 컴포넌트는 원본처럼 `kbd`로 렌더링되며 `xstyle`과 일반 `style`을 지원한다. 예: `<KbdGroup><Kbd>Ctrl</Kbd><Kbd>K</Kbd></KbdGroup>`. 외부 `className`은 지원하지 않는다.
+
+공식 Demo·Group·Button·Input Group·RTL과 Usage 및 SVG·스타일 덮어쓰기를 공유 Storybook에서 비교한다. Button과 Input Group은 실제 배포 컴포넌트다. 공식 Tooltip 예제는 Tooltip 구현 후 검증할 예정이므로 Kbd 전체 문서 지원을 완료로 표시하지 않는다. Kbd 원본은 공식 `transformDirection(source, true)` 적용 전후가 동일하며 현재 RTL 스토리는 일반 ui에 `dir="rtl"`을 적용한 조건이다.

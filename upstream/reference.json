@@ -5,6 +5,7 @@
     "separator",
     "input",
     "textarea",
-    "input-group"
+    "input-group",
+    "kbd"
   ]
 }
