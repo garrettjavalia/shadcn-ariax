@@ -25,3 +25,5 @@ export const Offset: Story = { render: () => <TooltipTrigger defaultOpen><Button
 
 export const DomProps: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">DOM props</Button><Tooltip data-parity-portal data-slot="custom-tooltip" lang="en" aria-label="Custom description"><Kbd>S</Kbd></Tooltip></TooltipTrigger> };
 export const CustomizedKbd: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">Custom keys</Button><Tooltip data-parity-portal {...customized}>Shortcut <Kbd>S</Kbd></Tooltip></TooltipTrigger> };
+
+export const KbdRtl: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">RTL keys</Button><Tooltip data-parity-portal dir="rtl">Save Changes <Kbd>S</Kbd></Tooltip></TooltipTrigger> };

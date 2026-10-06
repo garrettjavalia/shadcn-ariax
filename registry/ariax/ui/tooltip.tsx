@@ -14,7 +14,7 @@ const styles = stylex.create({
     '--ariax-enter-x': { default: '0px', ':is([data-placement="left"])': '0.5rem', ':is([data-placement="right"])': '-0.5rem' },
     '--ariax-enter-y': { default: '0px', ':is([data-placement="bottom"])': '-0.5rem', ':is([data-placement="top"])': '0.5rem' },
     zIndex: 50, width: 'fit-content', maxWidth: '20rem', transformOrigin: 'var(--trigger-anchor-point)', backgroundColor: 'var(--foreground)', color: 'var(--background)',
-    display: 'inline-flex', alignItems: 'center', gap: '0.375rem', borderRadius: 'calc(var(--radius) * 0.8)', padding: '0.375rem var(--ariax-tooltip-padding-right) 0.375rem 0.75rem', '--ariax-tooltip-padding-right': { default: '0.75rem', ':has([data-slot="kbd"])': '0.375rem' },
+    display: 'inline-flex', alignItems: 'center', gap: '0.375rem', borderRadius: 'calc(var(--radius) * 0.8)', paddingBlock: '0.375rem', paddingInline: '0.75rem var(--ariax-tooltip-padding-end)', '--ariax-tooltip-padding-end': { default: '0.75rem', ':has([data-slot="kbd"])': '0.375rem' },
     fontSize: '0.75rem', lineHeight: 'calc(1 / 0.75)',
   },
   arrow: { zIndex: 50, backgroundColor: 'var(--foreground)', fill: 'var(--foreground)', width: '0.625rem', height: '0.625rem', translate: '0 calc(-50% - 2px)', rotate: '45deg', borderRadius: 2 },

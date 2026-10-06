@@ -8,7 +8,6 @@ const official=stylex.create({
  bottom:{borderTopWidth:1,paddingTop:'.5rem'},
  top:{borderBottomWidth:1,paddingBottom:'.5rem'},
  auto:{marginLeft:'auto'},
- // The original font-mono utility inherits when its token is absent.
  mono:{fontFamily:'var(--font-mono)',fontWeight:500},
  custom:{display:'flex',fieldSizing:'content',minHeight:'4rem',width:'100%',resize:'none',borderRadius:'calc(var(--radius) * .8)',backgroundColor:'transparent',paddingInline:'.75rem',paddingBlock:'.625rem',fontSize:{default:'1rem','@media (min-width: 48rem)':'.875rem'},lineHeight:{default:1.5,'@media (min-width: 48rem)':'calc(1.25 / .875)'},transitionProperty:'color, box-shadow',transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)',transitionDuration:'150ms',outlineStyle:'none'},
 });
