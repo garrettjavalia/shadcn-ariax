@@ -112,7 +112,13 @@ ${colorConfig
   )
 }
 
-const ChartTooltip = RechartsPrimitive.Tooltip
+// Preserve Recharts component identity: chart internals recognize these primitives.
+const ChartTooltip = RechartsPrimitive.Tooltip as (
+  props: Omit<React.ComponentProps<typeof RechartsPrimitive.Tooltip>, "wrapperClassName" | "labelClassName"> & {
+    wrapperClassName?: never
+    labelClassName?: never
+  }
+) => ReturnType<typeof RechartsPrimitive.Tooltip>
 
 function ChartTooltipContent({
   active,
@@ -252,7 +258,9 @@ function ChartTooltipContent({
   )
 }
 
-const ChartLegend = RechartsPrimitive.Legend
+const ChartLegend = RechartsPrimitive.Legend as React.MemoExoticComponent<(
+  props: Omit<React.ComponentProps<typeof RechartsPrimitive.Legend>, "className"> & { className?: never }
+) => ReturnType<typeof RechartsPrimitive.Legend>>
 
 function ChartLegendContent({
   className: _className,
