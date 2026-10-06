@@ -1,8 +1,8 @@
 /* Opaque descendant bridge; component StyleX declarations own the values. */
-[data-slot="input-group"]:has(>[data-align="inline-start"]) > input { padding-inline-start: .375rem; }
-[data-slot="input-group"]:has(>[data-align="inline-end"]) > input { padding-inline-end: .375rem; }
-[data-slot="input-group"]:has(>[data-align="block-end"]) > input { padding-top: .75rem; }
-[data-slot="input-group"]:has(>[data-align="block-start"]) > input { padding-bottom: .75rem; }
+[data-slot="input-group"]:has(>[data-align="inline-start"]) > input { padding-inline-start: calc(var(--ariax-spacing, .25rem) * 1.5); }
+[data-slot="input-group"]:has(>[data-align="inline-end"]) > input { padding-inline-end: calc(var(--ariax-spacing, .25rem) * 1.5); }
+[data-slot="input-group"]:has(>[data-align="block-end"]) > input { padding-top: calc(var(--ariax-spacing, .25rem) * 3); }
+[data-slot="input-group"]:has(>[data-align="block-start"]) > input { padding-bottom: calc(var(--ariax-spacing, .25rem) * 3); }
 [data-slot="input-group-addon"] > svg:not([class*="size-"]) { width: var(--ariax-addon-icon-size); height: var(--ariax-addon-icon-size); }
 [data-slot="input-group-addon"] > kbd { border-radius: var(--ariax-addon-kbd-radius); }
 .ariax-input-group-text svg { pointer-events: none; }

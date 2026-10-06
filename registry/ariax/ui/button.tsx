@@ -48,7 +48,7 @@ const styles = stylex.create({
     '--ariax-ring': { default: 'color-mix(in oklab, var(--ring) 50%, transparent)', ':is([aria-invalid="true"])': 'color-mix(in oklab, var(--destructive) 20%, transparent)', ':is(.dark *)[aria-invalid="true"]': 'color-mix(in oklab, var(--destructive) 40%, transparent)' },
     boxShadow: { default: null, ':focus-visible': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-ring), 0 0 0 0 #0000', ':is([aria-invalid="true"])': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-ring), 0 0 0 0 #0000' },
     translate: { default: null, ':active:not([aria-haspopup])': '0 1px' },
-    '--ariax-icon-size': '1rem',
+    '--ariax-icon-size': 'calc(var(--ariax-spacing, .25rem) * 4)',
   },
 });
 
@@ -87,12 +87,12 @@ const variants = stylex.create({
 });
 
 const sizes = stylex.create({
-  default: { height: '2rem', gap: '0.375rem', paddingInline: '0.625rem', paddingInlineEnd: { default: '0.625rem', ':has([data-icon="inline-end"])': '0.5rem' }, paddingInlineStart: { default: '0.625rem', ':has([data-icon="inline-start"])': '0.5rem' } },
-  xs: { height: '1.5rem', gap: '0.25rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 10px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: '0.5rem', paddingInlineEnd: { default: '0.5rem', ':has([data-icon="inline-end"])': '0.375rem' }, paddingInlineStart: { default: '0.5rem', ':has([data-icon="inline-start"])': '0.375rem' }, fontSize: '0.75rem', lineHeight: 'calc(1 / .75)', '--ariax-icon-size': '0.75rem' },
-  sm: { height: '1.75rem', gap: '0.25rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 12px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: '0.625rem', paddingInlineEnd: { default: '0.625rem', ':has([data-icon="inline-end"])': '0.375rem' }, paddingInlineStart: { default: '0.625rem', ':has([data-icon="inline-start"])': '0.375rem' }, fontSize: '0.8rem', lineHeight: 'inherit', '--ariax-icon-size': '0.875rem' },
-  lg: { height: '2.25rem', gap: '0.375rem', paddingInline: '0.625rem', paddingInlineEnd: { default: '0.625rem', ':has([data-icon="inline-end"])': '0.5rem' }, paddingInlineStart: { default: '0.625rem', ':has([data-icon="inline-start"])': '0.5rem' } },
-  icon: { width: '2rem', height: '2rem' },
-  'icon-xs': { width: '1.5rem', height: '1.5rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 10px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, '--ariax-icon-size': '0.75rem' },
-  'icon-sm': { width: '1.75rem', height: '1.75rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 12px)', ':is([data-slot="button-group"] *)': 'var(--radius)' } },
-  'icon-lg': { width: '2.25rem', height: '2.25rem' },
+  default: { height: 'calc(var(--ariax-spacing, .25rem) * 8)', gap: 'calc(var(--ariax-spacing, .25rem) * 1.5)', paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2.5)', paddingInlineEnd: { default: 'calc(var(--ariax-spacing, .25rem) * 2.5)', ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 2)' }, paddingInlineStart: { default: 'calc(var(--ariax-spacing, .25rem) * 2.5)', ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 2)' } },
+  xs: { height: 'calc(var(--ariax-spacing, .25rem) * 6)', gap: 'calc(var(--ariax-spacing, .25rem) * 1)', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 10px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2)', paddingInlineEnd: { default: 'calc(var(--ariax-spacing, .25rem) * 2)', ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)' }, paddingInlineStart: { default: 'calc(var(--ariax-spacing, .25rem) * 2)', ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)' }, fontSize: '0.75rem', lineHeight: 'calc(1 / .75)', '--ariax-icon-size': 'calc(var(--ariax-spacing, .25rem) * 3)' },
+  sm: { height: 'calc(var(--ariax-spacing, .25rem) * 7)', gap: 'calc(var(--ariax-spacing, .25rem) * 1)', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 12px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2.5)', paddingInlineEnd: { default: 'calc(var(--ariax-spacing, .25rem) * 2.5)', ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)' }, paddingInlineStart: { default: 'calc(var(--ariax-spacing, .25rem) * 2.5)', ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)' }, fontSize: '0.8rem', lineHeight: 'inherit', '--ariax-icon-size': 'calc(var(--ariax-spacing, .25rem) * 3.5)' },
+  lg: { height: 'calc(var(--ariax-spacing, .25rem) * 9)', gap: 'calc(var(--ariax-spacing, .25rem) * 1.5)', paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2.5)', paddingInlineEnd: { default: 'calc(var(--ariax-spacing, .25rem) * 2.5)', ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 2)' }, paddingInlineStart: { default: 'calc(var(--ariax-spacing, .25rem) * 2.5)', ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 2)' } },
+  icon: { width: 'calc(var(--ariax-spacing, .25rem) * 8)', height: 'calc(var(--ariax-spacing, .25rem) * 8)' },
+  'icon-xs': { width: 'calc(var(--ariax-spacing, .25rem) * 6)', height: 'calc(var(--ariax-spacing, .25rem) * 6)', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 10px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, '--ariax-icon-size': 'calc(var(--ariax-spacing, .25rem) * 3)' },
+  'icon-sm': { width: 'calc(var(--ariax-spacing, .25rem) * 7)', height: 'calc(var(--ariax-spacing, .25rem) * 7)', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 12px)', ':is([data-slot="button-group"] *)': 'var(--radius)' } },
+  'icon-lg': { width: 'calc(var(--ariax-spacing, .25rem) * 9)', height: 'calc(var(--ariax-spacing, .25rem) * 9)' },
 });

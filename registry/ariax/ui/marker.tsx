@@ -14,12 +14,12 @@ export function Marker({className:_,xstyle,style,variant='default',render,childr
 export function MarkerIcon({className:_,xstyle,style,...props}:Styled<React.ComponentProps<'span'>>){const sx=stylex.props(styles.icon,xstyle);return <span data-slot="marker-icon" aria-hidden="true" {...props} className={sx.className} style={{...sx.style,...style}}/>;}
 export function MarkerContent({className:_,xstyle,style,...props}:Styled<React.ComponentProps<'span'>>){const sx=stylex.props(styles.content,xstyle);return <span data-slot="marker-content" {...props} className={sx.className} style={{...sx.style,...style}}/>;}
 const styles=stylex.create({
- root:{position:'relative',display:'flex',width:'100%',alignItems:'center',gap:'.5rem',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)',color:{default:'var(--muted-foreground)',':is(a):hover':{default:null,'@media (hover: hover)':'var(--foreground)'}},textDecorationLine:{default:null,':is(a)':'underline'},textUnderlineOffset:{default:null,':is(a)':'3px'},minHeight:'1rem',textAlign:'start','--ariax-marker-icon-size':'1rem'},
- icon:{width:'1rem',height:'1rem',flexShrink:0,'--ariax-marker-icon-size':'1rem'},
+ root:{position:'relative',display:'flex',width:'100%',alignItems:'center',gap:'calc(var(--ariax-spacing, .25rem) * 2)',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)',color:{default:'var(--muted-foreground)',':is(a):hover':{default:null,'@media (hover: hover)':'var(--foreground)'}},textDecorationLine:{default:null,':is(a)':'underline'},textUnderlineOffset:{default:null,':is(a)':'3px'},minHeight:'calc(var(--ariax-spacing, .25rem) * 4)',textAlign:'start','--ariax-marker-icon-size':'calc(var(--ariax-spacing, .25rem) * 4)'},
+ icon:{width:'calc(var(--ariax-spacing, .25rem) * 4)',height:'calc(var(--ariax-spacing, .25rem) * 4)',flexShrink:0,'--ariax-marker-icon-size':'calc(var(--ariax-spacing, .25rem) * 4)'},
  content:{minWidth:0,overflowWrap:'break-word',flex:{default:null,':is([data-slot="marker"][data-variant="separator"] *)':'none'},textAlign:{default:null,':is([data-slot="marker"][data-variant="separator"] *)':'center'}},
 });
 const variants=stylex.create({
  default:{},
- separator:{content:{default:null,'::before':'""','::after':'""'},height:{default:null,'::before':1,'::after':1},minWidth:{default:null,'::before':0,'::after':0},flex:{default:null,'::before':'1','::after':'1'},backgroundColor:{default:null,'::before':'var(--border)','::after':'var(--border)'},marginInlineEnd:{default:null,'::before':'.25rem'},marginInlineStart:{default:null,'::after':'.25rem'}},
- border:{borderBottomWidth:1,borderColor:'var(--border)',paddingBottom:'.5rem'},
+ separator:{content:{default:null,'::before':'""','::after':'""'},height:{default:null,'::before':1,'::after':1},minWidth:{default:null,'::before':0,'::after':0},flex:{default:null,'::before':'1','::after':'1'},backgroundColor:{default:null,'::before':'var(--border)','::after':'var(--border)'},marginInlineEnd:{default:null,'::before':'calc(var(--ariax-spacing, .25rem) * 1)'},marginInlineStart:{default:null,'::after':'calc(var(--ariax-spacing, .25rem) * 1)'}},
+ border:{borderBottomWidth:1,borderColor:'var(--border)',paddingBottom:'calc(var(--ariax-spacing, .25rem) * 2)'},
 });

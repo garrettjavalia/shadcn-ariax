@@ -4,14 +4,14 @@ import * as stylex from '@stylexjs/stylex';
 type Styled<P> = Omit<P, 'className'> & { className?: never; xstyle?: stylex.StyleXStyles };
 type DivProps = Styled<ComponentProps<'div'>>;
 const styles = stylex.create({
-  root: { display: 'flex', width: '100%', minWidth: 0, flex: '1 1 0%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', textWrap: 'balance', gap: '1rem', borderRadius: 'calc(var(--radius) * 1.4)', borderStyle: 'dashed', padding: '1.5rem' },
-  header: { display: 'flex', maxWidth: '24rem', flexDirection: 'column', alignItems: 'center', gap: '.5rem' },
-  media: { display: 'flex', flexShrink: 0, alignItems: 'center', justifyContent: 'center', marginBottom: '.5rem' },
+  root: { display: 'flex', width: '100%', minWidth: 0, flex: '1 1 0%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', textWrap: 'balance', gap: 'calc(var(--ariax-spacing, .25rem) * 4)', borderRadius: 'calc(var(--radius) * 1.4)', borderStyle: 'dashed', padding: 'calc(var(--ariax-spacing, .25rem) * 6)' },
+  header: { display: 'flex', maxWidth: '24rem', flexDirection: 'column', alignItems: 'center', gap: 'calc(var(--ariax-spacing, .25rem) * 2)' },
+  media: { display: 'flex', flexShrink: 0, alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(var(--ariax-spacing, .25rem) * 2)' },
   defaultMedia: { backgroundColor: 'transparent' },
-  icon: { backgroundColor: 'var(--muted)', color: 'var(--foreground)', width: '2rem', height: '2rem', borderRadius: 'var(--radius)' },
+  icon: { backgroundColor: 'var(--muted)', color: 'var(--foreground)', width: 'calc(var(--ariax-spacing, .25rem) * 8)', height: 'calc(var(--ariax-spacing, .25rem) * 8)', borderRadius: 'var(--radius)' },
   title: { fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)', fontWeight: 500, letterSpacing: '-.025em' },
   description: { color: 'var(--muted-foreground)', fontSize: '.875rem', lineHeight: 1.625 },
-  content: { display: 'flex', width: '100%', maxWidth: '24rem', minWidth: 0, flexDirection: 'column', alignItems: 'center', textWrap: 'balance', gap: '.625rem', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
+  content: { display: 'flex', width: '100%', maxWidth: '24rem', minWidth: 0, flexDirection: 'column', alignItems: 'center', textWrap: 'balance', gap: 'calc(var(--ariax-spacing, .25rem) * 2.5)', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
 });
 export function Empty({ className: _, xstyle, style, ...props }: DivProps) {
   const sx = stylex.props(styles.root, xstyle);

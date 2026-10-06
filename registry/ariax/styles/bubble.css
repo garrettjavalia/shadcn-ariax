@@ -1,5 +1,5 @@
 /* The variant belongs to the parent and styles only direct content children. */
-:where([data-slot="bubble-content"]) { --ariax-bubble-border: transparent; --ariax-bubble-radius: calc(var(--radius) * 1.4); --ariax-bubble-padding-x: .75rem; --ariax-bubble-padding-y: .5rem; }
+:where([data-slot="bubble-content"]) { --ariax-bubble-border: transparent; --ariax-bubble-radius: calc(var(--radius) * 1.4); --ariax-bubble-padding-x: calc(var(--ariax-spacing, .25rem) * 3); --ariax-bubble-padding-y: calc(var(--ariax-spacing, .25rem) * 2); }
 :where([data-slot="bubble"][data-variant="default"] > [data-slot="bubble-content"]) { background-color: var(--primary); color: var(--primary-foreground); }
 :where([data-slot="bubble"][data-variant="secondary"] > [data-slot="bubble-content"]) { background-color: var(--secondary); color: var(--secondary-foreground); }
 :where([data-slot="bubble"][data-variant="muted"] > [data-slot="bubble-content"]) { background-color: var(--muted); }

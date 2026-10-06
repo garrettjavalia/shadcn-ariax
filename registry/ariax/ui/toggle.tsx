@@ -54,7 +54,7 @@ const styles = stylex.create({
     justifyContent: 'center',
     whiteSpace: 'nowrap',
     outlineStyle: 'none',
-    gap: '0.25rem',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 1)',
     borderRadius: 'var(--radius)',
     fontSize: '0.875rem',
     lineHeight: 'calc(1.25 / .875)',
@@ -101,7 +101,7 @@ const styles = stylex.create({
       default: null,
       ':focus-visible': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-toggle-ring), 0 0 0 0 #0000'
     },
-    '--ariax-toggle-icon-size': '1rem'
+    '--ariax-toggle-icon-size': 'calc(var(--ariax-spacing, .25rem) * 4)'
   }
 });
 const variants = stylex.create({
@@ -118,43 +118,43 @@ const variants = stylex.create({
 });
 const sizes = stylex.create({
   default: {
-    height: '2rem',
-    minWidth: '2rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 8)',
+    minWidth: 'calc(var(--ariax-spacing, .25rem) * 8)',
     paddingInlineStart: {
-      default: '0.625rem',
-      ':has([data-icon="inline-start"])': '0.5rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 2)'
     },
     paddingInlineEnd: {
-      default: '0.625rem',
-      ':has([data-icon="inline-end"])': '0.5rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 2)'
     }
   },
   sm: {
-    height: '1.75rem',
-    minWidth: '1.75rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 7)',
+    minWidth: 'calc(var(--ariax-spacing, .25rem) * 7)',
     borderRadius: 'min(calc(var(--radius) * .8), 12px)',
     fontSize: '0.8rem',
     lineHeight: 'inherit',
     paddingInlineStart: {
-      default: '0.625rem',
-      ':has([data-icon="inline-start"])': '0.375rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)'
     },
     paddingInlineEnd: {
-      default: '0.625rem',
-      ':has([data-icon="inline-end"])': '0.375rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)'
     },
-    '--ariax-toggle-icon-size': '0.875rem'
+    '--ariax-toggle-icon-size': 'calc(var(--ariax-spacing, .25rem) * 3.5)'
   },
   lg: {
-    height: '2.25rem',
-    minWidth: '2.25rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 9)',
+    minWidth: 'calc(var(--ariax-spacing, .25rem) * 9)',
     paddingInlineStart: {
-      default: '0.625rem',
-      ':has([data-icon="inline-start"])': '0.5rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 2)'
     },
     paddingInlineEnd: {
-      default: '0.625rem',
-      ':has([data-icon="inline-end"])': '0.5rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 2)'
     }
   }
 });

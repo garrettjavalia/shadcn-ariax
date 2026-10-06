@@ -228,13 +228,13 @@ export {
 
 const styles=stylex.create({
  root:{position:'relative'},viewport:{overflow:'hidden'},content:{display:'flex'},
- horizontalContent:{marginInlineStart:'-1rem'},verticalContent:{marginTop:'-1rem',flexDirection:'column'},
- item:{minWidth:0,flexShrink:0,flexGrow:0,flexBasis:'100%'},horizontalItem:{paddingInlineStart:'1rem'},verticalItem:{paddingTop:'1rem'},
+ horizontalContent:{marginInlineStart:'calc(var(--ariax-spacing, .25rem) * -4)'},verticalContent:{marginTop:'calc(var(--ariax-spacing, .25rem) * -4)',flexDirection:'column'},
+ item:{minWidth:0,flexShrink:0,flexGrow:0,flexBasis:'100%'},horizontalItem:{paddingInlineStart:'calc(var(--ariax-spacing, .25rem) * 4)'},verticalItem:{paddingTop:'calc(var(--ariax-spacing, .25rem) * 4)'},
  control:{position:'absolute',touchAction:'manipulation',borderRadius:'calc(infinity * 1px)'},
- previousHorizontal:{insetBlock:0,insetInlineStart:'-3rem',marginBlock:'auto'},
- nextHorizontal:{insetBlock:0,insetInlineEnd:'-3rem',marginBlock:'auto'},
- previousVertical:{top:'-3rem',insetInlineStart:'50%',translate:{default:'-50% 0',':dir(rtl)':'50% 0'},rotate:'90deg'},
- nextVertical:{bottom:'-3rem',insetInlineStart:'50%',translate:{default:'-50% 0',':dir(rtl)':'50% 0'},rotate:'90deg'},
+ previousHorizontal:{insetBlock:0,insetInlineStart:'calc(var(--ariax-spacing, .25rem) * -12)',marginBlock:'auto'},
+ nextHorizontal:{insetBlock:0,insetInlineEnd:'calc(var(--ariax-spacing, .25rem) * -12)',marginBlock:'auto'},
+ previousVertical:{top:'calc(var(--ariax-spacing, .25rem) * -12)',insetInlineStart:'50%',translate:{default:'-50% 0',':dir(rtl)':'50% 0'},rotate:'90deg'},
+ nextVertical:{bottom:'calc(var(--ariax-spacing, .25rem) * -12)',insetInlineStart:'50%',translate:{default:'-50% 0',':dir(rtl)':'50% 0'},rotate:'90deg'},
  icon:{rotate:{default:null,':dir(rtl)':'180deg'}},
  sr:{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',borderWidth:0},
 });
