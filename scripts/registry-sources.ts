@@ -7,7 +7,7 @@ export async function componentNames(root: string) {
   return (await readdir(resolve(root, 'registry/ariax/ui'))).filter(name => /^[a-z][a-z0-9-]*\.tsx$/.test(name)).map(name => name.slice(0, -4)).sort();
 }
 
-export async function componentSources(root: string, name: string, pins: Record<string, string>) {
+export async function componentSources(root: string, name: string, pins: Record<string, string>, extension = '.tsx') {
   const base = resolve(root, 'registry/ariax/ui');
   const files = new Set<string>();
   const dependencies = new Set<string>();
@@ -45,6 +45,6 @@ export async function componentSources(root: string, name: string, pins: Record<
       }
     }
   }
-  await visit(resolve(base, `${name}.tsx`));
+  await visit(resolve(base, `${name}${extension}`));
   return { dependencies: [...dependencies].sort(), files: [...files].sort().map(path => ({ path: relative(root, path), type: path.endsWith('.tsx') ? 'registry:ui' : 'registry:file', target: `@ui/${relative(base, path)}` })) };
 }

@@ -18,6 +18,7 @@
       "vite/client"
     ],
     "paths": {
+      "@*-recipes": ["./registry/ariax/ui/*.recipe.stylex.ts"],
       "@*-customizations": ["./stories/*-customizations.ts"],
       "@*": ["./registry/ariax/ui/*"],
       "@card-customizations": [

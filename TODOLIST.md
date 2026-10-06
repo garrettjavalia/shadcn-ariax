@@ -69,6 +69,6 @@
 - [x] Toggle
 - [x] Toggle Group
 - [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
-- [ ] Typography — 텍스트 스타일 예제
+- [x] Typography — 공식 intrinsic 텍스트 스타일 예제
 
 Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
