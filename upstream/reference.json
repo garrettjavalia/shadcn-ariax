@@ -2,6 +2,7 @@
   "components": [
     "button",
     "skeleton",
-    "separator"
+    "separator",
+    "aspect-ratio"
   ]
 }

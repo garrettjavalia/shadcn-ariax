@@ -1,0 +1,4 @@
+.aspect-photo { position: absolute; height: 100%; width: 100%; left: 0; top: 0; right: 0; bottom: 0; color: transparent; border-radius: var(--radius); object-fit: cover; filter: grayscale(1); }
+.dark .aspect-photo { filter: grayscale(1) brightness(.2); }
+.aspect-figure { width: 100%; max-width: 24rem; }
+.aspect-figure figcaption { margin-top: .5rem; text-align: center; font-size: .875rem; line-height: 1.25rem; color: var(--muted-foreground); }

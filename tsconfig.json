@@ -35,6 +35,12 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@aspect-ratio": [
+        "./registry/ariax/ui/aspect-ratio.tsx"
+      ],
+      "@aspect-customizations": [
+        "./stories/aspect-customizations.ts"
       ]
     }
   },
