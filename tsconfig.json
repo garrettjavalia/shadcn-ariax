@@ -18,6 +18,8 @@
       "vite/client"
     ],
     "paths": {
+      "@*-customizations": ["./stories/*-customizations.ts"],
+      "@*": ["./registry/ariax/ui/*"],
       "@card-customizations": [
         "./stories/card-customizations.ts"
       ],
@@ -131,12 +133,6 @@
       ],
       "@button-group-customizations": [
         "./stories/button-group-customizations.ts"
-      ],
-      "@accordion": [
-        "./registry/ariax/ui/accordion.tsx"
-      ],
-      "@accordion-customizations": [
-        "./stories/accordion-customizations.ts"
       ]
     }
   },

@@ -1,22 +1,26 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
+import { componentNames as discoverComponents, componentSources } from './registry-sources';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['accordion', 'button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip', 'switch', 'avatar', 'radio-group', 'button-group'];
+const componentNames = await discoverComponents(process.cwd());
 const sharedFiles = [
   { path: 'registry/ariax/ui/animations.stylex.ts', type: 'registry:file', target: '@ui/animations.stylex.ts' },
-  ...['accordion-children.css', 'entry.css', 'button-group.css', 'reset.css', 'theme.css', 'button-children.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css', 'kbd-children.css', 'dropdown-menu.css', 'tooltip.css', 'avatar.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...(await readdir('registry/ariax/styles')).filter(name => name.endsWith('.css')).sort().map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
-const items = componentNames.map(name => ({
+const items = await Promise.all(componentNames.map(async name => {
+  const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies});
+  return {
   name, type: 'registry:ui', title: `Ariax ${name[0].toUpperCase()}${name.slice(1)}`,
   description: `React Aria ${name}, Nova style, StyleX, Neutral light/dark tokens.`,
-  dependencies: ['react-aria-components', '@stylexjs/stylex', ...(['checkbox','native-select'].includes(name) ? ['lucide-react'] : [])].map(name => `${name}@${pkg.dependencies[name] ?? pkg.devDependencies[name]}`),
+  dependencies: [...new Set([`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`, ...source.dependencies])],
   devDependencies: [`@stylexjs/unplugin@${pkg.devDependencies['@stylexjs/unplugin']}`],
-  files: [...(name === 'button-group' ? [{path: 'registry/ariax/ui/separator.tsx', type: 'registry:ui', target: '@ui/separator.tsx'}] : name === 'input-group' ? ['button', 'input', 'textarea'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : name === 'field' ? ['label', 'separator'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : []), { path: `registry/ariax/ui/${name}.tsx`, type: 'registry:ui', target: `@ui/${name}.tsx` }, ...sharedFiles],
+  files: [...source.files, ...sharedFiles.filter(file => !source.files.some(source => source.path === file.path))],
   docs: 'Configure @stylexjs/unplugin in Vite before the React plugin (useCSSLayers: false), then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
   meta: { base: 'aria', style: 'nova', styling: 'stylex', theme: 'neutral', modes: ['light', 'dark'] },
+  };
 }));
 const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: process.env.REGISTRY_URL ?? 'http://127.0.0.1:4200', items });
 await mkdir('public/r', { recursive: true });
