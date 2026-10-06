@@ -1,5 +1,6 @@
+import { createServer } from 'node:http';
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { resolve, relative, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -13,7 +14,7 @@ export async function referenceInputs(config: Source) {
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
   assert.equal(pkg.devDependencies.shadcn, installed.version, 'Install the pinned shadcn CLI before preparing references');
-  return { version: 3, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+  return { version: 4, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
 }
 
 export async function buildReference(directory: string, inputs: Awaited<ReturnType<typeof referenceInputs>>) {
@@ -72,12 +73,32 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   await writeFile(resolve(directory, 'tailwind.css'), await readFile(resolve(root, 'reference/tailwind.css'), 'utf8'));
   await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rsc: false, tsx: true, tailwind: { config: '', css: 'cli.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
   const cli = resolve(root, 'node_modules/shadcn/dist/index.js');
-  function run(args: string[]) {
-    const result = spawnSync(process.execPath, [cli, ...args, '--cwd', directory], { cwd: directory, env: { ...process.env, CI: 'true', npm_config_offline: 'true' }, encoding: 'utf8', timeout: 120_000 });
-    assert.equal(result.status, 0, `Official CLI failed: ${result.error ?? result.stdout + result.stderr}`);
+  // CLI add also requests base-color metadata. Serve the committed response locally;
+  // unknown endpoints fail closed instead of falling through to the live registry.
+  const neutral = await readFile(resolve(rawRoot, 'apps/v4/public/r/colors/neutral.json'));
+  const registry = createServer((request, response) => {
+    if (request.url !== '/colors/neutral.json') { response.writeHead(404).end(); return; }
+    response.writeHead(200, { 'Content-Type': 'application/json' }).end(neutral);
+  });
+  await new Promise<void>((done, fail) => { registry.once('error', fail); registry.listen(0, '127.0.0.1', done); });
+  const address = registry.address();
+  assert.ok(address && typeof address !== 'string');
+  const registryURL = `http://127.0.0.1:${address.port}`;
+  async function run(args: string[]) {
+    await new Promise<void>((done, fail) => {
+      const child = spawn(process.execPath, [cli, ...args, '--cwd', directory], { cwd: directory, env: { ...process.env, CI: 'true', npm_config_offline: 'true', REGISTRY_URL: registryURL }, timeout: 120_000 });
+      let output = '';
+      child.stdout.on('data', data => { output += data; }); child.stderr.on('data', data => { output += data; });
+      child.on('error', fail);
+      child.on('close', code => code === 0 ? done() : fail(new Error(`Official CLI failed (${code}): ${output}`)));
+    });
   }
-  run(['build', resolve(directory, 'registry.json'), '--output', resolve(directory, 'registry')]);
-  run(['add', ...inputs.components.map(name => resolve(directory, 'registry', `${name}.json`)), '--yes', '--overwrite']);
+  try {
+    await run(['build', resolve(directory, 'registry.json'), '--output', resolve(directory, 'registry')]);
+    await run(['add', ...inputs.components.map(name => resolve(directory, 'registry', `${name}.json`)), '--yes', '--overwrite']);
+  } finally {
+    await new Promise<void>((done, fail) => registry.close(error => error ? fail(error) : done()));
+  }
   const installedFiles = ['package.json', 'tsconfig.json', 'components.json', 'cli.css'];
   for (const group of ['ui', 'lib', 'hooks', 'components']) {
     async function collect(path: string) {
@@ -88,6 +109,6 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
     }
     await collect(resolve(directory, group));
   }
-  assert.ok(installedFiles.length, 'Official CLI installed no reference files');
+  assert.ok(installedFiles.length > 4, 'Official CLI installed no reference files');
   return installedFiles;
 }

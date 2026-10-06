@@ -29,7 +29,7 @@ generated/                        # 전체 Git 제외
 
 `pnpm test`, `pnpm typecheck`, Storybook 실행·빌드는 먼저 `upstream:prepare`를 실행한다. 원본은 고정 커밋으로 받고, 설치할 항목과 `registryDependencies`는 원본의 `*/_registry.ts`에서 읽는다. 필요한 항목만 고정한 `shadcn` 패키지의 공개 `createStyleMap`·`transformStyle` API로 처리한 뒤 공식 CLI `build`와 `add`를 실행한다. 자체 `cn-*` 클래스 치환은 없다. import namespace 이동은 원본의 공식 빌드 단계와 같은 경로 이동이다.
 
-이는 필요한 항목에 공식 API를 재사용하는 경량 파이프라인이며 업스트림 웹앱 전체 빌드를 재현한 것은 아니다. 라이브 공식 레지스트리 응답을 설치 기준으로 삼지 않는다. 원본 커밋과 `package.json`/`pnpm-lock.yaml`의 CLI·의존성 고정이 재현 기준이다. 공식 구현 근거는 고정 커밋의 `apps/v4/scripts/build-registry.mts`다.
+이는 필요한 항목에 공식 API를 재사용하는 경량 파이프라인이며 업스트림 웹앱 전체 빌드를 재현한 것은 아니다. CLI가 추가로 요청하는 Neutral 색상 JSON도 같은 원본 커밋에서 받는다. 설치 동안 loopback 레지스트리가 이 파일만 제공하며 다른 경로는 404로 실패시킨다. 라이브 공식 레지스트리 응답을 설치 기준으로 삼지 않는다. 원본 커밋과 `package.json`/`pnpm-lock.yaml`의 CLI·의존성 고정이 재현 기준이다. 공식 구현 근거는 고정 커밋의 `apps/v4/scripts/build-registry.mts`다.
 
 다운로드 캐시는 소스 설정·필수 경로를 확인한다. 설치 캐시는 소스 설정·선택한 컴포넌트·CLI 버전·프로젝트 의존성과 설치된 파일과 JSX 설정·패키지 설정·CLI CSS의 존재 여부를 확인한다. 둘 다 완료 기록이 일치하면 오프라인으로 재사용하며 CLI도 다시 실행하지 않는다. 설치 파일이 누락되면 원본 캐시에서 공식 CLI로 재생성한다. CLI 소유 CSS는 로컬 harness 설정 갱신으로 덮어쓰지 않는다. 파일별 내용 해시는 저장하거나 검사하지 않는다. 임의 수정·손상이 의심되면 `pnpm upstream:sync`로 원본과 설치 결과를 다시 준비한다.
 
@@ -39,4 +39,4 @@ generated/                        # 전체 Git 제외
 
 기본 API는 공유 stories로 비교한다. 커스터마이징은 원본의 Tailwind 유틸리티와 이식본의 StyleX `xstyle`을 비교한다. 헬퍼 호환 기준은 원본 Button의 최종 `cn(buttonVariants(...))` 스타일이다. 현재 이식·검증 범위는 **Button / Nova / Neutral**이며 다운로드 범위와 구분한다.
 
-`pnpm test:upstream`은 원본 HTTP 응답만 로컬 아카이브로 바꾸고 공식 CLI는 실제로 실행한다. 클래스 변환 결과, 로컬 의존 항목과 import 이동, 동시 단일 다운로드, 설치 캐시의 오프라인 재사용·누락 복구, 소스 설정 변경, 실패한 다운로드의 기존 캐시 보존을 검사한다.
+`pnpm test:upstream`은 원본 HTTP 응답만 로컬 아카이브로 바꾸고 공식 CLI는 실제로 실행한다. 자식 CLI 프로세스에도 외부 HTTP(S) 차단을 적용해 오프라인 설치 복구를 검증한다. 클래스 변환 결과, 로컬 의존 항목과 import 이동, 동시 단일 다운로드, 설치 캐시의 오프라인 재사용·누락 복구, 소스 설정 변경, 실패한 다운로드의 기존 캐시 보존을 검사한다.

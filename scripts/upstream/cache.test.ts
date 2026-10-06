@@ -21,6 +21,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     const fixtures: Record<string, string> = {
       'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
       'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8; }',
+      'apps/v4/public/r/colors/neutral.json': JSON.stringify({ inlineColors: {light:{background:'white'},dark:{background:'black'}}, cssVars: {light:{background:'0 0% 100%'},dark:{background:'0 0% 0%'}}, cssVarsV4:{light:{background:'oklch(1 0 0)'},dark:{background:'oklch(0 0 0)'}}, inlineColorsTemplate:'',cssVarsTemplate:'' }),
       'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],css:{".reference-fixture":{color:"red"}},files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
       'apps/v4/registry/bases/aria/lib/_registry.ts': 'export const lib = [{name:"utils",type:"registry:lib",dependencies:["cn"],files:[{path:"lib/utils.ts",type:"registry:lib"}]}];',
       'apps/v4/registry/bases/aria/lib/utils.ts': 'export const helper = "fixture";',
@@ -34,12 +35,15 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     }
     const packed = spawnSync('tar', ['-czf', join(dir, 'fixture.tar.gz'), '-C', join(dir, 'archive'), `ui-${commit}`]);
     assert.equal(packed.status, 0);
-    const config = { repository: 'shadcn-ui/ui', commit, base: 'aria', style: 'nova', paths: ['apps/v4/registry'], requiredFiles: paths };
+    const config = { repository: 'shadcn-ui/ui', commit, base: 'aria', style: 'nova', paths: ['apps/v4/registry', 'apps/v4/public/r/colors/neutral.json'], requiredFiles: paths };
     await writeFile(join(dir, 'upstream/source.json'), JSON.stringify(config));
     // Real archive/extraction/cache logic; only the HTTP transport is replaced.
     await writeFile(join(dir, 'transport.mjs'), `import {readFile,appendFile} from 'node:fs/promises'; globalThis.fetch=async()=>{if(process.env.NO_NETWORK==='1')throw Error('Unexpected network');await appendFile(new URL('./downloads.log',import.meta.url),'download\\n');return new Response(await readFile(new URL('./fixture.tar.gz',import.meta.url)));};`);
+    // The guard is inherited by the real CLI process, unlike the download fetch stub.
+    await writeFile(join(dir, 'offline-guard.mjs'), `import http from 'node:http'; import https from 'node:https'; import {syncBuiltinESMExports} from 'node:module';
+for (const module of [http, https]) { const request=module.request; module.request=function(input,...args) { const host=typeof input==='string' ? new URL(input).hostname : input.hostname ?? input.host; if(host!=='127.0.0.1' && host!=='localhost') throw Error('Unexpected external CLI HTTP request: '+host); return request.call(this,input,...args); }; } syncBuiltinESMExports();`);
     const run = (offline = false) => new Promise<{ code: number | null; output: string }>((done, fail) => {
-      const child = spawn(process.execPath, ['--import', fileURLToPath(import.meta.resolve('tsx')), '--import', join(dir, 'transport.mjs'), join(dir, 'scripts/upstream/prepare.ts')], { cwd: dir, env: { ...process.env, NO_NETWORK: offline ? '1' : '0' } });
+      const child = spawn(process.execPath, ['--import', fileURLToPath(import.meta.resolve('tsx')), '--import', join(dir, 'transport.mjs'), join(dir, 'scripts/upstream/prepare.ts')], { cwd: dir, env: { ...process.env, NO_NETWORK: offline ? '1' : '0', NODE_OPTIONS: [process.env.NODE_OPTIONS, '--import', join(dir, 'offline-guard.mjs')].filter(Boolean).join(' ') } });
       let output = '';
       child.stdout.on('data', data => { output += data; }); child.stderr.on('data', data => { output += data; });
       child.on('error', fail); child.on('close', code => done({ code, output }));
@@ -74,23 +78,27 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     result = await run(true); assert.notEqual(result.code, 0, 'Unknown reference selection must fail.');
     assert.equal(await readFile(installed, 'utf8'), installedSource, 'Failed preparation must preserve the successful installation.');
     await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'] }));
+    const registryMetadata = join(dir, 'generated/upstream/shadcn/apps/v4/registry/bases/aria/ui/_registry.ts');
+    await rm(registryMetadata);
+    result = await run(); assert.equal(result.code, 0, result.output);
+    assert.ok(await stat(registryMetadata), 'Missing required registry metadata must be redownloaded.');
     const rawFile = join(dir, 'generated/upstream/shadcn', paths[0]);
     await rm(rawFile);
     result = await run(); assert.equal(result.code, 0, result.output);
-    assert.equal(await downloads(), 2, 'A missing required file must trigger reconstruction.');
+    assert.equal(await downloads(), 3, 'A missing required file must trigger reconstruction.');
     // Content edits are intentionally not checksummed.
     await writeFile(rawFile, 'export const button = "local edit";');
     result = await run(true); assert.equal(result.code, 0, result.output);
-    assert.equal(await downloads(), 2);
+    assert.equal(await downloads(), 3);
     const marker = join(dir, 'generated/upstream/shadcn/.download-complete.json');
     await writeFile(marker, JSON.stringify({ version: 1, source: { ...config, commit: 'b'.repeat(40) } }));
     result = await run(); assert.equal(result.code, 0, result.output);
-    assert.equal(await downloads(), 3, 'A different cached commit must trigger download.');
+    assert.equal(await downloads(), 4, 'A different cached commit must trigger download.');
     assert.deepEqual(JSON.parse(await readFile(marker, 'utf8')).source, config);
     await rm(marker);
     result = await run(true); assert.notEqual(result.code, 0, 'An incomplete cache cannot be reused offline.');
     result = await run(); assert.equal(result.code, 0, result.output);
-    assert.equal(await downloads(), 4);
+    assert.equal(await downloads(), 5);
     // Failed extraction must leave the previously installed cache intact.
     await writeFile(marker, '{}');
     await writeFile(join(dir, 'fixture.tar.gz'), 'invalid archive');
