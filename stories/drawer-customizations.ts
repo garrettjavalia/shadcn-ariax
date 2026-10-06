@@ -61,3 +61,6 @@ export const custom25={xstyle:s.custom25};
 export const custom26=stylex.props(animationStyles.scrollFade,s.custom26);
 export const custom27=dom(s.custom27);
 export function profileFormProps(props:ComponentProps<'form'>){const sx=dom(s.form);return {...props,className:[sx.className,props.className].filter(Boolean).join(' '),style:{...sx.style,...props.style}};}
+const callbacks=stylex.create({trigger:{height:34,width:180},popup:(width:number)=>({width,fontSize:20})});
+export const callbackTrigger={xstyle:callbacks.trigger};
+export const callbackPopup={xstyle:callbacks.popup(280)};
