@@ -52,3 +52,5 @@ export const HelperMatrix: Story = { render: () => <main id="parity-root">{varia
 
 // Nova small text changes font-size only; its line-height comes from the parent.
 export const InheritedLineHeight: Story = { render: () => <main id="parity-root" style={{ lineHeight: 'calc(1.25 / .875)' }}><div className="gallery"><Button size="sm">Small button</Button><LinkButton size="sm" href="#destination">Small link</LinkButton><a href="#destination" {...buttonProps({ size: 'sm' })}>Small helper</a><Button>Default button</Button></div></main> };
+
+export const FontSizeOverride: Story = { render: () => <main id="parity-root"><div className="gallery">{sizes.slice(0, 4).map(size => <a key={size} href="#destination" {...buttonProps({ size })} style={{ fontSize: 20 }}>{size}</a>)}</div></main> };
