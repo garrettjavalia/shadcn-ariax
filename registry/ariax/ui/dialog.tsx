@@ -4,6 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import {composeRenderProps,Dialog as Primitive,DialogTrigger as Trigger,Heading,ModalOverlay,Modal,type DialogProps as DialogPrimitiveProps,type DialogTriggerProps as DialogTriggerPrimitiveProps} from 'react-aria-components';
 import {Button,type ButtonProps} from './button';
 import {XIcon} from 'lucide-react';
+import {RenderStylesContext} from './render-styles.internal';
 import {animationStyles} from './animations.stylex';
 export type {DialogPrimitiveProps,DialogTriggerPrimitiveProps};
 type Custom={xstyle?:stylex.StyleXStyles;className?:never};
@@ -22,5 +23,5 @@ export function Dialog({xstyle,className:_,children,showCloseButton=true,isDismi
 type DivProps=Omit<React.ComponentProps<'div'>,'className'> & Custom;
 export function DialogHeader({xstyle,style,className:_,...props}:DivProps){const a=stylex.props(styles.header,xstyle);return <div data-slot="dialog-header" {...props} className={a.className} style={{...a.style,...style}}/>;}
 export function DialogFooter({xstyle,style,className:_,showCloseButton=false,children,...props}:DivProps & {showCloseButton?:boolean}){const a=stylex.props(styles.footer,xstyle);return <div data-slot="dialog-footer" {...props} className={a.className} style={{...a.style,...style}}>{children}{showCloseButton&&<DialogClose variant="outline">Close</DialogClose>}</div>;}
-export function DialogTitle({xstyle,style,className:_,...props}:Omit<React.ComponentProps<typeof Heading>,'slot'|'className'> & Custom){const a=stylex.props(styles.title,xstyle);return <Heading slot="title" data-slot="dialog-title" {...props} className={a.className} style={{...a.style,...style}}/>;}
-export function DialogDescription({xstyle,style,className:_,...props}:Omit<DivProps,'slot'>){const a=stylex.props(styles.description,xstyle);return <div data-slot="dialog-description" {...props} className={['ariax-dialog-description',a.className].join(' ')} style={{...a.style,...style}}/>;}
+export function DialogTitle({xstyle,style,className:_,...props}:Omit<React.ComponentProps<typeof Heading>,'slot'|'className'> & Custom){const inherited=React.useContext(RenderStylesContext);const a=stylex.props(styles.title,inherited,xstyle);const element=<Heading slot="title" data-slot="dialog-title" {...props} className={a.className} style={{...a.style,...style}}/>;return inherited?<RenderStylesContext.Provider value={undefined}>{element}</RenderStylesContext.Provider>:element;}
+export function DialogDescription({xstyle,style,className:_,...props}:Omit<DivProps,'slot'>){const inherited=React.useContext(RenderStylesContext);const a=stylex.props(styles.description,inherited,xstyle);const element=<div data-slot="dialog-description" {...props} className={['ariax-dialog-description',a.className].join(' ')} style={{...a.style,...style}}/>;return inherited?<RenderStylesContext.Provider value={undefined}>{element}</RenderStylesContext.Provider>:element;}
