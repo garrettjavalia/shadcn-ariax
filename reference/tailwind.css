@@ -65,5 +65,3 @@
 }
 
 @custom-variant style-nova (&:where(.style-nova *));
-
-@source "../../../reference/hover-card-customizations.ts";
