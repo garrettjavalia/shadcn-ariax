@@ -44,6 +44,9 @@
       ],
       "@field": [
         "./registry/ariax/ui/field.tsx"
+      ],
+      "@radio-group": [
+        "./registry/ariax/ui/radio-group.tsx"
       ]
     }
   },

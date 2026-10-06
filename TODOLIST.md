@@ -52,7 +52,7 @@
 - [ ] Popover
 - [ ] Progress
 - [ ] Questionnaire
-- [ ] Radio Group
+- [x] Radio Group — Nova, 공식 7 예제, Label/Field 조합, light/dark·키보드/포인터·native style/xstyle 검증
 - [ ] Resizable
 - [ ] Scroll Area
 - [ ] Select

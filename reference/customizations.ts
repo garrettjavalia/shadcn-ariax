@@ -9,3 +9,7 @@ export const checkboxCustomized = (width:number) => ({className:'h-6 opacity-80'
 
 export const fieldCustomized = {className:'gap-5 p-3 w-[280px]',style:{gap:'1.5rem'}};
 export const fieldLabelCustomized = {className:'text-primary text-xl',style:{opacity:0.75}};
+
+export const radioFit={className:'w-fit'}; export const radioMax={className:'max-w-sm'};export const radioFieldset={className:'w-full max-w-xs'};export const radioNormal={className:'font-normal'};
+export const radioCustom=(width:number)=>({style:({isDisabled}:{isDisabled:boolean})=>({width,padding:isDisabled?0:8}),className:'gap-4'});
+export const radioItemCustom={className:'size-6',style:({isSelected}:{isSelected:boolean})=>({width:isSelected?28:24,opacity:0.8})};

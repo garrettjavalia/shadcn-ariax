@@ -85,3 +85,7 @@ Field·FieldSet·FieldLegend·FieldGroup·FieldContent·FieldLabel·FieldTitle·
 ## Field·Checkbox 조합
 
 Checkbox의 공식 Basic·Demo·Description·Disabled·Group·Invalid와 Field의 Checkbox·Group 예제는 실제 레지스트리 컴포넌트로 렌더링한다. 예제의 레이아웃 유틸리티만 공유 style로 표현한다. 라벨 클릭, 키보드 선택, 선택 카드의 포커스·테두리·링, 비활성 peer 라벨을 검증한다. 공식 RTL 변환과 Table 조합은 별도 후속 PR에서 검증한다.
+
+## Radio Group
+
+RadioGroup·RadioGroupItem의 원본 DOM·indicator·선택·disabled·invalid·focus-visible·확장 클릭 영역을 보존한다. native style은 StyleX 동적 변수 뒤에서 병합한다. 공식 일곱 문서 예제와 native style 콜백, 동적 xstyle 갱신, controlled/native group props를 공유 비교기로 검증한다. 자동 radio input name은 generated provider ID만 정규화하며 명시한 이름과 그룹 참조 관계를 보존한다.
