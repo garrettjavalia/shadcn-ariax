@@ -6,6 +6,7 @@
     "badge",
     "alert",
     "card",
-    "aspect-ratio"
+    "aspect-ratio",
+    "label"
   ]
 }

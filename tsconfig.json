@@ -59,6 +59,9 @@
       ],
       "@aspect-customizations": [
         "./stories/aspect-customizations.ts"
+      ],
+      "@label": [
+        "./registry/ariax/ui/label.tsx"
       ]
     }
   },
