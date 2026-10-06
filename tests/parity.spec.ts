@@ -52,6 +52,14 @@ test('every official Button documentation example has a registered parity story'
  for (const name of examples) expect(index.entries[`components-separator--${name.replace('separator-', '')}`]?.tags, name).toContain('parity');
 });
 
+test('every official Alert documentation example has a registered parity story', async ({ request }) => {
+  const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/alert.mdx', 'utf8');
+  const examples = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m => m[1]);
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
+  expect(examples.length).toBeGreaterThan(0);
+  for (const name of examples) expect(index.entries[`components-alert--${name.replace('alert-', '')}`]?.tags, name).toContain('parity');
+});
+
 test('official Table documentation coverage records unsupported compositions explicitly', async ({request})=>{
  const document=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/table.mdx','utf8');
  const coverage: Record<string,{story?:string;todo?:string}>= {'table-demo':{story:'demo'},'table-footer':{story:'footer'},'table-rtl':{story:'rtl'},'table-actions':{todo:'DropdownMenu implementation and action/portal parity are pending; draft scope.'}};
