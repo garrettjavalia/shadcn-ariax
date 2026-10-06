@@ -1,5 +1,6 @@
 import { buttonProps } from '@button';
 import * as stylex from "@stylexjs/stylex";
+import { collapsibleGroup } from './sidebar-markers.stylex';
 const styles = stylex.create({
   toast: {
     marginLeft: 160
@@ -107,7 +108,6 @@ const styles = stylex.create({
     fontWeight: 500,
     color: 'var(--muted-foreground)'
   },
-  group: {},
   chevronState: {
     marginLeft: 'auto',
     transitionProperty: 'transform, translate, scale, rotate',
@@ -115,7 +115,7 @@ const styles = stylex.create({
     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
     rotate: {
       default: null,
-      ':is([data-sidebar-example-group][data-state="open"] *)': '90deg'
+      [stylex.when.ancestor('[data-state="open"]', collapsibleGroup)]: '90deg'
     }
   },
   hiddenIcon: {
@@ -216,7 +216,7 @@ const styles = stylex.create({
     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
     rotate: {
       default: null,
-      ':is([data-sidebar-example-group][data-state="open"] *)': '180deg'
+      [stylex.when.ancestor('[data-state="open"]', collapsibleGroup)]: '180deg'
     }
   },
   itemOpen: {
@@ -235,7 +235,7 @@ const styles = stylex.create({
     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
     rotate: {
       default: null,
-      ':is([data-sidebar-example-group][data-state="open"] *)': '90deg'
+      [stylex.when.ancestor('[data-state="open"]', collapsibleGroup)]: '90deg'
     }
   },
   relative: {
@@ -272,7 +272,7 @@ const styles = stylex.create({
     rotate: {
       default: null,
       ':dir(rtl)': '180deg',
-      ':is([data-sidebar-example-group][data-open="true"] *)': '90deg'
+      [stylex.when.ancestor('[data-open="true"]', collapsibleGroup)]: '90deg'
     }
   },
   dataOpen: {
@@ -427,7 +427,7 @@ const extraStyles = stylex.create({
     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
     rotate: {
       default: null,
-      ':is([data-sidebar-example-group][data-expanded="true"] *)': '90deg'
+      [stylex.when.ancestor('[data-expanded="true"]', collapsibleGroup)]: '90deg'
     }
   },
   iconHeader: {
@@ -489,7 +489,9 @@ const map = {
   "size-3.5 shrink-0": styles.size14,
   "flex size-6 items-center justify-center rounded-md border bg-transparent": styles.addTeam,
   "font-medium text-muted-foreground": styles.mutedMedium,
-  "group/collapsible": styles.group,
+  // StyleX markers are accepted by props(), but its StyleXStyles type treats
+  // the marker namespace as the unrelated CSS marker property.
+  "group/collapsible": collapsibleGroup as unknown as stylex.StyleXStyles,
   "ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90": styles.chevronState,
   "group-data-[collapsible=icon]:hidden": styles.hiddenIcon,
   "sr-only": styles.sr,
@@ -521,10 +523,7 @@ const map = {
 };
 export function sidebarCustom(key: keyof typeof map) {
   return {
-    xstyle: map[key],
-    ...(key === "group/collapsible" ? {
-      "data-sidebar-example-group": ""
-    } : {})
+    xstyle: map[key]
   };
 }
 export function sidebarNative(key: keyof typeof map) {
@@ -534,10 +533,7 @@ export function sidebarNative(key: keyof typeof map) {
   } = stylex.props(map[key]);
   return {
     className,
-    style,
-    ...(key === "group/collapsible" ? {
-      "data-sidebar-example-group": ""
-    } : {})
+    style
   };
 }
 const {
