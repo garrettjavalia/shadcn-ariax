@@ -51,7 +51,7 @@
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [x] Pagination
 - [x] Popover
-- [ ] Progress
+- [x] Progress
 - [ ] Questionnaire
 - [x] Radio Group
 - [x] Resizable
