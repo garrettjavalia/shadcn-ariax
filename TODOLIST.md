@@ -64,7 +64,7 @@
 - [ ] Switch
 - [ ] Table
 - [ ] Tabs
-- [ ] Textarea
+- [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle
 - [ ] Toggle Group
 - [ ] Tooltip
