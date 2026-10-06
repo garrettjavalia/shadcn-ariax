@@ -23,7 +23,7 @@ custom16:{height:'20rem',width:'100%',backgroundColor:'oklch(0.882 0.059 254.128
 custom17:{textTransform:'capitalize'},
 custom18:{backgroundColor:'var(--muted)',width:{default:null,":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"x\"] *)":'100%',":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"y\"] *)":'100%'},height:{default:null,":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"x\"] *)":'100%',":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"y\"] *)":'20rem'}},
 custom19:{height:{default:null,':is([data-swipe-direction=down])':'16rem'}},
-custom20:{flex:'1',overflowY:'auto',padding:'1rem'},
+custom20:{flex:'1',overflowY:'auto',padding:'1rem',scrollbarWidth:'thin'},
 custom21:{marginBottom:'1rem',lineHeight:1.5},
 custom22:{height:{default:null,':is([data-swipe-direction=up])':'50vh'}},
 custom23:{width:{default:null,':is([data-swipe-direction=left])':'36rem'}},
@@ -31,7 +31,7 @@ custom24:{width:{default:null,':is([data-swipe-direction=right])':'20rem'}},
 custom25:{maxHeight:'calc(100dvh - 1rem)'},
 custom26:{display:'grid',flex:'1',gap:'.75rem',overflowY:'auto',padding:'1rem'},
 custom27:{height:'3rem',backgroundColor:'var(--muted)'},
-form:{display:'grid',alignItems:'start',gap:'1.5rem'}});
+form:{display:'grid',alignItems:'flex-start',gap:'1.5rem'}});
 export const custom0=dom(animationStyles.scrollFade,s.custom0);
 export const custom1={xstyle:s.custom1};
 export const custom2={xstyle:s.custom2};
@@ -52,15 +52,15 @@ export const custom16=dom(s.custom16);
 export const custom17={xstyle:s.custom17};
 export const custom18=dom(s.custom18);
 export const custom19={xstyle:s.custom19};
-export const custom20=stylex.props(animationStyles.scrollFade,s.custom20);
+export const custom20=dom(animationStyles.scrollFade,s.custom20);
 export const custom21=dom(s.custom21);
 export const custom22={xstyle:s.custom22};
 export const custom23={xstyle:s.custom23};
 export const custom24={xstyle:s.custom24};
 export const custom25={xstyle:s.custom25};
-export const custom26=stylex.props(animationStyles.scrollFade,s.custom26);
+export const custom26=dom(animationStyles.scrollFade,s.custom26);
 export const custom27=dom(s.custom27);
 export function profileFormProps(props:ComponentProps<'form'>){const sx=dom(s.form);return {...props,className:[sx.className,props.className].filter(Boolean).join(' '),style:{...sx.style,...props.style}};}
-const callbacks=stylex.create({trigger:{height:34,width:180},popup:(width:number)=>({width,fontSize:20})});
+const callbacks=stylex.create({trigger:{height:34,width:180},popup:(width:number)=>({width})});
 export const callbackTrigger={xstyle:callbacks.trigger};
 export const callbackPopup={xstyle:callbacks.popup(280)};

@@ -29,4 +29,4 @@ export const custom26={className:"grid flex-1 scroll-fade gap-3 overflow-y-auto 
 export const custom27={className:"h-12 bg-muted"};
 export function profileFormProps(props:ComponentProps<'form'>){return {...props,className:['grid items-start gap-6',props.className].filter(Boolean).join(' ')};}
 export const callbackTrigger={className:'h-[34px] w-[180px]'};
-export const callbackPopup={className:'w-[280px] text-[20px]'};
+export const callbackPopup={className:'w-[280px]'};

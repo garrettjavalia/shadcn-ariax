@@ -1,6 +1,8 @@
 'use client';
 
 import type * as React from 'react';
+import {useContext} from 'react';
+import {RenderStylesContext} from './render-styles.internal';
 import * as stylex from '@stylexjs/stylex';
 import { composeRenderProps, Button as ButtonPrimitive, Link as LinkPrimitive, type ButtonProps as PrimitiveProps, type LinkProps } from 'react-aria-components';
 
@@ -18,15 +20,19 @@ export function buttonProps({ variant = 'default', size = 'default', xstyle, sty
 }
 
 export function Button({ className: _className, style, xstyle, variant = 'default', size = 'default', ...props }: ButtonProps) {
-  const applied = buttonProps({ variant, size, xstyle });
-  return <ButtonPrimitive data-slot="button" data-variant={variant} data-size={size}
+  const renderStyles = useContext(RenderStylesContext);
+  const applied = buttonProps({ variant, size, xstyle: [renderStyles, xstyle] });
+  const button = <ButtonPrimitive data-slot="button" data-variant={variant} data-size={size}
     {...props} {...applied} style={composeRenderProps(style, value => ({ ...applied.style, ...value }))} />;
+  return renderStyles ? <RenderStylesContext.Provider value={undefined}>{button}</RenderStylesContext.Provider> : button;
 }
 
 export function LinkButton({ className: _className, style, xstyle, variant = 'default', size = 'default', ...props }: Omit<LinkProps, 'className'> & Variants & NoExternalClasses) {
-  const applied = buttonProps({ variant, size, xstyle });
-  return <LinkPrimitive data-slot="button" data-variant={variant} data-size={size}
+  const renderStyles = useContext(RenderStylesContext);
+  const applied = buttonProps({ variant, size, xstyle: [renderStyles, xstyle] });
+  const button = <LinkPrimitive data-slot="button" data-variant={variant} data-size={size}
     {...props} {...applied} style={composeRenderProps(style, value => ({ ...applied.style, ...value }))} />;
+  return renderStyles ? <RenderStylesContext.Provider value={undefined}>{button}</RenderStylesContext.Provider> : button;
 }
 
 const styles = stylex.create({
