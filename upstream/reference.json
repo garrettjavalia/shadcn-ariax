@@ -3,6 +3,9 @@
     "button",
     "skeleton",
     "separator",
-    "alert"
+    "badge",
+    "alert",
+    "card",
+    "aspect-ratio"
   ]
 }

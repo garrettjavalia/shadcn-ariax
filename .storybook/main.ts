@@ -14,11 +14,17 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@aspect-ratio': resolve(upstream ? 'generated/reference/aria-nova/ui/aspect-ratio.tsx' : 'registry/ariax/ui/aspect-ratio.tsx'),
+      '@aspect-customizations': resolve(upstream ? 'reference/aspect-customizations.ts' : 'stories/aspect-customizations.ts'),
+      '@badge': resolve(upstream ? 'generated/reference/aria-nova/ui/badge.tsx' : 'registry/ariax/ui/badge.tsx'),
+      '@badge-customizations': resolve(upstream ? 'reference/badge-customizations.ts' : 'stories/badge-customizations.ts'),
       '@alert': resolve(upstream ? 'generated/reference/aria-nova/ui/alert.tsx' : 'registry/ariax/ui/alert.tsx'),
       '@alert-customizations': resolve(upstream ? 'reference/alert-customizations.ts' : 'stories/alert-customizations.ts'),
       '@skeleton': resolve(upstream ? 'reference/skeleton.tsx' : 'registry/ariax/ui/skeleton.tsx'),
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),
+      '@card-customizations': resolve(upstream ? 'reference/card-customizations.ts' : 'stories/card-customizations.ts'),
+      '@card': resolve(upstream ? 'generated/reference/aria-nova/ui/card.tsx' : 'registry/ariax/ui/card.tsx'),
       '@reference': resolve('generated/reference/aria-nova'),
       '@button': resolve(upstream ? 'reference/button.ts' : 'registry/ariax/ui/button.tsx'),
       '@customizations': resolve(upstream ? 'reference/customizations.ts' : 'stories/customizations.ts'),

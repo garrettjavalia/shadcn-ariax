@@ -4,3 +4,6 @@
 @import './theme.css';
 @import './button-children.css';
 @import './skeleton.css';
+
+@import "./badge.css";
+@import "./card.css";

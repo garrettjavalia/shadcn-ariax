@@ -1,9 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton', 'separator', 'alert'];
+const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio'];
 const sharedFiles = [
-  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'alert.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'card.css', 'alert.css', 'badge.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
@@ -24,4 +24,4 @@ for (const item of items) {
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
 await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');
-console.log('Validated and built registry: button, skeleton, separator, alert (source, styles, licenses).');
+console.log('Validated and built registry: button, skeleton, separator, card, alert, badge, aspect-ratio (source, styles, licenses).');
