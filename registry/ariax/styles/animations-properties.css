@@ -1,0 +1,3 @@
+@property --shimmer-angle{syntax:"<angle>";inherits:true;initial-value:20deg}
+@property --shimmer-image{syntax:"*";inherits:false}
+@property --shimmer-text-fill{syntax:"*";inherits:false}
