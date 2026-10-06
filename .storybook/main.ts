@@ -63,7 +63,7 @@ const config: StorybookConfig = {
       { find: /^@([a-z][a-z0-9-]*)$/, replacement: resolve(upstream ? 'generated/reference/aria-nova/ui' : 'registry/ariax/ui') + '/$1.tsx' },
     ];
     config.plugins = [
-      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: configType === 'DEVELOPMENT' })]),
+      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: configType === 'DEVELOPMENT', cssInjectionTarget: file => /(?:^|\/)iframe(?:-[^/]+)?\.css$/.test(file) })]),
       ...(config.plugins ?? []),
     ];
     config.server ??= {};

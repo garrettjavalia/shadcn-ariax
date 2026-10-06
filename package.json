@@ -9,7 +9,7 @@
     "storybook:upstream": "pnpm upstream:prepare && node --import tsx scripts/storybook.ts upstream",
     "dev": "concurrently -n upstream,stylex \"pnpm storybook:upstream\" \"pnpm storybook\"",
     "build:upstream": "pnpm upstream:prepare && cross-env ARIAX_IMPLEMENTATION=upstream storybook build -o dist/upstream",
-    "build:stylex": "pnpm upstream:prepare && pnpm registry:build && cross-env ARIAX_IMPLEMENTATION=stylex storybook build -o dist/stylex",
+    "build:stylex": "pnpm upstream:prepare && pnpm registry:build && cross-env ARIAX_IMPLEMENTATION=stylex storybook build -o dist/stylex && node --import tsx scripts/check-storybook-css.ts",
     "build": "pnpm registry:build && pnpm build:upstream && pnpm build:stylex",
     "registry:build": "node --import tsx scripts/build-registry.ts",
     "typecheck": "pnpm upstream:prepare && tsc --noEmit",
