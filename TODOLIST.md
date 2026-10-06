@@ -61,7 +61,7 @@
 - [ ] Sidebar
 - [ ] Slider
 - [ ] Sonner
-- [ ] Spinner
+- [x] Spinner
 - [x] Switch
 - [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀
 - [x] Tabs
