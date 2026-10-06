@@ -131,6 +131,12 @@
       ],
       "@button-group-customizations": [
         "./stories/button-group-customizations.ts"
+      ],
+      "@accordion": [
+        "./registry/ariax/ui/accordion.tsx"
+      ],
+      "@accordion-customizations": [
+        "./stories/accordion-customizations.ts"
       ]
     }
   },

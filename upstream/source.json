@@ -38,6 +38,8 @@
     "apps/v4/registry/bases/aria/ui/tooltip.tsx",
     "apps/v4/content/docs/components/aria/tooltip.mdx",
     "apps/v4/registry/bases/aria/ui/radio-group.tsx",
-    "apps/v4/content/docs/components/aria/radio-group.mdx"
+    "apps/v4/content/docs/components/aria/radio-group.mdx",
+    "apps/v4/registry/bases/aria/ui/accordion.tsx",
+    "apps/v4/content/docs/components/aria/accordion.mdx"
   ]
 }

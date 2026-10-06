@@ -21,6 +21,7 @@
     "switch",
     "avatar",
     "radio-group",
-    "button-group"
+    "button-group",
+    "accordion"
   ]
 }

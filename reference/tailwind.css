@@ -76,3 +76,4 @@
   --color-selection: var(--selection);
   --color-selection-foreground: var(--selection-foreground);
 }
+@source "../../../reference/accordion-customizations.ts";

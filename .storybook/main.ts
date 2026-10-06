@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@accordion': resolve(upstream ? 'generated/reference/aria-nova/ui/accordion.tsx' : 'registry/ariax/ui/accordion.tsx'),
+      '@accordion-customizations': resolve(upstream ? 'reference/accordion-customizations.ts' : 'stories/accordion-customizations.ts'),
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),
       '@avatar-customizations': resolve(upstream ? 'reference/avatar-customizations.ts' : 'stories/avatar-customizations.ts'),
       '@dropdown-menu': resolve(upstream ? 'generated/reference/aria-nova/ui/dropdown-menu.tsx' : 'registry/ariax/ui/dropdown-menu.tsx'),

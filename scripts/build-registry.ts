@@ -1,10 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip', 'switch', 'avatar', 'radio-group', 'button-group'];
+const componentNames = ['accordion', 'button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip', 'switch', 'avatar', 'radio-group', 'button-group'];
 const sharedFiles = [
   { path: 'registry/ariax/ui/animations.stylex.ts', type: 'registry:file', target: '@ui/animations.stylex.ts' },
-  ...['entry.css', 'button-group.css', 'reset.css', 'theme.css', 'button-children.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css', 'kbd-children.css', 'dropdown-menu.css', 'tooltip.css', 'avatar.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...['accordion-children.css', 'entry.css', 'button-group.css', 'reset.css', 'theme.css', 'button-children.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css', 'kbd-children.css', 'dropdown-menu.css', 'tooltip.css', 'avatar.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
