@@ -1,0 +1,38 @@
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@select"
+
+export function SelectDisabled() {
+  const items = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Blueberry", value: "blueberry" },
+    { label: "Grapes", value: "grapes", disabled: true },
+    { label: "Pineapple", value: "pineapple" },
+  ]
+  return (
+    <Select isDisabled placeholder="Select a fruit" style={{ width: "100%", maxWidth: "12rem" }}>
+      <SelectTrigger>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {items.map((item) => (
+            <SelectItem
+              key={item.value}
+              id={item.value}
+              isDisabled={item.disabled}
+            >
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
