@@ -1,0 +1,25 @@
+import { Button } from "@button"
+import {
+  Sheet,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@sheet"
+
+export default function SheetNoCloseButton() {
+  return (
+    <SheetTrigger>
+      <Button variant="outline">Open Sheet</Button>
+      <Sheet data-parity-portal showCloseButton={false}>
+        <SheetHeader>
+          <SheetTitle>No Close Button</SheetTitle>
+          <SheetDescription>
+            This sheet doesn&apos;t have a close button in the top-right corner.
+            Click outside to close.
+          </SheetDescription>
+        </SheetHeader>
+      </Sheet>
+    </SheetTrigger>
+  )
+}
