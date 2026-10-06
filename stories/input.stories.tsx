@@ -12,3 +12,5 @@ export const Context: Story = { render: () => <TextField aria-label="Context inp
 export const InlineStyle: Story = { render: () => <Input aria-label="Styled" style={({ isFocused }) => ({ width: 240, color: isFocused ? 'rgb(255, 0, 0)' : 'rgb(0, 128, 0)' })} /> };
 
 export const Customized: Story = { render: () => <Input aria-label="Customized" {...inputCustomization} /> };
+
+export const FontSizeOverride: Story = { render: () => <><Input aria-label="Larger text" defaultValue="Custom font size" style={{ fontSize: 20 }} /><Input type="file" aria-label="Larger file control" style={{ fontSize: 20 }} /></> };

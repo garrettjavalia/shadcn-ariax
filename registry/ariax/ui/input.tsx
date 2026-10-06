@@ -17,7 +17,7 @@ const styles = stylex.create({ base: {
   width: '100%', minWidth: 0, outlineStyle: 'none', height: { default: '2rem', '::file-selector-button': '1.5rem' }, borderRadius: 'var(--radius)',
   borderWidth: { default: '1px', '::file-selector-button': 0 }, borderStyle: 'solid', paddingInline: '0.625rem', paddingBlock: '0.25rem',
   fontSize: { default: '1rem', '@media (min-width: 48rem)': '0.875rem', '::file-selector-button': '0.875rem' },
-  lineHeight: { default: '1.5rem', '@media (min-width: 48rem)': '1.25rem', '::file-selector-button': '1.25rem' },
+  lineHeight: { default: 1.5, '@media (min-width: 48rem)': 'calc(1.25 / .875)', '::file-selector-button': 'calc(1.25 / .875)' },
   fontWeight: { default: null, '::file-selector-button': 500 },
   display: { default: null, '::file-selector-button': 'inline-flex' },
   color: { default: null, '::placeholder': 'var(--muted-foreground)', '::file-selector-button': 'var(--foreground)' },
