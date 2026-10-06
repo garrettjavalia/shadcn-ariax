@@ -18,6 +18,12 @@
       "vite/client"
     ],
     "paths": {
+      "@card-customizations": [
+        "./stories/card-customizations.ts"
+      ],
+      "@card": [
+        "./registry/ariax/ui/card.tsx"
+      ],
       "@button": [
         "./registry/ariax/ui/button.tsx"
       ],
@@ -36,11 +42,35 @@
       "@reference/*": [
         "./generated/reference/aria-nova/*"
       ],
+      "@badge": [
+        "./registry/ariax/ui/badge.tsx"
+      ],
+      "@badge-customizations": [
+        "./stories/badge-customizations.ts"
+      ],
+      "@alert": [
+        "./registry/ariax/ui/alert.tsx"
+      ],
+      "@alert-customizations": [
+        "./stories/alert-customizations.ts"
+      ],
+      "@aspect-ratio": [
+        "./registry/ariax/ui/aspect-ratio.tsx"
+      ],
+      "@aspect-customizations": [
+        "./stories/aspect-customizations.ts"
+      ],
+      "@label": [
+        "./registry/ariax/ui/label.tsx"
+      ],
       "@input": [
         "./registry/ariax/ui/input.tsx"
       ],
       "@input-customizations": [
         "./stories/input-customizations.ts"
+      ],
+      "@checkbox": [
+        "./registry/ariax/ui/checkbox.tsx"
       ],
       "@textarea": [
         "./registry/ariax/ui/textarea.tsx"
@@ -50,9 +80,6 @@
       ],
       "@input-group": [
         "./registry/ariax/ui/input-group.tsx"
-      ],
-      "@/registry/aria-nova/ui/*": [
-        "./generated/reference/aria-nova/ui/*"
       ],
       "@input-group-customizations": [
         "./stories/input-group-customizations.ts"
@@ -69,5 +96,8 @@
     "reference",
     "generated/reference",
     "tests/types"
+  ],
+  "exclude": [
+    "generated/reference/**/source/**"
   ]
 }

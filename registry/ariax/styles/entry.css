@@ -1,7 +1,11 @@
 @layer theme, base, components, utilities;
+@import "./alert.css";
 @import './reset.css' layer(base);
 @import './theme.css';
 @import './button-children.css';
 @import './skeleton.css';
 
-@import './input-group-children.css';
+@import "./badge.css";
+@import "./card.css";
+
+@import "./input-group-children.css";

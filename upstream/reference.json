@@ -3,7 +3,13 @@
     "button",
     "skeleton",
     "separator",
+    "badge",
+    "alert",
+    "card",
+    "aspect-ratio",
+    "label",
     "input",
+    "checkbox",
     "textarea",
     "input-group"
   ]
