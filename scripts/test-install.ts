@@ -27,7 +27,7 @@ try {
   for (const fixture of fixtures) for (const [name, version] of Object.entries(fixture.dependencies)) assert.equal(installed.dependencies[name], version, `CLI changed composition fixture pin: ${name}`);
   for (const { item, installedPath } of fixtures) {
     const source = await readFile(join(dir, installedPath), 'utf8');
-    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}.tsx`), 'utf8');
+    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}${item.type === 'registry:file' ? '.recipe.stylex.ts' : '.tsx'}`), 'utf8');
     if (original.includes('@stylexjs/stylex')) {
       assert.match(source, /@stylexjs\/stylex/, `Installed ${item.name} must retain its StyleX import`);
     }
