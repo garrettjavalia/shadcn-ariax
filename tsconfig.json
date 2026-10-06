@@ -39,6 +39,9 @@
       "@label": [
         "./registry/ariax/ui/label.tsx"
       ],
+      "@checkbox": [
+        "./registry/ariax/ui/checkbox.tsx"
+      ],
       "@field": [
         "./registry/ariax/ui/field.tsx"
       ]
