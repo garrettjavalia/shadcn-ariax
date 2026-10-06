@@ -2,22 +2,8 @@ html { font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; }
 body { margin: 0; background: var(--background); color: var(--foreground); }
 #parity-root { padding: 32px; min-height: 260px; }
 .gallery { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-block: 16px; }
-h1 { font-size: 28px; font-weight: 600; }
-h2 { font-size: 16px; font-weight: 600; margin-top: 28px; }
+#parity-root > h1 { font-size: 28px; font-weight: 600; }
+#parity-root > h2 { font-size: 16px; font-weight: 600; margin-top: 28px; }
 output { display: block; margin-top: 24px; font-size: 14px; }
 .fixture-spinner { animation: fixture-spin 1s linear infinite; }
 @keyframes fixture-spin { to { transform: rotate(360deg); } }
-/* Shared surrounding fixtures; only Button switches implementations. */
-.fixture-group { display: flex; align-items: stretch; width: fit-content; gap: 0; }
-.fixture-group:has(> .fixture-group) { gap: 8px; }
-.fixture-group > [data-slot="button"]:not(:first-child) { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; border-left-width: 0 !important; }
-.fixture-group > [data-slot="button"]:not(:last-child) { border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
-.fixture-group.hidden { display: none; }
-@media (min-width: 640px) { .fixture-group.hidden { display: flex; } }
-.fixture-popover { background: var(--popover); color: var(--popover-foreground); border: 1px solid var(--border); padding: 4px; border-radius: var(--radius); box-shadow: 0 4px 8px #0002; font-family: Arial, sans-serif; }
-.fixture-menu { min-width: 160px; outline: none; }
-.fixture-menu-item { display: flex; gap: 8px; align-items: center; padding: 6px 8px; font-size: 14px; outline: none; }
-.fixture-menu-item svg { width: 16px; height: 16px; }
-.fixture-menu-item[data-focused], .fixture-menu-item[data-selected] { background: var(--muted); }
-.fixture-menu-item[data-variant="destructive"] { color: var(--destructive); }
-.fixture-separator { height: 1px; background: var(--border); margin-block: 4px; border: 0; }

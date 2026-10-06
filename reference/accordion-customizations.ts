@@ -1,0 +1,2 @@
+export const max={className:'max-w-lg'};export const full={className:'w-full'};export const bordered={className:'max-w-lg rounded-lg border'};export const itemBorder={className:'border-b px-4 last:border-b-0'};export const card={className:'w-full max-w-sm'};export const rtl={className:'max-w-md'};
+export const customized=(width:number)=>({className:'gap-4',style:({isDisabled}:{isDisabled:boolean})=>({width:width+10,opacity:isDisabled?.5:1})});export const contentCustom={className:'px-4 pb-5',style:{color:'red'}};

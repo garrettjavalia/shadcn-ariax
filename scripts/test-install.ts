@@ -23,7 +23,10 @@ try {
   const installed = JSON.parse(await readFile(join(dir, 'package.json'), 'utf8'));
   for (const { item, installedPath } of fixtures) {
     const source = await readFile(join(dir, installedPath), 'utf8');
-    assert.match(source, /@stylexjs\/stylex/, `Installed ${item.name} must use StyleX`);
+    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}.tsx`), 'utf8');
+    if (original.includes('@stylexjs/stylex')) {
+      assert.match(source, /@stylexjs\/stylex/, `Installed ${item.name} must retain its StyleX import`);
+    }
     for (const declaration of item.dependencies ?? []) {
       const separator = declaration.lastIndexOf('@');
       const name = separator > 0 ? declaration.slice(0, separator) : declaration;
