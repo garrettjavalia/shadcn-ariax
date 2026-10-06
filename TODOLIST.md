@@ -32,7 +32,7 @@
 - [ ] Data Table — 조합 예제 포함
 - [ ] Date Picker — 조합 예제 포함
 - [ ] Dialog — 기본·공식 문서/RTL 구현; ChatSettings의 Select·Tabs 조합 대기
-- [ ] Direction
+- [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
 - [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 조합 제공; 통합 회귀 후속 검증
 - [ ] Empty
@@ -56,7 +56,7 @@
 - [x] Radio Group
 - [ ] Resizable
 - [ ] Scroll Area
-- [ ] Select
+- [x] Select — 공식 예제·검색·다중 선택·RTL
 - [ ] Sheet
 - [ ] Sidebar
 - [ ] Slider
