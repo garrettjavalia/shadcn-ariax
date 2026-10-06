@@ -19,6 +19,8 @@ export const nativeSelectCustomized=(width:number)=>({className:width===220?'w-[
 export const nativeSelectOptionCustomized={className:'text-primary font-medium',style:{color:'blue'}};
 export const nativeSelectGroupCustomized={className:'font-semibold',style:{fontWeight:400}};
 
+export const switchCustomized=(height:number)=>({style:({isSelected}:{isSelected:boolean})=>({width:48,height,opacity:isSelected?0.8:0.9})});
+
 export const radioFit={className:'w-fit'}; export const radioMax={className:'max-w-sm'};export const radioFieldset={className:'w-full max-w-xs'};export const radioNormal={className:'font-normal'};
 export const radioCustom=(width:number)=>({style:({isDisabled}:{isDisabled:boolean})=>({width,padding:isDisabled?0:8}),className:'gap-4'});
 export const radioItemCustom={className:'size-6',style:({isSelected}:{isSelected:boolean})=>({width:isSelected?28:24,opacity:0.8})};

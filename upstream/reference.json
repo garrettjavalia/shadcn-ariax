@@ -18,6 +18,8 @@
     "native-select",
     "dropdown-menu",
     "tooltip",
+    "switch",
+    "avatar",
     "radio-group"
   ]
 }

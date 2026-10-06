@@ -36,6 +36,9 @@ export const nativeSelectCustomized=(width:number)=>({xstyle:[nativeSelectStyles
 export const nativeSelectOptionCustomized={xstyle:nativeSelectStyles.option,style:{color:'blue'}};
 export const nativeSelectGroupCustomized={xstyle:nativeSelectStyles.group(600),style:{fontWeight:400}};
 
+const switchStyles=stylex.create({first:{width:60},last:{width:48},dynamic:(height:number)=>({height})});
+export const switchCustomized=(height:number)=>({xstyle:[switchStyles.first,switchStyles.last,switchStyles.dynamic(height)],style:({isSelected}:{isSelected:boolean})=>({opacity:isSelected?0.8:0.9})});
+
 const radioStyles=stylex.create({fit:{width:'fit-content'},max:{maxWidth:'24rem'},fieldset:{width:'100%',maxWidth:'20rem'},normal:{fontWeight:400}});
 export const radioFit={xstyle:radioStyles.fit};export const radioMax={xstyle:radioStyles.max};export const radioFieldset={xstyle:radioStyles.fieldset};export const radioNormal={xstyle:radioStyles.normal};
 const radioCustomStyles=stylex.create({initial:{width:180,gap:'0.25rem'},dynamic:(width:number)=>({width,gap:'1rem'}),item:{width:24,height:24}});
