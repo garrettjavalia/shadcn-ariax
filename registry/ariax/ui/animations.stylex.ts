@@ -34,7 +34,7 @@ export const animationStyles = stylex.create({
   pulse: { animationName: pulse },
   spin: { animationName: spin },
   drawerOverlay:{transitionProperty:'opacity',transitionDuration:{default:'450ms',':is([data-swiping]):not([data-ending-style])':'0ms',':is([data-ending-style])':'calc(var(--drawer-swipe-strength) * 400ms)'},transitionTimingFunction:'cubic-bezier(.32,.72,0,1)'},
-  drawerPopup:{transitionProperty:'transform, height, opacity, filter',transitionDuration:{default:'450ms',':is([data-nested-drawer-swiping],[data-swiping]):not([data-ending-style])':'0ms',':is([data-ending-style])':'calc(var(--drawer-swipe-strength) * 400ms)'},transitionTimingFunction:'cubic-bezier(.22,1,0,1)'},
+  drawerPopup:{transitionProperty:'transform, height, opacity, filter',transitionDuration:{default:'450ms',':is([data-nested-drawer-swiping],[data-swiping]):not([data-ending-style])':'0ms',':is([data-ending-style])':'calc(var(--drawer-swipe-strength) * 400ms)'},transitionTimingFunction:'cubic-bezier(.22,1,.36,1)'},
   drawerContent:{transitionProperty:'opacity',transitionDuration:'300ms',transitionTimingFunction:'cubic-bezier(.45,1.005,0,1.005)'},
   scrollFade:{
    '--_scroll-fade-size-t':'var(--scroll-fade-t-size, var(--scroll-fade-size, min(12%, 2.5rem)))','--_scroll-fade-size-b':'var(--scroll-fade-b-size, var(--scroll-fade-size, min(12%, 2.5rem)))','--scroll-fade-block':'linear-gradient(to bottom, transparent 0, #000 var(--scroll-fade-t, 0px), #000 calc(100% - var(--scroll-fade-b, 0px)), transparent 100%)',maskImage:'var(--scroll-fade-mask, var(--scroll-fade-block))',maskComposite:'intersect',maskRepeat:'no-repeat',

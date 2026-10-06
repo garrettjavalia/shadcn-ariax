@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import type {ComponentProps} from 'react';
 import {animationStyles} from '../registry/ariax/ui/animations.stylex';
+function dom(...styles:stylex.StyleXStyles[]){const{className,style}=stylex.props(...styles);return{className,style};}
 const s=stylex.create({
 custom0:{flex:'1',overflowY:'auto',padding:'1rem'},
 custom1:{gap:'.5rem'},
@@ -31,32 +32,32 @@ custom25:{maxHeight:'calc(100dvh - 1rem)'},
 custom26:{display:'grid',flex:'1',gap:'.75rem',overflowY:'auto',padding:'1rem'},
 custom27:{height:'3rem',backgroundColor:'var(--muted)'},
 form:{display:'grid',alignItems:'start',gap:'1.5rem'}});
-export const custom0=stylex.props(animationStyles.scrollFade,s.custom0);
+export const custom0=dom(animationStyles.scrollFade,s.custom0);
 export const custom1={xstyle:s.custom1};
 export const custom2={xstyle:s.custom2};
 export const custom3={xstyle:s.custom3};
 export const custom4={xstyle:s.custom4};
 export const custom5={xstyle:s.custom5};
-export const custom6=stylex.props(s.custom6);
+export const custom6=dom(s.custom6);
 export const custom7={xstyle:s.custom7};
-export const custom8=stylex.props(s.custom8);
-export const custom9=stylex.props(s.custom9);
-export const custom10=stylex.props(s.custom10);
-export const custom11=stylex.props(s.custom11);
-export const custom12=stylex.props(s.custom12);
-export const custom13=stylex.props(s.custom13);
-export const custom14=stylex.props(s.custom14);
-export const custom15=stylex.props(s.custom15);
-export const custom16=stylex.props(s.custom16);
+export const custom8=dom(s.custom8);
+export const custom9=dom(s.custom9);
+export const custom10=dom(s.custom10);
+export const custom11=dom(s.custom11);
+export const custom12=dom(s.custom12);
+export const custom13=dom(s.custom13);
+export const custom14=dom(s.custom14);
+export const custom15=dom(s.custom15);
+export const custom16=dom(s.custom16);
 export const custom17={xstyle:s.custom17};
-export const custom18=stylex.props(s.custom18);
+export const custom18=dom(s.custom18);
 export const custom19={xstyle:s.custom19};
 export const custom20=stylex.props(animationStyles.scrollFade,s.custom20);
-export const custom21=stylex.props(s.custom21);
+export const custom21=dom(s.custom21);
 export const custom22={xstyle:s.custom22};
 export const custom23={xstyle:s.custom23};
 export const custom24={xstyle:s.custom24};
 export const custom25={xstyle:s.custom25};
 export const custom26=stylex.props(animationStyles.scrollFade,s.custom26);
-export const custom27=stylex.props(s.custom27);
-export function profileFormProps(props:ComponentProps<'form'>){const sx=stylex.props(s.form);return {...props,className:[sx.className,props.className].filter(Boolean).join(' '),style:{...sx.style,...props.style}};}
+export const custom27=dom(s.custom27);
+export function profileFormProps(props:ComponentProps<'form'>){const sx=dom(s.form);return {...props,className:[sx.className,props.className].filter(Boolean).join(' '),style:{...sx.style,...props.style}};}
