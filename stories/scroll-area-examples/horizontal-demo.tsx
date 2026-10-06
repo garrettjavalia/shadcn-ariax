@@ -25,9 +25,9 @@ export const works: Artwork[] = [
 export function ScrollAreaHorizontalDemo() {
   return (
     <ScrollArea {...scrollHorizontal}>
-      <div style={{display:'flex',width:'max-content',padding:16,gap:16}}>
-        {works.map((artwork) => (
-          <figure key={artwork.artist} style={{flexShrink:0}}>
+      <div style={{display:'flex',width:'max-content',padding:16}}>
+        {works.map((artwork, index) => (
+          <figure key={artwork.artist} style={{flexShrink:0,marginInlineEnd:index < works.length - 1 ? 'calc(var(--ariax-spacing, .25rem) * 4)' : undefined}}>
             <div style={{overflow:'hidden',borderRadius:'calc(var(--radius) * .8)'}}>
               <img
                 src={artwork.art}
