@@ -1,8 +1,9 @@
+import {officialMono} from '@input-group-customizations';
 import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Kbd, KbdGroup } from '@kbd';
 import { Button } from '@button';
-import { InputGroup, InputGroupInput, InputGroupAddon } from '@input-group';
+import { InputGroup, InputGroupInput, InputGroupAddon, InputGroupText } from '@input-group';
 import { SearchIcon } from 'lucide-react';
 import { translated, customized } from '@kbd-customizations';
 const meta = { title: 'Components/Kbd', component: Kbd, tags: ['parity'], decorators: [Story => <main id="parity-root" style={{ display: 'grid', gap: 16, width: 320 }}><Story /></main>] } satisfies Meta<typeof Kbd>;
@@ -21,3 +22,5 @@ export const Svg: Story = { render: () => <><Kbd><SearchIcon /></Kbd><Kbd><Searc
 export const TooltipSelector: Story = { render: () => <div data-slot="tooltip-content"><Kbd>Ctrl</Kbd></div> };
 
 export const RadiusToken: Story = { render: () => <div style={{ "--radius": "20px" } as CSSProperties}><Kbd>Ctrl</Kbd></div> };
+
+export const FontTokens: Story = { render: () => <><div style={{fontFamily:"serif"}}><Kbd data-testid="sans-missing">Ctrl</Kbd><InputGroupText {...officialMono} data-testid="mono-missing">script.js</InputGroupText></div><div style={{fontFamily:"serif","--font-sans":"\"Courier New\", monospace","--font-mono":"\"Times New Roman\", serif"} as CSSProperties}><Kbd data-testid="sans-defined">Ctrl</Kbd><InputGroupText {...officialMono} data-testid="mono-defined">script.js</InputGroupText></div></> };
