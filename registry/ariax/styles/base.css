@@ -1,0 +1,5 @@
+/* Shared component base contract from pinned shadcn globals.css (MIT). */
+* {
+  border-color: var(--border);
+  outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+}

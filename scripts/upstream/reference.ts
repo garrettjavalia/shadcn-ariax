@@ -15,7 +15,23 @@ export async function referenceInputs(config: Source) {
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
   assert.equal(pkg.devDependencies.shadcn, installed.version, 'Install the pinned shadcn CLI before preparing references');
-  return { version: 5, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+  return { version: 6, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+}
+
+// The component contract comes from the pinned app, independently of the deployed CSS.
+// Exclude the documentation site's html/body layout, typography and scrolling rules.
+export async function referenceBaseCSS() {
+  const globals = await readFile(resolve(rawRoot, 'apps/v4/app/globals.css'), 'utf8');
+  const rules = [...globals.matchAll(/(?:^|\n)\s*\*\s*\{([^{}]*)\}/g)]
+    .filter(match => /@apply\s+border-border\s+outline-ring\/50\s*;/.test(match[1]));
+  assert.equal(rules.length, 1, 'Pinned component base border/outline contract must occur exactly once');
+  const neutral: { cssVarsV4: { light: Record<string, string>; dark: Record<string, string> } } = JSON.parse(
+    await readFile(resolve(rawRoot, 'apps/v4/public/r/colors/neutral.json'), 'utf8'));
+  const theme = Object.entries(neutral.cssVarsV4).map(([mode, tokens]) => {
+    assert.ok(mode === 'light' || mode === 'dark', `Unexpected theme: ${mode}`);
+    return `${mode === 'light' ? ':root' : '.dark'} {\n${Object.entries(tokens).map(([name, value]) => `  --${name}: ${value};`).join('\n')}\n}`;
+  }).join('\n');
+  return `${theme}\n@layer base {\n  * {${rules[0][1]}}\n}\n`;
 }
 
 export async function buildReference(directory: string, inputs: Awaited<ReturnType<typeof referenceInputs>>) {
@@ -72,7 +88,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   await writeFile(resolve(directory, 'pnpm-workspace.yaml'), 'packages:\n  - "."\n');
   await writeFile(resolve(directory, 'package.json'), JSON.stringify({ name: 'ariax-reference', private: true, type: 'module', dependencies: inputs.dependencies, devDependencies: inputs.devDependencies }));
   await writeFile(resolve(directory, 'tsconfig.json'), JSON.stringify({ compilerOptions: { jsx: 'react-jsx', baseUrl: '.', paths: { '@reference/*': ['./*'] } } }));
-  await writeFile(resolve(directory, 'cli.css'), '');
+  await writeFile(resolve(directory, 'cli.css'), await referenceBaseCSS());
   await writeFile(resolve(directory, 'tailwind.css'), await readFile(resolve(root, 'reference/tailwind.css'), 'utf8'));
   await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rtl: inputs.rtl, rsc: false, tsx: true, tailwind: { config: '', css: 'cli.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
   const cli = resolve(root, 'node_modules/shadcn/dist/index.js');

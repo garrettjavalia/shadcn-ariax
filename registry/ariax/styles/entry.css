@@ -3,6 +3,7 @@
 @import './breadcrumb.css';
 @import "./alert.css";
 @import './reset.css' layer(base);
+@import './base.css' layer(base);
 @import './theme.css';
 @import './button-children.css';
 

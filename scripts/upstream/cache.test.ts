@@ -24,6 +24,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
     const fixtures: Record<string, string> = {
       'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
+      'apps/v4/app/globals.css': '@layer base {\n * { @apply border-border outline-ring/50; }\n html { scroll-padding-top: 5rem; }\n}',
       'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8 ml-2; }',
       'apps/v4/public/r/colors/neutral.json': JSON.stringify({ inlineColors: {light:{background:'white'},dark:{background:'black'}}, cssVars: {light:{background:'0 0% 100%'},dark:{background:'0 0% 0%'}}, cssVarsV4:{light:{background:'oklch(1 0 0)'},dark:{background:'oklch(0 0 0)'}}, inlineColorsTemplate:'',cssVarsTemplate:'' }),
       'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],css:{".reference-fixture":{color:"red"}},files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
@@ -39,7 +40,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     }
     const packed = spawnSync('tar', ['-czf', join(dir, 'fixture.tar.gz'), '-C', join(dir, 'archive'), `ui-${commit}`]);
     assert.equal(packed.status, 0);
-    const config = { repository: 'shadcn-ui/ui', commit, base: 'aria', style: 'nova', paths: ['apps/v4/registry', 'apps/v4/public/r/colors/neutral.json'], requiredFiles: paths };
+    const config = { repository: 'shadcn-ui/ui', commit, base: 'aria', style: 'nova', paths: ['apps/v4/app/globals.css', 'apps/v4/registry', 'apps/v4/public/r/colors/neutral.json'], requiredFiles: paths };
     await writeFile(join(dir, 'upstream/source.json'), JSON.stringify(config));
     // Real archive/extraction/cache logic; only the HTTP transport is replaced.
     await writeFile(join(dir, 'transport.mjs'), `import {readFile,appendFile} from 'node:fs/promises'; globalThis.fetch=async()=>{if(process.env.NO_NETWORK==='1')throw Error('Unexpected network');await appendFile(new URL('./downloads.log',import.meta.url),'download\\n');return new Response(await readFile(new URL('./fixture.tar.gz',import.meta.url)));};`);
@@ -66,6 +67,9 @@ for (const module of [http, https]) { const request=module.request; module.reque
     const cliCss = join(dir, 'generated/reference/aria-nova/cli.css');
     const originalCss = await readFile(cliCss, 'utf8');
     assert.match(originalCss, /reference-fixture/);
+    assert.match(originalCss, /@apply border-border outline-ring\/50/);
+    assert.match(originalCss, /--background: oklch\(1 0 0\)/);
+    assert.doesNotMatch(originalCss, /scroll-padding-top/);
     await writeFile(join(dir, 'reference/tailwind.css'), (await readFile(join(dir, 'reference/tailwind.css'), 'utf8')) + '\n/* local harness change */\n');
     const before = (await stat(installed)).mtimeMs;
     result = await run(true); assert.equal(result.code, 0, result.output);
