@@ -84,11 +84,14 @@
       "@input-group": [
         "./registry/ariax/ui/input-group.tsx"
       ],
-      "@/registry/aria-nova/ui/*": [
-        "./generated/reference/aria-nova/ui/*"
-      ],
       "@input-group-customizations": [
         "./stories/input-group-customizations.ts"
+      ],
+      "@table": [
+        "./registry/ariax/ui/table.tsx"
+      ],
+      "@table-customizations": [
+        "./stories/table-customizations.ts"
       ],
       "@kbd": [
         "./registry/ariax/ui/kbd.tsx"
