@@ -1,19 +1,25 @@
 import { upstreamPort, stylexPort, upstreamURL, stylexURL } from './servers';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { readdirSync } from 'node:fs';
 import { compare } from './compare';
 import { environments, buttonDocumentation, type StoryEntry } from './catalog';
+import { partitionStories } from './story-batches';
 
-for (const { theme, width, requiredTag } of environments) test(`registered stories / ${theme} / ${width}`, async ({ browser, request }, info) => {
+const storyFileCount = readdirSync('stories', { recursive: true, withFileTypes: true }).filter(file => file.isFile() && file.name.endsWith('.stories.tsx')).length;
+const batchCount = process.env.PARITY_COMPONENT ? 1 : Math.max(1, Math.ceil(storyFileCount / 4));
+for (const { theme, width, requiredTag } of environments) for (let batch = 0; batch < batchCount; batch++) test(`registered stories / ${theme} / ${width} / batch ${batch + 1}`, async ({ browser, request }, info) => {
   test.setTimeout(240_000);
   const leftIndex = await (await request.get(`${upstreamURL}/index.json`)).json();
   const rightIndex = await (await request.get(`${stylexURL}/index.json`)).json();
   const select = (index: { entries: Record<string, StoryEntry> }) => Object.values(index.entries)
     .filter(s => s.type === 'story' && s.tags?.includes('parity') && (!requiredTag || s.tags.includes(requiredTag)) && (!process.env.PARITY_COMPONENT || s.id.startsWith(process.env.PARITY_COMPONENT))).map(s => s.id).sort();
-  const ids = select(leftIndex);
-  expect(select(rightIndex), 'Both implementations must publish the same stories').toEqual(ids);
-  test.skip(ids.length === 0 && !!requiredTag, 'No selected stories declare this additional viewport.');
-  expect(ids.length, 'No parity stories discovered').toBeGreaterThan(0);
+  const selected = select(leftIndex);
+  expect(select(rightIndex), 'Both implementations must publish the same stories').toEqual(selected);
+  test.skip(selected.length === 0 && !!requiredTag, 'No selected stories declare this additional viewport.');
+  expect(selected.length, 'No parity stories discovered').toBeGreaterThan(0);
+  const ids = partitionStories(selected, batchCount)[batch];
+  test.skip(ids.length === 0, 'No selected stories in this batch.');
   const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
   const a = await context.newPage(); const b = await context.newPage();
   try {
