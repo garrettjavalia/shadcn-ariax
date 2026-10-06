@@ -25,7 +25,7 @@
 - [ ] Carousel
 - [ ] Chart
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
-- [ ] Collapsible
+- [x] Collapsible
 - [x] Combobox
 - [ ] Command
 - [ ] Context Menu
