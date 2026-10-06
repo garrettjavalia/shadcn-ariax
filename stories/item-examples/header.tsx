@@ -41,7 +41,7 @@ export function ItemHeaderDemo() {
           <Item key={model.name} variant="outline">
             <ItemHeader>
               <img
-                src="/avatar-controlled.svg"
+                src={model.image}
                 alt={model.name}
                 width={128}
                 height={128}

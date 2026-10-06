@@ -17,19 +17,19 @@ const images = [
   {
     name: "workspace.png",
     meta: "PNG · 820 KB",
-    src: "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22900%22 height=%22600%22 viewBox=%220 0 900 600%22%3E%3Crect width=%22900%22 height=%22600%22 fill=%22%2389a3b2%22/%3E%3Cpath d=%22M0 600L450 80L900 600%22 fill=%22%23506475%22/%3E%3C/svg%3E",
+    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80",
     alt: "Workspace",
   },
   {
     name: "desk-reference.jpg",
     meta: "JPG · 1.1 MB",
-    src: "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22900%22 height=%22600%22 viewBox=%220 0 900 600%22%3E%3Crect width=%22900%22 height=%22600%22 fill=%22%2389a3b2%22/%3E%3Cpath d=%22M0 600L450 80L900 600%22 fill=%22%23506475%22/%3E%3C/svg%3E",
+    src: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80",
     alt: "Desk",
   },
   {
     name: "office-reference.jpg",
     meta: "JPG · 940 KB",
-    src: "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22900%22 height=%22600%22 viewBox=%220 0 900 600%22%3E%3Crect width=%22900%22 height=%22600%22 fill=%22%2389a3b2%22/%3E%3Cpath d=%22M0 600L450 80L900 600%22 fill=%22%23506475%22/%3E%3C/svg%3E",
+    src: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80",
     alt: "Office",
   },
 ]

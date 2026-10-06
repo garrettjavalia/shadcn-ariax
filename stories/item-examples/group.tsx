@@ -23,17 +23,17 @@ import {
 const people = [
   {
     username: "alex",
-    avatar: "/avatar-controlled.svg",
+    avatar: "/avatars/01.png",
     email: "alex@example.com",
   },
   {
     username: "jamie",
-    avatar: "/avatar-controlled.svg",
+    avatar: "/avatars/02.png",
     email: "jamie@example.com",
   },
   {
     username: "taylor",
-    avatar: "/avatar-controlled.svg",
+    avatar: "/avatars/03.png",
     email: "taylor@example.com",
   },
 ]

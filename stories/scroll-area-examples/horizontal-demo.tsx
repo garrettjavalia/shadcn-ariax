@@ -30,7 +30,7 @@ export function ScrollAreaHorizontalDemo() {
           <figure key={artwork.artist} style={{flexShrink:0}}>
             <div style={{overflow:'hidden',borderRadius:'calc(var(--radius) * .8)'}}>
               <img
-                src="/avatar-controlled.svg"
+                src={artwork.art}
                 alt={`Photo by ${artwork.artist}`}
                 style={{aspectRatio:'3/4',height:'fit-content',width:'fit-content',objectFit:'cover'}}
                 width={300}
