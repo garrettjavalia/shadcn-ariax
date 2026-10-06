@@ -9,16 +9,16 @@ const styles = stylex.create({
   container: { position: 'relative', width: '100%', overflowX: 'auto' },
   table: { width: '100%', captionSide: 'bottom', fontSize: '0.875rem', lineHeight: 'calc(1.25 / .875)' },
   header: { borderBottomWidth: 0, '--ariax-table-header-border': '1px' },
-  body: { height: { default: null, ':is([data-empty])': '6rem' }, textAlign: { default: null, ':is([data-empty])': 'center' } },
+  body: { height: { default: null, ':is([data-empty])': 'calc(var(--ariax-spacing, .25rem) * 24)' }, textAlign: { default: null, ':is([data-empty])': 'center' } },
   footer: { backgroundColor: 'color-mix(in oklab, var(--muted) 50%, transparent)', borderTopWidth: 1, fontWeight: 500 },
   row: {
     borderBottomWidth: 'var(--ariax-table-row-border, 1px)',
     backgroundColor: { default: null, ':hover:not([data-state="selected"])': { default: null, '@media (hover: hover)': 'color-mix(in oklab, var(--muted) 50%, transparent)' }, ':is([data-state="selected"], [data-selected="true"])': 'var(--muted)', ':has([aria-expanded="true"])': 'color-mix(in oklab, var(--muted) 50%, transparent)' },
     transitionProperty: 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms',
   },
-  head: { color: 'var(--foreground)', height: '2.5rem', padding: '0 .5rem', paddingInlineEnd: { default: null, ':has([role="checkbox"], [data-slot="checkbox"])': 0 }, textAlign: 'start', verticalAlign: 'middle', fontWeight: 500, whiteSpace: 'nowrap' },
-  cell: { padding: '.5rem', paddingInlineEnd: { default: null, ':has([role="checkbox"], [data-slot="checkbox"])': 0 }, verticalAlign: 'middle', whiteSpace: 'nowrap' },
-  caption: { color: 'var(--muted-foreground)', marginTop: '1rem', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)', textAlign: 'center' },
+  head: { color: 'var(--foreground)', height: 'calc(var(--ariax-spacing, .25rem) * 10)', padding: '0 calc(var(--ariax-spacing, .25rem) * 2)', paddingInlineEnd: { default: null, ':has([role="checkbox"], [data-slot="checkbox"])': 0 }, textAlign: 'start', verticalAlign: 'middle', fontWeight: 500, whiteSpace: 'nowrap' },
+  cell: { padding: 'calc(var(--ariax-spacing, .25rem) * 2)', paddingInlineEnd: { default: null, ':has([role="checkbox"], [data-slot="checkbox"])': 0 }, verticalAlign: 'middle', whiteSpace: 'nowrap' },
+  caption: { color: 'var(--muted-foreground)', marginTop: 'calc(var(--ariax-spacing, .25rem) * 4)', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)', textAlign: 'center' },
 });
 function applied(base: stylex.StyleXStyles, xstyle: stylex.StyleXStyles | undefined, style: CSSProperties | undefined, marker?: string) { const result = stylex.props(base, xstyle); return { className: marker ? `${marker} ${result.className ?? ''}` : result.className, style: { ...result.style, ...style } }; }
 function renderStyle<State>(base: stylex.StyleXStyles, xstyle: stylex.StyleXStyles | undefined, style: CSSProperties | ((state: State) => CSSProperties | undefined) | undefined, marker?: string) {

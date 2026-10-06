@@ -57,7 +57,7 @@ const styles = stylex.create({
     },
     minHeight: {
       default: null,
-      ':where([data-orientation="vertical"])': '10rem'
+      ':where([data-orientation="vertical"])': 'calc(var(--ariax-spacing, .25rem) * 40)'
     },
     flexDirection: {
       default: null,
@@ -73,13 +73,13 @@ const styles = stylex.create({
     borderRadius: 'calc(infinity * 1px)',
     height: {
       default: null,
-      ':where([data-orientation="horizontal"])': '0.25rem',
+      ':where([data-orientation="horizontal"])': 'calc(var(--ariax-spacing, .25rem) * 1)',
       ':where([data-orientation="vertical"])': '100%'
     },
     width: {
       default: null,
       ':where([data-orientation="horizontal"])': '100%',
-      ':where([data-orientation="vertical"])': '0.25rem'
+      ':where([data-orientation="vertical"])': 'calc(var(--ariax-spacing, .25rem) * 1)'
     }
   },
   fill: {
@@ -116,8 +116,8 @@ const styles = stylex.create({
       default: null,
       ':disabled': .5
     },
-    width: '0.75rem',
-    height: '0.75rem',
+    width: 'calc(var(--ariax-spacing, .25rem) * 3)',
+    height: 'calc(var(--ariax-spacing, .25rem) * 3)',
     borderRadius: 'calc(infinity * 1px)',
     borderWidth: 1,
     borderStyle: 'solid',
@@ -154,7 +154,7 @@ const styles = stylex.create({
     '::after': {
       content: '""',
       position: 'absolute',
-      inset: '-0.5rem'
+      inset: 'calc(var(--ariax-spacing, .25rem) * -2)'
     }
   }
 });

@@ -61,7 +61,7 @@ export function ToggleGroupItem({
   const applied = toggleProps({
     variant: context.variant || variant,
     size: context.size || size,
-    xstyle: [styles.item, styles.corners((context.size || size) === 'sm' ? 'min(calc(var(--radius) * .8), 12px)' : 'var(--radius)'), styles.borders((context.variant || variant) === 'outline' ? 1 : 0), styles.padding((context.size || size) === null ? '0px' : '0.625rem', (context.size || size) === null ? '0px' : (context.size || size) === 'sm' ? '0.375rem' : '0.5rem'), xstyle]
+    xstyle: [styles.item, styles.corners((context.size || size) === 'sm' ? 'min(calc(var(--radius) * .8), 12px)' : 'var(--radius)'), styles.borders((context.variant || variant) === 'outline' ? 1 : 0), styles.padding((context.size || size) === null ? '0px' : 'calc(var(--ariax-spacing, .25rem) * 2.5)', (context.size || size) === null ? '0px' : (context.size || size) === 'sm' ? 'calc(var(--ariax-spacing, .25rem) * 1.5)' : 'calc(var(--ariax-spacing, .25rem) * 2)'), xstyle]
   });
   return <ToggleButton data-slot="toggle-group-item" data-variant={context.variant || variant} data-size={context.size || size} data-spacing={context.spacing} {...props} {...applied} style={composeRenderProps(style, value => ({
     ...applied.style,
@@ -94,7 +94,7 @@ const styles = stylex.create({
     gap: 'var(--gap)'
   },
   spacing: (spacing: number) => ({
-    '--gap': `calc(var(--spacing, 0.25rem) * ${spacing})`
+    '--gap': `calc(var(--ariax-spacing, .25rem) * ${spacing})`
   }),
   item: {
     flexShrink: 0,
@@ -120,14 +120,14 @@ const styles = stylex.create({
     paddingInlineStart: {
       default: normal,
       ':has([data-icon="inline-start"])': icon,
-      ':is(.ariax-toggle-group[data-spacing="0"] *)': '0.5rem',
-      ':is(.ariax-toggle-group[data-spacing="0"] *):has([data-icon="inline-start"])': '0.375rem'
+      ':is(.ariax-toggle-group[data-spacing="0"] *)': 'calc(var(--ariax-spacing, .25rem) * 2)',
+      ':is(.ariax-toggle-group[data-spacing="0"] *):has([data-icon="inline-start"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)'
     },
     paddingInlineEnd: {
       default: normal,
       ':has([data-icon="inline-end"])': icon,
-      ':is(.ariax-toggle-group[data-spacing="0"] *)': '0.5rem',
-      ':is(.ariax-toggle-group[data-spacing="0"] *):has([data-icon="inline-end"])': '0.375rem'
+      ':is(.ariax-toggle-group[data-spacing="0"] *)': 'calc(var(--ariax-spacing, .25rem) * 2)',
+      ':is(.ariax-toggle-group[data-spacing="0"] *):has([data-icon="inline-end"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)'
     }
   }),
   corners: (radius: string) => ({

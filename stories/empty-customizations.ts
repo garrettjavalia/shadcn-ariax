@@ -1,12 +1,12 @@
 import * as stylex from '@stylexjs/stylex';
 const styles = stylex.create({
-  row: { flexDirection: 'row', justifyContent: 'center', gap: '.5rem' },
+  row: { flexDirection: 'row', justifyContent: 'center', gap: 'calc(var(--spacing, .25rem) * 2)' },
   muted: { color: 'var(--muted-foreground)' },
   outline: { borderWidth: 1, borderStyle: 'dashed' },
   background: { height: '100%', backgroundColor: 'color-mix(in oklab, var(--muted) 30%, transparent)' },
   pretty: { maxWidth: '20rem', textWrap: 'pretty' },
-  avatar: { width: '3rem', height: '3rem' },
-  groupAvatar: { width: '3rem', height: '3rem', filter: 'grayscale(100%)', boxShadow: '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 2px var(--background), 0 0 0 0 #0000' },
+  avatar: { width: 'calc(var(--spacing, .25rem) * 12)', height: 'calc(var(--spacing, .25rem) * 12)' },
+  groupAvatar: { width: 'calc(var(--spacing, .25rem) * 12)', height: 'calc(var(--spacing, .25rem) * 12)', filter: 'grayscale(100%)', boxShadow: '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 2px var(--background), 0 0 0 0 #0000' },
   input: { width: { default: '100%', '@media (width >= 40rem)': '75%' } },
   inputAlways: { width: '75%' },
   mutedBackground: { backgroundColor: 'var(--muted)' },

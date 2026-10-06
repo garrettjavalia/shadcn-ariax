@@ -14,8 +14,8 @@ export function Textarea({ xstyle, className: _className, style, ...props }: Tex
 }
 const ring = '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-textarea-ring), 0 0 0 0 #0000';
 const styles = stylex.create({ base: {
-  width: '100%', minHeight: '4rem', fieldSizing: 'content', display: 'flex', outlineStyle: 'none', borderRadius: 'var(--radius)',
-  borderWidth: '1px', borderStyle: 'solid', paddingInline: '0.625rem', paddingBlock: '0.5rem',
+  width: '100%', minHeight: 'calc(var(--ariax-spacing, .25rem) * 16)', fieldSizing: 'content', display: 'flex', outlineStyle: 'none', borderRadius: 'var(--radius)',
+  borderWidth: '1px', borderStyle: 'solid', paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2.5)', paddingBlock: 'calc(var(--ariax-spacing, .25rem) * 2)',
   fontSize: { default: '1rem', '@media (min-width: 48rem)': '0.875rem' },
   lineHeight: { default: 1.5, '@media (min-width: 48rem)': 'calc(1.25 / .875)' },
   color: { default: null, '::placeholder': 'var(--muted-foreground)' },

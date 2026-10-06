@@ -3,7 +3,8 @@ const styles = stylex.create({
   rounded: { borderRadius: 'calc(infinity * 1px)' },
   initial: { height: 60, minWidth: 120 },
   dynamic: (width: number) => ({ width }),
-  custom: { height: 44, minWidth: 160, borderRadius: 'calc(var(--radius) * 1.4)', paddingLeft: 20, paddingRight: 20, opacity: { default: null, ':hover': { default: null, '@media (hover: hover)': 0.8 } } },
+  custom: { height: 'calc(var(--spacing, .25rem) * 11)', minWidth: 'calc(var(--spacing, .25rem) * 40)', borderRadius: 'calc(var(--radius) * 1.4)', paddingLeft: 'calc(var(--spacing, .25rem) * 5)', paddingRight: 'calc(var(--spacing, .25rem) * 5)', opacity: { default: null, ':hover': { default: null, '@media (hover: hover)': 0.8 } } },
+  inline: {width: 'calc(var(--spacing, .25rem) * 40)'},
 });
 export const rounded = { xstyle: styles.rounded };
 // The later style must override both the component defaults and the earlier array entry.
@@ -25,7 +26,7 @@ export const fieldCustomized = {xstyle:[fieldStyles.field,fieldStyles.dynamic(28
 export const fieldLabelCustomized = {xstyle:fieldStyles.label,style:{opacity:0.75}};
 
 // Dynamic StyleX width must survive a separate inline height override.
-export const inlineSizing = { xstyle: styles.dynamic(160) };
+export const inlineSizing = { xstyle: styles.inline };
 export const inlineSkeletonSizing = inlineSizing;
 
 const typographyStyles=stylex.create({dynamic:(fontSize:number,lineHeight:number)=>({fontSize,lineHeight})});

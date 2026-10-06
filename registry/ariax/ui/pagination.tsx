@@ -37,12 +37,12 @@ export function PaginationEllipsis({ className: _, xstyle, style, ...props }: Pa
 }
 const styles=stylex.create({
   root:{marginInline:'auto',display:'flex',width:'100%',justifyContent:'center'},
-  content:{display:'flex',alignItems:'center',gap:'.125rem'},
-  previous:{paddingInlineStart:{default:'.375rem',':has([data-icon="inline-start"])':'.375rem'}},
-  next:{paddingInlineEnd:{default:'.375rem',':has([data-icon="inline-end"])':'.375rem'}},
+  content:{display:'flex',alignItems:'center',gap:'calc(var(--ariax-spacing, .25rem) * 0.5)'},
+  previous:{paddingInlineStart:{default:'calc(var(--ariax-spacing, .25rem) * 1.5)',':has([data-icon="inline-start"])':'calc(var(--ariax-spacing, .25rem) * 1.5)'}},
+  next:{paddingInlineEnd:{default:'calc(var(--ariax-spacing, .25rem) * 1.5)',':has([data-icon="inline-end"])':'calc(var(--ariax-spacing, .25rem) * 1.5)'}},
   text:{display:{default:'none','@media (min-width: 40rem)':'block'}},
   flip:{rotate:{default:null,':where(:dir(rtl), [dir="rtl"], [dir="rtl"] *)':'180deg'}},
-  ellipsis:{display:'flex',width:'2rem',height:'2rem',alignItems:'center',justifyContent:'center'},
-  icon:{width:'1rem',height:'1rem'},
+  ellipsis:{display:'flex',width:'calc(var(--ariax-spacing, .25rem) * 8)',height:'calc(var(--ariax-spacing, .25rem) * 8)',alignItems:'center',justifyContent:'center'},
+  icon:{width:'calc(var(--ariax-spacing, .25rem) * 4)',height:'calc(var(--ariax-spacing, .25rem) * 4)'},
   srOnly:{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',borderWidth:0},
 });

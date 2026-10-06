@@ -1,8 +1,8 @@
 .ariax-example-markdown{width:100%;min-width:0;overflow:hidden;white-space:normal}
-.ariax-example-markdown>:not(:last-child){margin-block-start:0;margin-block-end:1rem}
+.ariax-example-markdown>:not(:last-child){margin-block-start:0;margin-block-end:calc(var(--spacing, .25rem) * 4)}
 .ariax-example-markdown>:first-child{margin-top:0}
 .ariax-example-markdown>:last-child{margin-bottom:0}
 .ariax-example-markdown [data-streamdown="strong"]{font-weight:600}
-.ariax-example-markdown [data-streamdown="inline-code"]{border-radius:.25rem;background-color:var(--muted);padding:.125rem .375rem;font-family:var(--font-mono);font-size:.875rem;line-height:calc(1.25 / .875)}
+.ariax-example-markdown [data-streamdown="inline-code"]{border-radius:.25rem;background-color:var(--muted);padding:calc(var(--spacing, .25rem) * 0.5) calc(var(--spacing, .25rem) * 1.5);font-family:var(--font-mono);font-size:.875rem;line-height:calc(1.25 / .875)}
 .ariax-example-markdown [data-streamdown='ordered-list']{list-style-position:inside;list-style-type:decimal}
-.ariax-example-markdown [data-streamdown='list-item']{padding-block:.25rem}
+.ariax-example-markdown [data-streamdown='list-item']{padding-block:calc(var(--spacing, .25rem) * 1)}

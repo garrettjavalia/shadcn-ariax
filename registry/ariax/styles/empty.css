@@ -1,4 +1,4 @@
 .ariax-empty-media svg { pointer-events: none; flex-shrink: 0; }
-.ariax-empty-media-icon svg:not([class*="size-"]) { width: 1rem; height: 1rem; }
+.ariax-empty-media-icon svg:not([class*="size-"]) { width: calc(var(--ariax-spacing, .25rem) * 4); height: calc(var(--ariax-spacing, .25rem) * 4); }
 .ariax-empty-description > a { text-decoration-line: underline; text-underline-offset: 4px; }
 @media (hover: hover) { .ariax-empty-description > a:hover { color: var(--primary); } }

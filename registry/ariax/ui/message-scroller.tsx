@@ -90,7 +90,7 @@ export { useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVis
 const fade = stylex.keyframes({
   from: {
     // @ts-expect-error StyleX supports registered CSS properties; keyframe types omit them.
-    '--scroll-fade-b': 'var(--_scroll-fade-size-b,var(--scroll-fade-size,min(12%,2.5rem)))'
+    '--scroll-fade-b': 'var(--_scroll-fade-size-b,var(--scroll-fade-size,min(12%,calc(var(--ariax-spacing, .25rem) * 10))))'
   },
   to: {
     // @ts-expect-error Registered CSS property.
@@ -125,7 +125,7 @@ const styles = stylex.create({
       default: null,
       ':is([data-autoscrolling])': 'transparent transparent'
     },
-    '--_scroll-fade-size-b': 'var(--scroll-fade-b-size,var(--scroll-fade-size,min(12%,2.5rem)))',
+    '--_scroll-fade-size-b': 'var(--scroll-fade-b-size,var(--scroll-fade-size,min(12%,calc(var(--ariax-spacing, .25rem) * 10))))',
     '--scroll-fade-mask': 'linear-gradient(to bottom,#000 0,#000 calc(100% - var(--scroll-fade-b,0px)),transparent 100%)',
     WebkitMaskImage: 'var(--scroll-fade-mask)',
     maskImage: 'var(--scroll-fade-mask)',
@@ -151,7 +151,7 @@ const styles = stylex.create({
     },
     animationRange: {
       default: null,
-      '@supports (animation-timeline: scroll())': 'calc(100% - var(--scroll-fade-reveal,6rem)) 100%'
+      '@supports (animation-timeline: scroll())': 'calc(100% - var(--scroll-fade-reveal,calc(var(--ariax-spacing, .25rem) * 24))) 100%'
     },
     animationFillMode: {
       default: null,
@@ -220,11 +220,11 @@ const styles = stylex.create({
     },
     bottom: {
       default: null,
-      ':is([data-direction="end"])': '1rem'
+      ':is([data-direction="end"])': 'calc(var(--ariax-spacing, .25rem) * 4)'
     },
     top: {
       default: null,
-      ':is([data-direction="start"])': '1rem'
+      ':is([data-direction="start"])': 'calc(var(--ariax-spacing, .25rem) * 4)'
     }
   },
   srOnly: {

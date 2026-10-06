@@ -51,7 +51,7 @@ export const styles = stylex.create({
     color: 'var(--sidebar-foreground)'
   },
   mobileHeader: {
-    padding: '1rem'
+    padding: 'calc(var(--ariax-spacing, .25rem) * 4)'
   },
   column: {
     display: 'flex',
@@ -83,7 +83,7 @@ export const styles = stylex.create({
       default: 'var(--sidebar-width)',
       ':is(.ariax-sidebar[data-collapsible="offcanvas"] *)': 0,
       ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'var(--sidebar-width-icon)',
-      ':is(.ariax-sidebar[data-collapsible="icon"][data-variant="floating"] *, .ariax-sidebar[data-collapsible="icon"][data-variant="inset"] *)': 'calc(var(--sidebar-width-icon) + 1rem)'
+      ':is(.ariax-sidebar[data-collapsible="icon"][data-variant="floating"] *, .ariax-sidebar[data-collapsible="icon"][data-variant="inset"] *)': 'calc(var(--sidebar-width-icon) + calc(var(--ariax-spacing, .25rem) * 4))'
     },
     backgroundColor: 'transparent',
     rotate: {
@@ -130,10 +130,10 @@ export const styles = stylex.create({
     }
   },
   floatingContainer: {
-    padding: '.5rem',
+    padding: 'calc(var(--ariax-spacing, .25rem) * 2)',
     width: {
       default: 'var(--sidebar-width)',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--sidebar-width-icon) + 1rem + 2px)'
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--sidebar-width-icon) + calc(var(--ariax-spacing, .25rem) * 4) + 2px)'
     }
   },
   inner: {
@@ -172,7 +172,7 @@ export const styles = stylex.create({
       '@media (width >= 40rem)': 'flex'
     },
     width: {
-      default: '1rem',
+      default: 'calc(var(--ariax-spacing, .25rem) * 4)',
       '::after': 2
     },
     transitionProperty: 'all',
@@ -180,16 +180,16 @@ export const styles = stylex.create({
     transitionTimingFunction: 'linear',
     insetInlineEnd: {
       default: null,
-      ':is(.ariax-sidebar[data-side="left"] *):dir(ltr)': '-1rem',
+      ':is(.ariax-sidebar[data-side="left"] *):dir(ltr)': 'calc(var(--ariax-spacing, .25rem) * -4)',
       ':is(.ariax-sidebar[data-side="right"] *):dir(rtl)': 0,
-      ':is(.ariax-sidebar[data-side="left"][data-collapsible="offcanvas"] *)': '-.5rem'
+      ':is(.ariax-sidebar[data-side="left"][data-collapsible="offcanvas"] *)': 'calc(var(--ariax-spacing, .25rem) * -2)'
     },
     insetInlineStart: {
       default: null,
       '::after': 'var(--ariax-rail-after-start)',
-      ':is(.ariax-sidebar[data-side="left"] *):dir(rtl)': '-1rem',
+      ':is(.ariax-sidebar[data-side="left"] *):dir(rtl)': 'calc(var(--ariax-spacing, .25rem) * -4)',
       ':is(.ariax-sidebar[data-side="right"] *):dir(ltr)': 0,
-      ':is(.ariax-sidebar[data-side="right"][data-collapsible="offcanvas"] *)': '-.5rem'
+      ':is(.ariax-sidebar[data-side="right"][data-collapsible="offcanvas"] *)': 'calc(var(--ariax-spacing, .25rem) * -2)'
     },
     translate: {
       default: '-50% 0',
@@ -231,7 +231,7 @@ export const styles = stylex.create({
       default: null,
       '@media (width >= 48rem)': {
         default: null,
-        ':is(.ariax-sidebar[data-variant="inset"] ~ *)': '.5rem'
+        ':is(.ariax-sidebar[data-variant="inset"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 2)'
       }
     },
     marginInlineStart: {
@@ -239,7 +239,7 @@ export const styles = stylex.create({
       '@media (width >= 48rem)': {
         default: null,
         ':is(.ariax-sidebar[data-variant="inset"] ~ *)': 0,
-        ':is(.ariax-sidebar[data-variant="inset"][data-state="collapsed"] ~ *)': '.5rem'
+        ':is(.ariax-sidebar[data-variant="inset"][data-state="collapsed"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 2)'
       }
     },
     borderRadius: {
@@ -265,7 +265,7 @@ export const styles = stylex.create({
       ':is(.dark *):disabled': 'color-mix(in oklab, var(--input) 80%, transparent)',
       '::file-selector-button': 'transparent'
     },
-    height: '2rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 8)',
     width: '100%',
     boxShadow: {
       default: '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000',
@@ -276,12 +276,12 @@ export const styles = stylex.create({
   header: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '.5rem',
-    padding: '.5rem'
+    gap: 'calc(var(--ariax-spacing, .25rem) * 2)',
+    padding: 'calc(var(--ariax-spacing, .25rem) * 2)'
   },
   separator: {
     backgroundColor: 'var(--sidebar-border)',
-    marginInline: '.5rem',
+    marginInline: 'calc(var(--ariax-spacing, .25rem) * 2)',
     width: 'auto'
   },
   content: {
@@ -305,7 +305,7 @@ export const styles = stylex.create({
     width: '100%',
     minWidth: 0,
     flexDirection: 'column',
-    padding: '.5rem'
+    padding: 'calc(var(--ariax-spacing, .25rem) * 2)'
   },
   label: {
     display: 'flex',
@@ -328,9 +328,9 @@ export const styles = stylex.create({
       '@media (forced-colors: active)': 2
     },
     color: 'color-mix(in oklab, var(--sidebar-foreground) 70%, transparent)',
-    height: '2rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 8)',
     borderRadius: 'calc(var(--radius) * .8)',
-    paddingInline: '.5rem',
+    paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2)',
     fontSize: '.75rem',
     lineHeight: 'calc(1/.75)',
     fontWeight: 500,
@@ -339,7 +339,7 @@ export const styles = stylex.create({
     transitionTimingFunction: 'linear',
     marginTop: {
       default: null,
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '-2rem'
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * -8)'
     },
     opacity: {
       default: null,
@@ -395,11 +395,11 @@ export const styles = stylex.create({
     },
     inset: {
       default: null,
-      '::after': '-.5rem'
+      '::after': 'calc(var(--ariax-spacing, .25rem) * -2)'
     },
-    top: '.875rem',
-    insetInlineEnd: '.75rem',
-    width: '1.25rem',
+    top: 'calc(var(--ariax-spacing, .25rem) * 3.5)',
+    insetInlineEnd: 'calc(var(--ariax-spacing, .25rem) * 3)',
+    width: 'calc(var(--ariax-spacing, .25rem) * 5)',
     borderRadius: 'calc(var(--radius) * .8)',
     padding: 0,
     boxShadow: {
@@ -430,11 +430,11 @@ export const styles = stylex.create({
     display: 'flex',
     width: {
       default: '100%',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '2rem'
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 8)'
     },
     height: {
       default: null,
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '2rem'
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 8)'
     },
     alignItems: 'center',
     overflow: 'hidden',
@@ -464,16 +464,16 @@ export const styles = stylex.create({
       ':disabled': .5,
       ':is([aria-disabled="true"])': .5
     },
-    gap: '.5rem',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 2)',
     borderRadius: 'calc(var(--radius) * .8)',
     padding: {
-      default: '.5rem',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '.5rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 2)',
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 2)'
     },
     paddingInlineEnd: {
       default: null,
-      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *)': '2rem',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '.5rem'
+      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *)': 'calc(var(--ariax-spacing, .25rem) * 8)',
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 2)'
     },
     textAlign: 'start',
     fontSize: '.875rem',
@@ -518,34 +518,34 @@ export const styles = stylex.create({
   },
   normal: {
     height: {
-      default: '2rem',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '2rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 8)',
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 8)'
     },
     fontSize: '.875rem',
     lineHeight: 'calc(1.25/.875)'
   },
   small: {
     height: {
-      default: '1.75rem',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '2rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 7)',
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 8)'
     },
     fontSize: '.75rem',
     lineHeight: 'calc(1/.75)'
   },
   large: {
     height: {
-      default: '3rem',
-      ':is(.ariax-sidebar[data-collapsible="icon"] *)': '2rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 12)',
+      ':is(.ariax-sidebar[data-collapsible="icon"] *)': 'calc(var(--ariax-spacing, .25rem) * 8)'
     },
     fontSize: '.875rem',
     lineHeight: 'calc(1.25/.875)',
     padding: {
-      default: '.5rem',
+      default: 'calc(var(--ariax-spacing, .25rem) * 2)',
       ':is(.ariax-sidebar[data-collapsible="icon"] *)': 0
     },
     paddingInlineEnd: {
       default: null,
-      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *)': '2rem',
+      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *)': 'calc(var(--ariax-spacing, .25rem) * 8)',
       ':is(.ariax-sidebar[data-collapsible="icon"] *)': 0
     }
   },
@@ -594,16 +594,16 @@ export const styles = stylex.create({
     },
     inset: {
       default: null,
-      '::after': '-.5rem'
+      '::after': 'calc(var(--ariax-spacing, .25rem) * -2)'
     },
     top: {
-      default: '.375rem',
-      ':is(.ariax-sidebar-menu-button[data-size="lg"] ~ *)': '.625rem',
-      ':is(.ariax-sidebar-menu-button[data-size="sm"] ~ *)': '.25rem'
+      default: 'calc(var(--ariax-spacing, .25rem) * 1.5)',
+      ':is(.ariax-sidebar-menu-button[data-size="lg"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':is(.ariax-sidebar-menu-button[data-size="sm"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 1)'
     },
-    insetInlineEnd: '.25rem',
+    insetInlineEnd: 'calc(var(--ariax-spacing, .25rem) * 1)',
     aspectRatio: '1 / 1',
-    width: '1.25rem',
+    width: 'calc(var(--ariax-spacing, .25rem) * 5)',
     borderRadius: 'calc(var(--radius) * .8)',
     padding: 0,
     boxShadow: {
@@ -648,36 +648,36 @@ export const styles = stylex.create({
     },
     pointerEvents: 'none',
     position: 'absolute',
-    insetInlineEnd: '.25rem',
-    height: '1.25rem',
-    minWidth: '1.25rem',
+    insetInlineEnd: 'calc(var(--ariax-spacing, .25rem) * 1)',
+    height: 'calc(var(--ariax-spacing, .25rem) * 5)',
+    minWidth: 'calc(var(--ariax-spacing, .25rem) * 5)',
     borderRadius: 'calc(var(--radius) * .8)',
-    paddingInline: '.25rem',
+    paddingInline: 'calc(var(--ariax-spacing, .25rem) * 1)',
     fontSize: '.75rem',
     lineHeight: 'calc(1/.75)',
     fontWeight: 500,
     top: {
       default: null,
-      ':is(.ariax-sidebar-menu-button[data-size="default"] ~ *)': '.375rem',
-      ':is(.ariax-sidebar-menu-button[data-size="lg"] ~ *)': '.625rem',
-      ':is(.ariax-sidebar-menu-button[data-size="sm"] ~ *)': '.25rem'
+      ':is(.ariax-sidebar-menu-button[data-size="default"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 1.5)',
+      ':is(.ariax-sidebar-menu-button[data-size="lg"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+      ':is(.ariax-sidebar-menu-button[data-size="sm"] ~ *)': 'calc(var(--ariax-spacing, .25rem) * 1)'
     }
   },
   skeleton: {
     display: 'flex',
     alignItems: 'center',
-    height: '2rem',
-    gap: '.5rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 8)',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 2)',
     borderRadius: 'calc(var(--radius) * .8)',
-    paddingInline: '.5rem'
+    paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2)'
   },
   skeletonIcon: {
-    width: '1rem',
-    height: '1rem',
+    width: 'calc(var(--ariax-spacing, .25rem) * 4)',
+    height: 'calc(var(--ariax-spacing, .25rem) * 4)',
     borderRadius: 'calc(var(--radius) * .8)'
   },
   skeletonText: {
-    height: '1rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 4)',
     maxWidth: 'var(--skeleton-width)',
     flex: '1'
   },
@@ -689,15 +689,15 @@ export const styles = stylex.create({
     minWidth: 0,
     flexDirection: 'column',
     borderColor: 'var(--sidebar-border)',
-    marginInline: '.875rem',
+    marginInline: 'calc(var(--ariax-spacing, .25rem) * 3.5)',
     translate: {
       default: '1px 0',
       ':dir(rtl)': '-1px 0'
     },
-    gap: '.25rem',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 1)',
     borderInlineStartWidth: 1,
-    paddingInline: '.625rem',
-    paddingBlock: '.125rem'
+    paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2.5)',
+    paddingBlock: 'calc(var(--ariax-spacing, .25rem) * 0.5)'
   },
   subButton: {
     display: {
@@ -749,10 +749,10 @@ export const styles = stylex.create({
       ':active': 'var(--sidebar-accent)',
       ':is([data-active="true"])': 'var(--sidebar-accent)'
     },
-    height: '1.75rem',
-    gap: '.5rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 7)',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 2)',
     borderRadius: 'calc(var(--radius) * .8)',
-    paddingInline: '.5rem',
+    paddingInline: 'calc(var(--ariax-spacing, .25rem) * 2)',
     boxShadow: {
       default: null,
       ':focus-visible': ring
