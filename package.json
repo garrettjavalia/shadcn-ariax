@@ -6,9 +6,9 @@
   "packageManager": "pnpm@10.15.1",
   "scripts": {
     "storybook": "pnpm upstream:prepare && pnpm registry:build && node --import tsx scripts/storybook.ts stylex",
-    "storybook:upstream": "pnpm upstream:prepare && node --import tsx scripts/storybook.ts upstream",
+    "storybook:upstream": "pnpm upstream:prepare && pnpm originals:generate && node --import tsx scripts/storybook.ts upstream",
     "dev": "concurrently -n upstream,stylex \"pnpm storybook:upstream\" \"pnpm storybook\"",
-    "build:upstream": "pnpm upstream:prepare && cross-env ARIAX_IMPLEMENTATION=upstream storybook build -o dist/upstream",
+    "build:upstream": "pnpm upstream:prepare && pnpm originals:generate && cross-env ARIAX_IMPLEMENTATION=upstream storybook build -o dist/upstream",
     "build:stylex": "pnpm upstream:prepare && pnpm registry:build && cross-env ARIAX_IMPLEMENTATION=stylex storybook build -o dist/stylex && node --import tsx scripts/check-storybook-css.ts",
     "build": "pnpm registry:build && pnpm build:upstream && pnpm build:stylex",
     "registry:build": "node --import tsx scripts/build-registry.ts",
@@ -23,7 +23,8 @@
     "test:upstream": "node --import tsx --test scripts/upstream/cache.test.ts",
     "test:benchmark": "node --import tsx scripts/benchmark-tests.ts",
     "test:full": "pnpm verify",
-    "test:ci": "pnpm upstream:prepare && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity"
+    "test:ci": "pnpm upstream:prepare && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity",
+    "originals:generate": "node --import tsx scripts/upstream/original-stories.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.6.0",

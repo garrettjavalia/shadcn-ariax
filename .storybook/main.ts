@@ -2,13 +2,15 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import { resolve } from 'node:path';
 import stylex from '@stylexjs/unplugin';
 import tailwind from '@tailwindcss/vite';
+import { originalAliases } from './original-aliases';
+import { frameworkAliases } from './framework-aliases';
 
 const upstream = process.env.ARIAX_IMPLEMENTATION === 'upstream';
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
-  stories: ['../stories/**/*.stories.tsx'],
+  stories: ['../stories/**/*.stories.tsx', ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
   addons: ['@storybook/addon-docs'],
-  staticDirs: ['../public'],
+  staticDirs: ['../public', ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
     config.resolve ??= {};
@@ -59,6 +61,8 @@ const config: StorybookConfig = {
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'registry/ariax/styles/entry.css'),
     };
     config.resolve.alias = [
+      ...frameworkAliases,
+      ...originalAliases,
       ...Object.entries(aliases).map(([find, replacement]) => ({ find, replacement })),
       ...(Array.isArray(inheritedAliases) ? inheritedAliases : Object.entries(inheritedAliases ?? {}).map(([find, replacement]) => ({ find, replacement }))),
       { find: /^@([a-z][a-z0-9-]*)-customizations$/, replacement: resolve(upstream ? 'reference' : 'stories') + '/$1-customizations.ts' },

@@ -7,6 +7,8 @@
 @source "./lib";
 @source "./hooks";
 @source "./components";
+@source "../../upstream/shadcn/apps/v4/examples/aria";
+@source "../../upstream/shadcn/apps/v4/components";
 @source "../../../stories/reference-utilities.stories.tsx";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
