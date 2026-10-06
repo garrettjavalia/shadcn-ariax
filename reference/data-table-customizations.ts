@@ -1,0 +1,5 @@
+import {buttonProps} from '@button';
+export const ghostHeader=buttonProps({variant:'ghost'});
+export const capitalize={className:'capitalize'},lowercase={className:'lowercase'},amountRight={className:'text-right'},valueRight={className:'text-right font-medium'},amountStart={className:'text-start'},valueStart={className:'text-start font-medium'},srOnly={className:'sr-only'},menu44={className:'w-44'},menu40={className:'w-40'},full={className:'w-full'},toolbar={className:'flex items-center py-4'},toolbarGap={className:'flex items-center gap-2 py-4'},filterInput={className:'max-w-sm'},marginLeft={className:'ml-auto'},marginStart={className:'ms-auto'},frame={className:'overflow-hidden rounded-md border'},footerSpace={className:'flex items-center justify-end space-x-2 py-4'},footerGap={className:'flex items-center justify-end gap-2 py-4'},selectionCount={className:'flex-1 text-sm text-muted-foreground'},paginationSpace={className:'space-x-2'},paginationGap={className:'flex gap-2'};
+
+export const capitalizeItem=capitalize;
