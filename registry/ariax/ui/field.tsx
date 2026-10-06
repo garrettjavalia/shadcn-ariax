@@ -22,7 +22,7 @@ const styles = stylex.create({
     opacity:{default:null, ':is(.ariax-field[data-disabled="true"] *)':0.5},
     borderRadius:{default:null, ':has(>[data-slot="field"])':'var(--radius)'}, borderWidth:{default:null, ':has(>[data-slot="field"])':'1px'},
     backgroundColor:{default:null, ':has([data-checked], [data-selected])':'color-mix(in oklab, var(--primary) 5%, transparent)', ':is(.dark *):has([data-checked], [data-selected])':'color-mix(in oklab, var(--primary) 10%, transparent)', ':has(>[data-slot="field"]):not(:has(:disabled,[data-disabled])):hover':{'default':null,'@media (hover: hover)':'color-mix(in oklab, var(--muted) 50%, transparent)'}},
-    borderColor:{default:null, ':has([data-checked], [data-selected])':'color-mix(in oklab, var(--primary) 30%, transparent)', ':is(.dark *):has([data-checked], [data-selected])':'color-mix(in oklab, var(--primary) 20%, transparent)', ':has(>[data-slot="field"]):has(:focus-visible)':'var(--ring)'},
+    borderColor:{default:null, ':is(.dark *):has([data-checked], [data-selected]):has(:focus-visible)':'color-mix(in oklab, var(--primary) 20%, transparent)', ':has([data-checked], [data-selected])':'color-mix(in oklab, var(--primary) 30%, transparent)', ':is(.dark *):has([data-checked], [data-selected])':'color-mix(in oklab, var(--primary) 20%, transparent)', ':has(>[data-slot="field"]):has(:focus-visible)':'var(--ring)'},
     boxShadow:{default:null, ':has(>[data-slot="field"]):has(:focus-visible)':'0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 #0000'},
     '--ariax-field-padding':'0.625rem',
   },
