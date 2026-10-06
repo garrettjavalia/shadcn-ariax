@@ -20,7 +20,7 @@
 - [ ] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
-- [ ] Button Group
+- [ ] Button Group — 구현; Dropdown Menu·Select·Popover 및 Field/Label 공식 조합·공식 RTL 대기
 - [ ] Calendar
 - [ ] Card
 - [ ] Carousel
@@ -43,7 +43,7 @@
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd — 구현·Tooltip 조합 검증; 공식 ButtonGroup 컨테이너 대기
+- [ ] Kbd — 공식 ButtonGroup·Tooltip 조합 지원; 공식 RTL 대기
 - [ ] Label
 - [ ] Marker
 - [ ] Message
@@ -70,4 +70,4 @@
 - [ ] Toggle Group
 - [ ] Typography — 텍스트 스타일 예제
 
-Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
+Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.

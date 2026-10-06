@@ -68,6 +68,12 @@
       ],
       "@tooltip-customizations": [
         "./stories/tooltip-customizations.ts"
+      ],
+      "@button-group": [
+        "./registry/ariax/ui/button-group.tsx"
+      ],
+      "@button-group-customizations": [
+        "./stories/button-group-customizations.ts"
       ]
     }
   },

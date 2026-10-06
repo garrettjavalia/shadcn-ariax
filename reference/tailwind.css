@@ -6,6 +6,7 @@
 @source "./lib";
 @source "./hooks";
 @source "./components";
+@source "../../../reference/button-group-customizations.ts";
 @source "../../../reference/customizations.ts";
 @source "../../../reference/skeleton-customizations.ts";
 @source "../../../stories/reference-utilities.stories.tsx";

@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@button-group': resolve(upstream ? 'reference/button-group.ts' : 'registry/ariax/ui/button-group.tsx'),
+      '@button-group-customizations': resolve(upstream ? 'reference/button-group-customizations.ts' : 'stories/button-group-customizations.ts'),
       '@tooltip': resolve(upstream ? 'generated/reference/aria-nova/ui/tooltip.tsx' : 'registry/ariax/ui/tooltip.tsx'),
       '@tooltip-customizations': resolve(upstream ? 'reference/tooltip-customizations.ts' : 'stories/tooltip-customizations.ts'),
       '@kbd': resolve(upstream ? 'generated/reference/aria-nova/ui/kbd.tsx' : 'registry/ariax/ui/kbd.tsx'),
