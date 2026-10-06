@@ -18,7 +18,7 @@
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
 - [x] Badge
 - [x] Breadcrumb
-- [ ] Bubble
+- [x] Bubble
 - [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
 - [x] Calendar
 - [x] Card
