@@ -60,12 +60,22 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
     const references = new Set(['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'aria-activedescendant', 'for']);
     const styleBank: Record<string, string>[] = [];
     const styleIds = new Map<string, number>();
+    const styleSchemas: string[][] = [];
     const style = (element: Element, pseudo?: string) => {
       const css = getComputedStyle(element, pseudo);
-      const values = Object.fromEntries([...css].filter(k => !k.startsWith('--')).sort().map(k => [k, css.getPropertyValue(k)]));
-      const key = JSON.stringify(values);
+      const properties = [...css].filter(property => !property.startsWith('--'));
+      let schema = styleSchemas.findIndex(names => names.length === properties.length && names.every((name, index) => name === properties[index]));
+      if (schema === -1) { schema = styleSchemas.length; styleSchemas.push(properties); }
+      const values = properties.map(property => css.getPropertyValue(property));
+      // Preserve every property/value exactly, constructing records only for
+      // unique styles rather than allocating one for every element and pseudo.
+      const key = JSON.stringify([schema, values]);
       let id = styleIds.get(key);
-      if (id === undefined) { id = styleBank.length; styleBank.push(values); styleIds.set(key, id); }
+      if (id === undefined) {
+        id = styleBank.length;
+        styleBank.push(Object.fromEntries(properties.map((property, index) => [property, values[index]])));
+        styleIds.set(key, id);
+      }
       return { $style: id };
     };
     const rect = (r: DOMRect) => ({ x: r.x, y: r.y, width: r.width, height: r.height });

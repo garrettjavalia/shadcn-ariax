@@ -20,7 +20,7 @@ test('preview transitions remount state and preserve fresh-page DOM/CSS',async({
         await test.step(`${id} readiness`,async()=>{await waitAvatarAssets(page);await waitForStoryReadiness(page);});
         await page.mouse.move(0,0);await test.step(`${id} settle`,()=>settle(page));
       }));
-      expect(differences(await snapshot(reused,'dom-css'),await snapshot(fresh,'dom-css'))).toEqual([]);
+      expect(differences(await snapshot(reused),await snapshot(fresh))).toEqual([]);
       // Leave controlled component state and focus behind for the next transition.
       const checkbox=reused.getByRole('checkbox').first();
       if(await checkbox.isEnabled())await reused.locator('[data-slot=checkbox]').first().click();

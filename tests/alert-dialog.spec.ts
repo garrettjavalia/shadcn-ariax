@@ -2,10 +2,11 @@ import{test,expect}from'@playwright/test';
 import{readFile}from'node:fs/promises';
 import{compare}from'./compare';
 import{upstreamURL,stylexURL}from'./servers';
+import {navigateStory} from './story-navigation';
 for(const theme of ['light','dark'])for(const width of [1000,390])test(`AlertDialog official examples, default/sm/media and closing / ${theme} / ${width}`,async({browser},info)=>{
  const ctx=await browser.newContext({viewport:{width,height:900}});const pages=await Promise.all([upstreamURL,stylexURL].map(()=>ctx.newPage()));
  try{for(const name of ['demo','basic','small','media','small-media','destructive','rtl','registry-basic','registry-small','registry-media','registry-small-media','registry-destructive','usage','customized']){
- await Promise.all(pages.map((p,i)=>p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-alertdialog--${name}&viewMode=story&globals=theme:${theme}`)));
+ await Promise.all(pages.map((p,i)=>navigateStory(p,`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-alertdialog--${name}&viewMode=story&globals=theme:${theme}`,true)));
  await Promise.all(pages.map(async p=>{await expect(p.locator('#parity-root')).toBeVisible();await p.getByRole('button').first().click();await expect(p.getByRole('alertdialog')).toBeVisible();}));await compare(pages[0],pages[1],info,name+'-open');
  await Promise.all(pages.map(p=>p.mouse.click(4,4)));await Promise.all(pages.map(p=>expect(p.getByRole('alertdialog')).toBeVisible()));await compare(pages[0],pages[1],info,name+'-outside-retained');
  await Promise.all(pages.map(p=>p.locator('[data-slot="alert-dialog-cancel"]').click()));await Promise.all(pages.map(async p=>{await expect(p.getByRole('alertdialog')).toBeHidden();await expect(p.getByRole('button').first()).toBeFocused();}));await compare(pages[0],pages[1],info,name+'-cancelled');

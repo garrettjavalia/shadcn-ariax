@@ -42,11 +42,11 @@ for (const { theme, width, requiredTag } of selectedEnvironments) for (let batch
   await a.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));
   try {
     for (const id of ids) await test.step(id, async () => {
-      // CI reuses the official preview lifecycle within this isolated batch.
+      // Both modes reuse the official preview lifecycle within an isolated batch.
       const started = performance.now();
       await Promise.all(([[a, upstreamPort], [b, stylexPort]] as const).map(async ([page, port]) => {
         const storyId = port === upstreamPort ? originals.get(id) ?? id : id;
-        await navigateStory(page, `http://127.0.0.1:${port}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`, ciMode);
+        await navigateStory(page, `http://127.0.0.1:${port}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`, true);
         await expect(page.locator('#parity-root')).toBeVisible();
         await waitAvatarAssets(page);
         await waitForStoryReadiness(page);
