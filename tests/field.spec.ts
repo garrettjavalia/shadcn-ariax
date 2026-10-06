@@ -1,26 +1,24 @@
+import {assertSourceComponents} from './source-components';
 import {test,expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 import {compare} from './compare';
 import {upstreamURL,stylexURL} from './servers';
-// Pending means the genuine compound example is not yet implemented. Native-control
-// core stories deliberately cannot satisfy these entries.
-export const fieldDocumentationPending:Record<string,string[]>={
- 'field-demo':['input','textarea','checkbox','select'], 'field-input':['input'], 'field-textarea':['textarea'],
- 'field-select':['select'], 'field-slider':['slider'], 'field-fieldset':['input'],
- 'field-radio':['radio-group'], 'field-switch':['switch'], 'field-choice-card':['radio-group'],
- 'field-rtl':['input','textarea','checkbox','select'], 'field-responsive':['input'],
+const fieldDocumentation:Record<string,string>={
+ 'field-demo':'components-field--document-demo','field-input':'components-field--document-input','field-textarea':'components-field--document-textarea','field-select':'components-field--document-select','field-slider':'components-field--document-slider','field-fieldset':'components-field--document-fieldset','field-checkbox':'compositions-fieldcheckbox--field-checkbox','field-radio':'components-field--radio','field-switch':'components-field--document-switch','field-choice-card':'components-field--radio-choice-card','field-responsive':'components-field--document-responsive','field-rtl':'components-field--document-rtl','field-group':'compositions-fieldcheckbox--field-group-example'
 };
-const fieldDocumentation = {'field-checkbox':'field-checkbox', 'field-group':'field-group-example'};
-test('Field official example inventory keeps dependency gaps explicit',async({request})=>{
+test('Field official docs and registry examples preserve actual component compositions',async({request})=>{
  const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/field.mdx','utf8');
  const examples=[...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m=>m[1]);
- expect(examples.sort()).toEqual([...Object.keys(fieldDocumentationPending), ...Object.keys(fieldDocumentation)].sort());
- const index=await (await request.get(`${stylexURL}/index.json`)).json();
- for(const story of Object.values(fieldDocumentation)) expect(index.entries[`compositions-fieldcheckbox--${story}`]?.tags).toContain('parity');
- for(const [name,dependencies] of Object.entries(fieldDocumentationPending)) {
-  const source=await readFile(`generated/upstream/shadcn/apps/v4/examples/aria/${name}.tsx`,'utf8');
-  for(const dependency of dependencies) expect(source).toContain(`/${dependency}"`);
- }
+ expect(examples.sort()).toEqual(Object.keys(fieldDocumentation).sort());
+ const fixtures:Record<string,string>={'field-checkbox':'stories/field-checkbox-example.tsx','field-radio':'stories/field-radio.tsx','field-choice-card':'stories/field-choice-card.tsx','field-group':'stories/field-group-example.tsx'};
+ for(const name of examples)await assertSourceComponents('generated/upstream/shadcn/apps/v4/examples/aria/'+name+'.tsx',fixtures[name]??'stories/field-examples/'+name.slice(6)+'.tsx');
+ await assertSourceComponents('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/field-example.tsx','stories/field-examples/registry.tsx');
+ const index=await (await request.get(stylexURL+'/index.json')).json();
+ for(const name of examples) expect(index.entries[fieldDocumentation[name]]?.tags,name).toContain('parity');
+ const registry=await readFile('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/field-example.tsx','utf8');
+ const functions=[...registry.matchAll(/^function (\w+)\(/gm)].map(m=>m[1]);
+ expect(functions).toHaveLength(10);
+ for(const name of functions){const id='components-field--registry-'+name.replace(/([A-Z]+)([A-Z][a-z])/g,'$1-$2').replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase();expect(index.entries[id]?.tags,name).toContain('parity');}
 });
 for(const theme of ['light','dark']) test(`Field choice focus, hover, disabled, checked / ${theme}`,async({browser},info)=>{
  const ctx=await browser.newContext({viewport:{width:1000,height:900},locale:'en-US',timezoneId:'UTC',colorScheme:'light'});
