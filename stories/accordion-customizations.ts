@@ -1,0 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
+const styles=stylex.create({max:{maxWidth:'32rem'},full:{width:'100%'},bordered:{maxWidth:'32rem',borderRadius:'var(--radius)',borderWidth:1,borderStyle:'solid'},itemBorder:{paddingInline:'1rem',borderBottomWidth:{default:1,':last-child':0},borderBottomStyle:'solid'},card:{width:'100%',maxWidth:'24rem'},rtl:{maxWidth:'28rem'}});
+export const max={xstyle:styles.max};export const full={xstyle:styles.full};export const bordered={xstyle:styles.bordered};export const itemBorder={xstyle:styles.itemBorder};export const card={xstyle:styles.card};export const rtl={xstyle:styles.rtl};
+const overrides=stylex.create({base:{gap:4},dynamic:(width:number)=>({width,gap:16}),content:{paddingInline:16,paddingBottom:20}});
+export const customized=(width:number)=>({xstyle:[overrides.base,overrides.dynamic(width)],style:({isDisabled}:{isDisabled:boolean})=>({width:width+10,opacity:isDisabled?.5:1})});export const contentCustom={xstyle:overrides.content,style:{color:'red'}};

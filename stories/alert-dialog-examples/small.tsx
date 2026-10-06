@@ -1,0 +1,32 @@
+import {destructive} from '@alert-dialog-customizations';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@alert-dialog"
+import { Button } from "@button"
+
+export function AlertDialogSmall() {
+  return (
+    <AlertDialogTrigger>
+      <Button variant="outline">Show Dialog</Button>
+      <AlertDialog data-parity-portal size="sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Do you want to allow the USB accessory to connect to this device?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
+          <AlertDialogAction>Allow</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialog>
+    </AlertDialogTrigger>
+  )
+}
