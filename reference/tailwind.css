@@ -1,12 +1,14 @@
-@import "./cli.css";
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./cli.css";
 @source "../../../reference/*customizations.ts";
 @source "./ui";
 @source "./lib";
 @source "./hooks";
 @source "./components";
+@source "../../upstream/shadcn/apps/v4/examples/aria";
+@source "../../upstream/shadcn/apps/v4/components";
 @source "../../../stories/reference-utilities.stories.tsx";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
@@ -67,3 +69,11 @@
 @custom-variant style-nova (&:where(.style-nova *));
 
 @source "../../../node_modules/streamdown/dist/*.js";
+
+/* Original documentation/helper classes remain unchanged and are scanned directly. */
+@source "../../upstream/shadcn/apps/v4/examples/aria";
+@source "../../upstream/shadcn/apps/v4/components/language-selector.tsx";
+@source "../../upstream/shadcn/apps/v4/components/markdown.tsx";
+@source "../../upstream/shadcn/apps/v4/components/message-animated.tsx";
+@source "../base-nova/ui";
+@source "../radix-rhea/ui";

@@ -5,7 +5,9 @@ import { performance } from 'node:perf_hooks';
 
 const servers = await Promise.all([upstreamPort, stylexPort].map(async port => ({ port, ready: await fetch(`http://127.0.0.1:${port}/index.json`).then(r => r.ok, () => false) })));
 const start = performance.now();
-const command = ['test', ...process.argv.slice(2)];
+const args = process.argv.slice(2);
+const ci = args.includes('--ci');
+const command = [ci ? 'test:ci' : 'test', ...args.filter(arg => arg !== '--ci')];
 const child = spawn('pnpm', command, { stdio: 'inherit', env: { ...process.env, PARITY_PROFILE: '1' } });
 const exitCode = await new Promise<number>((done, fail) => { child.on('error', fail); child.on('close', code => done(code ?? 1)); });
 const wallSeconds = (performance.now() - start) / 1000;
@@ -26,7 +28,8 @@ function visit(suites: Suite[]) {
   }
 }
 visit(report.suites);
-const result = { command: `pnpm ${command.join(' ')}`, wallSeconds, servers, workers: report.config.workers, exitCode, tests: report.stats, summedPhaseTimes: totals };
+const withinBudget = !ci || wallSeconds <= 600;
+const result = { command: `pnpm ${command.join(' ')}`, wallSeconds, ...(ci ? { budgetSeconds: 600, withinBudget } : {}), servers, workers: report.config.workers, exitCode, tests: report.stats, summedPhaseTimes: totals };
 await writeFile('test-results/benchmark.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));
-process.exitCode = exitCode;
+process.exitCode = exitCode || (withinBudget ? 0 : 1);

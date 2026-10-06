@@ -19,10 +19,17 @@ try {
   await writeFile(join(dir, 'package.json'), JSON.stringify({ name: 'ariax-consumer', private: true, type: 'module', dependencies: { react: pkg.dependencies.react, 'react-dom': pkg.dependencies['react-dom'], ...Object.assign({}, ...fixtures.map(fixture => fixture.dependencies)) }, devDependencies: { vite: pkg.devDependencies.vite, typescript: pkg.devDependencies.typescript, '@types/react': pkg.devDependencies['@types/react'], '@types/react-dom': pkg.devDependencies['@types/react-dom'] } }, null, 2));
   await mkdir(join(dir, 'src'), { recursive: true });
   await writeFile(join(dir, 'src/index.css'), '');
-  await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'], ...Object.fromEntries(fixtures.map(fixture => [fixture.alias, [`./${fixture.installedPath}`]])) } }, include: ['src'] }));
+  await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'], ...Object.fromEntries(fixtures.map(fixture => [fixture.alias, [`./${fixture.installedPath}`]])) } }, include: ['src', 'vite.config.ts'] }));
   await writeFile(join(dir, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: 'aria-nova', rsc: false, tsx: true, tailwind: { config: '', css: 'src/index.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@/components', ui: '@/components/ui', utils: '@/lib/utils', lib: '@/lib', hooks: '@/hooks' } }));
   // Actual published CLI, actual generated registry file, fresh consumer files and dependencies.
   run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => resolve(`public/r/${item.name}.json`)), '--yes', '--cwd', dir]);
+  // Use setup artifacts delivered by the CLI, as documented for consumers.
+  const setupPath = 'src/components/ui/ariax/setup';
+  assert.equal(await readFile(join(dir, setupPath, 'STYLEX-LICENSE'), 'utf8'), await readFile(join(root, 'licenses/STYLEX-LICENSE'), 'utf8'));
+  for (const name of ['stylex', 'unplugin']) {
+    assert.equal(await readFile(join(dir, setupPath, `@stylexjs__${name}@0.19.1.patch`), 'utf8'), await readFile(join(root, 'patches', `@stylexjs__${name}@0.19.1.patch`), 'utf8'));
+  }
+  await writeFile(join(dir, 'pnpm-workspace.yaml'), `packages:\n  - "."\npatchedDependencies:\n  '@stylexjs/stylex@0.19.1': ${setupPath}/@stylexjs__stylex@0.19.1.patch\n  '@stylexjs/unplugin@0.19.1': ${setupPath}/@stylexjs__unplugin@0.19.1.patch\n`);
   const installed = JSON.parse(await readFile(join(dir, 'package.json'), 'utf8'));
   for (const fixture of fixtures) for (const [name, version] of Object.entries(fixture.dependencies)) assert.equal(installed.dependencies[name], version, `CLI changed composition fixture pin: ${name}`);
   for (const { item, installedPath } of fixtures) {
@@ -53,8 +60,8 @@ ${imports}
 createRoot(document.getElementById('root')!).render(<>${components}</>);
 `);
   const alias = Object.fromEntries(fixtures.map(fixture => [fixture.alias, join(dir, fixture.installedPath)]));
-  await writeFile(join(dir, 'vite.config.ts'), `import {defineConfig} from 'vite'; import stylex from '@stylexjs/unplugin'; export default defineConfig({plugins:[stylex.vite({useCSSLayers:false})],resolve:{alias:${JSON.stringify(alias)}},esbuild:{jsx:'automatic'}});`);
-  run('pnpm', ['install', '--ignore-workspace']);
+  await writeFile(join(dir, 'vite.config.ts'), `import {defineConfig} from 'vite'; import stylex from '@stylexjs/unplugin'; export default defineConfig({plugins:[stylex.vite({useCSSLayers:false,lightningcssOptions:false})],build:{cssMinify:false},resolve:{alias:${JSON.stringify(alias)}},esbuild:{jsx:'automatic'}});`);
+  run('pnpm', ['install', '--no-frozen-lockfile']);
   run('pnpm', ['exec', 'tsc', '--noEmit']);
   run('pnpm', ['exec', 'vite', 'build']);
   for (const [file, contents] of parentFiles) assert.equal(await readFile(join(root, file), 'utf8'), contents, `Consumer installation must not modify the parent ${file}.`);

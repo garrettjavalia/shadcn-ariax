@@ -25,6 +25,9 @@ generated/                        # 전체 Git 제외
     cli.css                      # CLI가 설치한 css/cssVars; harness와 분리
     tailwind.css                 # 로컬 비교 harness; cli.css를 import
     .install-complete.json       # CLI 성공 후에만 기록
+  reference/base-nova/            # 공식 예제 helper가 요구하는 별도 CLI 설치
+  reference/radix-rhea/           # 공식 예제 helper가 요구하는 별도 CLI 설치
+  original-stories/               # 공식 문서 예제로 생성한 CSF와 대응 manifest
 ```
 
 `pnpm test`, `pnpm typecheck`, Storybook 실행·빌드는 먼저 `upstream:prepare`를 실행한다. 원본은 고정 커밋으로 받고, 설치할 항목과 `registryDependencies`는 원본의 `*/_registry.ts`에서 읽는다. 필요한 항목만 고정한 `shadcn` 패키지의 공개 `createStyleMap`·`transformStyle` API로 처리한 뒤 공식 CLI `build`와 `add`를 실행한다. 자체 `cn-*` 클래스 치환은 없다. import namespace 이동은 원본의 공식 빌드 단계와 같은 경로 이동이다.
@@ -35,7 +38,9 @@ CLI의 `components.json`에는 `rtl: true`를 지정한다. 공식 방향 변환
 
 다운로드 캐시는 소스 설정·필수 경로를 확인한다. 설치 캐시는 소스 설정·선택한 컴포넌트·RTL 설정·CLI 버전·프로젝트 의존성과 설치된 파일과 JSX 설정·패키지 설정·CLI CSS의 존재 여부를 확인한다. 둘 다 완료 기록이 일치하면 오프라인으로 재사용하며 CLI도 다시 실행하지 않는다. 설치 파일이 누락되면 원본 캐시에서 공식 CLI로 재생성한다. CLI 소유 CSS는 로컬 harness 설정 갱신으로 덮어쓰지 않는다. 파일별 내용 해시는 저장하거나 검사하지 않는다. 임의 수정·손상이 의심되면 `pnpm upstream:sync`로 원본과 설치 결과를 다시 준비한다.
 
-새 레퍼런스 항목은 `reference.json`의 `components`에 이름을 추가한다. 파일 목록과 로컬 항목 의존성은 원본 메타데이터를 따른다. 새로운 npm 의존성이 필요한 항목은 먼저 이 프로젝트에 정확한 버전을 설치해야 한다. 자동 준비가 임의 패키지 설치나 버전 갱신을 일으키지 않도록 누락·버전 불일치를 실패시킨다. 별칭 `@reference/*`는 설치 프로젝트를 가리킨다. 실제 이식본·스토리·공식 예제 대응 추가는 별도 구현 작업이다.
+새 레퍼런스 항목은 `reference.json`의 `components`에 이름을 추가한다. 다른 base/style을 요구하는 공식 helper는 `helperReferences`에 별도 선언한다. 파일 목록과 로컬 항목 의존성은 원본 메타데이터를 따른다. 새로운 npm 의존성이 필요한 항목은 먼저 이 프로젝트에 정확한 버전을 설치해야 한다. 자동 준비가 임의 패키지 설치나 버전 갱신을 일으키지 않도록 누락·버전 불일치를 실패시킨다. 별칭 `@reference/*`는 기본 설치 프로젝트를 가리킨다.
+
+`originals:generate`는 공식 MDX의 `ComponentPreview`에서 TSX 예제를 찾아 원본 JSX·클래스를 바꾸지 않고 CSF를 생성한다. 대응표는 `/original-stories/manifest.json`으로 제공하며 직접 대응하는 StyleX 스토리는 같은 메타데이터의 공식 원본과 비교한다. 미대응 예제도 원본 Storybook에 등록하며 대응 완료로 표시하지 않는다. Next Image·Link는 일반 React 이미지·링크 어댑터로, 예제 폰트는 웹폰트 CSS와 클래스 반환 함수로 연결한다.
 
 동시 명령은 원본 다운로드와 CLI 준비 잠금을 공유한다. 임시 폴더에서 성공한 결과만 기존 캐시와 교체한다. CLI는 `generated/`의 격리된 프로젝트만 수정한다. 배포 레지스트리의 CLI 소비 앱 테스트는 이 준비 작업과 별도로 실행한다.
 

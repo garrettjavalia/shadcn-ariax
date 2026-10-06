@@ -1,8 +1,158 @@
-import {readFile} from 'node:fs/promises';
-import {test,expect,type Page} from '@playwright/test';
-import {compare} from './compare';
-import {upstreamURL,stylexURL} from './servers';
-import {controlAvatarAssets,waitAvatarAssets} from './avatar-assets';
-async function open(pages:Page[],story:string,theme:string){await Promise.all(pages.map(async(p,i)=>{await p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-message--${story}&viewMode=story&globals=theme:${theme}`);await expect(p.locator('#parity-root')).toBeVisible();await waitAvatarAssets(p);await p.locator('#parity-root img').evaluateAll(async nodes=>Promise.all(nodes.map(n=>(n as HTMLImageElement).decode().catch(()=>{}))));}));}
-test('Message six documentation, markdown and eight registry examples',async({request})=>{const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/message.mdx','utf8');expect([...doc.matchAll(/<ComponentPreview\b[^>]*\bname="message-([^"]+)"/g)].map(m=>m[1])).toEqual(['demo','avatar','group','header-footer','actions','attachment']);const index=await(await request.get(`${stylexURL}/index.json`)).json();for(const name of ['demo','avatar','group','header-footer','actions','attachment','markdown','registry-default','registry-avatar','registry-group','registry-group-chat','registry-header-footer','registry-actions','registry-attachment','registry-attachment-group'])expect(index.entries[`components-message--${name}`]?.tags,name).toContain('parity');});
-for(const theme of ['light','dark'])test(`Message native/dynamic styles, conditional ancestry, real keyboard actions and shimmer / ${theme}`,async({browser},info)=>{const ctx=await browser.newContext({viewport:{width:1000,height:900}});await controlAvatarAssets(ctx);const pages=await Promise.all([ctx.newPage(),ctx.newPage()]);try{for(const story of ['conditions','conditions-rtl']){await open(pages,story,theme);for(const p of pages){await p.getByRole('button',{name:'Change gap',exact:true}).click();await expect(p.locator('[data-slot="message"]').first()).toHaveCSS('gap','14px');await expect(p.locator('[data-slot="message"]').nth(1)).toHaveCSS('gap','12px');await expect(p.locator('[data-slot="message"]').first()).toHaveCSS('line-height','21px');await expect(p.locator('[data-slot="message-avatar"]').last()).toHaveCSS('translate','none');await expect(p.locator('[data-slot="message-avatar"]').first()).toHaveCSS('translate','0px -32px');await expect(p.locator('[data-slot="message-header"]').first()).toHaveCSS('padding-inline-start','0px');await expect(p.locator('[data-slot="message-header"]').last()).toHaveCSS('padding-inline-start','12px');await expect(p.locator('[data-slot="message-header"]').nth(1)).toHaveCSS('padding-inline-start','0px');const action=p.getByRole('button',{name:'Message action end true',exact:true});await action.focus();await action.press('Enter');await expect(action.locator('..')).toContainText('1');await p.mouse.move(0,0);}await compare(pages[0],pages[1],info,story+'-keyboard');}await open(pages,'demo',theme);for(const time of [0,500,1000,2000]){for(const p of pages)await p.evaluate(async time=>{const animations=document.getAnimations().filter(a=>a.effect?.getTiming().duration===2000);if(!animations.length)throw Error('Missing actual Marker shimmer');for(const a of animations){a.pause();await a.ready;a.currentTime=time;}},time);await compare(pages[0],pages[1],info,'marker-shimmer-'+time,true,false);}for(const p of pages)await p.emulateMedia({reducedMotion:'reduce'});await compare(pages[0],pages[1],info,'reduced-motion');await open(pages,'markdown',theme);for(const p of pages){await expect(p.locator('[data-streamdown="ordered-list"] li')).toHaveCount(3);await expect(p.locator('[data-streamdown="strong"]')).toHaveText('Markdown');}await compare(pages[0],pages[1],info,'actual-streamdown-markdown');}finally{await ctx.close();}});
+import { readFile } from "node:fs/promises";
+import { test, expect, type Page } from "@playwright/test";
+import { compare } from "./compare";
+import { upstreamURL, stylexURL } from "./servers";
+import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
+async function open(pages: Page[], story: string, theme: string) {
+  await Promise.all(
+    pages.map(async (p, i) => {
+      await p.goto(
+        `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-message--${story}&viewMode=story&globals=theme:${theme}`,
+      );
+      await expect(p.locator("#parity-root")).toBeVisible();
+      await waitAvatarAssets(p);
+      await p
+        .locator("#parity-root img")
+        .evaluateAll(async (nodes) =>
+          Promise.all(
+            nodes.map((n) => (n as HTMLImageElement).decode().catch(() => {})),
+          ),
+        );
+    }),
+  );
+}
+test("Message six documentation, markdown and eight registry examples", async ({
+  request,
+}) => {
+  const doc = await readFile(
+    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/message.mdx",
+    "utf8",
+  );
+  expect(
+    [...doc.matchAll(/<ComponentPreview\b[^>]*\bname="message-([^"]+)"/g)].map(
+      (m) => m[1],
+    ),
+  ).toEqual([
+    "demo",
+    "avatar",
+    "group",
+    "header-footer",
+    "actions",
+    "attachment",
+  ]);
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
+  for (const name of [
+    "demo",
+    "avatar",
+    "group",
+    "header-footer",
+    "actions",
+    "attachment",
+    "markdown",
+    "registry-default",
+    "registry-avatar",
+    "registry-group",
+    "registry-group-chat",
+    "registry-header-footer",
+    "registry-actions",
+    "registry-attachment",
+    "registry-attachment-group",
+  ])
+    expect(index.entries[`components-message--${name}`]?.tags, name).toContain(
+      "parity",
+    );
+});
+for (const theme of ["light", "dark"])
+  test(`Message native/dynamic styles, conditional ancestry, real keyboard actions and shimmer / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const ctx = await browser.newContext({
+      viewport: { width: 1000, height: 900 },
+    });
+    await controlAvatarAssets(ctx);
+    const pages = await Promise.all([ctx.newPage(), ctx.newPage()]);
+    try {
+      for (const story of ["conditions", "conditions-rtl"]) {
+        await open(pages, story, theme);
+        for (const p of pages) {
+          await p
+            .getByRole("button", { name: "Change gap", exact: true })
+            .click();
+          await expect(p.locator('[data-slot="message"]').first()).toHaveCSS(
+            "gap",
+            "14px",
+          );
+          await expect(p.locator('[data-slot="message"]').nth(1)).toHaveCSS(
+            "gap",
+            "12px",
+          );
+          await expect(p.locator('[data-slot="message"]').first()).toHaveCSS(
+            "line-height",
+            "21px",
+          );
+          await expect(
+            p.locator('[data-slot="message-avatar"]').last(),
+          ).toHaveCSS("translate", "none");
+          await expect(
+            p.locator('[data-slot="message-avatar"]').first(),
+          ).toHaveCSS("translate", "0px -32px");
+          await expect(
+            p.locator('[data-slot="message-header"]').first(),
+          ).toHaveCSS("padding-inline-start", "0px");
+          await expect(
+            p.locator('[data-slot="message-header"]').last(),
+          ).toHaveCSS("padding-inline-start", "12px");
+          await expect(
+            p.locator('[data-slot="message-header"]').nth(1),
+          ).toHaveCSS("padding-inline-start", "0px");
+          const action = p.getByRole("button", {
+            name: "Message action end true",
+            exact: true,
+          });
+          await action.focus();
+          await action.press("Enter");
+          await expect(action.locator("..")).toContainText("1");
+          await p.mouse.move(0, 0);
+        }
+        await compare(pages[0], pages[1], info, story + "-keyboard");
+      }
+      await open(pages, "demo", theme);
+      for (const time of [0, 500, 1000, 2000]) {
+        for (const p of pages)
+          await p.evaluate(async (time) => {
+            const animations = document
+              .getAnimations()
+              .filter((a) => a.effect?.getTiming().duration === 2000);
+            if (!animations.length)
+              throw Error("Missing actual Marker shimmer");
+            for (const a of animations) {
+              a.pause();
+              await a.ready;
+              a.currentTime = time;
+            }
+          }, time);
+        await compare(
+          pages[0],
+          pages[1],
+          info,
+          "marker-shimmer-" + time,
+          true,
+          false,
+        );
+      }
+      for (const p of pages) await p.emulateMedia({ reducedMotion: "reduce" });
+      await compare(pages[0], pages[1], info, "reduced-motion");
+      await open(pages, "markdown", theme);
+      for (const p of pages) {
+        await expect(
+          p.locator('[data-streamdown="ordered-list"] li'),
+        ).toHaveCount(3);
+        await expect(p.locator('[data-streamdown="strong"]')).toHaveText(
+          "Markdown",
+        );
+      }
+      await compare(pages[0], pages[1], info, "actual-streamdown-markdown");
+    } finally {
+      await ctx.close();
+    }
+  });

@@ -1,4 +1,11 @@
-import { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants, tabsListProps } from '@tabs';
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  tabsListVariants,
+  tabsListProps,
+} from "@tabs";
 // @ts-expect-error external className unsupported
 <Tabs className="test" />;
 // @ts-expect-error external className unsupported
@@ -9,35 +16,39 @@ import { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants, tabsListPro
 <TabsContent className="test" />;
 // @ts-expect-error variant unsupported
 <TabsList variant="invalid" />;
-<TabsList xstyle={tabsListVariants({
-  variant: 'line'
-})} />;
+<TabsList
+  xstyle={tabsListVariants({
+    variant: "line",
+  })}
+/>;
 
-// @ts-expect-error xstyle requires compiled StyleX styles
-<Tabs xstyle={{
-  width: 200
-}} />;
-<Tabs style={({
-  orientation
-}) => ({
-  width: orientation === 'horizontal' ? 200 : 300
-})} />;
-<TabsTrigger style={({
-  isSelected
-}) => ({
-  opacity: isSelected ? 1 : .5
-})}>{({
-    isSelected
-  }) => String(isSelected)}</TabsTrigger>;
-<TabsContent style={({
-  isFocusVisible
-}) => ({
-  opacity: isFocusVisible ? 1 : .5
-})} />;
+<Tabs
+  // @ts-expect-error xstyle requires compiled StyleX styles
+  xstyle={{
+    width: 200,
+  }}
+/>;
+<Tabs
+  style={({ orientation }) => ({
+    width: orientation === "horizontal" ? 200 : 300,
+  })}
+/>;
+<TabsTrigger
+  style={({ isSelected }) => ({
+    opacity: isSelected ? 1 : 0.5,
+  })}
+>
+  {({ isSelected }) => String(isSelected)}
+</TabsTrigger>;
+<TabsContent
+  style={({ isFocusVisible }) => ({
+    opacity: isFocusVisible ? 1 : 0.5,
+  })}
+/>;
 tabsListProps({
-  variant: 'line',
+  variant: "line",
   xstyle: tabsListVariants(),
   style: {
-    width: 320
-  }
+    width: 320,
+  },
 });

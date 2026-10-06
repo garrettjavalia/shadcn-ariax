@@ -17,34 +17,57 @@ function createClock(){let time=0;let sequence=0;const queue=new Map<number,{tim
 const controlled=typeof window!=='undefined'&&window.__enableChartClock?createClock():undefined;
 if(controlled)window.__chartClock=controlled.clock;
 let pending=0;
-let started=0;
-let ended=0;
 let resolveReady:()=>void=()=>{};
 if(typeof window!=='undefined'&&!controlled)window.parityReady=new Promise<void>(resolve=>{resolveReady=resolve;});
 const factory=()=>{
- if(controlled)return createAnimateManager(controlled.controller);
- const manager=createDefaultAnimationManager();
- const controller=manager.getTimeoutController();
- const original=controller.setTimeout.bind(controller);
- controller.setTimeout=(callback,delay)=>{
-  let active=true;pending++;
-  const cancel=original(time=>{if(active){active=false;pending--;callback(time)}},delay);
-  return()=>{if(active){active=false;pending--;}cancel();};
- };
+ const base=controlled?.controller??createDefaultAnimationManager().getTimeoutController();
+ let queued=0;
+ let running=false;
+ const controller:TimeoutController={setTimeout(callback,delay){
+  let active=true;pending++;queued++;
+  const cancel=base.setTimeout(time=>{
+   if(!active)return;
+   active=false;pending--;queued--;
+   callback(time);
+   if(running&&queued===0){running=false;if(controlled)controlled.clock.completed++;}
+  },delay);
+  return()=>{if(active){active=false;pending--;queued--;}cancel();};
+ }};
+ const manager=createAnimateManager(controller);
+ const start=manager.start.bind(manager);
+ const stop=manager.stop.bind(manager);
+ manager.start=style=>{running=true;start(style);};
+ manager.stop=()=>{running=false;stop();};
  return manager;
 };
 export function ChartAnimationControl({children}:{children:ReactNode}){
  useEffect(()=>{
   if(controlled)return;
   let cancelled=false;
+  const observed=new Set<Element>();
+  let resizeRevision=0;
+  const observer=new ResizeObserver(()=>{resizeRevision++;});
   void(async()=>{
    await document.fonts.ready;
    const frame=()=>new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
-   await frame();await frame();
-   while(!cancelled&&(pending>0||(document.querySelector('.recharts-bar')&&(!started||ended<started))))await frame();
-   if(!cancelled)resolveReady();
+   let previous='';
+   let stable=0;
+   while(!cancelled){
+    await frame();
+    const nodes=Array.from(document.querySelectorAll('#parity-root [data-slot="chart"], #parity-root .recharts-surface')).filter(node=>node.getClientRects().length>0);
+    for(const node of nodes)if(!observed.has(node)){observed.add(node);observer.observe(node);}
+    const resized=nodes.every(node=>!(node instanceof SVGElement)||Number(node.getAttribute('width'))>0&&Number(node.getAttribute('height'))>0);
+    const geometry=JSON.stringify([resizeRevision,nodes.map(node=>{
+     const rect=node.getBoundingClientRect();
+     return[rect.x,rect.y,rect.width,rect.height,node.getAttribute('width'),node.getAttribute('height')];
+    })]);
+    stable=pending===0&&resized&&geometry===previous?stable+1:0;
+    previous=geometry;
+    if(stable>=2){resolveReady();break;}
+   }
   })();
-  return()=>{cancelled=true};
+  return()=>{cancelled=true;observer.disconnect();};
  },[]);
  return <AnimationManagerContext.Provider value={factory}>{children}</AnimationManagerContext.Provider>;}
-export const chartAnimationEvents={onAnimationStart:()=>{started++;},onAnimationEnd:()=>{ended++;if(window.__chartClock)window.__chartClock.completed++;}};
+// Older shared fixtures spread this binding; readiness now observes the SDK itself.
+export const chartAnimationEvents={};

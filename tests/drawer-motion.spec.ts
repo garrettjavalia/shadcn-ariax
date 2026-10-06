@@ -1,17 +1,213 @@
-import{test,expect}from'@playwright/test';
-import{compare}from'./compare';import{upstreamURL,stylexURL}from'./servers';
-for(const theme of ['light','dark'])test(`Drawer opacity and transform transition samples / ${theme}`,async({browser},info)=>{
- const ctx=await browser.newContext();const pages=await Promise.all([0,1].map(()=>ctx.newPage()));try{
- await ctx.addInitScript(()=>document.addEventListener('transitionrun',event=>{if(!(event.target instanceof Element)||!event.target.matches('[data-slot="drawer-popup"],[data-slot="drawer-overlay"]'))return;for(const a of event.target.getAnimations())if(a instanceof CSSTransition){a.pause();a.currentTime=0;}},true));
- await Promise.all(pages.map(async(p,i)=>{await p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-drawer--usage&viewMode=story&globals=theme:${theme}`);await p.getByRole('button',{name:'Open',exact:true}).click();await expect(p.getByRole('dialog')).toBeVisible();await p.locator('[data-slot="drawer-portal"]').evaluate(el=>el.setAttribute('data-parity-portal',''));await p.mouse.move(0,0);}));
- for(const time of [0,150,350]){const effects=await Promise.all(pages.map(p=>p.evaluate(async time=>{let list=document.getAnimations().filter((a):a is CSSTransition=>a instanceof CSSTransition&&(a.effect as KeyframeEffect).target instanceof Element&&((a.effect as KeyframeEffect).target as Element).matches('[data-slot="drawer-popup"],[data-slot="drawer-overlay"]'));for(const a of list){a.pause();await a.ready;a.currentTime=time;}return list.map(a=>({slot:((a.effect as KeyframeEffect).target as Element).getAttribute('data-slot'),property:a.transitionProperty,timing:a.effect?.getTiming(),frames:(a.effect as KeyframeEffect).getKeyframes()})).sort((a,b)=>(a.slot+'/'+a.property).localeCompare(b.slot+'/'+b.property));},time)));expect(effects[0].length).toBeGreaterThanOrEqual(2);expect(effects[1]).toEqual(effects[0]);await compare(pages[0],pages[1],info,'enter-'+time,true,false);}
- }finally{await ctx.close();}
-});
-for(const theme of ['light','dark'])test(`Drawer real pointer swipe cancellation and dismissal / ${theme}`,async({browser},info)=>{
- const ctx=await browser.newContext({viewport:{width:390,height:900}});const pages=await Promise.all([0,1].map(()=>ctx.newPage()));const sessions=await Promise.all(pages.map(p=>ctx.newCDPSession(p)));try{
- await Promise.all(pages.map(async(p,i)=>{await p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-drawer--swipe-handle&viewMode=story&globals=theme:${theme}`);await p.getByRole('button',{name:'Open Drawer',exact:true}).click();await expect(p.getByRole('dialog')).toBeVisible();await p.locator('[data-slot="drawer-portal"]').evaluate(el=>el.setAttribute('data-parity-portal',''));}));await compare(pages[0],pages[1],info,'before-swipe');
- for(const dismiss of [false,true]){const box=await pages[0].locator('[data-slot="drawer-swipe-handle"]').boundingBox();const popup=await pages[0].getByRole('dialog').boundingBox();if(!box||!popup)throw Error('Missing swipe geometry');const x=box.x+box.width/2,y=box.y+box.height/2,delta=dismiss?popup.height*.75:40,stamp=Date.now()/1000;
- await Promise.all(sessions.map(async s=>{await s.send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y,timestamp:stamp});await s.send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',buttons:1,clickCount:1,timestamp:stamp+.01});await s.send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y:y+8,button:'left',buttons:1,timestamp:stamp+.11});await s.send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y:y+delta,button:'left',buttons:1,timestamp:stamp+.51});}));await Promise.all(pages.map(p=>expect(p.getByRole('dialog')).toHaveAttribute('data-swiping','')));await Promise.all(pages.map(p=>expect.poll(()=>p.getByRole('dialog').evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m42)).toBeGreaterThan(0)));await compare(pages[0],pages[1],info,dismiss?'swipe-dismiss-held':'swipe-cancel-held');
- await Promise.all(sessions.map(s=>s.send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y:y+delta,button:'left',buttons:0,clickCount:1,timestamp:stamp+1.51})));await Promise.all(pages.map(async p=>{if(dismiss)await expect(p.getByRole('dialog')).toBeHidden();else await expect(p.getByRole('dialog')).toBeVisible();await p.mouse.move(0,0);}));await compare(pages[0],pages[1],info,dismiss?'swipe-dismissed':'swipe-returned');}
- }finally{await ctx.close();}
-});
+import { test, expect } from "@playwright/test";
+import { compare } from "./compare";
+import { upstreamURL, stylexURL } from "./servers";
+for (const theme of ["light", "dark"])
+  test(`Drawer opacity and transform transition samples / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const ctx = await browser.newContext();
+    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    try {
+      await ctx.addInitScript(() =>
+        document.addEventListener(
+          "transitionrun",
+          (event) => {
+            if (
+              !(event.target instanceof Element) ||
+              !event.target.matches(
+                '[data-slot="drawer-popup"],[data-slot="drawer-overlay"]',
+              )
+            )
+              return;
+            for (const a of event.target.getAnimations())
+              if (a instanceof CSSTransition) {
+                a.pause();
+                a.currentTime = 0;
+              }
+          },
+          true,
+        ),
+      );
+      await Promise.all(
+        pages.map(async (p, i) => {
+          await p.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-drawer--usage&viewMode=story&globals=theme:${theme}`,
+          );
+          await p.getByRole("button", { name: "Open", exact: true }).click();
+          await expect(p.getByRole("dialog")).toBeVisible();
+          await p
+            .locator('[data-slot="drawer-portal"]')
+            .evaluate((el) => el.setAttribute("data-parity-portal", ""));
+          await p.mouse.move(0, 0);
+        }),
+      );
+      for (const time of [0, 150, 350]) {
+        const effects = await Promise.all(
+          pages.map((p) =>
+            p.evaluate(async (time) => {
+              let list = document
+                .getAnimations()
+                .filter(
+                  (a): a is CSSTransition =>
+                    a instanceof CSSTransition &&
+                    (a.effect as KeyframeEffect).target instanceof Element &&
+                    ((a.effect as KeyframeEffect).target as Element).matches(
+                      '[data-slot="drawer-popup"],[data-slot="drawer-overlay"]',
+                    ),
+                );
+              for (const a of list) {
+                a.pause();
+                await a.ready;
+                a.currentTime = time;
+              }
+              return list
+                .map((a) => ({
+                  slot: (
+                    (a.effect as KeyframeEffect).target as Element
+                  ).getAttribute("data-slot"),
+                  property: a.transitionProperty,
+                  timing: a.effect?.getTiming(),
+                  frames: (a.effect as KeyframeEffect).getKeyframes(),
+                }))
+                .sort((a, b) =>
+                  (a.slot + "/" + a.property).localeCompare(
+                    b.slot + "/" + b.property,
+                  ),
+                );
+            }, time),
+          ),
+        );
+        expect(effects[0].length).toBeGreaterThanOrEqual(2);
+        expect(effects[1]).toEqual(effects[0]);
+        await compare(pages[0], pages[1], info, "enter-" + time, true, false);
+      }
+    } finally {
+      await ctx.close();
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`Drawer real pointer swipe cancellation and dismissal / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const ctx = await browser.newContext({
+      viewport: { width: 390, height: 900 },
+    });
+    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const sessions = await Promise.all(pages.map((p) => ctx.newCDPSession(p)));
+    try {
+      await Promise.all(
+        pages.map(async (p, i) => {
+          await p.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-drawer--swipe-handle&viewMode=story&globals=theme:${theme}`,
+          );
+          await p
+            .getByRole("button", { name: "Open Drawer", exact: true })
+            .click();
+          await expect(p.getByRole("dialog")).toBeVisible();
+          await p
+            .locator('[data-slot="drawer-portal"]')
+            .evaluate((el) => el.setAttribute("data-parity-portal", ""));
+        }),
+      );
+      await compare(pages[0], pages[1], info, "before-swipe");
+      for (const dismiss of [false, true]) {
+        const box = await pages[0]
+          .locator('[data-slot="drawer-swipe-handle"]')
+          .boundingBox();
+        const popup = await pages[0].getByRole("dialog").boundingBox();
+        if (!box || !popup) throw Error("Missing swipe geometry");
+        const x = box.x + box.width / 2,
+          y = box.y + box.height / 2,
+          delta = dismiss ? popup.height * 0.75 : 40,
+          stamp = Date.now() / 1000;
+        await Promise.all(
+          sessions.map(async (s) => {
+            await s.send("Input.dispatchMouseEvent", {
+              type: "mouseMoved",
+              x,
+              y,
+              timestamp: stamp,
+            });
+            await s.send("Input.dispatchMouseEvent", {
+              type: "mousePressed",
+              x,
+              y,
+              button: "left",
+              buttons: 1,
+              clickCount: 1,
+              timestamp: stamp + 0.01,
+            });
+            await s.send("Input.dispatchMouseEvent", {
+              type: "mouseMoved",
+              x,
+              y: y + 8,
+              button: "left",
+              buttons: 1,
+              timestamp: stamp + 0.11,
+            });
+            await s.send("Input.dispatchMouseEvent", {
+              type: "mouseMoved",
+              x,
+              y: y + delta,
+              button: "left",
+              buttons: 1,
+              timestamp: stamp + 0.51,
+            });
+          }),
+        );
+        await Promise.all(
+          pages.map((p) =>
+            expect(p.getByRole("dialog")).toHaveAttribute("data-swiping", ""),
+          ),
+        );
+        await Promise.all(
+          pages.map((p) =>
+            expect
+              .poll(() =>
+                p
+                  .getByRole("dialog")
+                  .evaluate(
+                    (e) =>
+                      new DOMMatrixReadOnly(getComputedStyle(e).transform).m42,
+                  ),
+              )
+              .toBeGreaterThan(0),
+          ),
+        );
+        await compare(
+          pages[0],
+          pages[1],
+          info,
+          dismiss ? "swipe-dismiss-held" : "swipe-cancel-held",
+        );
+        await Promise.all(
+          sessions.map((s) =>
+            s.send("Input.dispatchMouseEvent", {
+              type: "mouseReleased",
+              x,
+              y: y + delta,
+              button: "left",
+              buttons: 0,
+              clickCount: 1,
+              timestamp: stamp + 1.51,
+            }),
+          ),
+        );
+        await Promise.all(
+          pages.map(async (p) => {
+            if (dismiss) await expect(p.getByRole("dialog")).toBeHidden();
+            else await expect(p.getByRole("dialog")).toBeVisible();
+            await p.mouse.move(0, 0);
+          }),
+        );
+        await compare(
+          pages[0],
+          pages[1],
+          info,
+          dismiss ? "swipe-dismissed" : "swipe-returned",
+        );
+      }
+    } finally {
+      await ctx.close();
+    }
+  });

@@ -38,7 +38,7 @@ export function ItemImage() {
           <Item href="#" key={song.title} variant="outline" role="listitem">
             <ItemMedia variant="image">
               <img
-                src="/avatar-controlled.svg"
+                src={`https://avatar.vercel.sh/${song.title}`}
                 alt={song.title}
                 width={32}
                 height={32}

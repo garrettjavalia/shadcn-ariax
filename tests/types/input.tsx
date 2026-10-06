@@ -1,5 +1,5 @@
-import { Input } from '../../registry/ariax/ui/input';
-import * as stylex from '@stylexjs/stylex';
+import { Input } from "../../registry/ariax/ui/input";
+import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ custom: { width: 200 } });
 <Input xstyle={styles.custom} style={{ width: 240 }} />;
 <Input style={({ isFocused }) => ({ opacity: isFocused ? 1 : 0.5 })} />;

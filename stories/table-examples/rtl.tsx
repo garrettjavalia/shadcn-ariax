@@ -129,7 +129,7 @@ export function TableRtl() {
           </TableHead>
           <TableHead>{t.status}</TableHead>
           <TableHead>{t.method}</TableHead>
-          <TableHead {...tableExampleStyle("text-end")}>{t.amount}</TableHead>
+          <TableHead {...tableExampleStyle("text-right")}>{t.amount}</TableHead>
         </TableHeader>
         <TableBody>
           {invoices.map((invoice) => (
@@ -137,7 +137,7 @@ export function TableRtl() {
               <TableCell {...tableExampleStyle("font-medium")}>{invoice.invoice}</TableCell>
               <TableCell>{t[invoice.paymentStatus]}</TableCell>
               <TableCell>{t[invoice.paymentMethod]}</TableCell>
-              <TableCell {...tableExampleStyle("text-end")}>
+              <TableCell {...tableExampleStyle("text-right")}>
                 {invoice.totalAmount}
               </TableCell>
             </TableRow>
@@ -146,7 +146,7 @@ export function TableRtl() {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>{t.total}</TableCell>
-            <TableCell {...tableExampleStyle("text-end")}>$2,500.00</TableCell>
+            <TableCell {...tableExampleStyle("text-right")}>$2,500.00</TableCell>
           </TableRow>
         </TableFooter>
       </Table>

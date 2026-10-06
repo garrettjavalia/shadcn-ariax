@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { root } from './common';
+import { literalStyleItem } from './reference';
 
 test('cold/concurrent download, offline reuse, missing files and selection changes', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'ariax-cache-test-'));
@@ -18,18 +19,23 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await writeFile(join(dir, 'pnpm-lock.yaml'), parentLock);
     await cp(resolve(root, 'pnpm-workspace.yaml'), join(dir, 'pnpm-workspace.yaml'));
     await cp(resolve(root, 'patches'), join(dir, 'patches'), { recursive: true });
-    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'] }));
+    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'], helperReferences: [{base:'base',style:'nova',components:['button']}] }));
     await symlink(resolve(root, 'node_modules'), join(dir, 'node_modules'), 'dir');
     const commit = 'a'.repeat(40);
     const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
     const fixtures: Record<string, string> = {
       'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
+      'apps/v4/registry/bases/aria/registry.ts': 'const ARIA_STYLE = {type:"registry:style",registryDependencies:["utils"],css:{"@layer base":{"*":{"@apply border-border outline-ring/50":{}},body:{"@apply bg-background text-foreground":{}}}},cssVars:{},files:[]};',
       'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8 ml-2; }',
       'apps/v4/public/r/colors/neutral.json': JSON.stringify({ inlineColors: {light:{background:'white'},dark:{background:'black'}}, cssVars: {light:{background:'0 0% 100%'},dark:{background:'0 0% 0%'}}, cssVarsV4:{light:{background:'oklch(1 0 0)'},dark:{background:'oklch(0 0 0)'}}, inlineColorsTemplate:'',cssVarsTemplate:'' }),
       'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],css:{".reference-fixture":{color:"red"}},files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
       'apps/v4/registry/bases/aria/lib/_registry.ts': 'export const lib = [{name:"utils",type:"registry:lib",dependencies:["cn"],files:[{path:"lib/utils.ts",type:"registry:lib"}]}];',
       'apps/v4/registry/bases/aria/lib/utils.ts': 'export const helper = "fixture";',
     };
+    // A minimal different framework installs in its own namespace and cache.
+    for (const [path, content] of Object.entries({...fixtures})) {
+      if (path.includes('/bases/aria/')) fixtures[path.replace('/bases/aria/', '/bases/base/')] = content.replaceAll('/bases/aria/', '/bases/base/').replace('ARIA_STYLE', 'BASE_STYLE');
+    }
     const paths = Object.keys(fixtures);
     for (const path of paths) {
       const target = join(dir, 'archive', `ui-${commit}`, path);
@@ -63,9 +69,16 @@ for (const module of [http, https]) { const request=module.request; module.reque
     assert.equal(JSON.parse(await readFile(join(dir, 'generated/reference/aria-nova/components.json'), 'utf8')).rtl, true);
     assert.match(installedSource, /@reference\/lib\/utils/);
     assert.doesNotMatch(installedSource, /cn-button/);
+    const helperInstalled = join(dir, 'generated/reference/base-nova/ui/button.tsx');
+    assert.equal(await readFile(helperInstalled, 'utf8'), installedSource, 'Crossbase CLI output remains isolated from the primary reference.');
+    assert.equal(JSON.parse(await readFile(join(dir, 'generated/reference/base-nova/components.json'), 'utf8')).style, 'base-nova');
     const cliCss = join(dir, 'generated/reference/aria-nova/cli.css');
     const originalCss = await readFile(cliCss, 'utf8');
     assert.match(originalCss, /reference-fixture/);
+    assert.match(originalCss, /@apply border-border outline-ring\/50/);
+    assert.match(originalCss, /@apply bg-background text-foreground/);
+    assert.match(originalCss, /--background: oklch\(1 0 0\)/);
+    assert.doesNotMatch(originalCss, /scroll-padding-top/);
     await writeFile(join(dir, 'reference/tailwind.css'), (await readFile(join(dir, 'reference/tailwind.css'), 'utf8')) + '\n/* local harness change */\n');
     const before = (await stat(installed)).mtimeMs;
     result = await run(true); assert.equal(result.code, 0, result.output);
@@ -111,4 +124,13 @@ for (const module of [http, https]) { const request=module.request; module.reque
     result = await run(); assert.notEqual(result.code, 0);
     assert.equal(await readFile(rawFile, 'utf8'), buttonSource);
   } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+
+test('official style literal metadata is retained without executing registry imports', () => {
+  const css = {'@layer base': {'*': {'@apply border-border outline-ring/50': {}}, body: {'@apply bg-background text-foreground': {}}}, '@media (forced-colors: active)': {button: {color:'CanvasText'}}};
+  const source = `import { fonts } from "@/registry/fonts"; const ARIA_STYLE = ${JSON.stringify({type:'registry:style',css,cssVars:{},files:[]})};`;
+  assert.deepEqual(literalStyleItem(source).css, css);
+  assert.throws(() => literalStyleItem('const ARIA_STYLE = getStyle();'), /literals only/);
+  assert.throws(() => literalStyleItem('const ARIA_STYLE = {...sharedStyle};'), /must not spread or execute code/);
 });

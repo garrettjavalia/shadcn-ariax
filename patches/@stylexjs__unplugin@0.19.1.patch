@@ -1,0 +1,37 @@
+diff --git a/lib/core.js b/lib/core.js
+index 23e8c47..c3691d0 100644
+--- a/lib/core.js
++++ b/lib/core.js
+@@ -38,6 +38,7 @@ function processCollectedRulesToCSS(rules, options) {
+     useLayers: options.useCSSLayers ?? false,
+     enableLTRRTLComments: options?.enableLTRRTLComments
+   });
++  if (options.lightningcssOptions === false) return collectedCSS;
+   const {
+     code
+   } = (0, _lightningcss.transform)({
+diff --git a/lib/es/core.mjs b/lib/es/core.mjs
+index 5834311..d181730 100644
+--- a/lib/es/core.mjs
++++ b/lib/es/core.mjs
+@@ -29,6 +29,7 @@ function processCollectedRulesToCSS(rules, options) {
+     useLayers: options.useCSSLayers ?? false,
+     enableLTRRTLComments: options?.enableLTRRTLComments
+   });
++  if (options.lightningcssOptions === false) return collectedCSS;
+   const {
+     code
+   } = lightningTransform({
+diff --git a/lib/core.d.ts b/lib/core.d.ts
+index 1d0b552..0596669 100644
+--- a/lib/core.d.ts
++++ b/lib/core.d.ts
+@@ -22,7 +22,7 @@ export type UserOptions = StyleXOptions & {
+   useCSSLayers?: CSSLayersConfig;
+   enableLTRRTLComments?: boolean;
+   legacyDisableLayers?: boolean;
+-  lightningcssOptions?: LightningcssOptions;
++  lightningcssOptions?: LightningcssOptions | false;
+   cssInjectionTarget?: (filepath: string) => boolean;
+   devPersistToDisk?: boolean;
+   devMode?: 'full' | 'css-only' | 'off';

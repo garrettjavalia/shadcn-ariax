@@ -1,4 +1,4 @@
-import {questionnaireCentered,questionnaireBottom,questionnaireMin,questionnaireFull,questionnaireStatus,questionnaireWide,questionnaireWideFull,questionnaireCenter,questionnaireSr,questionnaireAnimated} from '@questionnaire-customizations';
+import {questionnaireShortcutSelect,questionnaireCentered,questionnaireBottom,questionnaireMin,questionnaireFull,questionnaireStatus,questionnaireWide,questionnaireWideFull,questionnaireCenter,questionnaireSr,questionnaireAnimated} from '@questionnaire-customizations';
 "use client"
 
 import * as React from "react"
@@ -47,7 +47,7 @@ export function QuestionnaireShortcuts() {
     <div style={{position:'relative',marginInline:'auto',display:'flex',height:'100%',width:'100%',maxWidth:'28rem',flexDirection:'column'}}>
       <NativeSelect
         aria-label="Shortcut style"
-        style={{position:'absolute',insetInlineEnd:0,top:0}}
+        {...questionnaireShortcutSelect}
         value={shortcuts ?? "none"}
         onChange={(event) => {
           const value = event.target.value

@@ -2,16 +2,22 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import { resolve } from 'node:path';
 import stylex from '@stylexjs/unplugin';
 import tailwind from '@tailwindcss/vite';
+import { originalAliases } from './original-aliases';
+import { frameworkAliases } from './framework-aliases';
 
 const upstream = process.env.ARIAX_IMPLEMENTATION === 'upstream';
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
-  stories: ['../stories/**/*.stories.tsx'],
+  stories: ['../stories/**/*.stories.tsx', ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
   addons: ['@storybook/addon-docs'],
-  staticDirs: ['../public'],
+  staticDirs: ['../public', { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }, ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
+    // Preserve authored calculations and color notation in both parity builds.
+    config.build = {...config.build,cssMinify:false};
     config.resolve ??= {};
+    // Reference namespaces and shared stories must use the same primitive contexts.
+    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),
@@ -57,13 +63,15 @@ const config: StorybookConfig = {
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'registry/ariax/styles/entry.css'),
     };
     config.resolve.alias = [
+      ...frameworkAliases,
+      ...originalAliases,
       ...Object.entries(aliases).map(([find, replacement]) => ({ find, replacement })),
       ...(Array.isArray(inheritedAliases) ? inheritedAliases : Object.entries(inheritedAliases ?? {}).map(([find, replacement]) => ({ find, replacement }))),
       { find: /^@([a-z][a-z0-9-]*)-customizations$/, replacement: resolve(upstream ? 'reference' : 'stories') + '/$1-customizations.ts' },
       { find: /^@([a-z][a-z0-9-]*)$/, replacement: resolve(upstream ? 'generated/reference/aria-nova/ui' : 'registry/ariax/ui') + '/$1.tsx' },
     ];
     config.plugins = [
-      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: configType === 'DEVELOPMENT' })]),
+      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, lightningcssOptions: false, runtimeInjection: configType === 'DEVELOPMENT', cssInjectionTarget: file => /(?:^|\/)iframe(?:-[^/]+)?\.css$/.test(file) })]),
       ...(config.plugins ?? []),
     ];
     config.server ??= {};

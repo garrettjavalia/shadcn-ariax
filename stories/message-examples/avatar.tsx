@@ -22,7 +22,7 @@ export function MessageAvatarDemo() {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatar-controlled.svg" alt="@avatar" />
+            <AvatarImage src="/avatars/03.png" alt="@avatar" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -37,7 +37,7 @@ export function MessageAvatarDemo() {
       <Message align="end">
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatar-controlled.svg" alt="@avatar" />
+            <AvatarImage src="/avatars/10.png" alt="@avatar" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -50,7 +50,7 @@ export function MessageAvatarDemo() {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatar-controlled.svg" alt="@avatar" />
+            <AvatarImage src="/avatars/03.png" alt="@avatar" />
             <AvatarFallback>R</AvatarFallback>
           </Avatar>
         </MessageAvatar>

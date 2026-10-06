@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Progress, ProgressLabel, ProgressValue, ProgressTrack, ProgressIndicator } from '@progress';
 import { progressCustom } from '@progress-customizations';
 import ProgressDemo from './progress-examples/progress-demo';
+import { awaitStoryState } from './story-readiness';
 import { ProgressWithLabel } from './progress-examples/progress-label';
 import { ProgressControlled } from './progress-examples/progress-controlled';
 import { ProgressRtl } from './progress-examples/progress-rtl';
@@ -16,6 +17,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Demo: Story = {
+  decorators: [awaitStoryState(() => document.querySelector('#parity-root [role="progressbar"]')?.getAttribute('aria-valuenow') === '66')],
   render: () => <ProgressDemo />
 };
 export const Label: Story = {

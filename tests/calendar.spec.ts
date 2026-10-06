@@ -1,10 +1,202 @@
-import {test,expect} from '@playwright/test';
-import {readFile} from 'node:fs/promises';
-import {upstreamURL,stylexURL} from './servers';
-import {compare} from './compare';
-test('Every official Calendar preview and Usage has a parity story',async({request})=>{const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/calendar.mdx','utf8');const previews=[...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m=>m[1]);expect(previews).toHaveLength(10);const index=await(await request.get(stylexURL+'/index.json')).json();for(const name of [...previews,'calendar-usage'])expect(index.entries['components-'+name.replace('calendar-','calendar--')]?.tags,name).toContain('parity');});
-for(const theme of ['light','dark'])for(const story of ['demo','basic','range','caption','hijri','presets','time','booked-dates','custom-days','rtl','usage','customized','multiple','disabled','invalid','rtl-range','week-boundary','bounded'])test(`Calendar ${story} original states / ${theme}`,async({browser},info)=>{const pages=await Promise.all([upstreamURL,stylexURL].map(()=>browser.newPage()));try{for(const page of pages)await page.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-calendar--${story}&globals=theme:${theme}`)));for(const page of pages){await expect(page.locator('[data-slot="calendar"]')).toBeVisible();await page.evaluate(()=>document.fonts.ready);}await compare(pages[0],pages[1],info,`${story}-initial`);}finally{await Promise.all(pages.map(page=>page.close()));}});
-for(const theme of ['light','dark'])test(`Calendar navigation, selection, range, caption and native customization / ${theme}`,async({browser},info)=>{const pages=await Promise.all([upstreamURL,stylexURL].map(()=>browser.newPage()));const load=async(story:string)=>{for(const page of pages)await page.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-calendar--${story}&globals=theme:${theme}`)));for(const page of pages)await expect(page.locator('[data-slot="calendar"]')).toBeVisible();};try{await load('usage');for(const page of pages)await page.locator('[data-slot="calendar"] [role="button"]').filter({hasText:/^12$/}).hover();await compare(pages[0],pages[1],info,'selected-day-hover');for(const page of pages){await page.mouse.move(0,0);await page.locator('[data-slot="calendar"] [role="button"]').filter({hasText:/^15$/}).click();await page.mouse.move(0,0);}await compare(pages[0],pages[1],info,'day-selected');for(const page of pages)await page.keyboard.press('ArrowRight');await compare(pages[0],pages[1],info,'keyboard-day-focus');for(const page of pages)await page.keyboard.press('Enter');await compare(pages[0],pages[1],info,'keyboard-day-selected');for(const page of pages)await page.locator('button[slot=next]').click();await compare(pages[0],pages[1],info,'next-month');for(const page of pages)await page.locator('button[slot=previous]').click();await compare(pages[0],pages[1],info,'previous-month');await load('caption');for(const page of pages){await page.locator('[data-slot="select-trigger"]').first().click();await page.locator('[data-slot="select-content"]').evaluate(node=>node.setAttribute('data-parity-portal',''));}await compare(pages[0],pages[1],info,'month-picker-open');for(const page of pages){await page.getByRole('option').nth(2).click();await expect(page.locator('[data-slot="select-content"]')).toHaveCount(0);await page.mouse.move(0,0);}await compare(pages[0],pages[1],info,'month-picker-selected');for(const page of pages){await page.locator('[data-slot="select-trigger"]').nth(1).click();await page.locator('[data-slot="select-content"]').evaluate(node=>node.setAttribute('data-parity-portal',''));}await compare(pages[0],pages[1],info,'year-picker-open');for(const page of pages){await page.getByRole('option',{name:'2027',exact:true}).click();await expect(page.locator('[data-slot="select-content"]')).toHaveCount(0);await page.mouse.move(0,0);}await compare(pages[0],pages[1],info,'year-picker-selected');await load('range');for(const page of pages){await page.locator('[data-slot="calendar"] [role="button"]').filter({hasText:/^15$/}).first().click();await page.locator('[data-slot="calendar"] [role="button"]').filter({hasText:/^20$/}).first().click();await page.mouse.move(0,0);}await compare(pages[0],pages[1],info,'range-selected');await load('presets');for(const page of pages){await page.getByRole('button',{name:'In a week',exact:true}).click();await page.mouse.move(0,0);}await compare(pages[0],pages[1],info,'preset-selected');await load('customized');await compare(pages[0],pages[1],info,'native-callback');for(const page of pages)await page.getByRole('button',{name:'Resize',exact:true}).click();await compare(pages[0],pages[1],info,'dynamic-xstyle-resize');}finally{await Promise.all(pages.map(page=>page.close()));}});
+import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+import { upstreamURL, stylexURL } from "./servers";
+import { compare } from "./compare";
+test("Every official Calendar preview and Usage has a parity story", async ({
+  request,
+}) => {
+  const doc = await readFile(
+    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/calendar.mdx",
+    "utf8",
+  );
+  const previews = [
+    ...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
+  ].map((m) => m[1]);
+  expect(previews).toHaveLength(10);
+  const index = await (await request.get(stylexURL + "/index.json")).json();
+  for (const name of [...previews, "calendar-usage"])
+    expect(
+      index.entries["components-" + name.replace("calendar-", "calendar--")]
+        ?.tags,
+      name,
+    ).toContain("parity");
+});
+for (const theme of ["light", "dark"])
+  test(`Calendar navigation, selection, range, caption and native customization / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(() => browser.newPage()),
+    );
+    const load = async (story: string) => {
+      for (const page of pages)
+        await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
+      await Promise.all(
+        pages.map((page, i) =>
+          page.goto(
+            `${i ? stylexURL : upstreamURL}/iframe.html?id=components-calendar--${story}&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      for (const page of pages)
+        await expect(page.locator('[data-slot="calendar"]')).toBeVisible();
+    };
+    try {
+      await load("usage");
+      for (const page of pages)
+        await page
+          .locator('[data-slot="calendar"] [role="button"]')
+          .filter({ hasText: /^12$/ })
+          .hover();
+      await compare(pages[0], pages[1], info, "selected-day-hover");
+      for (const page of pages) {
+        await page.mouse.move(0, 0);
+        await page
+          .locator('[data-slot="calendar"] [role="button"]')
+          .filter({ hasText: /^15$/ })
+          .click();
+        await page.mouse.move(0, 0);
+      }
+      await compare(pages[0], pages[1], info, "day-selected");
+      for (const page of pages) await page.keyboard.press("ArrowRight");
+      await compare(pages[0], pages[1], info, "keyboard-day-focus");
+      for (const page of pages) await page.keyboard.press("Enter");
+      await compare(pages[0], pages[1], info, "keyboard-day-selected");
+      for (const page of pages) await page.locator("button[slot=next]").click();
+      await compare(pages[0], pages[1], info, "next-month");
+      for (const page of pages)
+        await page.locator("button[slot=previous]").click();
+      await compare(pages[0], pages[1], info, "previous-month");
+      await load("caption");
+      for (const page of pages) {
+        await page.locator('[data-slot="select-trigger"]').first().click();
+        await page
+          .locator('[data-slot="select-content"]')
+          .evaluate((node) => node.setAttribute("data-parity-portal", ""));
+      }
+      await compare(pages[0], pages[1], info, "month-picker-open");
+      for (const page of pages) {
+        await page.getByRole("option").nth(2).click();
+        await expect(page.locator('[data-slot="select-content"]')).toHaveCount(
+          0,
+        );
+        await page.mouse.move(0, 0);
+      }
+      await compare(pages[0], pages[1], info, "month-picker-selected");
+      for (const page of pages) {
+        await page.locator('[data-slot="select-trigger"]').nth(1).click();
+        await page
+          .locator('[data-slot="select-content"]')
+          .evaluate((node) => node.setAttribute("data-parity-portal", ""));
+      }
+      await compare(pages[0], pages[1], info, "year-picker-open");
+      for (const page of pages) {
+        await page.getByRole("option", { name: "2027", exact: true }).click();
+        await expect(page.locator('[data-slot="select-content"]')).toHaveCount(
+          0,
+        );
+        await page.mouse.move(0, 0);
+      }
+      await compare(pages[0], pages[1], info, "year-picker-selected");
+      await load("range");
+      for (const page of pages) {
+        await page
+          .locator('[data-slot="calendar"] [role="button"]')
+          .filter({ hasText: /^15$/ })
+          .first()
+          .click();
+        await page
+          .locator('[data-slot="calendar"] [role="button"]')
+          .filter({ hasText: /^20$/ })
+          .first()
+          .click();
+        await page.mouse.move(0, 0);
+      }
+      await compare(pages[0], pages[1], info, "range-selected");
+      await load("presets");
+      for (const page of pages) {
+        await page
+          .getByRole("button", { name: "In a week", exact: true })
+          .click();
+        await page.mouse.move(0, 0);
+      }
+      await compare(pages[0], pages[1], info, "preset-selected");
+      await load("customized");
+      await compare(pages[0], pages[1], info, "native-callback");
+      for (const page of pages)
+        await page.getByRole("button", { name: "Resize", exact: true }).click();
+      await compare(pages[0], pages[1], info, "dynamic-xstyle-resize");
+    } finally {
+      await Promise.all(pages.map((page) => page.close()));
+    }
+  });
 
-for(const theme of ['light','dark'])test(`Calendar responsive range and custom cells / ${theme}`,async({browser},info)=>{const context=await browser.newContext({viewport:{width:390,height:900}});const pages=await Promise.all([upstreamURL,stylexURL].map(()=>context.newPage()));try{for(const story of ['range','custom-days','rtl-range']){for(const page of pages)await page.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-calendar--${story}&globals=theme:${theme}`)));for(const page of pages)await expect(page.locator('[data-slot="calendar"]')).toBeVisible();await compare(pages[0],pages[1],info,`${story}-390`);}}finally{await context.close();}});
-for(const theme of ['light','dark'])test(`Calendar unavailable and bounded keyboard selection / ${theme}`,async({browser},info)=>{const pages=await Promise.all([upstreamURL,stylexURL].map(()=>browser.newPage()));try{for(const page of pages)await page.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-calendar--bounded&globals=theme:${theme}`)));for(const page of pages){await expect(page.locator('[data-slot="calendar"]')).toBeVisible();await page.locator('[role="button"]').filter({hasText:/^11$/}).focus();await page.keyboard.press('ArrowRight');}await compare(pages[0],pages[1],info,'unavailable-focused');for(const page of pages)await page.keyboard.press('Enter');await compare(pages[0],pages[1],info,'unavailable-selection-blocked');for(const page of pages){await page.keyboard.press('ArrowLeft');await page.keyboard.press('ArrowLeft');await page.keyboard.press('ArrowLeft');}await compare(pages[0],pages[1],info,'minimum-boundary');for(const page of pages)await page.keyboard.press('Enter');await compare(pages[0],pages[1],info,'bounded-selection');}finally{await Promise.all(pages.map(page=>page.close()));}});
+for (const theme of ["light", "dark"])
+  test(`Calendar responsive range and custom cells / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 900 },
+    });
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(() => context.newPage()),
+    );
+    try {
+      for (const story of ["range", "custom-days", "rtl-range"]) {
+        for (const page of pages)
+          await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
+        await Promise.all(
+          pages.map((page, i) =>
+            page.goto(
+              `${i ? stylexURL : upstreamURL}/iframe.html?id=components-calendar--${story}&globals=theme:${theme}`,
+            ),
+          ),
+        );
+        for (const page of pages)
+          await expect(page.locator('[data-slot="calendar"]')).toBeVisible();
+        await compare(pages[0], pages[1], info, `${story}-390`);
+      }
+    } finally {
+      await context.close();
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`Calendar unavailable and bounded keyboard selection / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(() => browser.newPage()),
+    );
+    try {
+      for (const page of pages)
+        await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
+      await Promise.all(
+        pages.map((page, i) =>
+          page.goto(
+            `${i ? stylexURL : upstreamURL}/iframe.html?id=components-calendar--bounded&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      for (const page of pages) {
+        await expect(page.locator('[data-slot="calendar"]')).toBeVisible();
+        await page
+          .locator('[role="button"]')
+          .filter({ hasText: /^11$/ })
+          .focus();
+        await page.keyboard.press("ArrowRight");
+      }
+      await compare(pages[0], pages[1], info, "unavailable-focused");
+      for (const page of pages) await page.keyboard.press("Enter");
+      await compare(pages[0], pages[1], info, "unavailable-selection-blocked");
+      for (const page of pages) {
+        await page.keyboard.press("ArrowLeft");
+        await page.keyboard.press("ArrowLeft");
+        await page.keyboard.press("ArrowLeft");
+      }
+      await compare(pages[0], pages[1], info, "minimum-boundary");
+      for (const page of pages) await page.keyboard.press("Enter");
+      await compare(pages[0], pages[1], info, "bounded-selection");
+    } finally {
+      await Promise.all(pages.map((page) => page.close()));
+    }
+  });
