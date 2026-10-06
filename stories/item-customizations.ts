@@ -1,0 +1,7 @@
+import * as stylex from '@stylexjs/stylex';
+const styles = stylex.create({
+  max: { maxWidth: '24rem' }, gray: { filter: 'grayscale(100%)' }, gap1: { gap: '.25rem' }, round: { borderRadius: 'calc(infinity * 1px)' }, width48: { width: '12rem' }, padded: { width: '100%', padding: '.5rem' }, avatar26: { '--avatar-size': '1.625rem', width: 'var(--avatar-size)', height: 'var(--avatar-size)' }, gap0: { gap: 0 }, none: { lineHeight: 1 }, grid: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '1rem' }, avatar40: { width: '2.5rem', height: '2.5rem' }, hidden: { display: { default: 'none', '@media (width >= 40rem)': 'flex' } }, gap4: { gap: '1rem' }, clamp: { display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }, aside: { flex: 'none', textAlign: 'center' }, dynamic: (width: number) => ({ width }),
+});
+const map = { 'max-w-sm': styles.max, grayscale: styles.gray, 'gap-1': styles.gap1, 'rounded-full': styles.round, 'w-48': styles.width48, 'w-full p-2': styles.padded, 'size-(--avatar-size) [--avatar-size:--spacing(6.5)]': styles.avatar26, 'gap-0': styles.gap0, 'leading-none': styles.none, 'grid grid-cols-3 gap-4': styles.grid, 'size-10': styles.avatar40, 'hidden sm:flex': styles.hidden, 'gap-4': styles.gap4, 'line-clamp-1': styles.clamp, 'flex-none text-center': styles.aside };
+export const itemCustom = (key: keyof typeof map) => ({ xstyle: map[key] });
+export const itemDynamic = (width: number) => ({ xstyle: styles.dynamic(width), style: undefined as import('react').CSSProperties | undefined });
