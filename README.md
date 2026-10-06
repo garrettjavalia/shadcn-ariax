@@ -20,13 +20,16 @@ pnpm dev
 ## 검증과 개발 명령
 
 ```sh
-pnpm test           # 브라우저 비교; 서버가 없으면 자동 실행
+pnpm test:full      # 전체 브라우저 비교; 서버가 없으면 자동 실행
+pnpm test:ci        # 기본 1000px light/dark 스토리의 DOM·계산 CSS 비교
 pnpm typecheck      # 타입 검사
 pnpm test:upstream  # 다운로드·캐시 처리 테스트
 pnpm verify         # 전체 검증: 타입·레지스트리·브라우저·CLI 설치·빌드
 pnpm test:report    # 브라우저 테스트 보고서 열기
 pnpm test:benchmark # 실행 시간 및 비교 횟수 측정
 ```
+
+CI는 타입·레지스트리를 검사하고 양쪽 Storybook을 한 번 빌드한 뒤 정적 결과를 4개 shard에서 재사용한다. 브라우저 검사는 `test:ci` 범위이며 고유 상호작용·위치/크기·스크롤/포커스·픽셀·애니메이션 시간 샘플링·CLI 설치는 포함하지 않는다. 로컬 `pnpm verify`는 이 검사를 포함한 기존 전체 검증을 유지한다. 빌드 결과로 실행하려면 `ARIAX_STATIC_STORYBOOK=1 pnpm test:ci`를 사용한다.
 
 자원이 제한된 환경에서는 `pnpm test --workers=1`로 실행한다. 독립 작업트리의 포트는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 지정하며 테스트에도 같은 환경 변수를 전달한다.
 

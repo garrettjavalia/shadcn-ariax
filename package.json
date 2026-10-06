@@ -21,7 +21,9 @@
     "upstream:prepare": "node --import tsx scripts/upstream/prepare.ts",
     "upstream:sync": "node --import tsx scripts/upstream/sync.ts && pnpm upstream:prepare",
     "test:upstream": "node --import tsx --test scripts/upstream/cache.test.ts",
-    "test:benchmark": "node --import tsx scripts/benchmark-tests.ts"
+    "test:benchmark": "node --import tsx scripts/benchmark-tests.ts",
+    "test:full": "pnpm test",
+    "test:ci": "pnpm upstream:prepare && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity"
   },
   "dependencies": {
     "@base-ui/react": "1.6.0",

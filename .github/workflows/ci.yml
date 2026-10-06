@@ -6,7 +6,7 @@ concurrency:
 jobs:
   validation:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -17,15 +17,44 @@ jobs:
           node-version: 22.19.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test:upstream && pnpm upstream:check && pnpm typecheck && pnpm registry:build
-      - run: pnpm test:install && pnpm build:upstream && pnpm build:stylex
-  parity:
+      - run: pnpm test:upstream
+      - run: pnpm upstream:check
+      - run: pnpm typecheck
+      - run: pnpm registry:build
+      - run: pnpm build:upstream
+      - run: pnpm build:stylex
+      - uses: actions/upload-artifact@v4
+        with:
+          name: storybook-inputs
+          include-hidden-files: true
+          retention-days: 3
+          path: |
+            dist/upstream
+            dist/stylex
+            generated/upstream
+            generated/reference/aria-nova/.install-complete.json
+            generated/reference/aria-nova/ui
+            generated/reference/aria-nova/hooks
+            generated/reference/aria-nova/source
+            generated/reference/aria-nova/registry
+            generated/reference/aria-nova/registry.json
+            generated/reference/aria-nova/cli.css
+            generated/reference/aria-nova/tailwind.css
+            !**/node_modules/**
+            !**/.git/**
+            !**/.env*
+            !**/.npmrc
+  browser:
+    needs: validation
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
+    env:
+      ARIAX_STATIC_STORYBOOK: '1'
+      ARIAX_TEST_MODE: ci
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -37,7 +66,12 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test --shard=${{ matrix.shard }}/4
+      - uses: actions/download-artifact@v4
+        with:
+          name: storybook-inputs
+          path: .
+      - run: pnpm exec playwright test tests/parity.spec.ts --grep @static-parity --shard=${{ matrix.shard }}/4
+        timeout-minutes: 15
       - uses: actions/upload-artifact@v4
         if: always()
         with:
