@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@dropdown-menu': resolve(upstream ? 'generated/reference/aria-nova/ui/dropdown-menu.tsx' : 'registry/ariax/ui/dropdown-menu.tsx'),
+      '@dropdown-menu-customizations': resolve(upstream ? 'reference/dropdown-menu-customizations.ts' : 'stories/dropdown-menu-customizations.ts'),
       '@table': resolve(upstream ? 'generated/reference/aria-nova/ui/table.tsx' : 'registry/ariax/ui/table.tsx'),
       '@table-customizations': resolve(upstream ? 'reference/table-customizations.ts' : 'stories/table-customizations.ts'),
       '@textarea': resolve(upstream ? 'generated/reference/aria-nova/ui/textarea.tsx' : 'registry/ariax/ui/textarea.tsx'),
@@ -36,6 +38,7 @@ const config: StorybookConfig = {
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),
       '@checkbox': resolve(upstream ? 'generated/reference/aria-nova/ui/checkbox.tsx' : 'registry/ariax/ui/checkbox.tsx'),
+      '@native-select': resolve(upstream ? 'generated/reference/aria-nova/ui/native-select.tsx' : 'registry/ariax/ui/native-select.tsx'),
       '@field': resolve(upstream ? 'generated/reference/aria-nova/ui/field.tsx' : 'registry/ariax/ui/field.tsx'),
       '@label': resolve(upstream ? 'generated/reference/aria-nova/ui/label.tsx' : 'registry/ariax/ui/label.tsx'),
       '@card-customizations': resolve(upstream ? 'reference/card-customizations.ts' : 'stories/card-customizations.ts'),
