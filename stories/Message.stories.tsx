@@ -1,0 +1,17 @@
+import type {Meta,StoryObj} from '@storybook/react-vite';
+import {I18nProvider} from 'react-aria-components';
+import {MessageDemo} from './message-examples/demo';
+import {MessageAvatarDemo} from './message-examples/avatar';
+import {MessageGroupDemo} from './message-examples/group';
+import {MessageHeaderFooterDemo} from './message-examples/header-footer';
+import {MessageActionsDemo} from './message-examples/actions';
+import {MessageAttachmentDemo} from './message-examples/attachment';
+import {MessageMarkdownDemo} from './message-examples/markdown';
+import * as Registry from './message-examples/registry';
+const meta={title:'Components/Message',id:'components-message',tags:['parity'],decorators:[Story=><main id="parity-root"><Story/></main>]} satisfies Meta;export default meta;type Story=StoryObj<typeof meta>;
+export const Demo:Story={tags:['viewport-390'],render:()=> <MessageDemo/>};export const Avatar:Story={render:()=> <MessageAvatarDemo/>};export const Group:Story={render:()=> <MessageGroupDemo/>};export const HeaderFooter:Story={render:()=> <MessageHeaderFooterDemo/>};export const Actions:Story={render:()=> <MessageActionsDemo/>};export const Attachment:Story={tags:['viewport-390'],render:()=> <MessageAttachmentDemo/>};export const Markdown:Story={render:()=> <MessageMarkdownDemo/>};
+export const RegistryDefault:Story={render:()=> <Registry.MessageDefault/>};export const RegistryAvatar:Story={render:()=> <Registry.MessageWithAvatar/>};export const RegistryGroup:Story={render:()=> <Registry.MessageGroupExample/>};export const RegistryGroupChat:Story={render:()=> <Registry.MessageGroupChat/>};export const RegistryHeaderFooter:Story={render:()=> <Registry.MessageHeaderFooter/>};export const RegistryActions:Story={render:()=> <Registry.MessageActions/>};export const RegistryAttachment:Story={render:()=> <Registry.MessageAttachment/>};export const RegistryAttachmentGroup:Story={tags:['viewport-390'],render:()=> <Registry.MessageAttachmentGroup/>};
+export const Rtl:Story={tags:['viewport-390'],render:()=> <I18nProvider locale="ar"><div dir="rtl"><MessageDemo/><MessageHeaderFooterDemo/><MessageActionsDemo/><MessageAttachmentDemo/><MessageMarkdownDemo/></div></I18nProvider>};
+import {MessageConditions} from './message-conditions';
+export const Conditions:Story={render:()=> <MessageConditions/>};
+export const ConditionsRtl:Story={render:()=> <I18nProvider locale="ar"><div dir="rtl"><MessageConditions/></div></I18nProvider>};
