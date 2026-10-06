@@ -26,7 +26,7 @@ function officialFixturePairs(){
 
 test('existing official composition fixtures retain their original UI components',async()=>{
  const pairs=officialFixturePairs();
- expect(pairs.length,'The audited official fixture inventory must remain present').toBeGreaterThanOrEqual(246);
+ expect(pairs.length,'The audited official fixture inventory must remain present').toBeGreaterThanOrEqual(247);
  for(const {source,fixture,proxy} of pairs)await test.step(fixture,()=>assertSourceComponents(source,fixture,{},proxy?{fixtureUiModules:['./portal']}:{}));
  for(const [example,fixture] of [['badge-spinner','stories/badge.stories.tsx'],['skeleton-card','stories/skeleton.stories.tsx'],['card-spacing','stories/card.stories.tsx']] as const)
   await test.step(example,()=>assertSourceComponents(`${originalRoot}/${example}.tsx`,fixture));
