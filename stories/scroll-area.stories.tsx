@@ -1,0 +1,21 @@
+import {useState} from 'react';
+import type {Meta,StoryObj} from '@storybook/react-vite';
+import {ScrollArea} from '@scroll-area';
+import {Button} from '@button';
+import {scrollUsage,scrollCustom} from '@scroll-area-customizations';
+import {ScrollAreaDemo} from './scroll-area-examples/demo';
+import {ScrollAreaHorizontalDemo} from './scroll-area-examples/horizontal-demo';
+import {ScrollAreaRtl} from './scroll-area-examples/rtl';
+import {ScrollAreaVertical,ScrollAreaHorizontal} from './scroll-area-examples/registry';
+const meta={title:'Components/Scroll Area',component:ScrollArea,tags:['parity'],decorators:[Story=><main id="parity-root"><Story/></main>]} satisfies Meta<typeof ScrollArea>;
+export default meta;
+type Story=StoryObj<typeof meta>;
+export const Demo:Story={render:()=> <ScrollAreaDemo/>};
+export const HorizontalDemo:Story={render:()=> <ScrollAreaHorizontalDemo/>};
+export const Rtl:Story={render:()=> <ScrollAreaRtl/>};
+export const RegistryVertical:Story={render:()=> <ScrollAreaVertical/>};
+export const RegistryHorizontal:Story={tags:['viewport-390'],render:()=> <ScrollAreaHorizontal/>};
+export const Usage:Story={render:()=> <ScrollArea {...scrollUsage}>Your scrollable content here.</ScrollArea>};
+function Customized(){const[width,setWidth]=useState(240);return <><Button onPress={()=>setWidth(320)}>Resize</Button><ScrollArea {...scrollCustom(width)} style={{width:width+4}} tabIndex={0} aria-label="Custom scroller">{Array.from({length:12},(_,i)=><p key={i}>Line {i+1}</p>)}</ScrollArea></>;}
+export const Customization:Story={render:()=> <Customized/>};
+export const BothAxes:Story={render:()=> <ScrollArea {...scrollUsage} tabIndex={0} aria-label="Two axes"><div style={{width:700,height:600,background:'linear-gradient(135deg,var(--muted),var(--background))'}}>Scrollable content</div></ScrollArea>};

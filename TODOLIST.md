@@ -55,7 +55,7 @@
 - [ ] Questionnaire
 - [x] Radio Group
 - [ ] Resizable
-- [ ] Scroll Area
+- [x] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
 - [ ] Sidebar
