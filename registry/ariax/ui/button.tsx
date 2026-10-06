@@ -2,29 +2,31 @@
 
 import type * as React from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { Button as ButtonPrimitive, Link as LinkPrimitive, type ButtonProps as PrimitiveProps, type LinkProps } from 'react-aria-components';
+import { composeRenderProps, Button as ButtonPrimitive, Link as LinkPrimitive, type ButtonProps as PrimitiveProps, type LinkProps } from 'react-aria-components';
 
 export type ButtonVariant = 'default' | 'outline' | 'secondary' | 'ghost' | 'destructive' | 'link';
 export type ButtonSize = 'default' | 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg';
 type Variants = { variant?: ButtonVariant | null; size?: ButtonSize | null; xstyle?: stylex.StyleXStyles };
-type NoExternalCSS = { className?: never; style?: never };
-export type ButtonProps = Omit<PrimitiveProps, 'className' | 'style'> & React.RefAttributes<HTMLButtonElement> & Variants & NoExternalCSS;
+type NoExternalClasses = { className?: never };
+export type ButtonProps = Omit<PrimitiveProps, 'className'> & React.RefAttributes<HTMLButtonElement> & Variants & NoExternalClasses;
 
 // Expose the same resolved styles used by Button/LinkButton for other elements.
-export function buttonProps({ variant = 'default', size = 'default', xstyle }: Variants = {}) {
+export function buttonProps({ variant = 'default', size = 'default', xstyle, style }: Variants & { style?: React.CSSProperties } = {}) {
   const props = stylex.props(styles.base, variant && variants[variant], size && sizes[size], xstyle);
   // Internal marker supports opaque descendant SVGs; it is not a customization API.
-  return { className: ['ariax-button', props.className].filter(Boolean).join(' '), style: props.style };
+  return { className: ['ariax-button', props.className].filter(Boolean).join(' '), style: { ...props.style, ...style } };
 }
 
-export function Button({ className: _className, style: _style, xstyle, variant = 'default', size = 'default', ...props }: ButtonProps) {
+export function Button({ className: _className, style, xstyle, variant = 'default', size = 'default', ...props }: ButtonProps) {
+  const applied = buttonProps({ variant, size, xstyle });
   return <ButtonPrimitive data-slot="button" data-variant={variant} data-size={size}
-    {...props} {...buttonProps({ variant, size, xstyle })} />;
+    {...props} {...applied} style={composeRenderProps(style, value => ({ ...applied.style, ...value }))} />;
 }
 
-export function LinkButton({ className: _className, style: _style, xstyle, variant = 'default', size = 'default', ...props }: Omit<LinkProps, 'className' | 'style'> & Variants & NoExternalCSS) {
+export function LinkButton({ className: _className, style, xstyle, variant = 'default', size = 'default', ...props }: Omit<LinkProps, 'className'> & Variants & NoExternalClasses) {
+  const applied = buttonProps({ variant, size, xstyle });
   return <LinkPrimitive data-slot="button" data-variant={variant} data-size={size}
-    {...props} {...buttonProps({ variant, size, xstyle })} />;
+    {...props} {...applied} style={composeRenderProps(style, value => ({ ...applied.style, ...value }))} />;
 }
 
 const styles = stylex.create({
