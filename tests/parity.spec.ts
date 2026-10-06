@@ -56,7 +56,7 @@ test('every official Button documentation example has a registered parity story'
   const document = await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/kbd.mdx', 'utf8');
   const names = [...document.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(match => match[1]);
   const implemented: Record<string, string> = { 'kbd-demo': 'demo', 'kbd-group': 'group', 'kbd-button': 'in-button', 'kbd-input-group': 'in-input-group', 'kbd-rtl': 'rtl' };
-  const pending = { 'kbd-tooltip': 'Tooltip is not implemented; official composition remains pending.' };
+  const pending = { 'kbd-tooltip': 'Tooltip + Kbd is implemented; the official composition still requires ButtonGroup.' };
   expect(names).toHaveLength(6);
   const index = await (await request.get(`${stylexURL}/index.json`)).json();
   for (const name of names) {

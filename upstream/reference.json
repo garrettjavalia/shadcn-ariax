@@ -6,6 +6,7 @@
     "input",
     "textarea",
     "input-group",
-    "kbd"
+    "kbd",
+    "tooltip"
   ]
 }

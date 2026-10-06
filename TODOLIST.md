@@ -42,7 +42,7 @@
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd — Kbd·KbdGroup 레지스트리 구현, 공식 Demo·Group·Button·Input Group·RTL 및 Usage 검증; Tooltip 공식 조합 대기
+- [ ] Kbd — Kbd·KbdGroup 레지스트리 구현, 공식 Demo·Group·Button·Input Group·RTL 및 Usage 검증; ButtonGroup을 포함한 KbdTooltip 공식 전체 조합 대기
 - [ ] Label
 - [ ] Marker
 - [ ] Message
@@ -67,7 +67,7 @@
 - [ ] Textarea
 - [ ] Toggle
 - [ ] Toggle Group
-- [ ] Tooltip
+- [ ] Tooltip — 레지스트리 구현, 공식 예제·동작·애니메이션 검증 진행 중
 - [ ] Typography — 텍스트 스타일 예제
 
 Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.

@@ -65,8 +65,14 @@ Textarea는 `textarea.json`으로 설치한다. `Components/Textarea`에서 공�
 
 현재 RTL 비교는 일반 ui 레퍼런스에 `dir="rtl"`을 적용한 범위다. 공식 CLI `rtl: true` 변환은 아직 활성화하지 않았다. 실제 `transformDirection(source, true)`는 inline addon의 `pl/pr`, `ml/mr`와 부모의 입력 `pl/pr`를 `ps/pe`, `ms/me`로 바꾸므로, 공식 RTL 변환 지원에는 StyleX의 논리 방향 속성 전환과 추가 검증이 필요하다.
 
-## Kbd (공식 Tooltip 조합 대기)
+## Kbd (공식 ButtonGroup 조합 대기)
 
 `kbd.json`을 CLI로 설치하면 React Aria Keyboard 기반 `Kbd`와 `KbdGroup`을 사용할 수 있다. 두 컴포넌트는 원본처럼 `kbd`로 렌더링되며 `xstyle`과 일반 `style`을 지원한다. 예: `<KbdGroup><Kbd>Ctrl</Kbd><Kbd>K</Kbd></KbdGroup>`. 외부 `className`은 지원하지 않는다.
 
-공식 Demo·Group·Button·Input Group·RTL과 Usage 및 SVG·스타일 덮어쓰기를 공유 Storybook에서 비교한다. Button과 Input Group은 실제 배포 컴포넌트다. 공식 Tooltip 예제는 Tooltip 구현 후 검증할 예정이므로 Kbd 전체 문서 지원을 완료로 표시하지 않는다. Kbd 원본은 공식 `transformDirection(source, true)` 적용 전후가 동일하며 현재 RTL 스토리는 일반 ui에 `dir="rtl"`을 적용한 조건이다.
+공식 Demo·Group·Button·Input Group·RTL과 Usage 및 SVG·스타일 덮어쓰기를 공유 Storybook에서 비교한다. Button과 Input Group은 실제 배포 컴포넌트다. 실제 Tooltip 안 Kbd·KbdGroup의 Save/Print 내용과 동작을 검사한다. 공식 KbdTooltip의 ButtonGroup 컨테이너는 아직 미구현이므로 전체 문서 지원을 완료로 표시하지 않는다. Kbd 원본은 공식 `transformDirection(source, true)` 적용 전후가 동일하며 현재 RTL 스토리는 일반 ui에 `dir="rtl"`을 적용한 조건이다.
+
+## Tooltip
+
+`tooltip.json`으로 `TooltipTrigger`와 `Tooltip`을 설치한다. 기본 delay=0, placement=top, offset=4, crossOffset=0과 React Aria의 상태·배치·포털 동작을 보존한다. Tooltip은 `xstyle` 및 일반 `style` 객체/상태 콜백을 지원하고 외부 className은 받지 않는다. 설치되는 tooltip.css가 enter/exit 키프레임과 Kbd 자손 스타일을 제공한다.
+
+공식 Demo·Sides·Keyboard·Disabled·RTL과 Usage를 공유 Storybook에서 확인할 수 있다. hover·키보드 포커스·Escape·delay/closeDelay·disabled wrapper·placement·offset, 실제 enter/exit 50ms 프레임과 사용자 스타일 우선순위를 공통 비교기로 검사한다. 현재 RTL은 일반 ui에 dir=rtl을 적용한 조건이다. 공식 방향 변환은 Kbd를 포함할 때 pr-1.5를 pe-1.5로 바꾸므로 별도의 공식 ui-rtl 지원과 구별한다.

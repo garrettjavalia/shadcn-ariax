@@ -54,3 +54,16 @@ generated/                        # 전체 Git 제외
 | textarea-rtl | States의 독립 RTL만 검사 | TODO: Field 조합과 번역 예제 |
 
 독립 Textarea는 RAC TextArea props/ref/context, content 기반 자동 높이, rows, disabled/invalid/required/readOnly, 48rem 반응형 글꼴, light/dark 및 callback style을 지원한다. xstyle의 동적 CSS 변수를 보존하고 일반 React style을 마지막에 합쳐 우선 적용한다. 외부 className은 제한한다. 공식 Field 조합은 미완료이며 독립 상태 검증을 해당 예제 전체 검증으로 간주하지 않는다.
+
+## Tooltip
+
+| 공식 예제 | 공유 Storybook |
+| --- | --- |
+| tooltip-demo | Components/Tooltip/Demo |
+| tooltip-sides | Components/Tooltip/Sides |
+| tooltip-keyboard | Components/Tooltip/Keyboard |
+| tooltip-disabled | Components/Tooltip/Disabled |
+| tooltip-rtl | Components/Tooltip/Rtl |
+| Usage | Components/Tooltip/Usage |
+
+테스트는 고정 MDX의 ComponentPreview 이름을 추출해 등록 스토리와 대조한다. RTL은 일반 ui에 dir=rtl을 적용한 범위다. 실제 Tooltip+Kbd·KbdGroup의 Save/Print 조합은 KbdComposition에서 검사하며, 공식 kbd-tooltip의 ButtonGroup 컨테이너는 아직 구현되지 않아 pending으로 남긴다.
