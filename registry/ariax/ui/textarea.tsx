@@ -17,7 +17,7 @@ const styles = stylex.create({ base: {
   width: '100%', minHeight: '4rem', fieldSizing: 'content', display: 'flex', outlineStyle: 'none', borderRadius: 'var(--radius)',
   borderWidth: '1px', borderStyle: 'solid', paddingInline: '0.625rem', paddingBlock: '0.5rem',
   fontSize: { default: '1rem', '@media (min-width: 48rem)': '0.875rem' },
-  lineHeight: { default: '1.5rem', '@media (min-width: 48rem)': '1.25rem' },
+  lineHeight: { default: 1.5, '@media (min-width: 48rem)': 'calc(1.25 / .875)' },
   color: { default: null, '::placeholder': 'var(--muted-foreground)' },
   borderColor: { default: 'var(--input)', ':focus-visible': 'var(--ring)', ':is([aria-invalid="true"])': 'var(--destructive)', ':is(.dark *)[aria-invalid="true"]': 'color-mix(in oklab, var(--destructive) 50%, transparent)' },
   backgroundColor: { default: 'transparent', ':is(.dark *)': 'color-mix(in oklab, var(--input) 30%, transparent)', ':disabled': 'color-mix(in oklab, var(--input) 50%, transparent)', ':is(.dark *):disabled': 'color-mix(in oklab, var(--input) 80%, transparent)' },
