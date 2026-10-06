@@ -16,6 +16,8 @@ const helpers = {
 };
 const reference = resolve('generated/reference/aria-nova');
 export const originalAliases = [
+  { find: /^@\/styles\/base-nova\/ui\/(.+)$/, replacement: resolve('generated/reference/base-nova/ui') + '/$1' },
+  { find: /^@\/styles\/radix-rhea\/ui\/(.+)$/, replacement: resolve('generated/reference/radix-rhea/ui') + '/$1' },
   ...Object.entries(helpers).map(([find, path]) => ({ find, replacement: resolve(pinned, path) })),
   { find: /^@\/styles\/aria-(?:nova|rhea)\/ui(?:-rtl)?\/(.+)$/, replacement: `${reference}/ui/$1` },
   { find: /^@\/registry\/bases\/aria\/ui\/(.+)$/, replacement: `${reference}/ui/$1` },

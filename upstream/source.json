@@ -20,7 +20,10 @@
     "apps/v4/hooks/use-mobile.ts",
     "apps/v4/lib/ai.ts",
     "apps/v4/lib/message-animations.ts",
-    "apps/v4/registry/icons/__lucide__.ts"
+    "apps/v4/registry/icons/__lucide__.ts",
+    "apps/v4/registry/bases/base",
+    "apps/v4/registry/bases/radix",
+    "apps/v4/registry/styles/style-rhea.css"
   ],
   "requiredFiles": [
     "apps/v4/registry/bases/aria/registry.ts",
@@ -57,6 +60,14 @@
     "apps/v4/hooks/use-mobile.ts",
     "apps/v4/lib/ai.ts",
     "apps/v4/lib/message-animations.ts",
-    "apps/v4/registry/icons/__lucide__.ts"
+    "apps/v4/registry/icons/__lucide__.ts",
+    "apps/v4/registry/bases/base/registry.ts",
+    "apps/v4/registry/bases/base/ui/select.tsx",
+    "apps/v4/registry/bases/radix/registry.ts",
+    "apps/v4/registry/bases/radix/ui/bubble.tsx",
+    "apps/v4/registry/bases/radix/ui/message.tsx",
+    "apps/v4/registry/bases/radix/ui/message-scroller.tsx",
+    "apps/v4/registry/bases/radix/ui/button.tsx",
+    "apps/v4/registry/styles/style-rhea.css"
   ]
 }

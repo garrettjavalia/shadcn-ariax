@@ -10,22 +10,28 @@ import { createStyleMap, transformStyle } from 'shadcn/utils';
 import { root, rawRoot, type Source } from './common';
 
 export async function referenceInputs(config: Source) {
-  const selection: { components: string[] } = JSON.parse(await readFile(resolve(root, 'upstream/reference.json'), 'utf8'));
+  const selection: { components: string[]; helperReferences?: {base:string;style:string;components:string[]}[] } = JSON.parse(await readFile(resolve(root, 'upstream/reference.json'), 'utf8'));
   selection.components = [...new Set([...selection.components, ...(await readdir(resolve(root, 'registry/ariax/ui')).catch((error: NodeJS.ErrnoException) => { if (error.code === 'ENOENT') return []; throw error; })).filter(name => /^[a-z][a-z0-9-]*\.tsx$/.test(name)).map(name => name.slice(0, -4))])].sort();
   assert.ok(selection.components.length && selection.components.every(name => /^[a-z][a-z0-9-]*$/.test(name)), 'Invalid reference components');
+  const helperReferences = selection.helperReferences ?? [];
+  for (const helper of helperReferences) {
+    assert.ok(['base','radix'].includes(helper.base) && /^[a-z][a-z0-9-]*$/.test(helper.style));
+    assert.ok(helper.components.length && helper.components.every(name => /^[a-z][a-z0-9-]*$/.test(name)), 'Invalid helper reference components');
+  }
+  assert.equal(new Set(helperReferences.map(({base,style}) => `${base}-${style}`)).size, helperReferences.length, 'Duplicate helper reference namespace');
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
   assert.equal(pkg.devDependencies.shadcn, installed.version, 'Install the pinned shadcn CLI before preparing references');
-  return { version: 7, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+  return { version: 8, helperReferences, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
 }
 
 // Parse only the literal metadata; importing registry.ts would execute the
 // unrelated font registry and its application aliases. Never evaluate code.
-export function literalStyleItem(source: string): RegistryItem {
+export function literalStyleItem(source: string, declarationName = 'ARIA_STYLE'): RegistryItem {
   const ast = parse(source, {sourceType:'module',plugins:['typescript']});
   const declarations = ast.program.body.flatMap(node => node.type === 'VariableDeclaration' ? node.declarations : []);
-  const declaration = declarations.filter(node => node.id.type === 'Identifier' && node.id.name === 'ARIA_STYLE');
-  assert.equal(declaration.length, 1, 'Pinned ARIA_STYLE must be a single declaration');
+  const declaration = declarations.filter(node => node.id.type === 'Identifier' && node.id.name === declarationName);
+  assert.equal(declaration.length, 1, `Pinned ${declarationName} must be a single declaration`);
   function literal(value: unknown): unknown {
     assert.ok(value && typeof value === 'object', 'Style metadata must contain literals only');
     const node = value as {type:string;value?:unknown;properties?:unknown[];elements?:unknown[];key?:{type:string;name?:string;value?:string};computed?:boolean};
@@ -57,7 +63,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   const { source: config } = inputs;
   const base = resolve(rawRoot, `apps/v4/registry/bases/${config.base}`);
   const catalog = new Map<string, RegistryItem>();
-  catalog.set('style', literalStyleItem(await readFile(resolve(base, 'registry.ts'), 'utf8')));
+  catalog.set('style', literalStyleItem(await readFile(resolve(base, 'registry.ts'), 'utf8'), `${config.base.toUpperCase()}_STYLE`));
   for (const group of await readdir(base, { withFileTypes: true })) {
     if (!group.isDirectory()) continue;
     const registry = resolve(base, group.name, '_registry.ts');

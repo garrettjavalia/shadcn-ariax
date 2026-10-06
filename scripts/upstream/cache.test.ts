@@ -19,7 +19,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await writeFile(join(dir, 'pnpm-lock.yaml'), parentLock);
     await cp(resolve(root, 'pnpm-workspace.yaml'), join(dir, 'pnpm-workspace.yaml'));
     await cp(resolve(root, 'patches'), join(dir, 'patches'), { recursive: true });
-    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'] }));
+    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'], helperReferences: [{base:'base',style:'nova',components:['button']}] }));
     await symlink(resolve(root, 'node_modules'), join(dir, 'node_modules'), 'dir');
     const commit = 'a'.repeat(40);
     const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
@@ -32,6 +32,10 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
       'apps/v4/registry/bases/aria/lib/_registry.ts': 'export const lib = [{name:"utils",type:"registry:lib",dependencies:["cn"],files:[{path:"lib/utils.ts",type:"registry:lib"}]}];',
       'apps/v4/registry/bases/aria/lib/utils.ts': 'export const helper = "fixture";',
     };
+    // A minimal different framework installs in its own namespace and cache.
+    for (const [path, content] of Object.entries({...fixtures})) {
+      if (path.includes('/bases/aria/')) fixtures[path.replace('/bases/aria/', '/bases/base/')] = content.replaceAll('/bases/aria/', '/bases/base/').replace('ARIA_STYLE', 'BASE_STYLE');
+    }
     const paths = Object.keys(fixtures);
     for (const path of paths) {
       const target = join(dir, 'archive', `ui-${commit}`, path);
@@ -65,6 +69,9 @@ for (const module of [http, https]) { const request=module.request; module.reque
     assert.equal(JSON.parse(await readFile(join(dir, 'generated/reference/aria-nova/components.json'), 'utf8')).rtl, true);
     assert.match(installedSource, /@reference\/lib\/utils/);
     assert.doesNotMatch(installedSource, /cn-button/);
+    const helperInstalled = join(dir, 'generated/reference/base-nova/ui/button.tsx');
+    assert.equal(await readFile(helperInstalled, 'utf8'), installedSource, 'Crossbase CLI output remains isolated from the primary reference.');
+    assert.equal(JSON.parse(await readFile(join(dir, 'generated/reference/base-nova/components.json'), 'utf8')).style, 'base-nova');
     const cliCss = join(dir, 'generated/reference/aria-nova/cli.css');
     const originalCss = await readFile(cliCss, 'utf8');
     assert.match(originalCss, /reference-fixture/);
