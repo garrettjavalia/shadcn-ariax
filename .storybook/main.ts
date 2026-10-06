@@ -12,6 +12,8 @@ const config: StorybookConfig = {
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
     config.resolve ??= {};
+    // Reference components and shared stories must use the same React Aria contexts.
+    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react-aria-components'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),
