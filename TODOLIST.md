@@ -30,7 +30,7 @@
 - [x] Command
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
-- [ ] Date Picker — 조합 예제 포함
+- [x] Date Picker — 조합 예제 포함
 - [x] Dialog
 - [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
@@ -54,7 +54,7 @@
 - [ ] Progress
 - [ ] Questionnaire
 - [x] Radio Group
-- [ ] Resizable
+- [x] Resizable
 - [x] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
