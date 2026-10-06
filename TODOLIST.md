@@ -38,7 +38,7 @@
 - [ ] Empty
 - [ ] Field
 - [ ] Hover Card
-- [ ] Input
+- [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item

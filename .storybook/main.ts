@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@input-customizations': resolve(upstream ? 'reference/input-customizations.ts' : 'stories/input-customizations.ts'),
+      '@input': resolve(upstream ? 'generated/reference/aria-nova/ui/input.tsx' : 'registry/ariax/ui/input.tsx'),
       '@aspect-ratio': resolve(upstream ? 'generated/reference/aria-nova/ui/aspect-ratio.tsx' : 'registry/ariax/ui/aspect-ratio.tsx'),
       '@aspect-customizations': resolve(upstream ? 'reference/aspect-customizations.ts' : 'stories/aspect-customizations.ts'),
       '@badge': resolve(upstream ? 'generated/reference/aria-nova/ui/badge.tsx' : 'registry/ariax/ui/badge.tsx'),
