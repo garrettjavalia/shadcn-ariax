@@ -65,3 +65,5 @@
 }
 
 @custom-variant style-nova (&:where(.style-nova *));
+
+@source "../../../node_modules/streamdown/dist/*.js";
