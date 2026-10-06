@@ -30,3 +30,9 @@ test('Kbd style retains dynamic variables and renders both primitives as kbd', a
   expect(await page.locator('[data-slot="kbd-group"]').evaluate(el => el.tagName)).toBe('KBD');
   expect(await key.evaluate(el => el.tagName)).toBe('KBD');
 });
+
+test('Kbd sans and Input Group mono preserve missing-token inheritance and defined tokens',async({browser},info)=>{
+ const context=await browser.newContext({viewport:{width:1000,height:900},locale:'en-US',timezoneId:'UTC',colorScheme:'light'});
+ const a=await context.newPage(),b=await context.newPage();
+ try{for(const [page,url] of [[a,upstreamURL],[b,stylexURL]] as const){await page.goto(`${url}/iframe.html?id=components-kbd--font-tokens&viewMode=story`);await expect(page.getByTestId('sans-missing')).toHaveCSS('font-family','serif');await expect(page.getByTestId('mono-missing')).toHaveCSS('font-family','serif');await expect(page.getByTestId('sans-defined')).toHaveCSS('font-family','"Courier New", monospace');await expect(page.getByTestId('mono-defined')).toHaveCSS('font-family','"Times New Roman", serif');}await compare(a,b,info,'font-token-inheritance');}finally{await context.close();}
+});
