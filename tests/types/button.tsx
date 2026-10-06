@@ -19,3 +19,9 @@ buttonProps({ className: 'h-10' });
 buttonProps({ style: { height: 40 }, xstyle: styles.dynamic(200) });
 // @ts-expect-error Raw DOM helpers accept a CSS object, not a RAC state callback.
 buttonProps({ style: () => ({ height: 40 }) });
+
+import { buttonProps as referenceButtonProps } from '../../reference/button';
+buttonProps();
+buttonProps(undefined);
+referenceButtonProps();
+referenceButtonProps(undefined);
