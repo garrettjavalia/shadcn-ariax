@@ -12,9 +12,9 @@ export function Badge({className: _className, variant = 'default', xstyle, style
   return render ? render(applied) : <span {...applied} />;
 }
 const styles = stylex.create({base: {
-  display:'inline-flex', width:'fit-content', flexShrink:0, alignItems:'center', justifyContent:'center', overflow:'hidden', whiteSpace:'nowrap', height:'1.25rem', gap:'0.25rem', borderRadius:'2rem', borderWidth:1, borderStyle:'solid',
+  display:'inline-flex', width:'fit-content', flexShrink:0, alignItems:'center', justifyContent:'center', overflow:'hidden', whiteSpace:'nowrap', height:'1.25rem', gap:'0.25rem', borderRadius:'calc(var(--radius) * 2.6)', borderWidth:1, borderStyle:'solid',
   borderColor:{default:'transparent', ':focus-visible':'var(--ring)', ':is([aria-invalid="true"])':'var(--destructive)'},
-  paddingBlock:'0.125rem', paddingRight:{default:'0.5rem', ':has([data-icon="inline-end"])':'0.375rem'}, paddingLeft:{default:'0.5rem', ':has([data-icon="inline-start"])':'0.375rem'}, fontSize:'0.75rem', lineHeight:'calc(1 / .75)', fontWeight:500,
+  paddingBlock:'0.125rem', paddingInlineEnd:{default:'0.5rem', ':has([data-icon="inline-end"])':'0.375rem'}, paddingInlineStart:{default:'0.5rem', ':has([data-icon="inline-start"])':'0.375rem'}, fontSize:'0.75rem', lineHeight:'calc(1 / .75)', fontWeight:500,
   transitionProperty:'all', transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration:'150ms',
   '--ariax-badge-ring':{default:'color-mix(in oklab, var(--ring) 50%, transparent)', ':is([aria-invalid="true"])':'color-mix(in oklab, var(--destructive) 20%, transparent)', ':is(.dark *)[aria-invalid="true"]':'color-mix(in oklab, var(--destructive) 40%, transparent)'},
   boxShadow:{default:null, ':focus-visible':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-badge-ring), 0 0 0 0 #0000'},

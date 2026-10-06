@@ -14,6 +14,7 @@ const styles = stylex.create({
 });
 export function Label({ htmlFor, slot, xstyle, style, className: _className, ...props }: LabelProps) {
   const applied = stylex.props(styles.base, xstyle);
-  const label = <LabelPrimitive data-slot="label" {...props} htmlFor={htmlFor} slot={slot} className={applied.className} style={{ ...applied.style, ...style }} />;
+  const structuralClass = (props as { 'data-slot'?: string })['data-slot'] === 'field-label' ? 'group/field-label peer/field-label' : '';
+  const label = <LabelPrimitive data-slot="label" {...props} htmlFor={htmlFor} slot={slot} className={[structuralClass, applied.className].filter(Boolean).join(' ')} style={{ ...applied.style, ...style }} />;
   return htmlFor && slot === undefined ? <LabelContext.Provider value={null}>{label}</LabelContext.Provider> : label;
 }
