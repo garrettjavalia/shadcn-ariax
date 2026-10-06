@@ -1,5 +1,46 @@
-import*as stylex from'@stylexjs/stylex';
-import {Button} from '@button';
-import{AlertDialog,AlertDialogContent,AlertDialogOverlay,AlertDialogTrigger,AlertDialogTitle,AlertDialogDescription,AlertDialogHeader,AlertDialogMedia,AlertDialogFooter,AlertDialogAction,AlertDialogCancel}from'@alert-dialog';
-const styles=stylex.create({width:(width:number)=>({width})});
-export default function Fixture(){return <><AlertDialogTrigger><Button>Open</Button><AlertDialog size="sm" xstyle={styles.width(320)} style={({isEntering})=>({opacity:isEntering?.5:1})}><AlertDialogHeader><AlertDialogMedia style={{width:40}}>Media</AlertDialogMedia><AlertDialogTitle>Title</AlertDialogTitle><AlertDialogDescription>Description</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction style={({isPressed})=>({opacity:isPressed?.5:1})}>Continue</AlertDialogAction></AlertDialogFooter></AlertDialog></AlertDialogTrigger><AlertDialogOverlay isOpen={false}>Overlay</AlertDialogOverlay><AlertDialogContent isOpen={false}>Content</AlertDialogContent></>;}
+import * as stylex from "@stylexjs/stylex";
+import { Button } from "@button";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@alert-dialog";
+const styles = stylex.create({ width: (width: number) => ({ width }) });
+export default function Fixture() {
+  return (
+    <>
+      <AlertDialogTrigger>
+        <Button>Open</Button>
+        <AlertDialog
+          size="sm"
+          xstyle={styles.width(320)}
+          style={({ isEntering }) => ({ opacity: isEntering ? 0.5 : 1 })}
+        >
+          <AlertDialogHeader>
+            <AlertDialogMedia style={{ width: 40 }}>Media</AlertDialogMedia>
+            <AlertDialogTitle>Title</AlertDialogTitle>
+            <AlertDialogDescription>Description</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              style={({ isPressed }) => ({ opacity: isPressed ? 0.5 : 1 })}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialog>
+      </AlertDialogTrigger>
+      <AlertDialogOverlay isOpen={false}>Overlay</AlertDialogOverlay>
+      <AlertDialogContent isOpen={false}>Content</AlertDialogContent>
+    </>
+  );
+}

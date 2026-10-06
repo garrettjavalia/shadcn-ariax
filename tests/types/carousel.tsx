@@ -1,11 +1,17 @@
-import {Carousel,CarouselContent,CarouselItem,CarouselPrevious,CarouselNext} from '@carousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@carousel";
 // @ts-expect-error External classes are not a customization API.
-<Carousel className="x"/>;
+<Carousel className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<CarouselContent className="x"/>;
+<CarouselContent className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<CarouselItem className="x"/>;
+<CarouselItem className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<CarouselPrevious className="x"/>;
+<CarouselPrevious className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<CarouselNext className="x"/>;
+<CarouselNext className="x" />;

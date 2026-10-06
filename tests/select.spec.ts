@@ -1,21 +1,343 @@
-import { test, expect } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
-import { upstreamURL, stylexURL } from './servers';
-import { compare } from './compare';
-const official=['demo','groups','scrollable','disabled','invalid','autocomplete','rtl'];
-test('every official Select preview and Usage has a parity story',async({request})=>{const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/select.mdx','utf8');const previews=[...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(match=>match[1]);expect(previews).toHaveLength(7);const index=await(await request.get(stylexURL+'/index.json')).json();for(const name of [...previews,'select-usage'])expect(index.entries['components-'+name.replace('select-','select--')]?.tags,name).toContain('parity');});
-for(const theme of ['light','dark'])test(`Select official open portals, search, keyboard, scrolling and RTL / ${theme}`,async({browser},info)=>{const context=await browser.newContext();const pages=await Promise.all([upstreamURL,stylexURL].map(url=>context.newPage()));try{for(const story of [...official,'usage']){await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-select--${story}&globals=theme:${theme}`)));for(const page of pages)await expect(page.locator('[data-slot="select-trigger"]')).toBeVisible();await compare(pages[0],pages[1],info,story+'-closed');if(story==='disabled'){for(const page of pages)await expect(page.locator('[data-slot="select-trigger"]')).toBeDisabled();continue;}for(const page of pages){await page.locator('[data-slot="select-trigger"]').click();await expect(page.locator('[data-slot="select-content"]')).toBeVisible();await page.locator('[data-slot="select-content"]').evaluate(node=>node.setAttribute('data-parity-portal',''));}await compare(pages[0],pages[1],info,story+'-open');if(story==='autocomplete'){for(const page of pages)await page.getByRole('searchbox').fill('Japan');await compare(pages[0],pages[1],info,'search-match');for(const page of pages)await expect(page.getByRole('option')).toHaveCount(1);for(const page of pages)await page.getByRole('searchbox').fill('unmatchable');await compare(pages[0],pages[1],info,'search-empty');for(const page of pages)await expect(page.locator('[data-slot="select-empty"]')).toBeVisible();for(const page of pages)await page.getByRole('searchbox').fill('Japan');}if(story==='scrollable'){for(const page of pages)await page.locator('[data-slot="select-list"]').evaluate(node=>node.scrollTop=node.scrollHeight);await compare(pages[0],pages[1],info,'scroll-bottom');}for(const page of pages){await page.keyboard.press('ArrowDown');await page.keyboard.press('Enter');}await compare(pages[0],pages[1],info,story+'-selected');for(const page of pages)await expect(page.locator('[data-slot="select-content"]')).toHaveCount(0);}}finally{await context.close();}});
-for(const theme of ['light','dark'])test(`Select controlled, multiple, disabled options and native callback customization / ${theme}`,async({browser},info)=>{const pages=await Promise.all([upstreamURL,stylexURL].map(url=>browser.newPage()));try{for(const story of ['controlled','multiple','disabled-items','customized']){await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-select--${story}&globals=theme:${theme}`)));for(const page of pages)await expect(page.locator('[data-slot="select-trigger"]')).toBeVisible();await compare(pages[0],pages[1],info,story+'-default');if(story==='customized'){for(const page of pages)await page.getByRole('button',{name:'Resize'}).click();await compare(pages[0],pages[1],info,'customized-resize');}for(const page of pages){await page.locator('[data-slot="select-trigger"]').focus();await page.keyboard.press('ArrowDown');await expect(page.locator('[data-slot="select-content"]')).toBeVisible();await page.locator('[data-slot="select-content"]').evaluate(node=>node.setAttribute('data-parity-portal',''));}await compare(pages[0],pages[1],info,story+'-keyboard-open');if(story==='disabled-items'){for(const page of pages)await expect(page.getByRole('option',{name:'Dark'})).toHaveAttribute('aria-disabled','true');}for(const page of pages)await page.getByRole('option',{name:'System'}).click();await compare(pages[0],pages[1],info,story+'-change');if(story==='multiple'){for(const page of pages)await expect(page.getByRole('option',{name:'System'})).toHaveAttribute('aria-selected','true');for(const page of pages)await page.keyboard.press('Escape');await compare(pages[0],pages[1],info,'multiple-closed');}if(story==='controlled')for(const page of pages)await expect(page.locator('output')).toHaveText('system');}}finally{await Promise.all(pages.map(page=>page.close()));}});
-for(const theme of ['light','dark'])test(`Select actual enter/exit effects and lifecycle / ${theme}`,async({browser},info)=>{
- const context=await browser.newContext();
- await context.addInitScript(()=>{const seen=new WeakSet<Animation>();const handles=new WeakMap<Element,Animation>();(window as Window & {selectAnimations?:WeakMap<Element,Animation>}).selectAnimations=handles;document.addEventListener('animationstart',event=>{if(!(event.target instanceof Element)||!event.target.matches('[data-slot="select-content"]'))return;for(const animation of event.target.getAnimations())if(animation instanceof CSSAnimation&&!seen.has(animation)&&(event.target.hasAttribute('data-entering')||event.target.hasAttribute('data-exiting'))){seen.add(animation);handles.set(event.target,animation);animation.pause();animation.currentTime=0;}},true);});
- const pages=await Promise.all([upstreamURL,stylexURL].map(()=>context.newPage()));
- try{await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-select--demo&globals=theme:${theme}`)));for(const page of pages){await expect(page.locator('[data-slot="select-trigger"]')).toBeVisible();await page.locator('[data-slot="select-trigger"]').click();await page.locator('[data-slot="select-content"]').evaluate(node=>node.setAttribute('data-parity-portal',''));}
- for(const phase of ['enter','exit']){if(phase==='exit')for(const page of pages)await page.keyboard.press('Escape');for(const page of pages)await expect.poll(()=>page.locator('[data-slot="select-content"]').evaluate((node,phase)=>node.hasAttribute(`data-${phase}ing`)&&node.getAnimations().some(animation=>animation.playState==='paused'),phase)).toBe(true);
- for(const time of [0,50,100]){for(const page of pages)await page.locator('[data-slot="select-content"]').evaluate(async(node,time)=>{const animation=(window as Window & {selectAnimations?:WeakMap<Element,Animation>}).selectAnimations!.get(node)!;await animation.ready;animation.currentTime=time;},time);await compare(pages[0],pages[1],info,`${phase}-${time}`);}
- for(const page of pages)await page.locator('[data-slot="select-content"]').evaluate(node=>{const animation=(window as Window & {selectAnimations?:WeakMap<Element,Animation>}).selectAnimations!.get(node)!;animation.currentTime=0;animation.play();});await compare(pages[0],pages[1],info,`${phase}-complete`);if(phase==='exit')for(const page of pages)await expect(page.locator('[data-slot="select-content"]')).toHaveCount(0);
- }}finally{await context.close();}
+import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+import { upstreamURL, stylexURL } from "./servers";
+import { compare } from "./compare";
+const official = [
+  "demo",
+  "groups",
+  "scrollable",
+  "disabled",
+  "invalid",
+  "autocomplete",
+  "rtl",
+];
+test("every official Select preview and Usage has a parity story", async ({
+  request,
+}) => {
+  const doc = await readFile(
+    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/select.mdx",
+    "utf8",
+  );
+  const previews = [
+    ...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
+  ].map((match) => match[1]);
+  expect(previews).toHaveLength(7);
+  const index = await (await request.get(stylexURL + "/index.json")).json();
+  for (const name of [...previews, "select-usage"])
+    expect(
+      index.entries["components-" + name.replace("select-", "select--")]?.tags,
+      name,
+    ).toContain("parity");
 });
-for(const theme of ['light','dark'])test(`Select forced colors and responsive searchable composition / ${theme}`,async({browser},info)=>{
- for(const forced of [true,false]){const context=await browser.newContext(forced?{forcedColors:'active'}:{viewport:{width:390,height:900}});const pages=await Promise.all([upstreamURL,stylexURL].map(()=>context.newPage()));try{await Promise.all(pages.map((page,i)=>page.goto(`${i?stylexURL:upstreamURL}/iframe.html?id=components-select--${forced?'demo':'autocomplete'}&globals=theme:${theme}`)));for(const page of pages){await expect(page.locator('[data-slot="select-trigger"]')).toBeVisible();await page.locator('[data-slot="select-trigger"]').focus();}await compare(pages[0],pages[1],info,forced?'forced-focus':'viewport-390');for(const page of pages){await page.keyboard.press('ArrowDown');await expect(page.locator('[data-slot="select-content"]')).toBeVisible();await page.locator('[data-slot="select-content"]').evaluate(node=>node.setAttribute('data-parity-portal',''));}await compare(pages[0],pages[1],info,forced?'forced-open':'viewport-390-search');if(!forced){for(const page of pages)await page.getByRole('searchbox').fill('Japan');await compare(pages[0],pages[1],info,'viewport-390-filter');}}finally{await context.close();}}
-});
+for (const theme of ["light", "dark"])
+  test(`Select official open portals, search, keyboard, scrolling and RTL / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const context = await browser.newContext();
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map((url) => context.newPage()),
+    );
+    try {
+      for (const story of [...official, "usage"]) {
+        await Promise.all(
+          pages.map((page, i) =>
+            page.goto(
+              `${i ? stylexURL : upstreamURL}/iframe.html?id=components-select--${story}&globals=theme:${theme}`,
+            ),
+          ),
+        );
+        for (const page of pages)
+          await expect(
+            page.locator('[data-slot="select-trigger"]'),
+          ).toBeVisible();
+        await compare(pages[0], pages[1], info, story + "-closed");
+        if (story === "disabled") {
+          for (const page of pages)
+            await expect(
+              page.locator('[data-slot="select-trigger"]'),
+            ).toBeDisabled();
+          continue;
+        }
+        for (const page of pages) {
+          await page.locator('[data-slot="select-trigger"]').click();
+          await expect(
+            page.locator('[data-slot="select-content"]'),
+          ).toBeVisible();
+          await page
+            .locator('[data-slot="select-content"]')
+            .evaluate((node) => node.setAttribute("data-parity-portal", ""));
+        }
+        await compare(pages[0], pages[1], info, story + "-open");
+        if (story === "autocomplete") {
+          for (const page of pages)
+            await page.getByRole("searchbox").fill("Japan");
+          await compare(pages[0], pages[1], info, "search-match");
+          for (const page of pages)
+            await expect(page.getByRole("option")).toHaveCount(1);
+          for (const page of pages)
+            await page.getByRole("searchbox").fill("unmatchable");
+          await compare(pages[0], pages[1], info, "search-empty");
+          for (const page of pages)
+            await expect(
+              page.locator('[data-slot="select-empty"]'),
+            ).toBeVisible();
+          for (const page of pages)
+            await page.getByRole("searchbox").fill("Japan");
+        }
+        if (story === "scrollable") {
+          for (const page of pages)
+            await page
+              .locator('[data-slot="select-list"]')
+              .evaluate((node) => (node.scrollTop = node.scrollHeight));
+          await compare(pages[0], pages[1], info, "scroll-bottom");
+        }
+        for (const page of pages) {
+          await page.keyboard.press("ArrowDown");
+          await page.keyboard.press("Enter");
+        }
+        await compare(pages[0], pages[1], info, story + "-selected");
+        for (const page of pages)
+          await expect(
+            page.locator('[data-slot="select-content"]'),
+          ).toHaveCount(0);
+      }
+    } finally {
+      await context.close();
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`Select controlled, multiple, disabled options and native callback customization / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map((url) => browser.newPage()),
+    );
+    try {
+      for (const story of [
+        "controlled",
+        "multiple",
+        "disabled-items",
+        "customized",
+      ]) {
+        await Promise.all(
+          pages.map((page, i) =>
+            page.goto(
+              `${i ? stylexURL : upstreamURL}/iframe.html?id=components-select--${story}&globals=theme:${theme}`,
+            ),
+          ),
+        );
+        for (const page of pages)
+          await expect(
+            page.locator('[data-slot="select-trigger"]'),
+          ).toBeVisible();
+        await compare(pages[0], pages[1], info, story + "-default");
+        if (story === "customized") {
+          for (const page of pages)
+            await page.getByRole("button", { name: "Resize" }).click();
+          await compare(pages[0], pages[1], info, "customized-resize");
+        }
+        for (const page of pages) {
+          await page.locator('[data-slot="select-trigger"]').focus();
+          await page.keyboard.press("ArrowDown");
+          await expect(
+            page.locator('[data-slot="select-content"]'),
+          ).toBeVisible();
+          await page
+            .locator('[data-slot="select-content"]')
+            .evaluate((node) => node.setAttribute("data-parity-portal", ""));
+        }
+        await compare(pages[0], pages[1], info, story + "-keyboard-open");
+        if (story === "disabled-items") {
+          for (const page of pages)
+            await expect(
+              page.getByRole("option", { name: "Dark" }),
+            ).toHaveAttribute("aria-disabled", "true");
+        }
+        for (const page of pages)
+          await page.getByRole("option", { name: "System" }).click();
+        await compare(pages[0], pages[1], info, story + "-change");
+        if (story === "multiple") {
+          for (const page of pages)
+            await expect(
+              page.getByRole("option", { name: "System" }),
+            ).toHaveAttribute("aria-selected", "true");
+          for (const page of pages) await page.keyboard.press("Escape");
+          await compare(pages[0], pages[1], info, "multiple-closed");
+        }
+        if (story === "controlled")
+          for (const page of pages)
+            await expect(page.locator("output")).toHaveText("system");
+      }
+    } finally {
+      await Promise.all(pages.map((page) => page.close()));
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`Select actual enter/exit effects and lifecycle / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const context = await browser.newContext();
+    await context.addInitScript(() => {
+      const seen = new WeakSet<Animation>();
+      const handles = new WeakMap<Element, Animation>();
+      (
+        window as Window & { selectAnimations?: WeakMap<Element, Animation> }
+      ).selectAnimations = handles;
+      document.addEventListener(
+        "animationstart",
+        (event) => {
+          if (
+            !(event.target instanceof Element) ||
+            !event.target.matches('[data-slot="select-content"]')
+          )
+            return;
+          for (const animation of event.target.getAnimations())
+            if (
+              animation instanceof CSSAnimation &&
+              !seen.has(animation) &&
+              (event.target.hasAttribute("data-entering") ||
+                event.target.hasAttribute("data-exiting"))
+            ) {
+              seen.add(animation);
+              handles.set(event.target, animation);
+              animation.pause();
+              animation.currentTime = 0;
+            }
+        },
+        true,
+      );
+    });
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(() => context.newPage()),
+    );
+    try {
+      await Promise.all(
+        pages.map((page, i) =>
+          page.goto(
+            `${i ? stylexURL : upstreamURL}/iframe.html?id=components-select--demo&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      for (const page of pages) {
+        await expect(
+          page.locator('[data-slot="select-trigger"]'),
+        ).toBeVisible();
+        await page.locator('[data-slot="select-trigger"]').click();
+        await page
+          .locator('[data-slot="select-content"]')
+          .evaluate((node) => node.setAttribute("data-parity-portal", ""));
+      }
+      for (const phase of ["enter", "exit"]) {
+        if (phase === "exit")
+          for (const page of pages) await page.keyboard.press("Escape");
+        for (const page of pages)
+          await expect
+            .poll(() =>
+              page
+                .locator('[data-slot="select-content"]')
+                .evaluate(
+                  (node, phase) =>
+                    node.hasAttribute(`data-${phase}ing`) &&
+                    node
+                      .getAnimations()
+                      .some((animation) => animation.playState === "paused"),
+                  phase,
+                ),
+            )
+            .toBe(true);
+        for (const time of [0, 50, 100]) {
+          for (const page of pages)
+            await page
+              .locator('[data-slot="select-content"]')
+              .evaluate(async (node, time) => {
+                const animation = (
+                  window as Window & {
+                    selectAnimations?: WeakMap<Element, Animation>;
+                  }
+                ).selectAnimations!.get(node)!;
+                await animation.ready;
+                animation.currentTime = time;
+              }, time);
+          await compare(pages[0], pages[1], info, `${phase}-${time}`);
+        }
+        for (const page of pages)
+          await page
+            .locator('[data-slot="select-content"]')
+            .evaluate((node) => {
+              const animation = (
+                window as Window & {
+                  selectAnimations?: WeakMap<Element, Animation>;
+                }
+              ).selectAnimations!.get(node)!;
+              animation.currentTime = 0;
+              animation.play();
+            });
+        await compare(pages[0], pages[1], info, `${phase}-complete`);
+        if (phase === "exit")
+          for (const page of pages)
+            await expect(
+              page.locator('[data-slot="select-content"]'),
+            ).toHaveCount(0);
+      }
+    } finally {
+      await context.close();
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`Select forced colors and responsive searchable composition / ${theme}`, async ({
+    browser,
+  }, info) => {
+    for (const forced of [true, false]) {
+      const context = await browser.newContext(
+        forced
+          ? { forcedColors: "active" }
+          : { viewport: { width: 390, height: 900 } },
+      );
+      const pages = await Promise.all(
+        [upstreamURL, stylexURL].map(() => context.newPage()),
+      );
+      try {
+        await Promise.all(
+          pages.map((page, i) =>
+            page.goto(
+              `${i ? stylexURL : upstreamURL}/iframe.html?id=components-select--${forced ? "demo" : "autocomplete"}&globals=theme:${theme}`,
+            ),
+          ),
+        );
+        for (const page of pages) {
+          await expect(
+            page.locator('[data-slot="select-trigger"]'),
+          ).toBeVisible();
+          await page.locator('[data-slot="select-trigger"]').focus();
+        }
+        await compare(
+          pages[0],
+          pages[1],
+          info,
+          forced ? "forced-focus" : "viewport-390",
+        );
+        for (const page of pages) {
+          await page.keyboard.press("ArrowDown");
+          await expect(
+            page.locator('[data-slot="select-content"]'),
+          ).toBeVisible();
+          await page
+            .locator('[data-slot="select-content"]')
+            .evaluate((node) => node.setAttribute("data-parity-portal", ""));
+        }
+        await compare(
+          pages[0],
+          pages[1],
+          info,
+          forced ? "forced-open" : "viewport-390-search",
+        );
+        if (!forced) {
+          for (const page of pages)
+            await page.getByRole("searchbox").fill("Japan");
+          await compare(pages[0], pages[1], info, "viewport-390-filter");
+        }
+      } finally {
+        await context.close();
+      }
+    }
+  });

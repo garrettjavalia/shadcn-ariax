@@ -1,38 +1,68 @@
-import { expect, type Page, type TestInfo } from '@playwright/test';
-import { PNG } from 'pngjs';
-import { isDeepStrictEqual } from 'node:util';
+import { expect, type Page, type TestInfo } from "@playwright/test";
+import { PNG } from "pngjs";
+import { isDeepStrictEqual } from "node:util";
 
-export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
-  const captured = await page.evaluate(mode => {
+export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
+  const captured = await page.evaluate((mode) => {
     // Preview observes effects from animationstart, including non-filling
     // effects that ended before this first snapshot. Also capture active effects
     // here, retaining only handles whose current computed names still match.
-    const scope = window as Window & { parityAnimationEffects?: WeakMap<Element, CSSAnimation[]> };
-    const effects = scope.parityAnimationEffects ??= new WeakMap<Element, CSSAnimation[]>();
+    const scope = window as Window & {
+      parityAnimationEffects?: WeakMap<Element, CSSAnimation[]>;
+    };
+    const effects = (scope.parityAnimationEffects ??= new WeakMap<
+      Element,
+      CSSAnimation[]
+    >());
     const animations = (node: Element) => {
-      const active = node.getAnimations().filter((animation): animation is CSSAnimation => animation instanceof CSSAnimation);
+      const active = node
+        .getAnimations()
+        .filter(
+          (animation): animation is CSSAnimation =>
+            animation instanceof CSSAnimation,
+        );
       const matching = (animation: CSSAnimation) => {
         const effect = animation.effect as KeyframeEffect;
-        return getComputedStyle(node, effect.pseudoElement).animationName.split(',').map(name => name.trim()).includes(animation.animationName);
+        return getComputedStyle(node, effect.pseudoElement)
+          .animationName.split(",")
+          .map((name) => name.trim())
+          .includes(animation.animationName);
       };
-      const previous = (effects.get(node) ?? []).filter(animation => matching(animation) && !active.some(current => current.animationName === animation.animationName && (current.effect as KeyframeEffect).pseudoElement === (animation.effect as KeyframeEffect).pseudoElement));
+      const previous = (effects.get(node) ?? []).filter(
+        (animation) =>
+          matching(animation) &&
+          !active.some(
+            (current) =>
+              current.animationName === animation.animationName &&
+              (current.effect as KeyframeEffect).pseudoElement ===
+                (animation.effect as KeyframeEffect).pseudoElement,
+          ),
+      );
       const observed = [...active, ...previous];
       effects.set(node, observed);
       return observed;
     };
-    const root = document.querySelector('#parity-root');
-    if (!root) throw new Error('Missing parity root');
+    const root = document.querySelector("#parity-root");
+    if (!root) throw new Error("Missing parity root");
     // Explicitly registered portals are compared alongside the story tree.
-    const roots = [root, ...document.querySelectorAll('[data-parity-portal]')];
-    const elements = roots.flatMap(r => [r, ...r.querySelectorAll('*')]);
-    const ids = new Map(elements.filter(e => e.id).map((e, i) => [e.id, e.id.startsWith('react-aria') ? `generated:${i}` : e.id]));
+    const roots = [root, ...document.querySelectorAll("[data-parity-portal]")];
+    const elements = roots.flatMap((r) => [r, ...r.querySelectorAll("*")]);
+    const ids = new Map(
+      elements
+        .filter((e) => e.id)
+        .map((e, i) => [
+          e.id,
+          e.id.startsWith("react-aria") ? `generated:${i}` : e.id,
+        ]),
+    );
     // Provider normalization retains local identities for unresolved references
     // and radio names. Collection membership has its own bijection below.
     const providers = new Map<string, number>();
-    const collectionToken = (value: string) => value.replace(/^react-aria\d+-/, prefix => {
-      if (!providers.has(prefix)) providers.set(prefix, providers.size);
-      return `react-aria-provider:${providers.get(prefix)}-`;
-    });
+    const collectionToken = (value: string) =>
+      value.replace(/^react-aria\d+-/, (prefix) => {
+        if (!providers.has(prefix)) providers.set(prefix, providers.size);
+        return `react-aria-provider:${providers.get(prefix)}-`;
+      });
     // Collection identity is allocated by React.useId, whose local counter may
     // differ after discarded mounts. Compare the bijection of collection/item
     // memberships, retaining provider groups and any captured DOM-ID relation.
@@ -40,7 +70,7 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
     const collectionIdentity = (value: string) => {
       if (!/^react-aria\d+-_r_[a-z0-9]+_$/.test(value)) return value;
       const token = collectionToken(value);
-      const provider = token.slice(0, token.indexOf('-_r_'));
+      const provider = token.slice(0, token.indexOf("-_r_"));
       const target = ids.get(value);
       if (target !== undefined) return `${provider}:dom:${target}`;
       if (!collections.has(value)) collections.set(value, collections.size);
@@ -52,60 +82,146 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
     const referenceToken = (id: string) => {
       const captured = ids.get(id);
       if (captured !== undefined) return captured;
-      if (!document.getElementById(id) && /^react-aria\d+-_r_[a-z0-9]+_(?:-tabpanel-.+)?$/.test(id)) {
+      if (
+        !document.getElementById(id) &&
+        /^react-aria\d+-_r_[a-z0-9]+_(?:-tabpanel-.+)?$/.test(id)
+      ) {
         return `missing:${collectionToken(id)}`;
       }
       return `external:${id}`;
     };
-    const references = new Set(['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'aria-activedescendant', 'for']);
+    const references = new Set([
+      "aria-labelledby",
+      "aria-describedby",
+      "aria-controls",
+      "aria-owns",
+      "aria-activedescendant",
+      "for",
+    ]);
     const styleBank: Record<string, string>[] = [];
     const styleIds = new Map<string, number>();
     const styleSchemas: string[][] = [];
     const style = (element: Element, pseudo?: string) => {
       const css = getComputedStyle(element, pseudo);
-      const properties = [...css].filter(property => !property.startsWith('--'));
-      let schema = styleSchemas.findIndex(names => names.length === properties.length && names.every((name, index) => name === properties[index]));
-      if (schema === -1) { schema = styleSchemas.length; styleSchemas.push(properties); }
-      const values = properties.map(property => css.getPropertyValue(property));
+      const properties = [...css].filter(
+        (property) => !property.startsWith("--"),
+      );
+      let schema = styleSchemas.findIndex(
+        (names) =>
+          names.length === properties.length &&
+          names.every((name, index) => name === properties[index]),
+      );
+      if (schema === -1) {
+        schema = styleSchemas.length;
+        styleSchemas.push(properties);
+      }
+      const values = properties.map((property) =>
+        css.getPropertyValue(property),
+      );
       // Preserve every property/value exactly, constructing records only for
       // unique styles rather than allocating one for every element and pseudo.
       const key = JSON.stringify([schema, values]);
       let id = styleIds.get(key);
       if (id === undefined) {
         id = styleBank.length;
-        styleBank.push(Object.fromEntries(properties.map((property, index) => [property, values[index]])));
+        styleBank.push(
+          Object.fromEntries(
+            properties.map((property, index) => [property, values[index]]),
+          ),
+        );
         styleIds.set(key, id);
       }
       return { $style: id };
     };
-    const rect = (r: DOMRect) => ({ x: r.x, y: r.y, width: r.width, height: r.height });
+    const rect = (r: DOMRect) => ({
+      x: r.x,
+      y: r.y,
+      width: r.width,
+      height: r.height,
+    });
     const nodes = (node: Node, path: string): unknown => {
       if (node.nodeType === Node.TEXT_NODE) {
-        const range = document.createRange(); range.selectNodeContents(node);
-        return { path, text: node.textContent, ...(mode === 'full' ? { rects: [...range.getClientRects()].map(rect) } : {}) };
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        return {
+          path,
+          text: node.textContent,
+          ...(mode === "full"
+            ? { rects: [...range.getClientRects()].map(rect) }
+            : {}),
+        };
       }
       if (!(node instanceof Element)) return { path, type: node.nodeType };
       return {
-        path, tag: node.tagName,
-        attrs: Object.fromEntries([...node.attributes]
-          // Test harness markers select roots, portals and interaction targets.
-          // Product attributes and all effects on computed styles remain checked.
-          .filter(a => !['class', 'style'].includes(a.name) && !a.name.startsWith('data-parity-'))
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : a.name === 'data-collection' ? collectionIdentity(a.value) : (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value)) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(referenceToken).join(' ') : a.value])),
-        animations: animations(node).map(animation => {
+        path,
+        tag: node.tagName,
+        attrs: Object.fromEntries(
+          [...node.attributes]
+            // Test harness markers select roots, portals and interaction targets.
+            // Product attributes and all effects on computed styles remain checked.
+            .filter(
+              (a) =>
+                !["class", "style"].includes(a.name) &&
+                !a.name.startsWith("data-parity-"),
+            )
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((a) => [
+              a.name,
+              a.name === "id"
+                ? ids.get(a.value)
+                : a.name === "data-collection"
+                  ? collectionIdentity(a.value)
+                  : a.name === "name" &&
+                      node instanceof HTMLInputElement &&
+                      node.type === "radio" &&
+                      /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value)
+                    ? collectionToken(a.value)
+                    : references.has(a.name)
+                      ? a.value.split(/\s+/).map(referenceToken).join(" ")
+                      : a.value,
+            ]),
+        ),
+        animations: animations(node).map((animation) => {
           const effect = animation.effect;
-          if (!(effect instanceof KeyframeEffect)) throw new Error('Missing CSS animation keyframe effect');
-          return { name: (animation as CSSAnimation).animationName, pseudo: effect.pseudoElement,
-            frames: effect.getKeyframes(), timing: { ...effect.getTiming(), iterations: effect.getTiming().iterations === Infinity ? 'Infinity' : effect.getTiming().iterations } };
+          if (!(effect instanceof KeyframeEffect))
+            throw new Error("Missing CSS animation keyframe effect");
+          return {
+            name: (animation as CSSAnimation).animationName,
+            pseudo: effect.pseudoElement,
+            frames: effect.getKeyframes(),
+            timing: {
+              ...effect.getTiming(),
+              iterations:
+                effect.getTiming().iterations === Infinity
+                  ? "Infinity"
+                  : effect.getTiming().iterations,
+            },
+          };
         }),
         css: style(node),
-        pseudos: Object.fromEntries(['::before', '::after', '::marker', ...(node.matches('input, textarea') ? ['::placeholder'] : []), ...(node.matches('input[type="file"]') ? ['::file-selector-button'] : [])].map(p => [p, style(node, p)])),
-        ...(mode === 'full' ? {
-          rect: rect(node.getBoundingClientRect()),
-          scroll: [node.scrollWidth, node.scrollHeight, node.scrollLeft, node.scrollTop],
-          focused: document.activeElement === node,
-        } : {}),
+        pseudos: Object.fromEntries(
+          [
+            "::before",
+            "::after",
+            "::marker",
+            ...(node.matches("input, textarea") ? ["::placeholder"] : []),
+            ...(node.matches('input[type="file"]')
+              ? ["::file-selector-button"]
+              : []),
+          ].map((p) => [p, style(node, p)]),
+        ),
+        ...(mode === "full"
+          ? {
+              rect: rect(node.getBoundingClientRect()),
+              scroll: [
+                node.scrollWidth,
+                node.scrollHeight,
+                node.scrollLeft,
+                node.scrollTop,
+              ],
+              focused: document.activeElement === node,
+            }
+          : {}),
         children: [...node.childNodes].map((n, i) => nodes(n, `${path}/${i}`)),
       };
     };
@@ -116,8 +232,11 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
   const expand = (value: unknown): unknown => {
     if (Array.isArray(value)) return value.map(expand);
     if (value && typeof value === "object") {
-      if ("$style" in value) return captured.styleBank[(value as { $style: number }).$style];
-      return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, expand(v)]));
+      if ("$style" in value)
+        return captured.styleBank[(value as { $style: number }).$style];
+      return Object.fromEntries(
+        Object.entries(value).map(([k, v]) => [k, expand(v)]),
+      );
     }
     return value;
   };
@@ -126,36 +245,79 @@ export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
 
 // Generated CSS animation names are identifiers, but only equivalent effects may
 // share an identifier. Compare resolved keyframes and timing before rewriting CSS.
-export function normalizeAnimationSnapshots(left: unknown, right: unknown): [unknown, unknown] {
+export function normalizeAnimationSnapshots(
+  left: unknown,
+  right: unknown,
+): [unknown, unknown] {
   const collect = (value: unknown): unknown[] => {
     if (Array.isArray(value)) return value.flatMap(collect);
-    if (!value || typeof value !== 'object') return [];
+    if (!value || typeof value !== "object") return [];
     const node = value as Record<string, unknown>;
-    const own = Array.isArray(node.animations) && node.animations.length ? [{ path: node.path, effects: node.animations.map(({ name: _name, ...effect }) => effect) }] : [];
+    const own =
+      Array.isArray(node.animations) && node.animations.length
+        ? [
+            {
+              path: node.path,
+              effects: node.animations.map(
+                ({ name: _name, ...effect }) => effect,
+              ),
+            },
+          ]
+        : [];
     return [...own, ...collect(node.children)];
   };
   if (!isDeepStrictEqual(collect(left), collect(right))) return [left, right];
   const normalize = (value: unknown): unknown => {
-    if (!value || typeof value !== 'object') return value;
+    if (!value || typeof value !== "object") return value;
     if (Array.isArray(value)) {
       const items = value.map(normalize);
-      return items.every((item, index) => item === value[index]) ? value : items;
+      return items.every((item, index) => item === value[index])
+        ? value
+        : items;
     }
     const node = value as Record<string, unknown>;
     if (Array.isArray(node.animations) && node.animations.length) {
-      const effects = node.animations as { name: string; pseudo: string | null }[];
+      const effects = node.animations as {
+        name: string;
+        pseudo: string | null;
+      }[];
       const css = (value: unknown, pseudo: string | null) => {
         const properties = value as Record<string, string>;
-        const names = new Map(effects.flatMap((effect, index) => effect.pseudo === pseudo ? [[effect.name, `effect:${index}`] as const] : []));
+        const names = new Map(
+          effects.flatMap((effect, index) =>
+            effect.pseudo === pseudo
+              ? [[effect.name, `effect:${index}`] as const]
+              : [],
+          ),
+        );
         if (!names.size) return properties;
         const normalized = { ...properties };
-        if (properties['animation-name']) normalized['animation-name'] = properties['animation-name'].split(',').map(name => names.get(name.trim()) ?? name.trim()).join(', ');
-        if (properties.animation) normalized.animation = properties.animation.split(' ').map(token => names.get(token) ?? token).join(' ');
+        if (properties["animation-name"])
+          normalized["animation-name"] = properties["animation-name"]
+            .split(",")
+            .map((name) => names.get(name.trim()) ?? name.trim())
+            .join(", ");
+        if (properties.animation)
+          normalized.animation = properties.animation
+            .split(" ")
+            .map((token) => names.get(token) ?? token)
+            .join(" ");
         return normalized;
       };
-      return { ...node, animations: effects.map((effect, index) => ({ ...effect, name: `effect:${index}` })),
-        css: css(node.css, null), pseudos: Object.fromEntries(Object.entries(node.pseudos as Record<string, unknown>).map(([pseudo, value]) => [pseudo, css(value, pseudo)])),
-        children: normalize(node.children) };
+      return {
+        ...node,
+        animations: effects.map((effect, index) => ({
+          ...effect,
+          name: `effect:${index}`,
+        })),
+        css: css(node.css, null),
+        pseudos: Object.fromEntries(
+          Object.entries(node.pseudos as Record<string, unknown>).map(
+            ([pseudo, value]) => [pseudo, css(value, pseudo)],
+          ),
+        ),
+        children: normalize(node.children),
+      };
     }
     const children = normalize(node.children);
     return children === node.children ? node : { ...node, children };
@@ -163,10 +325,20 @@ export function normalizeAnimationSnapshots(left: unknown, right: unknown): [unk
   return [normalize(left), normalize(right)];
 }
 
-export function differences(a: unknown, b: unknown, path = ''): { path: string; upstream: unknown; stylex: unknown }[] {
+export function differences(
+  a: unknown,
+  b: unknown,
+  path = "",
+): { path: string; upstream: unknown; stylex: unknown }[] {
   if (Object.is(a, b)) return [];
-  if (a && b && typeof a === 'object' && typeof b === 'object') {
-    return [...new Set([...Object.keys(a), ...Object.keys(b)])].flatMap(k => differences((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], `${path}/${k}`));
+  if (a && b && typeof a === "object" && typeof b === "object") {
+    return [...new Set([...Object.keys(a), ...Object.keys(b)])].flatMap((k) =>
+      differences(
+        (a as Record<string, unknown>)[k],
+        (b as Record<string, unknown>)[k],
+        `${path}/${k}`,
+      ),
+    );
   }
   return [{ path, upstream: a, stylex: b }];
 }
@@ -174,7 +346,8 @@ export function differences(a: unknown, b: unknown, path = ''): { path: string; 
 export async function settle(page: Page) {
   await page.evaluate(async () => {
     await document.fonts.ready;
-    const frames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const frames = () =>
+      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     // Let React effects and focus restoration start their transitions before sampling.
     await frames();
     let quiet = false;
@@ -182,10 +355,20 @@ export async function settle(page: Page) {
       // Scroll/view timelines reflect the current scroll position, not elapsed
       // wall time. Preserve their effects for the snapshot instead of waiting
       // for a scroll that the test has not requested or changing their phase.
-      const animations = document.getAnimations().filter(animation => animation.timeline instanceof DocumentTimeline);
+      const animations = document
+        .getAnimations()
+        .filter((animation) => animation.timeline instanceof DocumentTimeline);
       // Infinite spinners are sampled at a fixed phase, not disabled.
-      for (const animation of animations) if (animation.effect?.getComputedTiming().iterations === Infinity) { animation.pause(); animation.currentTime = 250; }
-      const finite = animations.filter(a => a.effect?.getComputedTiming().iterations !== Infinity && (a.playState === 'running' || a.pending));
+      for (const animation of animations)
+        if (animation.effect?.getComputedTiming().iterations === Infinity) {
+          animation.pause();
+          animation.currentTime = 250;
+        }
+      const finite = animations.filter(
+        (a) =>
+          a.effect?.getComputedTiming().iterations !== Infinity &&
+          (a.playState === "running" || a.pending),
+      );
       if (!finite.length && quiet) break;
       // Completion handlers can restore focus or mount content on a later frame,
       // starting another transition after the first empty animation inventory.
@@ -213,13 +396,28 @@ export function pixelsMatch(a: PNG, b: PNG): boolean {
   return true;
 }
 
-export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true, settleAnimations = true, mode: 'full' | 'dom-css' = 'full') {
+export async function compare(
+  a: Page,
+  b: Page,
+  info: TestInfo,
+  state: string,
+  pixels = true,
+  settleAnimations = true,
+  mode: "full" | "dom-css" = "full",
+) {
   const started = performance.now();
   if (settleAnimations) await Promise.all([settle(a), settle(b)]);
-  else await Promise.all([a, b].map(page => page.evaluate(async () => {
-    await document.fonts.ready;
-    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-  })));
+  else
+    await Promise.all(
+      [a, b].map((page) =>
+        page.evaluate(async () => {
+          await document.fonts.ready;
+          await new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          );
+        }),
+      ),
+    );
   const settled = performance.now();
   const raw = await Promise.all([snapshot(a, mode), snapshot(b, mode)]);
   const normalized = normalizeAnimationSnapshots(raw[0], raw[1]);
@@ -227,33 +425,72 @@ export async function compare(a: Page, b: Page, info: TestInfo, state: string, p
   // Explicit animation samples remain part of the full suite.
   const domCSS = (value: unknown): unknown => {
     if (Array.isArray(value)) return value.map(domCSS);
-    if (!value || typeof value !== 'object') return value;
-    const { animations: _animations, ...node } = value as Record<string, unknown>;
-    return 'children' in node ? { ...node, children: domCSS(node.children) } : node;
+    if (!value || typeof value !== "object") return value;
+    const { animations: _animations, ...node } = value as Record<
+      string,
+      unknown
+    >;
+    return "children" in node
+      ? { ...node, children: domCSS(node.children) }
+      : node;
   };
-  const [left, right] = mode === 'dom-css' ? normalized.map(domCSS) : normalized;
+  const [left, right] =
+    mode === "dom-css" ? normalized.map(domCSS) : normalized;
   const captured = performance.now();
   // Passing comparisons need only exact equality. Build detailed path/value
   // differences on failure, avoiding per-property path strings and arrays on success.
   const diff = isDeepStrictEqual(left, right) ? [] : differences(left, right);
   const compared = performance.now();
-  if (diff.length) await info.attach(`${state}-dom-css-diff`, { body: JSON.stringify(diff, null, 2), contentType: 'application/json' });
-  expect(diff.length, `${state}: ${JSON.stringify(diff.slice(0, 8))} (full diff attached)`).toBe(0);
+  if (diff.length)
+    await info.attach(`${state}-dom-css-diff`, {
+      body: JSON.stringify(diff, null, 2),
+      contentType: "application/json",
+    });
+  expect(
+    diff.length,
+    `${state}: ${JSON.stringify(diff.slice(0, 8))} (full diff attached)`,
+  ).toBe(0);
   if (pixels) {
-    const portals = await a.locator('[data-parity-portal]').count();
-    const shots = await Promise.all([a, b].map(p => portals ? p.screenshot({ caret: 'hide' }) : p.locator('#parity-root').screenshot({ caret: 'hide' })));
-    const [x, y] = shots.map(buffer => PNG.sync.read(buffer));
+    const portals = await a.locator("[data-parity-portal]").count();
+    const shots = await Promise.all(
+      [a, b].map((p) =>
+        portals
+          ? p.screenshot({ caret: "hide" })
+          : p.locator("#parity-root").screenshot({ caret: "hide" }),
+      ),
+    );
+    const [x, y] = shots.map((buffer) => PNG.sync.read(buffer));
     // Only after exact DOM/CSS/geometry agreement: tolerate sparse 1/255 raster noise.
     const equal = pixelsMatch(x, y);
-    if (!equal) for (let i = 0; i < 2; i++) await info.attach(`${state}-${i ? 'stylex' : 'upstream'}`, { body: shots[i], contentType: 'image/png' });
-    expect(equal, `${state}: RGBA difference exceeds 1/255 per channel or 0.1% of pixels`).toBe(true);
+    if (!equal)
+      for (let i = 0; i < 2; i++)
+        await info.attach(`${state}-${i ? "stylex" : "upstream"}`, {
+          body: shots[i],
+          contentType: "image/png",
+        });
+    expect(
+      equal,
+      `${state}: RGBA difference exceeds 1/255 per channel or 0.1% of pixels`,
+    ).toBe(true);
   }
-  if (process.env.PARITY_PROFILE === '1') info.annotations.push({
-    type: 'parity-timing',
-    description: JSON.stringify({ state, settleMs: settled - started, snapshotMs: captured - settled, diffMs: compared - captured, pixelsMs: performance.now() - compared }),
-  });
+  if (process.env.PARITY_PROFILE === "1")
+    info.annotations.push({
+      type: "parity-timing",
+      description: JSON.stringify({
+        state,
+        settleMs: settled - started,
+        snapshotMs: captured - settled,
+        diffMs: compared - captured,
+        pixelsMs: performance.now() - compared,
+      }),
+    });
 }
 
-export async function compareDOMCSS(a: Page, b: Page, info: TestInfo, state: string) {
-  return compare(a, b, info, state, false, true, 'dom-css');
+export async function compareDOMCSS(
+  a: Page,
+  b: Page,
+  info: TestInfo,
+  state: string,
+) {
+  return compare(a, b, info, state, false, true, "dom-css");
 }

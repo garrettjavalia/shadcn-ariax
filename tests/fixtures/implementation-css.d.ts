@@ -1,1 +1,1 @@
-declare module '@implementation-css';
+declare module "@implementation-css";

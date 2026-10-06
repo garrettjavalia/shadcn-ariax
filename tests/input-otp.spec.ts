@@ -1,34 +1,285 @@
-import {test,expect,type Locator} from '@playwright/test';
-import {readFile} from 'node:fs/promises';
-import {compare} from './compare';
-import {upstreamURL,stylexURL} from './servers';
-async function clear(input:Locator){await input.focus();const length=(await input.inputValue()).length;await input.press('ControlOrMeta+A');await expect.poll(()=>input.evaluate(element=>[(element as HTMLInputElement).selectionStart,(element as HTMLInputElement).selectionEnd])).toEqual([0,length]);await input.press('Backspace');await expect(input).toHaveValue('');await expect(input).toHaveAttribute('data-input-otp-mss','0');await expect(input).toHaveAttribute('data-input-otp-mse','0');}
-test('Input OTP official document and registry examples are covered',async({request})=>{const source=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/input-otp.mdx','utf8');const names=[...source.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(match=>match[1]);expect(names).toHaveLength(10);const index=await(await request.get(stylexURL+'/index.json')).json();for(const name of names)expect(index.entries['components-input-otp--'+name.slice(10)]?.tags,name).toContain('parity');const registry=await readFile('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/input-otp-example.tsx','utf8');const mapping:Record<string,string>={InputOTPSimple:'simple',InputOTPPattern:'pattern',InputOTPWithSeparator:'separator',InputOTPAlphanumeric:'alphanumeric',InputOTPDisabled:'disabled',InputOTPFourDigits:'four-digits',InputOTPInvalid:'invalid',InputOTPForm:'form'};const functions=[...registry.matchAll(/^function (InputOTP\w+)\(/gm)].map(match=>match[1]);expect(functions.sort()).toEqual(Object.keys(mapping).sort());for(const name of functions)expect(index.entries['components-input-otp--registry-'+mapping[name]]?.tags,name).toContain('parity');});
-for(const theme of ['light','dark'])for(const width of [1000,390])test(`Input OTP typing, caret, editing and validation / ${theme} / ${width}`,async({browser},info)=>{
- const context=await browser.newContext({viewport:{width,height:900}});const pages=await Promise.all([context.newPage(),context.newPage()]);
- try{for(const story of width===390?['form','registry-form','rtl']:['demo','pattern','separator','disabled','controlled','invalid','four-digits','alphanumeric','form','rtl','registry-simple','registry-invalid','registry-form','render-function']){
-  await Promise.all(pages.map((page,i)=>page.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-input-otp--${story}&globals=theme:${theme}`)));
-  for(const page of pages)await expect(page.locator('input[data-slot="input-otp"]')).toBeVisible();
-  if(story.includes('disabled')){for(const page of pages)await expect(page.locator('input')).toBeDisabled();await compare(pages[0],pages[1],info,story+'-disabled');continue;}
-  for(const page of pages){const input=page.locator('input');await clear(input);}await compare(pages[0],pages[1],info,story+'-caret');
-  for(const page of pages){const input=page.locator('input');await input.pressSequentially(story.includes('alphanumeric')?'aB':'12');await expect(input).toHaveValue(story.includes('alphanumeric')?'aB':'12');}await compare(pages[0],pages[1],info,story+'-typed');
-  for(const page of pages){const input=page.locator('input');await input.press(story==='rtl'?'ArrowRight':'ArrowLeft');await expect(input).toHaveAttribute('data-input-otp-mss','1');await expect(input).toHaveAttribute('data-input-otp-mse','2');await input.press('Backspace');await expect(input).toHaveValue(story.includes('alphanumeric')?'a':'1');await expect(input).toHaveAttribute('data-input-otp-mss','1');await expect(input).toHaveAttribute('data-input-otp-mse','1');}await compare(pages[0],pages[1],info,story+'-edited');
-  if(story.includes('pattern')){for(const page of pages){const input=page.locator('input');const previous=await input.inputValue();await input.pressSequentially('a!');await expect(input).toHaveValue(previous);}}
-  for(const page of pages){const input=page.locator('input');const length=Number(await input.getAttribute('maxlength'));await clear(input);await input.pressSequentially('123456789'.slice(0,length));await expect(input).toHaveValue('123456789'.slice(0,length));await expect(input).toHaveAttribute('data-input-otp-mss',String(length-1));await expect(input).toHaveAttribute('data-input-otp-mse',String(length));if(story.includes('form'))expect(await input.evaluate(element=>(element as HTMLInputElement).checkValidity())).toBe(true);await input.blur();}await compare(pages[0],pages[1],info,story+'-complete');
- }}finally{await context.close();}
+import { test, expect, type Locator } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+import { compare } from "./compare";
+import { upstreamURL, stylexURL } from "./servers";
+async function clear(input: Locator) {
+  await input.focus();
+  const length = (await input.inputValue()).length;
+  await input.press("ControlOrMeta+A");
+  await expect
+    .poll(() =>
+      input.evaluate((element) => [
+        (element as HTMLInputElement).selectionStart,
+        (element as HTMLInputElement).selectionEnd,
+      ]),
+    )
+    .toEqual([0, length]);
+  await input.press("Backspace");
+  await expect(input).toHaveValue("");
+  await expect(input).toHaveAttribute("data-input-otp-mss", "0");
+  await expect(input).toHaveAttribute("data-input-otp-mse", "0");
+}
+test("Input OTP official document and registry examples are covered", async ({
+  request,
+}) => {
+  const source = await readFile(
+    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/input-otp.mdx",
+    "utf8",
+  );
+  const names = [
+    ...source.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
+  ].map((match) => match[1]);
+  expect(names).toHaveLength(10);
+  const index = await (await request.get(stylexURL + "/index.json")).json();
+  for (const name of names)
+    expect(
+      index.entries["components-input-otp--" + name.slice(10)]?.tags,
+      name,
+    ).toContain("parity");
+  const registry = await readFile(
+    "generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/input-otp-example.tsx",
+    "utf8",
+  );
+  const mapping: Record<string, string> = {
+    InputOTPSimple: "simple",
+    InputOTPPattern: "pattern",
+    InputOTPWithSeparator: "separator",
+    InputOTPAlphanumeric: "alphanumeric",
+    InputOTPDisabled: "disabled",
+    InputOTPFourDigits: "four-digits",
+    InputOTPInvalid: "invalid",
+    InputOTPForm: "form",
+  };
+  const functions = [...registry.matchAll(/^function (InputOTP\w+)\(/gm)].map(
+    (match) => match[1],
+  );
+  expect(functions.sort()).toEqual(Object.keys(mapping).sort());
+  for (const name of functions)
+    expect(
+      index.entries["components-input-otp--registry-" + mapping[name]]?.tags,
+      name,
+    ).toContain("parity");
 });
-for(const theme of ['light','dark'])test(`Input OTP dynamic container StyleX, ref and transformed paste / ${theme}`,async({browser},info)=>{
- const context=await browser.newContext({viewport:{width:1000,height:900}});const pages=await Promise.all([context.newPage(),context.newPage()]);
- try{await Promise.all(pages.map((page,i)=>page.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-input-otp--customization&globals=theme:${theme}`)));
-  for(const [button,gap]of [['Change spacing','16px'],['Toggle customization','normal'],['Toggle customization','16px']] as const){for(const page of pages){await page.getByRole('button',{name:button,exact:true}).click();await expect(page.locator('[data-input-otp-container]')).toHaveCSS('gap',gap);}await compare(pages[0],pages[1],info,button+'-'+gap);}
-  for(const page of pages){await page.getByRole('button',{name:'Focus input',exact:true}).click();await expect(page.locator('input')).toBeFocused();await expect(page.locator('input')).toHaveCSS('font-size','18px');await expect(page.locator('[data-slot="input-otp-slot"]').first()).toHaveCSS('height','42px');}await compare(pages[0],pages[1],info,'custom-focus');
-  await Promise.all(pages.map((page,i)=>page.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-input-otp--paste&globals=theme:${theme}`)));
-  for(const page of pages){await page.locator('input').focus();await page.locator('input').evaluate(element=>{const clipboardData=new DataTransfer();clipboardData.setData('text/plain','123-456');element.dispatchEvent(new ClipboardEvent('paste',{clipboardData,bubbles:true,cancelable:true}));});await expect(page.locator('input')).toHaveValue('123456');await expect(page.getByRole('status',{name:'Completed'})).toHaveText('123456');}await compare(pages[0],pages[1],info,'paste-complete');
- }finally{await context.close();}
-});
-for(const theme of ['light','dark'])test(`Input OTP caret animation at 0/250/625/875/1250ms / ${theme}`,async({browser},info)=>{
- const context=await browser.newContext({viewport:{width:1000,height:900}});const pages=await Promise.all([context.newPage(),context.newPage()]);
- try{await Promise.all(pages.map((page,i)=>page.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-input-otp--usage&globals=theme:${theme}`)));for(const page of pages)await page.locator('input').focus();await compare(pages[0],pages[1],info,'caret-initial');
-  for(const time of [0,250,625,875,1250]){for(const page of pages)await page.evaluate(async time=>{const animations=document.getAnimations().filter(animation=>animation.effect?.getTiming().iterations===Infinity);if(animations.length!==1)throw Error(`Expected one blinking caret, got ${animations.length}`);for(const animation of animations){animation.pause();await animation.ready;animation.currentTime=time;}},time);await compare(pages[0],pages[1],info,'caret-'+time,true,false);}
- }finally{await context.close();}
-});
+for (const theme of ["light", "dark"])
+  for (const width of [1000, 390])
+    test(`Input OTP typing, caret, editing and validation / ${theme} / ${width}`, async ({
+      browser,
+    }, info) => {
+      const context = await browser.newContext({
+        viewport: { width, height: 900 },
+      });
+      const pages = await Promise.all([context.newPage(), context.newPage()]);
+      try {
+        for (const story of width === 390
+          ? ["form", "registry-form", "rtl"]
+          : [
+              "demo",
+              "pattern",
+              "separator",
+              "disabled",
+              "controlled",
+              "invalid",
+              "four-digits",
+              "alphanumeric",
+              "form",
+              "rtl",
+              "registry-simple",
+              "registry-invalid",
+              "registry-form",
+              "render-function",
+            ]) {
+          await Promise.all(
+            pages.map((page, i) =>
+              page.goto(
+                `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--${story}&globals=theme:${theme}`,
+              ),
+            ),
+          );
+          for (const page of pages)
+            await expect(
+              page.locator('input[data-slot="input-otp"]'),
+            ).toBeVisible();
+          if (story.includes("disabled")) {
+            for (const page of pages)
+              await expect(page.locator("input")).toBeDisabled();
+            await compare(pages[0], pages[1], info, story + "-disabled");
+            continue;
+          }
+          for (const page of pages) {
+            const input = page.locator("input");
+            await clear(input);
+          }
+          await compare(pages[0], pages[1], info, story + "-caret");
+          for (const page of pages) {
+            const input = page.locator("input");
+            await input.pressSequentially(
+              story.includes("alphanumeric") ? "aB" : "12",
+            );
+            await expect(input).toHaveValue(
+              story.includes("alphanumeric") ? "aB" : "12",
+            );
+          }
+          await compare(pages[0], pages[1], info, story + "-typed");
+          for (const page of pages) {
+            const input = page.locator("input");
+            await input.press(story === "rtl" ? "ArrowRight" : "ArrowLeft");
+            await expect(input).toHaveAttribute("data-input-otp-mss", "1");
+            await expect(input).toHaveAttribute("data-input-otp-mse", "2");
+            await input.press("Backspace");
+            await expect(input).toHaveValue(
+              story.includes("alphanumeric") ? "a" : "1",
+            );
+            await expect(input).toHaveAttribute("data-input-otp-mss", "1");
+            await expect(input).toHaveAttribute("data-input-otp-mse", "1");
+          }
+          await compare(pages[0], pages[1], info, story + "-edited");
+          if (story.includes("pattern")) {
+            for (const page of pages) {
+              const input = page.locator("input");
+              const previous = await input.inputValue();
+              await input.pressSequentially("a!");
+              await expect(input).toHaveValue(previous);
+            }
+          }
+          for (const page of pages) {
+            const input = page.locator("input");
+            const length = Number(await input.getAttribute("maxlength"));
+            await clear(input);
+            await input.pressSequentially("123456789".slice(0, length));
+            await expect(input).toHaveValue("123456789".slice(0, length));
+            await expect(input).toHaveAttribute(
+              "data-input-otp-mss",
+              String(length - 1),
+            );
+            await expect(input).toHaveAttribute(
+              "data-input-otp-mse",
+              String(length),
+            );
+            if (story.includes("form"))
+              expect(
+                await input.evaluate((element) =>
+                  (element as HTMLInputElement).checkValidity(),
+                ),
+              ).toBe(true);
+            await input.blur();
+          }
+          await compare(pages[0], pages[1], info, story + "-complete");
+        }
+      } finally {
+        await context.close();
+      }
+    });
+for (const theme of ["light", "dark"])
+  test(`Input OTP dynamic container StyleX, ref and transformed paste / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const context = await browser.newContext({
+      viewport: { width: 1000, height: 900 },
+    });
+    const pages = await Promise.all([context.newPage(), context.newPage()]);
+    try {
+      await Promise.all(
+        pages.map((page, i) =>
+          page.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--customization&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      for (const [button, gap] of [
+        ["Change spacing", "16px"],
+        ["Toggle customization", "normal"],
+        ["Toggle customization", "16px"],
+      ] as const) {
+        for (const page of pages) {
+          await page.getByRole("button", { name: button, exact: true }).click();
+          await expect(page.locator("[data-input-otp-container]")).toHaveCSS(
+            "gap",
+            gap,
+          );
+        }
+        await compare(pages[0], pages[1], info, button + "-" + gap);
+      }
+      for (const page of pages) {
+        await page
+          .getByRole("button", { name: "Focus input", exact: true })
+          .click();
+        await expect(page.locator("input")).toBeFocused();
+        await expect(page.locator("input")).toHaveCSS("font-size", "18px");
+        await expect(
+          page.locator('[data-slot="input-otp-slot"]').first(),
+        ).toHaveCSS("height", "42px");
+      }
+      await compare(pages[0], pages[1], info, "custom-focus");
+      await Promise.all(
+        pages.map((page, i) =>
+          page.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--paste&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      for (const page of pages) {
+        await page.locator("input").focus();
+        await page.locator("input").evaluate((element) => {
+          const clipboardData = new DataTransfer();
+          clipboardData.setData("text/plain", "123-456");
+          element.dispatchEvent(
+            new ClipboardEvent("paste", {
+              clipboardData,
+              bubbles: true,
+              cancelable: true,
+            }),
+          );
+        });
+        await expect(page.locator("input")).toHaveValue("123456");
+        await expect(
+          page.getByRole("status", { name: "Completed" }),
+        ).toHaveText("123456");
+      }
+      await compare(pages[0], pages[1], info, "paste-complete");
+    } finally {
+      await context.close();
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`Input OTP caret animation at 0/250/625/875/1250ms / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const context = await browser.newContext({
+      viewport: { width: 1000, height: 900 },
+    });
+    const pages = await Promise.all([context.newPage(), context.newPage()]);
+    try {
+      await Promise.all(
+        pages.map((page, i) =>
+          page.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--usage&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      for (const page of pages) await page.locator("input").focus();
+      await compare(pages[0], pages[1], info, "caret-initial");
+      for (const time of [0, 250, 625, 875, 1250]) {
+        for (const page of pages)
+          await page.evaluate(async (time) => {
+            const animations = document
+              .getAnimations()
+              .filter(
+                (animation) =>
+                  animation.effect?.getTiming().iterations === Infinity,
+              );
+            if (animations.length !== 1)
+              throw Error(
+                `Expected one blinking caret, got ${animations.length}`,
+              );
+            for (const animation of animations) {
+              animation.pause();
+              await animation.ready;
+              animation.currentTime = time;
+            }
+          }, time);
+        await compare(pages[0], pages[1], info, "caret-" + time, true, false);
+      }
+    } finally {
+      await context.close();
+    }
+  });

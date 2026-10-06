@@ -1,5 +1,5 @@
-import { Textarea } from '../../registry/ariax/ui/textarea';
-import * as stylex from '@stylexjs/stylex';
+import { Textarea } from "../../registry/ariax/ui/textarea";
+import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ custom: { width: 200 } });
 <Textarea xstyle={styles.custom} style={{ width: 240 }} />;
 <Textarea style={({ isFocused }) => ({ opacity: isFocused ? 1 : 0.5 })} />;

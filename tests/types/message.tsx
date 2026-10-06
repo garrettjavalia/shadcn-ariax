@@ -1,16 +1,30 @@
-import {Message,MessageGroup,MessageAvatar,MessageContent,MessageHeader,MessageFooter} from '@message';
-<Message align="end" ref={element=>{element?.focus();}} style={{gap:8}} onClick={event=>event.currentTarget.focus()}/>;
+import {
+  Message,
+  MessageGroup,
+  MessageAvatar,
+  MessageContent,
+  MessageHeader,
+  MessageFooter,
+} from "@message";
+<Message
+  align="end"
+  ref={(element) => {
+    element?.focus();
+  }}
+  style={{ gap: 8 }}
+  onClick={(event) => event.currentTarget.focus()}
+/>;
 // @ts-expect-error Unknown message direction.
-<Message align="center"/>;
+<Message align="center" />;
 // @ts-expect-error External classes are not a customization API.
-<Message className="x"/>;
+<Message className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<MessageGroup className="x"/>;
+<MessageGroup className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<MessageAvatar className="x"/>;
+<MessageAvatar className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<MessageContent className="x"/>;
+<MessageContent className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<MessageHeader className="x"/>;
+<MessageHeader className="x" />;
 // @ts-expect-error External classes are not a customization API.
-<MessageFooter className="x"/>;
+<MessageFooter className="x" />;

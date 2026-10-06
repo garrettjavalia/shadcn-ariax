@@ -1,27 +1,273 @@
-import{test,expect}from'@playwright/test';
-import{readFile}from'node:fs/promises';
-import{compare}from'./compare';
-import{upstreamURL,stylexURL}from'./servers';
-import {navigateStory} from './story-navigation';
-for(const theme of ['light','dark'])for(const width of [1000,390])test(`AlertDialog official examples, default/sm/media and closing / ${theme} / ${width}`,async({browser},info)=>{
- const ctx=await browser.newContext({viewport:{width,height:900}});const pages=await Promise.all([upstreamURL,stylexURL].map(()=>ctx.newPage()));
- try{for(const name of ['demo','basic','small','media','small-media','destructive','rtl','registry-basic','registry-small','registry-media','registry-small-media','registry-destructive','usage','customized']){
- await Promise.all(pages.map((p,i)=>navigateStory(p,`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-alertdialog--${name}&viewMode=story&globals=theme:${theme}`,true)));
- await Promise.all(pages.map(async p=>{await expect(p.locator('#parity-root')).toBeVisible();await p.getByRole('button').first().click();await expect(p.getByRole('alertdialog')).toBeVisible();}));await compare(pages[0],pages[1],info,name+'-open');
- await Promise.all(pages.map(p=>p.mouse.click(4,4)));await Promise.all(pages.map(p=>expect(p.getByRole('alertdialog')).toBeVisible()));await compare(pages[0],pages[1],info,name+'-outside-retained');
- await Promise.all(pages.map(p=>p.locator('[data-slot="alert-dialog-cancel"]').click()));await Promise.all(pages.map(async p=>{await expect(p.getByRole('alertdialog')).toBeHidden();await expect(p.getByRole('button').first()).toBeFocused();}));await compare(pages[0],pages[1],info,name+'-cancelled');
- }}finally{await ctx.close();}
+import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+import { compare } from "./compare";
+import { upstreamURL, stylexURL } from "./servers";
+import { navigateStory } from "./story-navigation";
+for (const theme of ["light", "dark"])
+  for (const width of [1000, 390])
+    test(`AlertDialog official examples, default/sm/media and closing / ${theme} / ${width}`, async ({
+      browser,
+    }, info) => {
+      const ctx = await browser.newContext({
+        viewport: { width, height: 900 },
+      });
+      const pages = await Promise.all(
+        [upstreamURL, stylexURL].map(() => ctx.newPage()),
+      );
+      try {
+        for (const name of [
+          "demo",
+          "basic",
+          "small",
+          "media",
+          "small-media",
+          "destructive",
+          "rtl",
+          "registry-basic",
+          "registry-small",
+          "registry-media",
+          "registry-small-media",
+          "registry-destructive",
+          "usage",
+          "customized",
+        ]) {
+          await Promise.all(
+            pages.map((p, i) =>
+              navigateStory(
+                p,
+                `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--${name}&viewMode=story&globals=theme:${theme}`,
+                true,
+              ),
+            ),
+          );
+          await Promise.all(
+            pages.map(async (p) => {
+              await expect(p.locator("#parity-root")).toBeVisible();
+              await p.getByRole("button").first().click();
+              await expect(p.getByRole("alertdialog")).toBeVisible();
+            }),
+          );
+          await compare(pages[0], pages[1], info, name + "-open");
+          await Promise.all(pages.map((p) => p.mouse.click(4, 4)));
+          await Promise.all(
+            pages.map((p) => expect(p.getByRole("alertdialog")).toBeVisible()),
+          );
+          await compare(pages[0], pages[1], info, name + "-outside-retained");
+          await Promise.all(
+            pages.map((p) =>
+              p.locator('[data-slot="alert-dialog-cancel"]').click(),
+            ),
+          );
+          await Promise.all(
+            pages.map(async (p) => {
+              await expect(p.getByRole("alertdialog")).toBeHidden();
+              await expect(p.getByRole("button").first()).toBeFocused();
+            }),
+          );
+          await compare(pages[0], pages[1], info, name + "-cancelled");
+        }
+      } finally {
+        await ctx.close();
+      }
+    });
+test("AlertDialog official docs and registry composition coverage", async ({
+  request,
+}) => {
+  const doc = await readFile(
+    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/alert-dialog.mdx",
+    "utf8",
+  );
+  const names = [
+    ...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
+  ].map((m) => m[1]);
+  expect(names).toHaveLength(7);
+  const index = await (await request.get(`${stylexURL}/index.json`)).json();
+  for (const name of names)
+    expect(
+      index.entries[`components-alertdialog--${name.slice(13)}`]?.tags,
+    ).toContain("parity");
+  const registry = await readFile(
+    "generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/alert-dialog-example.tsx",
+    "utf8",
+  );
+  expect(
+    [...registry.matchAll(/function (AlertDialog\w+)\(/g)]
+      .map((m) => m[1])
+      .filter((n) => n !== "AlertDialogExample"),
+  ).toHaveLength(6);
 });
-test('AlertDialog official docs and registry composition coverage',async({request})=>{const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/alert-dialog.mdx','utf8');const names=[...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m=>m[1]);expect(names).toHaveLength(7);const index=await(await request.get(`${stylexURL}/index.json`)).json();for(const name of names)expect(index.entries[`components-alertdialog--${name.slice(13)}`]?.tags).toContain('parity');const registry=await readFile('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/alert-dialog-example.tsx','utf8');expect([...registry.matchAll(/function (AlertDialog\w+)\(/g)].map(m=>m[1]).filter(n=>n!=='AlertDialogExample')).toHaveLength(6);});
-for(const theme of ['light','dark'])test(`AlertDialog action closure and nested Dialog focus / ${theme}`,async({browser},info)=>{const ctx=await browser.newContext();const pages=await Promise.all([upstreamURL,stylexURL].map(()=>ctx.newPage()));try{await Promise.all(pages.map((p,i)=>p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-alertdialog--in-dialog&globals=theme:${theme}`)));await Promise.all(pages.map(async p=>{await expect(p.locator('#parity-root')).toBeVisible();await p.getByRole('button',{name:'Open Dialog',exact:true}).click();await p.getByRole('button',{name:'Open Alert Dialog',exact:true}).click();}));await compare(pages[0],pages[1],info,'nested-open');await Promise.all(pages.map(p=>p.getByRole('button',{name:'Continue',exact:true}).click()));await Promise.all(pages.map(async p=>{await expect(p.getByRole('alertdialog')).toBeHidden();await expect(p.getByRole('dialog')).toBeVisible();await expect(p.getByRole('button',{name:'Open Alert Dialog',exact:true})).toBeFocused();}));await compare(pages[0],pages[1],info,'nested-action-close');await Promise.all(pages.map(p=>p.keyboard.press('Escape')));await Promise.all(pages.map(p=>expect(p.getByRole('dialog')).toBeHidden()));await compare(pages[0],pages[1],info,'outer-escape-close');}finally{await ctx.close();}});
-for(const theme of ['light','dark'])test(`AlertDialog enter/exit animation effects at 0/50/100ms / ${theme}`,async({browser},info)=>{
- const ctx=await browser.newContext();const pages=await Promise.all([upstreamURL,stylexURL].map(()=>ctx.newPage()));
- try{for(const phase of ['enter','exit']){
- for(let i=0;i<2;i++){const p=pages[i];await p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-alertdialog--usage&viewMode=story&globals=theme:${theme}`);await expect(p.locator('#parity-root')).toBeVisible();if(phase==='exit'){await p.getByRole('button',{name:'Open',exact:true}).click();await expect(p.locator('[data-slot="alert-dialog-overlay"]')).not.toHaveAttribute('data-entering');}await p.evaluate(()=>{new MutationObserver(()=>{for(const animation of document.getAnimations())if(animation instanceof CSSAnimation && animation.playState==='running')animation.pause();}).observe(document.body,{subtree:true,childList:true,attributes:true});});}
- await Promise.all(pages.map(p=>phase==='enter'?p.getByRole('button',{name:'Open',exact:true}).click():p.keyboard.press('Escape')));
- for(const time of [0,50,100]){await Promise.all(pages.map(p=>p.locator('[data-slot="alert-dialog-overlay"]').evaluate(async(el,time)=>{const animations=el.getAnimations({subtree:true}).filter(a=>a instanceof CSSAnimation);if(animations.length!==2)throw Error(`Expected overlay and content animations, got ${animations.length}`);for(const a of animations){a.pause();await a.ready;a.currentTime=time;}},time)));await compare(pages[0],pages[1],info,`${phase}-${time}`,true,false);}
- }
- }finally{await ctx.close();}
-});
+for (const theme of ["light", "dark"])
+  test(`AlertDialog action closure and nested Dialog focus / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const ctx = await browser.newContext();
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(() => ctx.newPage()),
+    );
+    try {
+      await Promise.all(
+        pages.map((p, i) =>
+          p.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--in-dialog&globals=theme:${theme}`,
+          ),
+        ),
+      );
+      await Promise.all(
+        pages.map(async (p) => {
+          await expect(p.locator("#parity-root")).toBeVisible();
+          await p
+            .getByRole("button", { name: "Open Dialog", exact: true })
+            .click();
+          await p
+            .getByRole("button", { name: "Open Alert Dialog", exact: true })
+            .click();
+        }),
+      );
+      await compare(pages[0], pages[1], info, "nested-open");
+      await Promise.all(
+        pages.map((p) =>
+          p.getByRole("button", { name: "Continue", exact: true }).click(),
+        ),
+      );
+      await Promise.all(
+        pages.map(async (p) => {
+          await expect(p.getByRole("alertdialog")).toBeHidden();
+          await expect(p.getByRole("dialog")).toBeVisible();
+          await expect(
+            p.getByRole("button", { name: "Open Alert Dialog", exact: true }),
+          ).toBeFocused();
+        }),
+      );
+      await compare(pages[0], pages[1], info, "nested-action-close");
+      await Promise.all(pages.map((p) => p.keyboard.press("Escape")));
+      await Promise.all(
+        pages.map((p) => expect(p.getByRole("dialog")).toBeHidden()),
+      );
+      await compare(pages[0], pages[1], info, "outer-escape-close");
+    } finally {
+      await ctx.close();
+    }
+  });
+for (const theme of ["light", "dark"])
+  test(`AlertDialog enter/exit animation effects at 0/50/100ms / ${theme}`, async ({
+    browser,
+  }, info) => {
+    const ctx = await browser.newContext();
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(() => ctx.newPage()),
+    );
+    try {
+      for (const phase of ["enter", "exit"]) {
+        for (let i = 0; i < 2; i++) {
+          const p = pages[i];
+          await p.goto(
+            `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--usage&viewMode=story&globals=theme:${theme}`,
+          );
+          await expect(p.locator("#parity-root")).toBeVisible();
+          if (phase === "exit") {
+            await p.getByRole("button", { name: "Open", exact: true }).click();
+            await expect(
+              p.locator('[data-slot="alert-dialog-overlay"]'),
+            ).not.toHaveAttribute("data-entering");
+          }
+          await p.evaluate(() => {
+            new MutationObserver(() => {
+              for (const animation of document.getAnimations())
+                if (
+                  animation instanceof CSSAnimation &&
+                  animation.playState === "running"
+                )
+                  animation.pause();
+            }).observe(document.body, {
+              subtree: true,
+              childList: true,
+              attributes: true,
+            });
+          });
+        }
+        await Promise.all(
+          pages.map((p) =>
+            phase === "enter"
+              ? p.getByRole("button", { name: "Open", exact: true }).click()
+              : p.keyboard.press("Escape"),
+          ),
+        );
+        for (const time of [0, 50, 100]) {
+          await Promise.all(
+            pages.map((p) =>
+              p
+                .locator('[data-slot="alert-dialog-overlay"]')
+                .evaluate(async (el, time) => {
+                  const animations = el
+                    .getAnimations({ subtree: true })
+                    .filter((a) => a instanceof CSSAnimation);
+                  if (animations.length !== 2)
+                    throw Error(
+                      `Expected overlay and content animations, got ${animations.length}`,
+                    );
+                  for (const a of animations) {
+                    a.pause();
+                    await a.ready;
+                    a.currentTime = time;
+                  }
+                }, time),
+            ),
+          );
+          await compare(
+            pages[0],
+            pages[1],
+            info,
+            `${phase}-${time}`,
+            true,
+            false,
+          );
+        }
+      }
+    } finally {
+      await ctx.close();
+    }
+  });
 
-for(const theme of ['light','dark'])for(const width of [1000,390])test(`AlertDialog small RTL Media and focus return / ${theme} / ${width}`,async({browser},info)=>{const ctx=await browser.newContext({viewport:{width,height:900}});const pages=await Promise.all([upstreamURL,stylexURL].map(()=>ctx.newPage()));try{await Promise.all(pages.map((p,i)=>p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-alertdialog--rtl&globals=theme:${theme}`)));await Promise.all(pages.map(async p=>{await expect(p.locator('#parity-root')).toBeVisible();await p.locator('#parity-root button').nth(1).click();await expect(p.getByRole('alertdialog')).toBeVisible();}));await compare(pages[0],pages[1],info,'small-rtl-media-open');await Promise.all(pages.map(p=>p.locator('[data-slot="alert-dialog-cancel"]').click()));await Promise.all(pages.map(async p=>{await expect(p.getByRole('alertdialog')).toBeHidden();await expect(p.locator('#parity-root button').nth(1)).toBeFocused();}));await compare(pages[0],pages[1],info,'small-rtl-media-closed');}finally{await ctx.close();}});
+for (const theme of ["light", "dark"])
+  for (const width of [1000, 390])
+    test(`AlertDialog small RTL Media and focus return / ${theme} / ${width}`, async ({
+      browser,
+    }, info) => {
+      const ctx = await browser.newContext({
+        viewport: { width, height: 900 },
+      });
+      const pages = await Promise.all(
+        [upstreamURL, stylexURL].map(() => ctx.newPage()),
+      );
+      try {
+        await Promise.all(
+          pages.map((p, i) =>
+            p.goto(
+              `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--rtl&globals=theme:${theme}`,
+            ),
+          ),
+        );
+        await Promise.all(
+          pages.map(async (p) => {
+            await expect(p.locator("#parity-root")).toBeVisible();
+            await p.locator("#parity-root button").nth(1).click();
+            await expect(p.getByRole("alertdialog")).toBeVisible();
+          }),
+        );
+        await compare(pages[0], pages[1], info, "small-rtl-media-open");
+        await Promise.all(
+          pages.map((p) =>
+            p.locator('[data-slot="alert-dialog-cancel"]').click(),
+          ),
+        );
+        await Promise.all(
+          pages.map(async (p) => {
+            await expect(p.getByRole("alertdialog")).toBeHidden();
+            await expect(p.locator("#parity-root button").nth(1)).toBeFocused();
+          }),
+        );
+        await compare(pages[0], pages[1], info, "small-rtl-media-closed");
+      } finally {
+        await ctx.close();
+      }
+    });
