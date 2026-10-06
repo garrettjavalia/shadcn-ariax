@@ -21,4 +21,5 @@
 
 @import "./button-group.css";
 
-@import './select.css';
+@import "./dialog.css";
+@import "./select.css";
