@@ -1,15 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import './card-fixtures.css';
 import { useState } from 'react';
-import type { ComponentProps, CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
 import { Button } from '@button';
+import { Input } from '@input';
+import { Label } from '@label';
+import { Badge } from '@badge';
 import { fullWidthButton, customCard, customPart, dynamicCard } from '@card-customizations';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@card';
-// Input/Label/Badge are shared fixtures: these stories test Card composition, not those components.
-function Input(props: ComponentProps<'input'>) { return <input {...props} style={{width:'100%',height:'2.25rem',borderWidth:1,borderColor:'var(--input)',borderRadius:'calc(var(--radius) * .8)',paddingInline:'.75rem',background:'transparent'}} />; }
-function Label(props: ComponentProps<'label'>) { return <label {...props} style={{fontSize:'.875rem',fontWeight:500}} />; }
-function Badge({variant: _variant,...props}: ComponentProps<'span'> & {variant?:string}) { return <span {...props} style={{padding:'.125rem .5rem',borderRadius:'.375rem',background:'var(--secondary)',fontSize:'.75rem',fontWeight:500}} />; }
 const meta = {title:'Components/Card',component:Card,tags:['parity'],decorators:[Story=><main id="parity-root"><Story /></main>]} satisfies Meta<typeof Card>;
 export default meta;
 type Story=StoryObj<typeof meta>;
@@ -230,4 +229,3 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
     </Card>
   )
 }
-

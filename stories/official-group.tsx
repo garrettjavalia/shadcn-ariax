@@ -15,7 +15,9 @@ import {
 } from "lucide-react"
 
 import { Button } from "@button"
-import { ButtonGroup } from "./group-fixture"
+import { ButtonGroup } from "@button-group"
+import { responsiveGroup } from '@button-group-customizations';
+import { dropdownCustom } from '@dropdown-menu-customizations';
 import {
   DropdownMenu,
   DropdownMenuGroup,
@@ -25,14 +27,14 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./group-fixture"
+} from "@dropdown-menu"
 
 export default function ButtonGroupDemo() {
   const [label, setLabel] = React.useState("personal")
 
   return (
     <ButtonGroup>
-      <ButtonGroup className="hidden sm:flex">
+      <ButtonGroup {...responsiveGroup}>
         <Button variant="outline" size="icon" aria-label="Go Back">
           <ArrowLeftIcon />
         </Button>
@@ -47,7 +49,7 @@ export default function ButtonGroupDemo() {
           <Button variant="outline" size="icon" aria-label="More Options">
             <MoreHorizontalIcon />
           </Button>
-          <DropdownMenu placement="bottom end" className="w-40">
+          <DropdownMenu placement="bottom end" data-parity-portal {...dropdownCustom('w-40')}>
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <MailCheckIcon />
@@ -78,6 +80,7 @@ export default function ButtonGroupDemo() {
                   Label As...
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent
+                  data-parity-portal
                   selectionMode="single"
                   selectedKeys={[label]}
                   onSelectionChange={(keys) => setLabel([...keys][0] as string)}
