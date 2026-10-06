@@ -6,7 +6,7 @@ test('portal comparison captures the fixed viewport while preserving overflow ge
  const context=await browser.newContext({viewport:{width:390,height:900}});
  const pages=await Promise.all([0,1].map(()=>context.newPage()));
  try{
-  await Promise.all(pages.map(page=>page.setContent('<style>body{margin:0}#portal{position:absolute;left:12px;top:12px;width:382px;height:509px;background:#123456}</style><main id="parity-root">Trigger</main><div id="portal" data-parity-portal>Options</div>')));
+  await Promise.all(pages.map(page=>page.setContent('<!DOCTYPE html><style>body{margin:0}#portal{position:absolute;left:12px;top:12px;width:382px;height:509px;background:#123456}</style><main id="parity-root">Trigger</main><div id="portal" data-parity-portal>Options</div>')));
   for(const page of pages){const screenshot=page.screenshot.bind(page);page.screenshot=async options=>{expect(options?.fullPage).not.toBe(true);const result=await screenshot(options);const png=PNG.sync.read(result);expect([png.width,png.height]).toEqual([390,900]);return result;};}
   const geometry=()=>Promise.all(pages.map(page=>page.locator('#portal').evaluate(el=>({rect:el.getBoundingClientRect().toJSON(),scrollWidth:document.documentElement.scrollWidth}))));
   const before=await geometry();expect(before[0].scrollWidth).toBe(394);
