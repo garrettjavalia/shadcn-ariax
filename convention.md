@@ -87,3 +87,7 @@ Field·FieldSet·FieldLegend·FieldGroup·FieldContent·FieldLabel·FieldTitle·
 ## Field·Checkbox 조합
 
 Checkbox의 공식 Basic·Demo·Description·Disabled·Group·Invalid와 Field의 Checkbox·Group 예제는 실제 레지스트리 컴포넌트로 렌더링한다. 예제의 레이아웃 유틸리티만 공유 style로 표현한다. 라벨 클릭, 키보드 선택, 선택 카드의 포커스·테두리·링, 비활성 peer 라벨을 검증한다. 공식 RTL 변환과 Table 조합은 별도 후속 PR에서 검증한다.
+
+## Native Select 검증 범위
+
+NativeSelect는 원본 select/option/optgroup의 일반 React `style`을 보존한다. StyleX 결과의 style 객체 뒤에 사용자 style을 합성하여 CSS 변수와 사용자 우선순위를 유지한다. NativeSelect `xstyle`은 원본 className과 같은 wrapper 대상이며 나머지 두 export는 해당 HTML 요소를 대상으로 한다. 공식 MDX 5개 preview와 registry showcase의 Basic/Groups/Sizes/Field 조합, default/sm 상태, disabled option/group, 일반 style·동적 xstyle·폼 값·키보드 typeahead·hover·focus를 공통 비교기로 검사한다. 네이티브 OS 선택 팝업과 공식 ui-rtl 변환은 별도 미검증이다.

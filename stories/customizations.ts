@@ -23,3 +23,7 @@ export const checkboxCustomized = (width:number) => ({xstyle:[checkboxStyles.ini
 const fieldStyles = stylex.create({ field: {gap:'1.25rem',padding:'0.75rem'}, dynamic:(width:number)=>({width}), label:{color:'var(--primary)',fontSize:'1.25rem',lineHeight:1.4} });
 export const fieldCustomized = {xstyle:[fieldStyles.field,fieldStyles.dynamic(280)],style:{gap:'1.5rem'}};
 export const fieldLabelCustomized = {xstyle:fieldStyles.label,style:{opacity:0.75}};
+const nativeSelectStyles=stylex.create({initial:{width:160,opacity:0.7},custom:{width:220,opacity:0.8},dynamic:(width:number)=>({width}),option:{color:'var(--primary)',fontWeight:500},group:(fontWeight:number)=>({fontWeight})});
+export const nativeSelectCustomized=(width:number)=>({xstyle:[nativeSelectStyles.initial,nativeSelectStyles.custom,nativeSelectStyles.dynamic(width)],style:{opacity:0.6}});
+export const nativeSelectOptionCustomized={xstyle:nativeSelectStyles.option,style:{color:'blue'}};
+export const nativeSelectGroupCustomized={xstyle:nativeSelectStyles.group(600),style:{fontWeight:400}};

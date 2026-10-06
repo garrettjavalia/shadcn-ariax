@@ -47,7 +47,7 @@
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
-- [ ] Native Select
+- [x] Native Select — 3개 export·default/sm·공식 5개 preview·Field 조합·선택/폼/style/xstyle; 공식 ui-rtl 변환 미검증
 - [ ] Pagination
 - [ ] Popover
 - [ ] Progress

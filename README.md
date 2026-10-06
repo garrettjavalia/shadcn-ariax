@@ -1,6 +1,6 @@
 # shadcn-ariax
 
-shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. 모든 컴포넌트 제공을 목표로 하며, 현재 구현·검증 범위는 **Button·Skeleton·Separator / Nova / Neutral light·dark**다. 배포 컴포넌트는 Tailwind 없이 동작한다.
+shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. 모든 컴포넌트 제공을 목표로 하며, 현재 구현·검증 범위는 **Button·Skeleton·Separator·Native Select / Nova / Neutral light·dark**다. 배포 컴포넌트는 Tailwind 없이 동작한다.
 
 ## 개발 환경 구성
 
@@ -59,3 +59,5 @@ Label 본체는 `label.json`으로 설치할 수 있다. `htmlFor`, RAC LabelCon
 
 Checkbox 본체는 `checkbox.json`으로 설치할 수 있다. 선택·중간·비활성·오류·키보드 포커스, RAC context/render props와 일반 `style` 및 `xstyle`을 지원한다. 공식 Checkbox 문서의 8개 preview(checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl, checkbox-table)는 Field 또는 Table 구현과 통합 검증이 남아 있다. Label Demo·RTL fixture는 실제 Checkbox를 사용한다.
 Field 본체와 9개 하위 파트는 `field.json`으로 설치할 수 있다. Label·Separator도 함께 설치된다. `orientation`의 vertical/horizontal/responsive, 일반 `style`, `xstyle`과 오류 메시지 중복 제거를 지원한다. Field 자체 DOM·선택자·반응형 레이아웃은 native-control fixture로 비교한다. 공식 13개 조합 예제는 Input·Textarea·Checkbox·Select·Slider·RadioGroup·Switch 구현에 의존하며 아직 미완료다.
+
+Native Select는 `native-select.json`으로 설치한다. NativeSelect·NativeSelectOption·NativeSelectOptGroup, default/sm, disabled·invalid 및 실제 Field 조합을 제공한다. NativeSelect의 `xstyle`은 wrapper, 일반 `style`은 select에 적용된다. 공식 ui-rtl 변환은 별도 미검증이며 현재 RTL 검사는 일반 ui + dir="rtl" 기준이다.
