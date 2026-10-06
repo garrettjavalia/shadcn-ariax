@@ -12,7 +12,7 @@ pnpm exec playwright install chromium
 pnpm dev
 ```
 
-첫 실행에는 고정한 원본을 다운로드하므로 네트워크가 필요하다. 원본과 변환된 레퍼런스는 `generated/`에 자동 준비되며 정상 캐시는 이후 오프라인에서도 재사용한다. 이 폴더를 직접 준비하거나 Git에 추가할 필요는 없다.
+첫 실행에는 고정한 원본을 다운로드하므로 네트워크가 필요하다. 원본과 공식 shadcn CLI로 설치한 레퍼런스는 `generated/`에 자동 준비되며 정상 캐시는 이후 오프라인에서도 재사용한다. 이 폴더를 직접 준비하거나 Git에 추가할 필요는 없다.
 
 - [원본 Storybook](http://127.0.0.1:4100/?path=/story/components-button--gallery)
 - [StyleX Storybook](http://127.0.0.1:4200/?path=/story/components-button--gallery)
@@ -27,8 +27,6 @@ pnpm verify         # 전체 검증: 타입·레지스트리·브라우저·CLI 
 pnpm test:report    # 브라우저 테스트 보고서 열기
 pnpm test:benchmark # 실행 시간 및 비교 횟수 측정
 ```
-
-여러 작업폴더를 동시에 실행할 때는 `ARIAX_UPSTREAM_PORT=4120 ARIAX_STYLEX_PORT=4220 pnpm test`처럼 독립 포트를 지정한다. `pnpm dev`에도 같은 환경 변수를 사용할 수 있다.
 
 브라우저 검사는 worker 2개를 사용한다. 자원이 제한된 환경에서는 `pnpm test --workers=1`로 실행한다. 측정 결과는 `test-results/benchmark.json`에 저장된다.
 
@@ -51,6 +49,8 @@ pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 - [구현·검증 규칙](convention.md)
 - [원본 고정 및 자동 준비 구조](docs/upstream-structure.md)
 
-비교 기준은 [고정한 shadcn 원본](https://github.com/shadcn-ui/ui/tree/3b1ae6e43f082dd82d0e5710b813cfad929abdb4)이며, 커밋과 선택 경로는 `upstream/`에 기록한다. 공식 Button·Skeleton·Separator 문서의 예제를 기준으로 별도의 DOM/CSS/픽셀 비교 수트를 구성했다. 현재 나머지 컴포넌트·디자인 스타일은 미구현이며 메뉴 조합의 그룹·메뉴는 테스트용 fixture다. 원본 및 Tailwind reset의 MIT 라이선스를 배포에 포함한다.
+비교 기준은 [고정한 shadcn 원본](https://github.com/shadcn-ui/ui/tree/3b1ae6e43f082dd82d0e5710b813cfad929abdb4)이며, 커밋과 선택 경로는 `upstream/`에 기록한다. 공식 Button·Skeleton·Separator 문서의 예제를 기준으로 별도의 DOM/CSS/픽셀 비교 수트를 구성했다. 현재 그 외 컴포넌트·디자인 스타일은 미구현이며 메뉴 조합의 그룹·메뉴는 테스트용 fixture다. 원본 및 Tailwind reset의 MIT 라이선스를 배포에 포함한다.
 
-Skeleton과 Separator 설치는 위 CLI 명령의 `button.json`을 각각 `skeleton.json`, `separator.json`으로 바꾸면 된다.
+독립 작업트리는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 포트를 지정할 수 있다. 테스트에도 같은 환경 변수를 전달한다.
+
+Skeleton 설치는 소비 앱 CLI 명령의 `button.json`을 `skeleton.json`으로 바꾸면 된다.

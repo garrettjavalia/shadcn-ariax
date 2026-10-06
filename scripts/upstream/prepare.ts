@@ -1,35 +1,42 @@
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
-import { root, rawRoot } from './common';
-import { ensureRaw } from './ensure';
+import { mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
+import { resolve, join } from 'node:path';
+import { root } from './common';
+import { ensureRaw, acquire } from './ensure';
+import { buildReference, referenceInputs } from './reference';
 
 const config = await ensureRaw();
-assert.equal(config.base, 'aria');
-assert.equal(config.style, 'nova', 'Only the Nova adapters is currently implemented.');
-const css = await readFile(resolve(rawRoot, 'apps/v4/registry/styles/style-nova.css'), 'utf8');
-const utilities = new Map([...css.matchAll(/\.(cn-button[\w-]*)\s*\{\s*@apply\s+([^;]+);\s*\}/g)].map(m => [m[1], m[2].trim()]));
-const original = await readFile(resolve(rawRoot, 'apps/v4/registry/bases/aria/ui/button.tsx'), 'utf8');
-const expanded = original.replace(/\bcn-button[\w-]*\b/g, token => {
-  const utility = utilities.get(token);
-  assert.ok(utility, `Missing supported Nova definition: ${token}`);
-  return utility;
-});
-const output = resolve(root, 'generated/reference/aria-nova');
-await mkdir(output, { recursive: true });
-async function writeChanged(name: string, text: string) {
-  const path = resolve(output, name);
-  if (await readFile(path, 'utf8').catch(() => null) !== text) {
-    const temporary = `${path}.${process.pid}.tmp`;
-    await writeFile(temporary, text);
-    await rename(temporary, path);
+const inputs = await referenceInputs(config);
+const output = resolve(root, `generated/reference/${config.base}-${config.style}`);
+await mkdir(resolve(root, 'generated/reference'), { recursive: true });
+const release = await acquire(resolve(root, 'generated/.reference.lock'));
+let staging: string | undefined;
+try {
+  let valid = false;
+  try {
+    const marker = JSON.parse(await readFile(join(output, '.install-complete.json'), 'utf8'));
+    assert.deepEqual(marker.inputs, inputs);
+    assert.ok(marker.files.length > 0);
+    for (const file of marker.files) assert.ok((await stat(join(output, file))).isFile());
+    valid = true;
+  } catch { /* Disposable installation is missing or outdated. */ }
+  if (!valid) {
+    staging = await mkdtemp(resolve(root, 'generated/.reference-stage-'));
+    const files = await buildReference(staging, inputs);
+    await writeFile(join(staging, '.install-complete.json'), JSON.stringify({ inputs, files }) + '\n');
+    const previous = `${output}.previous`;
+    await rm(previous, { recursive: true, force: true });
+    const existed = await stat(output).then(() => true, () => false);
+    if (existed) await rename(output, previous);
+    try { await rename(staging, output); }
+    catch (error) { if (existed) await rename(previous, output); throw error; }
+    await rm(previous, { recursive: true, force: true });
   }
+  // Local harness CSS may change without reinstalling the pinned component files.
+  const css = await readFile(resolve(root, 'reference/tailwind.css'), 'utf8');
+  if (await readFile(join(output, 'tailwind.css'), 'utf8').catch(() => '') !== css) await writeFile(join(output, 'tailwind.css'), css);
+  console.log(`Prepared official CLI reference: ${inputs.components.join(', ')} (${config.base}-${config.style}).`);
+} finally {
+  if (staging) await rm(staging, { recursive: true, force: true });
+  await release();
 }
-await writeChanged('button.tsx', expanded);
-await writeChanged('separator.tsx', await readFile(resolve(rawRoot, 'apps/v4/registry/bases/aria/ui/separator.tsx'), 'utf8'));
-const skeleton = await readFile(resolve(rawRoot, 'apps/v4/registry/bases/aria/ui/skeleton.tsx'), 'utf8');
-const skeletonUtilities = css.match(/\.cn-skeleton\s*\{\s*@apply\s+([^;]+);/);
-assert.ok(skeletonUtilities, 'Missing Nova Skeleton definition');
-await writeChanged('skeleton.tsx', skeleton.replace(/\bcn-skeleton\b/g, skeletonUtilities[1]));
-await writeChanged('tailwind.css', await readFile(resolve(root, 'reference/tailwind.css'), 'utf8'));
-console.log('Prepared generated/reference/aria-nova (Button, Skeleton, Separator); original source is unchanged.');

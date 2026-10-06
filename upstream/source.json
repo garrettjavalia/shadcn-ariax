@@ -10,14 +10,24 @@
     "apps/v4/registry/themes.ts",
     "apps/v4/app/globals.css",
     "apps/v4/examples/aria",
-    "apps/v4/content/docs/components/aria"
+    "apps/v4/content/docs/components/aria",
+    "apps/v4/public/r/colors/neutral.json"
   ],
   "requiredFiles": [
     "apps/v4/registry/bases/aria/ui/button.tsx",
     "apps/v4/content/docs/components/aria/button.mdx",
-    "apps/v4/registry/bases/aria/ui/separator.tsx",
-    "apps/v4/content/docs/components/aria/separator.mdx",
+    "apps/v4/public/r/colors/neutral.json",
+    "apps/v4/registry/styles/style-nova.css",
+    "apps/v4/registry/bases/aria/ui/_registry.ts",
+    "apps/v4/registry/bases/aria/lib/_registry.ts",
+    "apps/v4/registry/bases/aria/hooks/_registry.ts",
+    "apps/v4/registry/bases/aria/internal/_registry.ts",
+    "apps/v4/registry/bases/aria/components/_registry.ts",
+    "apps/v4/registry/bases/aria/blocks/_registry.ts",
+    "apps/v4/registry/bases/aria/examples/_registry.ts",
     "apps/v4/registry/bases/aria/ui/skeleton.tsx",
-    "apps/v4/content/docs/components/aria/skeleton.mdx"
+    "apps/v4/content/docs/components/aria/skeleton.mdx",
+    "apps/v4/registry/bases/aria/ui/separator.tsx",
+    "apps/v4/content/docs/components/aria/separator.mdx"
   ]
 }
