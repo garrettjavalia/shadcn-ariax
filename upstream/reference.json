@@ -5,6 +5,7 @@
     "separator",
     "badge",
     "alert",
-    "card"
+    "card",
+    "aspect-ratio"
   ]
 }

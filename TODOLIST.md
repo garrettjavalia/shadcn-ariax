@@ -13,7 +13,7 @@
 - [ ] Accordion
 - [x] Alert
 - [ ] Alert Dialog
-- [ ] Aspect Ratio
+- [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
 - [x] Badge
