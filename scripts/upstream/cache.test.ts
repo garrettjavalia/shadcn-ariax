@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { root } from './common';
+import { literalStyleItem } from './reference';
 
 test('cold/concurrent download, offline reuse, missing files and selection changes', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'ariax-cache-test-'));
@@ -24,7 +25,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
     const fixtures: Record<string, string> = {
       'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
-      'apps/v4/app/globals.css': '@layer base {\n * { @apply border-border outline-ring/50; }\n html { scroll-padding-top: 5rem; }\n}',
+      'apps/v4/registry/bases/aria/registry.ts': 'const ARIA_STYLE = {type:"registry:style",registryDependencies:["utils"],css:{"@layer base":{"*":{"@apply border-border outline-ring/50":{}},body:{"@apply bg-background text-foreground":{}}}},cssVars:{},files:[]};',
       'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8 ml-2; }',
       'apps/v4/public/r/colors/neutral.json': JSON.stringify({ inlineColors: {light:{background:'white'},dark:{background:'black'}}, cssVars: {light:{background:'0 0% 100%'},dark:{background:'0 0% 0%'}}, cssVarsV4:{light:{background:'oklch(1 0 0)'},dark:{background:'oklch(0 0 0)'}}, inlineColorsTemplate:'',cssVarsTemplate:'' }),
       'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],css:{".reference-fixture":{color:"red"}},files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
@@ -40,7 +41,7 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     }
     const packed = spawnSync('tar', ['-czf', join(dir, 'fixture.tar.gz'), '-C', join(dir, 'archive'), `ui-${commit}`]);
     assert.equal(packed.status, 0);
-    const config = { repository: 'shadcn-ui/ui', commit, base: 'aria', style: 'nova', paths: ['apps/v4/app/globals.css', 'apps/v4/registry', 'apps/v4/public/r/colors/neutral.json'], requiredFiles: paths };
+    const config = { repository: 'shadcn-ui/ui', commit, base: 'aria', style: 'nova', paths: ['apps/v4/registry', 'apps/v4/public/r/colors/neutral.json'], requiredFiles: paths };
     await writeFile(join(dir, 'upstream/source.json'), JSON.stringify(config));
     // Real archive/extraction/cache logic; only the HTTP transport is replaced.
     await writeFile(join(dir, 'transport.mjs'), `import {readFile,appendFile} from 'node:fs/promises'; globalThis.fetch=async()=>{if(process.env.NO_NETWORK==='1')throw Error('Unexpected network');await appendFile(new URL('./downloads.log',import.meta.url),'download\\n');return new Response(await readFile(new URL('./fixture.tar.gz',import.meta.url)));};`);
@@ -68,6 +69,7 @@ for (const module of [http, https]) { const request=module.request; module.reque
     const originalCss = await readFile(cliCss, 'utf8');
     assert.match(originalCss, /reference-fixture/);
     assert.match(originalCss, /@apply border-border outline-ring\/50/);
+    assert.match(originalCss, /@apply bg-background text-foreground/);
     assert.match(originalCss, /--background: oklch\(1 0 0\)/);
     assert.doesNotMatch(originalCss, /scroll-padding-top/);
     await writeFile(join(dir, 'reference/tailwind.css'), (await readFile(join(dir, 'reference/tailwind.css'), 'utf8')) + '\n/* local harness change */\n');
@@ -115,4 +117,13 @@ for (const module of [http, https]) { const request=module.request; module.reque
     result = await run(); assert.notEqual(result.code, 0);
     assert.equal(await readFile(rawFile, 'utf8'), buttonSource);
   } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+
+test('official style literal metadata is retained without executing registry imports', () => {
+  const css = {'@layer base': {'*': {'@apply border-border outline-ring/50': {}}, body: {'@apply bg-background text-foreground': {}}}, '@media (forced-colors: active)': {button: {color:'CanvasText'}}};
+  const source = `import { fonts } from "@/registry/fonts"; const ARIA_STYLE = ${JSON.stringify({type:'registry:style',css,cssVars:{},files:[]})};`;
+  assert.deepEqual(literalStyleItem(source).css, css);
+  assert.throws(() => literalStyleItem('const ARIA_STYLE = getStyle();'), /literals only/);
+  assert.throws(() => literalStyleItem('const ARIA_STYLE = {...sharedStyle};'), /must not spread or execute code/);
 });

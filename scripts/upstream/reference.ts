@@ -4,7 +4,8 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { resolve, relative, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import type { RegistryItem } from 'shadcn/schema';
+import { registryItemSchema, type RegistryItem } from 'shadcn/schema';
+import { parse } from '@babel/parser';
 import { createStyleMap, transformStyle } from 'shadcn/utils';
 import { root, rawRoot, type Source } from './common';
 
@@ -15,29 +16,48 @@ export async function referenceInputs(config: Source) {
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
   assert.equal(pkg.devDependencies.shadcn, installed.version, 'Install the pinned shadcn CLI before preparing references');
-  return { version: 6, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
+  return { version: 7, rtl: true, source: config, components: selection.components, cli: installed.version, dependencies: pkg.dependencies, devDependencies: pkg.devDependencies };
 }
 
-// The component contract comes from the pinned app, independently of the deployed CSS.
-// Exclude the documentation site's html/body layout, typography and scrolling rules.
-export async function referenceBaseCSS() {
-  const globals = await readFile(resolve(rawRoot, 'apps/v4/app/globals.css'), 'utf8');
-  const rules = [...globals.matchAll(/(?:^|\n)\s*\*\s*\{([^{}]*)\}/g)]
-    .filter(match => /@apply\s+border-border\s+outline-ring\/50\s*;/.test(match[1]));
-  assert.equal(rules.length, 1, 'Pinned component base border/outline contract must occur exactly once');
+// Parse only the literal metadata; importing registry.ts would execute the
+// unrelated font registry and its application aliases. Never evaluate code.
+export function literalStyleItem(source: string): RegistryItem {
+  const ast = parse(source, {sourceType:'module',plugins:['typescript']});
+  const declarations = ast.program.body.flatMap(node => node.type === 'VariableDeclaration' ? node.declarations : []);
+  const declaration = declarations.filter(node => node.id.type === 'Identifier' && node.id.name === 'ARIA_STYLE');
+  assert.equal(declaration.length, 1, 'Pinned ARIA_STYLE must be a single declaration');
+  function literal(value: unknown): unknown {
+    assert.ok(value && typeof value === 'object', 'Style metadata must contain literals only');
+    const node = value as {type:string;value?:unknown;properties?:unknown[];elements?:unknown[];key?:{type:string;name?:string;value?:string};computed?:boolean};
+    if (['StringLiteral','NumericLiteral','BooleanLiteral'].includes(node.type)) return node.value;
+    if (node.type === 'NullLiteral') return null;
+    if (node.type === 'ArrayExpression') return node.elements!.map(literal);
+    assert.equal(node.type, 'ObjectExpression', 'Style metadata must contain literals only');
+    return Object.fromEntries(node.properties!.map(property => {
+      const entry = property as typeof node;
+      assert.equal(entry.type, 'ObjectProperty', 'Style metadata must not spread or execute code');
+      assert.ok(!entry.computed && entry.key && ['Identifier','StringLiteral'].includes(entry.key.type));
+      return [entry.key.type === 'Identifier' ? entry.key.name : entry.key.value, literal(entry.value)];
+    }));
+  }
+  return registryItemSchema.parse({name:'style', ...literal(declaration[0].init) as object});
+}
+
+export async function referenceThemeCSS() {
   const neutral: { cssVarsV4: { light: Record<string, string>; dark: Record<string, string> } } = JSON.parse(
     await readFile(resolve(rawRoot, 'apps/v4/public/r/colors/neutral.json'), 'utf8'));
   const theme = Object.entries(neutral.cssVarsV4).map(([mode, tokens]) => {
     assert.ok(mode === 'light' || mode === 'dark', `Unexpected theme: ${mode}`);
     return `${mode === 'light' ? ':root' : '.dark'} {\n${Object.entries(tokens).map(([name, value]) => `  --${name}: ${value};`).join('\n')}\n}`;
   }).join('\n');
-  return `${theme}\n@layer base {\n  * {${rules[0][1]}}\n}\n`;
+  return `${theme}\n`;
 }
 
 export async function buildReference(directory: string, inputs: Awaited<ReturnType<typeof referenceInputs>>) {
   const { source: config } = inputs;
   const base = resolve(rawRoot, `apps/v4/registry/bases/${config.base}`);
   const catalog = new Map<string, RegistryItem>();
+  catalog.set('style', literalStyleItem(await readFile(resolve(base, 'registry.ts'), 'utf8')));
   for (const group of await readdir(base, { withFileTypes: true })) {
     if (!group.isDirectory()) continue;
     const registry = resolve(base, group.name, '_registry.ts');
@@ -56,6 +76,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
     selected.set(name, item);
     for (const dependency of item.registryDependencies ?? []) visit(dependency);
   }
+  visit('style');
   inputs.components.forEach(visit);
   const styleMap = createStyleMap(await readFile(resolve(rawRoot, `apps/v4/registry/styles/style-${config.style}.css`), 'utf8'));
   const items: RegistryItem[] = [];
@@ -88,7 +109,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   await writeFile(resolve(directory, 'pnpm-workspace.yaml'), 'packages:\n  - "."\n');
   await writeFile(resolve(directory, 'package.json'), JSON.stringify({ name: 'ariax-reference', private: true, type: 'module', dependencies: inputs.dependencies, devDependencies: inputs.devDependencies }));
   await writeFile(resolve(directory, 'tsconfig.json'), JSON.stringify({ compilerOptions: { jsx: 'react-jsx', baseUrl: '.', paths: { '@reference/*': ['./*'] } } }));
-  await writeFile(resolve(directory, 'cli.css'), await referenceBaseCSS());
+  await writeFile(resolve(directory, 'cli.css'), await referenceThemeCSS());
   await writeFile(resolve(directory, 'tailwind.css'), await readFile(resolve(root, 'reference/tailwind.css'), 'utf8'));
   await writeFile(resolve(directory, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: `${config.base}-${config.style}`, rtl: inputs.rtl, rsc: false, tsx: true, tailwind: { config: '', css: 'cli.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@reference/components', ui: '@reference/ui', utils: '@reference/lib/utils', lib: '@reference/lib', hooks: '@reference/hooks' } }));
   const cli = resolve(root, 'node_modules/shadcn/dist/index.js');
@@ -114,7 +135,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   }
   try {
     await run(['build', resolve(directory, 'registry.json'), '--output', resolve(directory, 'registry')]);
-    await run(['add', ...inputs.components.map(name => resolve(directory, 'registry', `${name}.json`)), '--yes', '--overwrite']);
+    await run(['add', ...['style', ...inputs.components].map(name => resolve(directory, 'registry', `${name}.json`)), '--yes', '--overwrite']);
   } finally {
     await new Promise<void>((done, fail) => registry.close(error => error ? fail(error) : done()));
   }
