@@ -1,0 +1,9 @@
+export const custom0={className:"flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm"};
+export const custom1={className:"hidden pointer-fine:inline-block"};
+export const custom2={className:"hidden pointer-coarse:inline-block"};
+export const custom3={className:"w-48"};
+export const custom4={className:"w-44"};
+export const custom5={className:"grid w-full max-w-sm grid-cols-2 gap-4"};
+export const custom6={className:"flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm"};
+export const custom7={className:"flex flex-wrap justify-center gap-2"};
+export const custom8={className:"flex aspect-[2/0.5] items-center justify-center rounded-lg border p-4 text-sm capitalize"};
