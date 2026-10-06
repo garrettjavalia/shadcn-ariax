@@ -47,7 +47,7 @@
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker — 구현·문서 예제 검증; Drawer 조합 통합 대기
 - [ ] Message
-- [ ] Message Scroller
+- [ ] Message Scroller — primitive 구현; 공식 채팅 조합·스크롤 상태 검증 진행
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [x] Pagination
 - [x] Popover
