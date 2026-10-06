@@ -64,7 +64,7 @@ test('animationstart preserves real completed non-filling metadata before the fi
     const pages = await Promise.all([context.newPage(), context.newPage()]);
     await finishedFixture(pages[0], 'source_enter', 'none', upstreamURL);
     await finishedFixture(pages[1], 'stylex_enter');
-    const captures = await Promise.all(pages.map(snapshot));
+    const captures = await Promise.all(pages.map(page => snapshot(page)));
     for (const capture of captures) {
       expect(effects(capture)).toHaveLength(1);
       expect(effects(capture)[0].timing).toMatchObject({
@@ -94,7 +94,7 @@ for (const mutation of ['keyframes', 'timing'] as const) test(`completed non-fil
     await finishedFixture(pages[0], 'source_enter', 'none', upstreamURL);
     await finishedFixture(pages[1], 'stylex_enter', mutation);
     for (const page of pages) await expect(page.locator('.motion-fixture')).toHaveCSS('opacity', '1');
-    const captures = await Promise.all(pages.map(snapshot));
+    const captures = await Promise.all(pages.map(page => snapshot(page)));
     const diff = differences(...normalizeAnimationSnapshots(captures[0], captures[1]));
     expect(diff.some(item => mutation === 'keyframes' ? item.path.includes('/frames/') : item.path.endsWith('/timing/duration'))).toBe(true);
     await expect(compare(pages[0], pages[1], info, `completed-${mutation}-mutation`, false, false)).rejects.toThrow(`completed-${mutation}-mutation`);

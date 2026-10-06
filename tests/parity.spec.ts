@@ -3,14 +3,16 @@ import { upstreamPort, stylexPort, upstreamURL, stylexURL } from './servers';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { readdirSync } from 'node:fs';
-import { compare } from './compare';
+import { compare, compareDOMCSS } from './compare';
 import { environments, buttonDocumentation, type StoryEntry } from './catalog';
 import { partitionStories } from './story-batches';
 import { waitForStoryReadiness } from './story-readiness';
 
 const storyFileCount = readdirSync('stories', { recursive: true, withFileTypes: true }).filter(file => file.isFile() && file.name.endsWith('.stories.tsx')).length;
-const batchCount = process.env.PARITY_COMPONENT ? 1 : Math.max(1, Math.ceil(storyFileCount / 4));
-for (const { theme, width, requiredTag } of environments) for (let batch = 0; batch < batchCount; batch++) test(`registered stories / ${theme} / ${width} / batch ${batch + 1}`, async ({ browser, request }, info) => {
+const batchCount = process.env.PARITY_COMPONENT ? 1 : Math.max(1, storyFileCount);
+const ciMode = process.env.ARIAX_TEST_MODE === 'ci';
+const selectedEnvironments = ciMode ? environments.filter(environment => environment.width === 1000) : environments;
+for (const { theme, width, requiredTag } of selectedEnvironments) for (let batch = 0; batch < batchCount; batch++) test(`registered stories / ${theme} / ${width} / batch ${batch + 1}`, { tag: '@static-parity' }, async ({ browser, request }, info) => {
   test.setTimeout(240_000);
   const leftIndex = await (await request.get(`${upstreamURL}/index.json`)).json();
   const rightIndex = await (await request.get(`${stylexURL}/index.json`)).json();
@@ -38,7 +40,7 @@ for (const { theme, width, requiredTag } of environments) for (let batch = 0; ba
         await page.mouse.move(0, 0);
       }));
       if (process.env.PARITY_PROFILE === '1') info.annotations.push({ type: 'parity-navigation', description: JSON.stringify({ id, ms: performance.now() - started }) });
-      try { await compare(a, b, info, `${id}-rest`); }
+      try { await (ciMode ? compareDOMCSS : compare)(a, b, info, `${id}-rest`); }
       catch (error) { expect.soft(false, String(error)).toBe(true); }
     });
   } finally { await context.close(); }

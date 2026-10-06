@@ -2,8 +2,8 @@ import { expect, type Page, type TestInfo } from '@playwright/test';
 import { PNG } from 'pngjs';
 import { isDeepStrictEqual } from 'node:util';
 
-export async function snapshot(page: Page) {
-  const captured = await page.evaluate(() => {
+export async function snapshot(page: Page, mode: 'full' | 'dom-css' = 'full') {
+  const captured = await page.evaluate(mode => {
     // Preview observes effects from animationstart, including non-filling
     // effects that ended before this first snapshot. Also capture active effects
     // here, retaining only handles whose current computed names still match.
@@ -59,7 +59,7 @@ export async function snapshot(page: Page) {
     const nodes = (node: Node, path: string): unknown => {
       if (node.nodeType === Node.TEXT_NODE) {
         const range = document.createRange(); range.selectNodeContents(node);
-        return { path, text: node.textContent, rects: [...range.getClientRects()].map(rect) };
+        return { path, text: node.textContent, ...(mode === 'full' ? { rects: [...range.getClientRects()].map(rect) } : {}) };
       }
       if (!(node instanceof Element)) return { path, type: node.nodeType };
       return {
@@ -76,14 +76,16 @@ export async function snapshot(page: Page) {
         }),
         css: style(node),
         pseudos: Object.fromEntries(['::before', '::after', '::marker', ...(node.matches('input, textarea') ? ['::placeholder'] : []), ...(node.matches('input[type="file"]') ? ['::file-selector-button'] : [])].map(p => [p, style(node, p)])),
-        rect: rect(node.getBoundingClientRect()),
-        scroll: [node.scrollWidth, node.scrollHeight, node.scrollLeft, node.scrollTop],
-        focused: document.activeElement === node,
+        ...(mode === 'full' ? {
+          rect: rect(node.getBoundingClientRect()),
+          scroll: [node.scrollWidth, node.scrollHeight, node.scrollLeft, node.scrollTop],
+          focused: document.activeElement === node,
+        } : {}),
         children: [...node.childNodes].map((n, i) => nodes(n, `${path}/${i}`)),
       };
     };
     return { roots: roots.map((r, i) => nodes(r, `root:${i}`)), styleBank };
-  });
+  }, mode);
   // Intern identical computed styles to avoid sending thousands of duplicates over CDP.
   // Values are compared exactly; no hashes, property allowlists or numeric tolerances.
   const expand = (value: unknown): unknown => {
@@ -186,7 +188,7 @@ export function pixelsMatch(a: PNG, b: PNG): boolean {
   return true;
 }
 
-export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true, settleAnimations = true) {
+export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true, settleAnimations = true, mode: 'full' | 'dom-css' = 'full') {
   const started = performance.now();
   if (settleAnimations) await Promise.all([settle(a), settle(b)]);
   else await Promise.all([a, b].map(page => page.evaluate(async () => {
@@ -194,8 +196,17 @@ export async function compare(a: Page, b: Page, info: TestInfo, state: string, p
     await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
   })));
   const settled = performance.now();
-  const raw = await Promise.all([snapshot(a), snapshot(b)]);
-  const [left, right] = normalizeAnimationSnapshots(raw[0], raw[1]);
+  const raw = await Promise.all([snapshot(a, mode), snapshot(b, mode)]);
+  const normalized = normalizeAnimationSnapshots(raw[0], raw[1]);
+  // Effect metadata is used only to safely normalize generated CSS names in CI.
+  // Explicit animation samples remain part of the full suite.
+  const domCSS = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(domCSS);
+    if (!value || typeof value !== 'object') return value;
+    const { animations: _animations, ...node } = value as Record<string, unknown>;
+    return 'children' in node ? { ...node, children: domCSS(node.children) } : node;
+  };
+  const [left, right] = mode === 'dom-css' ? normalized.map(domCSS) : normalized;
   const captured = performance.now();
   // Passing comparisons need only exact equality. Build detailed path/value
   // differences on failure, avoiding per-property path strings and arrays on success.
@@ -216,4 +227,8 @@ export async function compare(a: Page, b: Page, info: TestInfo, state: string, p
     type: 'parity-timing',
     description: JSON.stringify({ state, settleMs: settled - started, snapshotMs: captured - settled, diffMs: compared - captured, pixelsMs: performance.now() - compared }),
   });
+}
+
+export async function compareDOMCSS(a: Page, b: Page, info: TestInfo, state: string) {
+  return compare(a, b, info, state, false, true, 'dom-css');
 }

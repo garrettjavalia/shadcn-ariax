@@ -35,7 +35,7 @@ test('effect comparison rejects keyframe and timing mutations even at an unchang
       const effect = element.getAnimations()[0].effect as KeyframeEffect;
       effect.setKeyframes(effect.getKeyframes().map(frame => frame.offset === .5 ? { ...frame, opacity: '.25' } : frame));
     });
-    const keyframeSnapshots = await Promise.all(pages.map(snapshot));
+    const keyframeSnapshots = await Promise.all(pages.map(page => snapshot(page)));
     expect(differences(...normalizeAnimationSnapshots(keyframeSnapshots[0], keyframeSnapshots[1])).some(diff => diff.path.includes('/frames/'))).toBe(true);
     await expect(compare(pages[0], pages[1], info, 'keyframe-mutation', false, false)).rejects.toThrow(/keyframe-mutation/);
     await pages[1].reload();
@@ -44,7 +44,7 @@ test('effect comparison rejects keyframe and timing mutations even at an unchang
       const animation = element.getAnimations()[0]; animation.pause(); animation.currentTime = 0;
       animation.effect!.updateTiming({ duration: 4000 });
     });
-    const timingSnapshots = await Promise.all(pages.map(snapshot));
+    const timingSnapshots = await Promise.all(pages.map(page => snapshot(page)));
     expect(differences(...normalizeAnimationSnapshots(timingSnapshots[0], timingSnapshots[1])).some(diff => diff.path.endsWith('/timing/duration'))).toBe(true);
     await expect(compare(pages[0], pages[1], info, 'timing-mutation', false, false)).rejects.toThrow(/timing-mutation/);
   } finally { await Promise.all(pages.map(page => page.close())); }
