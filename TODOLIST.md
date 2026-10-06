@@ -17,7 +17,7 @@
 - [ ] Attachment
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
 - [x] Badge
-- [ ] Breadcrumb
+- [x] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
 - [ ] Calendar
@@ -25,8 +25,8 @@
 - [ ] Carousel
 - [ ] Chart
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
-- [ ] Collapsible
-- [ ] Combobox
+- [x] Collapsible
+- [x] Combobox
 - [ ] Command
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
@@ -49,7 +49,7 @@
 - [ ] Message
 - [ ] Message Scroller
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
-- [ ] Pagination
+- [x] Pagination
 - [x] Popover
 - [ ] Progress
 - [ ] Questionnaire
