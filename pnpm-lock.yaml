@@ -4,13 +4,18 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@stylexjs/stylex@0.19.1':
+    hash: e7441fdd74b3d809db67c2cc3bea14851aa22b05086b7bf0bb80f070392c31ae
+    path: patches/@stylexjs__stylex@0.19.1.patch
+
 importers:
 
   .:
     dependencies:
       '@stylexjs/stylex':
         specifier: 0.19.1
-        version: 0.19.1
+        version: 0.19.1(patch_hash=e7441fdd74b3d809db67c2cc3bea14851aa22b05086b7bf0bb80f070392c31ae)
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1
@@ -3816,14 +3821,14 @@ snapshots:
       '@babel/types': 7.29.8
       '@dual-bundle/import-meta-resolve': 4.2.1
       '@stylexjs/shared': 0.19.1
-      '@stylexjs/stylex': 0.19.1
+      '@stylexjs/stylex': 0.19.1(patch_hash=e7441fdd74b3d809db67c2cc3bea14851aa22b05086b7bf0bb80f070392c31ae)
       postcss-value-parser: 4.2.0
     transitivePeerDependencies:
       - supports-color
 
   '@stylexjs/shared@0.19.1': {}
 
-  '@stylexjs/stylex@0.19.1':
+  '@stylexjs/stylex@0.19.1(patch_hash=e7441fdd74b3d809db67c2cc3bea14851aa22b05086b7bf0bb80f070392c31ae)':
     dependencies:
       css-mediaquery: 0.1.2
       invariant: 2.2.4
