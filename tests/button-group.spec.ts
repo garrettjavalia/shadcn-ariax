@@ -2,6 +2,35 @@ import {test,expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 import {compare} from './compare';
 import {upstreamURL,stylexURL} from './servers';
+for(const theme of ['light','dark'])test(`ButtonGroup split separator remains within the group / ${theme}`,async({browser},info)=>{
+ const context=await browser.newContext({viewport:{width:1000,height:900}});
+ const pages=await Promise.all([upstreamURL,stylexURL].map(()=>context.newPage()));
+ try{
+  for(const scenario of [{font:'16px',spacing:'.25rem',direction:'ltr'},{font:'20px',spacing:'.375rem',direction:'rtl'}]){
+   await Promise.all(pages.map(async(page,index)=>{
+    await page.goto(`${[upstreamURL,stylexURL][index]}/iframe.html?id=components-buttongroup--split&viewMode=story&globals=theme:${theme}`);
+    await page.locator('#parity-root').evaluate((node,scenario)=>{
+     const root=document.documentElement;
+     root.style.fontSize=scenario.font;
+     root.style.setProperty('--spacing',scenario.spacing);
+     root.style.setProperty('--ariax-spacing',scenario.spacing);
+     node.setAttribute('dir',scenario.direction);
+    },scenario);
+   }));
+   await compare(pages[0],pages[1],info,`split-${scenario.font}-${scenario.direction}`);
+   for(const page of pages){
+    const geometry=await page.locator('[data-slot="button-group-separator"]').evaluate(separator=>{
+     const group=separator.closest('[data-slot="button-group"]')!;
+     const a=separator.getBoundingClientRect(),b=group.getBoundingClientRect();
+     return {width:a.width,height:a.height,inside:a.left>=b.left&&a.right<=b.right&&a.top>=b.top&&a.bottom<=b.bottom};
+    });
+    expect(geometry.width).toBe(1);
+    expect(geometry.height).toBeGreaterThan(0);
+    expect(geometry.inside).toBe(true);
+   }
+  }
+ }finally{await context.close();}
+});
 test('all official ButtonGroup previews are mapped to actual widget compositions',async({request})=>{
  const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/button-group.mdx','utf8');
  const names=[...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g)].map(m=>m[1]);
