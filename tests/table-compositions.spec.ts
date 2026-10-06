@@ -13,7 +13,7 @@ for(const theme of ['light','dark']) for(const kind of ['actions','select','inpu
   }
   await compare(pages[0],pages[1],info,'active');
   if(kind!=='input'){
-   for(const page of pages){await page.keyboard.press('ArrowDown');await page.keyboard.press('Enter');}
+   for(const page of pages){await page.keyboard.press('ArrowDown');await page.keyboard.press('Enter');if(kind==='actions'){await expect(page.getByRole('menu')).toHaveCount(0);await expect(page.getByRole('button',{name:'Open menu'}).first()).toBeFocused();}else{await expect(page.locator('[data-slot="select-content"]')).toHaveCount(0);await expect(page.locator('[data-slot="select-trigger"]').first()).toBeFocused();}}
    await compare(pages[0],pages[1],info,'keyboard');
   }
  }finally{await context.close();}
