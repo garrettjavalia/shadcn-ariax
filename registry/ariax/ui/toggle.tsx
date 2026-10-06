@@ -85,7 +85,7 @@ const styles = stylex.create({
       },
       ':is([aria-pressed="true"])': 'var(--muted)',
       ':is([data-state="on"])': 'var(--muted)',
-      ':where([data-selected]:not([data-selected="false"]))': 'var(--muted)'
+      ':where([data-selected="true"])': 'var(--muted)'
     },
     borderColor: {
       default: null,
