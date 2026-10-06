@@ -22,10 +22,12 @@ for(const theme of ['light','dark'])test(`ButtonGroup split separator remains wi
     const geometry=await page.locator('[data-slot="button-group-separator"]').evaluate(separator=>{
      const group=separator.closest('[data-slot="button-group"]')!;
      const a=separator.getBoundingClientRect(),b=group.getBoundingClientRect();
-     return {width:a.width,height:a.height,inside:a.left>=b.left&&a.right<=b.right&&a.top>=b.top&&a.bottom<=b.bottom};
+     return {width:a.width,height:a.height,groupHeight:b.height,buttonHeight:Math.max(...Array.from(group.querySelectorAll('button'),button=>button.getBoundingClientRect().height)),inside:a.left>=b.left&&a.right<=b.right&&a.top>=b.top&&a.bottom<=b.bottom};
     });
     expect(geometry.width).toBe(1);
     expect(geometry.height).toBeGreaterThan(0);
+    expect(geometry.groupHeight).toBe(geometry.buttonHeight);
+    expect(geometry.height).toBe(geometry.buttonHeight);
     expect(geometry.inside).toBe(true);
    }
   }

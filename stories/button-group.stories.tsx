@@ -22,7 +22,7 @@ import {Focusable,ButtonContext,SeparatorContext} from 'react-aria-components';
 import {PlusIcon,MinusIcon,FlipHorizontalIcon,FlipVerticalIcon,RotateCwIcon,SearchIcon,AudioLinesIcon,HeartIcon,ArrowLeftIcon,ArrowRightIcon,CopyIcon,ShareIcon,TrashIcon} from 'lucide-react';
 import {IconPlus} from '@tabler/icons-react';
 import {voice,dynamic} from '@button-group-customizations';
-const meta={title:'Components/ButtonGroup',component:ButtonGroup,tags:['parity'],decorators:[Story=><main id="parity-root" style={{display:'grid',gap:16,width:'100%',maxWidth:620}}><Story/></main>]} satisfies Meta<typeof ButtonGroup>;
+const meta={title:'Components/ButtonGroup',component:ButtonGroup,tags:['parity'],decorators:[Story=><main id="parity-root" style={{display:'grid',alignItems:'start',gap:16,width:'100%',maxWidth:620}}><Story/></main>]} satisfies Meta<typeof ButtonGroup>;
 export default meta;
 type Story=StoryObj<typeof meta>;
 export const Usage:Story={render:()=> <ButtonGroup aria-label="Button group"><Button>Button 1</Button><Button>Button 2</Button></ButtonGroup>};
