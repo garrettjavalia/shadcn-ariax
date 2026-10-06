@@ -3,7 +3,8 @@
     "button",
     "skeleton",
     "separator",
-    "card",
-    "alert"
+    "badge",
+    "alert",
+    "card"
   ]
 }

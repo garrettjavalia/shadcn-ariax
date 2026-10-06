@@ -16,7 +16,7 @@
 - [ ] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group
