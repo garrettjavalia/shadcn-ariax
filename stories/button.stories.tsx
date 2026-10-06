@@ -1,3 +1,6 @@
+import { Skeleton } from '@skeleton';
+import { Separator } from '@separator';
+import { inlineSizing, inlineSkeletonSizing } from '@customizations';
 import OfficialGroup from './official-group';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -49,3 +52,16 @@ export const Dynamic: Story = { render: () => <DynamicExample /> };
 
 // Reuse the generic parity suite for all exported style combinations.
 export const HelperMatrix: Story = { render: () => <main id="parity-root">{variants.map(variant => <section key={variant}><h2>{variant}</h2><div className="gallery">{sizes.map(size => <a key={size} href="#destination" aria-label={`${variant}-${size}`} {...buttonProps({variant, size})}><Icon />{!size.startsWith("icon") && <span>{size}</span>}</a>)}</div></section>)}</main> };
+
+function InlineStyleExample() {
+  const [height, setHeight] = useState(44);
+  return <main id="parity-root"><div className="gallery">
+    <Button {...inlineSizing} style={{ height }} onPress={() => setHeight(52)}>Inline button</Button>
+    <LinkButton {...inlineSizing} href="#destination" style={({ isHovered }) => ({ height, opacity: isHovered ? 0.6 : 1 })}>Inline link</LinkButton>
+    <Button {...inlineSizing} style={({ isPressed }) => ({ height, opacity: isPressed ? 0.4 : 1 })}>State button</Button>
+    <a href="#destination" {...buttonProps({ ...inlineSizing, style: { height } })}>Inline helper</a>
+    <Skeleton {...inlineSkeletonSizing} data-testid="inline-skeleton" style={{ height }} />
+    <Separator {...inlineSizing} data-testid="inline-separator" style={{ height: 4, width: 140 }} />
+  </div></main>;
+}
+export const InlineStyle: Story = { render: () => <InlineStyleExample /> };
