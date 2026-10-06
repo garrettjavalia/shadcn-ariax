@@ -56,7 +56,7 @@ export async function snapshot(page: Page) {
         attrs: Object.fromEntries([...node.attributes]
           .filter(a => !['class', 'style'].includes(a.name))
           .sort((a, b) => a.name.localeCompare(b.name))
-          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : a.name === 'data-collection' ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(id => ids.get(id) ?? `external:${id}`).join(' ') : a.value])),
+          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : (a.name === 'data-collection' || (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value))) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(id => ids.get(id) ?? `external:${id}`).join(' ') : a.value])),
         animations: animations(node).map(animation => {
           const effect = animation.effect;
           if (!(effect instanceof KeyframeEffect)) throw new Error('Missing CSS animation keyframe effect');

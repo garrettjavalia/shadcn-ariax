@@ -19,6 +19,8 @@
     "dropdown-menu",
     "tooltip",
     "switch",
-    "avatar"
+    "avatar",
+    "radio-group",
+    "button-group"
   ]
 }

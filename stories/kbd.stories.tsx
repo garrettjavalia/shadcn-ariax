@@ -1,3 +1,4 @@
+import {KbdTooltipComposition} from './kbd-tooltip';
 import {officialMono} from '@input-group-customizations';
 import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -24,3 +25,5 @@ export const TooltipSelector: Story = { render: () => <div data-slot="tooltip-co
 export const RadiusToken: Story = { render: () => <div style={{ "--radius": "20px" } as CSSProperties}><Kbd>Ctrl</Kbd></div> };
 
 export const FontTokens: Story = { render: () => <><div style={{fontFamily:"serif"}}><Kbd data-testid="sans-missing">Ctrl</Kbd><InputGroupText {...officialMono} data-testid="mono-missing">script.js</InputGroupText></div><div style={{fontFamily:"serif","--font-sans":"\"Courier New\", monospace","--font-mono":"\"Times New Roman\", serif"} as CSSProperties}><Kbd data-testid="sans-defined">Ctrl</Kbd><InputGroupText {...officialMono} data-testid="mono-defined">script.js</InputGroupText></div></> };
+
+export const InTooltip: Story = {render:()=> <KbdTooltipComposition/>};

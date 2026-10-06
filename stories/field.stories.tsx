@@ -15,3 +15,6 @@ export const Rtl:Story={render:()=> <div dir="rtl"><FieldGroup><Field orientatio
 export const Inline:Story={render:()=> <FieldSet style={{gap:'2rem'}}><FieldLegend style={{fontSize:'1.25rem'}}>Inline styles</FieldLegend><FieldGroup style={{gap:'1.5rem'}}><Field style={{gap:'1rem',width:'80%'}}><FieldLabel style={{opacity:0.8,lineHeight:2}}>Label</FieldLabel><FieldContent style={{gap:'0.75rem'}}><FieldTitle style={{fontWeight:600}}>Title</FieldTitle><FieldDescription style={{color:'red'}}>Description</FieldDescription><FieldError style={{fontSize:'1rem'}}>Error</FieldError></FieldContent></Field><FieldSeparator style={{height:'2rem'}}>Separator</FieldSeparator></FieldGroup></FieldSet>};
 
 export const Customized:Story={render:()=> <Field {...fieldCustomized}><FieldLabel {...fieldLabelCustomized}>Custom field</FieldLabel><input/><FieldDescription>Custom layout</FieldDescription></Field>};
+
+import {FieldRadio} from './field-radio';import FieldChoiceCard from './field-choice-card';
+export const Radio:Story={render:()=> <FieldRadio/>};export const RadioChoiceCard:Story={render:()=> <FieldChoiceCard/>};

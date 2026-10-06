@@ -122,6 +122,15 @@
       ],
       "@avatar-customizations": [
         "./stories/avatar-customizations.ts"
+      ],
+      "@radio-group": [
+        "./registry/ariax/ui/radio-group.tsx"
+      ],
+      "@button-group": [
+        "./registry/ariax/ui/button-group.tsx"
+      ],
+      "@button-group-customizations": [
+        "./stories/button-group-customizations.ts"
       ]
     }
   },
