@@ -36,6 +36,7 @@
 @import "./calendar.css";
 @import "./resizable.css";
 
+@import "./sidebar.css";
 @import './chart.css';
 @import "./input-otp.css";
 @import "./context-menu.css";
