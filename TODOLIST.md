@@ -26,7 +26,7 @@
 - [ ] Chart
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [ ] Collapsible
-- [ ] Combobox — 기본 구현 완료; 공식 custom 예제의 Item 조합 대기
+- [x] Combobox
 - [ ] Command
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
