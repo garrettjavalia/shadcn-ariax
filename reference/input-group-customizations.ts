@@ -1,0 +1,9 @@
+export const groupCustomization={style:{width:240}};
+export const addonCustomization={style:{paddingLeft:16}};
+export const inputGroupCustomization={style:{fontSize:18}};
+export const officialTextarea={className:'min-h-[200px]'};
+export const officialBottom={className:'border-t'};
+export const officialTop={className:'border-b'};
+export const officialAuto={className:'ml-auto'};
+export const officialMono={className:'font-mono font-medium'};
+export const officialCustom={className:'flex field-sizing-content min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-base transition-[color,box-shadow] outline-none md:text-sm'};
