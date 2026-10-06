@@ -2,6 +2,9 @@ import type { Preview } from '@storybook/react-vite';
 import '@implementation-css';
 import '../registry/ariax/styles/theme.css';
 import './preview.css';
+import {installParityAnimationObserver} from './animation-observer';
+
+installParityAnimationObserver();
 
 const preview: Preview = {
   parameters: { layout: 'fullscreen', controls: { expanded: true } },
