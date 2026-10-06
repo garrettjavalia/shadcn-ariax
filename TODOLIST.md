@@ -11,20 +11,20 @@
 ## 지원 예정
 
 - [ ] Accordion
-- [ ] Alert
+- [x] Alert
 - [ ] Alert Dialog
-- [ ] Aspect Ratio
+- [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
 - [ ] Button Group
 - [ ] Calendar
-- [ ] Card
+- [x] Card
 - [ ] Carousel
 - [ ] Chart
-- [ ] Checkbox
+- [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [ ] Collapsible
 - [ ] Combobox
 - [ ] Command
@@ -36,14 +36,14 @@
 - [ ] Drawer
 - [ ] Dropdown Menu
 - [ ] Empty
-- [ ] Field
+- [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card
-- [ ] Input
+- [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd — Kbd·KbdGroup 레지스트리 구현, 공식 Demo·Group·Button·Input Group·RTL 및 Usage 검증; Tooltip 공식 조합 대기
-- [ ] Label
+- [ ] Kbd
+- [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
@@ -64,7 +64,7 @@
 - [ ] Switch
 - [ ] Table
 - [ ] Tabs
-- [ ] Textarea
+- [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle
 - [ ] Toggle Group
 - [ ] Tooltip

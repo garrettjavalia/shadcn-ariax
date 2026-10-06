@@ -29,6 +29,10 @@
     "apps/v4/content/docs/components/aria/skeleton.mdx",
     "apps/v4/registry/bases/aria/ui/separator.tsx",
     "apps/v4/content/docs/components/aria/separator.mdx",
+    "apps/v4/registry/bases/aria/ui/badge.tsx",
+    "apps/v4/content/docs/components/aria/badge.mdx",
+    "apps/v4/registry/bases/aria/ui/aspect-ratio.tsx",
+    "apps/v4/content/docs/components/aria/aspect-ratio.mdx",
     "apps/v4/registry/bases/aria/ui/kbd.tsx",
     "apps/v4/content/docs/components/aria/kbd.mdx"
   ]
