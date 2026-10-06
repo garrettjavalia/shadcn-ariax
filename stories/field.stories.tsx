@@ -18,3 +18,42 @@ export const Customized:Story={render:()=> <Field {...fieldCustomized}><FieldLab
 
 import {FieldRadio} from './field-radio';import FieldChoiceCard from './field-choice-card';
 export const Radio:Story={render:()=> <FieldRadio/>};export const RadioChoiceCard:Story={render:()=> <FieldChoiceCard/>};
+
+import OfficialDemo from './field-examples/demo';
+export const DocumentDemo:Story={render:()=> <OfficialDemo/>};
+
+import OfficialInput from './field-examples/input';
+export const DocumentInput:Story={render:()=> <OfficialInput/>};
+
+import OfficialTextarea from './field-examples/textarea';
+export const DocumentTextarea:Story={render:()=> <OfficialTextarea/>};
+
+import OfficialSelect from './field-examples/select';
+export const DocumentSelect:Story={render:()=> <OfficialSelect/>};
+
+import OfficialSlider from './field-examples/slider';
+export const DocumentSlider:Story={render:()=> <OfficialSlider/>};
+
+import {FieldFieldset as OfficialFieldset} from './field-examples/fieldset';
+export const DocumentFieldset:Story={render:()=> <OfficialFieldset/>};
+
+import OfficialSwitch from './field-examples/switch';
+export const DocumentSwitch:Story={render:()=> <OfficialSwitch/>};
+
+import {FieldRtl as OfficialRtl} from './field-examples/rtl';
+export const DocumentRtl:Story={render:()=> <OfficialRtl/>};
+
+import {FieldResponsive as OfficialResponsive} from './field-examples/responsive';
+export const DocumentResponsive:Story={tags:['viewport-390'],render:()=> <OfficialResponsive/>};
+
+import * as RegistryFields from './field-examples/registry';
+export const RegistryInputFields:Story={render:()=> <RegistryFields.InputFields/>};
+export const RegistryTextareaFields:Story={render:()=> <RegistryFields.TextareaFields/>};
+export const RegistrySelectFields:Story={render:()=> <RegistryFields.SelectFields/>};
+export const RegistryNativeSelectFields:Story={render:()=> <RegistryFields.NativeSelectFields/>};
+export const RegistryCheckboxFields:Story={render:()=> <RegistryFields.CheckboxFields/>};
+export const RegistryRadioFields:Story={render:()=> <RegistryFields.RadioFields/>};
+export const RegistrySwitchFields:Story={render:()=> <RegistryFields.SwitchFields/>};
+export const RegistrySliderFields:Story={render:()=> <RegistryFields.SliderFields/>};
+export const RegistryInputOTPFields:Story={render:()=> <RegistryFields.InputOTPFields/>};
+export const RegistryHorizontalFields:Story={render:()=> <RegistryFields.HorizontalFields/>};
