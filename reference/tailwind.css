@@ -6,6 +6,7 @@
 @source "./components";
 @source "../../../reference/customizations.ts";
 @source "../../../reference/skeleton-customizations.ts";
+@source "../../../reference/table-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --color-background: var(--background);
@@ -15,6 +16,7 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);

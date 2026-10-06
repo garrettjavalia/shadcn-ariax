@@ -35,6 +35,12 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@table": [
+        "./registry/ariax/ui/table.tsx"
+      ],
+      "@table-customizations": [
+        "./stories/table-customizations.ts"
       ]
     }
   },
