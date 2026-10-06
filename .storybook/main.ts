@@ -10,14 +10,14 @@ const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   stories: ['../stories/**/*.stories.tsx', ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
   addons: ['@storybook/addon-docs'],
-  staticDirs: ['../public', ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
+  staticDirs: ['../public', ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }, { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
     // Preserve authored calculations and color notation in both parity builds.
     config.build = {...config.build,cssMinify:false};
     config.resolve ??= {};
-    // Reference components and shared stories must use the same React Aria contexts.
-    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react-aria-components'])];
+    // Reference namespaces and shared stories must use the same primitive contexts.
+    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react-aria-components', '@shadcn/react'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),

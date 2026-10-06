@@ -142,7 +142,8 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     const meta = metas.get(component);
     const imports = entries.map((preview, index) => `import ${preview.exportName === 'default' ? `Original${index}` : `{ ${preview.exportName} as Original${index} }`} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};`).join('\n');
     const harness = meta ? `import fixtureMeta from ${JSON.stringify(modulePath(file, meta))};\n` : '';
-    const decorators = meta ? 'fixtureMeta.decorators' : '[Story => <main id="parity-root"><Story /></main>]';
+    const fallbackDecorator = '[Story => <main id="parity-root"><Story /></main>]';
+    const decorators = meta ? `fixtureMeta.decorators ?? ${fallbackDecorator}` : fallbackDecorator;
     const identifier = (name: string) => 'Original' + name.split('-').map(part => part[0].toUpperCase() + part.slice(1)).join('');
     const stories = entries.map((preview, index) => `export const ${identifier(preview.name)} = { name: ${JSON.stringify(preview.name)}, parameters: { originalSource: ${JSON.stringify(preview.source)}, stylexStoryIds: ${JSON.stringify(preview.stylexStoryIds)} }, render: () => <Original${index} /> };`).join('\n');
     // Explicit story IDs are derived from exported identifiers, not display names.

@@ -23,7 +23,8 @@
     "apps/v4/registry/icons/__lucide__.ts",
     "apps/v4/registry/bases/base",
     "apps/v4/registry/bases/radix",
-    "apps/v4/registry/styles/style-rhea.css"
+    "apps/v4/registry/styles/style-rhea.css",
+    "apps/v4/public/avatars"
   ],
   "requiredFiles": [
     "apps/v4/registry/bases/aria/registry.ts",
@@ -68,6 +69,11 @@
     "apps/v4/registry/bases/radix/ui/message.tsx",
     "apps/v4/registry/bases/radix/ui/message-scroller.tsx",
     "apps/v4/registry/bases/radix/ui/button.tsx",
-    "apps/v4/registry/styles/style-rhea.css"
+    "apps/v4/registry/styles/style-rhea.css",
+    "apps/v4/public/avatars/01.png",
+    "apps/v4/public/avatars/02.png",
+    "apps/v4/public/avatars/03.png",
+    "apps/v4/public/avatars/10.png",
+    "apps/v4/public/avatars/shadcn.jpg"
   ]
 }
