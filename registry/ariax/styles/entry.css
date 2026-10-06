@@ -1,4 +1,5 @@
 @layer theme, base, components, utilities;
+@import './breadcrumb.css';
 @import "./alert.css";
 @import './reset.css' layer(base);
 @import './theme.css';
