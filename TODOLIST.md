@@ -66,7 +66,7 @@
 - [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀
 - [x] Tabs
 - [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
-- [ ] Toggle
+- [x] Toggle
 - [ ] Toggle Group
 - [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
 - [ ] Typography — 텍스트 스타일 예제
