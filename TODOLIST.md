@@ -18,7 +18,7 @@
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
 - [x] Badge
 - [x] Breadcrumb
-- [ ] Bubble
+- [x] Bubble
 - [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
 - [x] Calendar
 - [x] Card
@@ -58,7 +58,7 @@
 - [x] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
-- [ ] Sidebar
+- [x] Sidebar
 - [x] Slider
 - [x] Sonner — 공식 예제·타입·위치·RTL·토스트 API·시간별 애니메이션
 - [x] Spinner
