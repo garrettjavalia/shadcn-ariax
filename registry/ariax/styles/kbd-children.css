@@ -1,0 +1,2 @@
+/* Preserve the original descendant selector, including explicit size utilities. */
+[data-slot="kbd"] svg:not([class*="size-"]) { width: 0.75rem; height: 0.75rem; }

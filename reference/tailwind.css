@@ -3,15 +3,22 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @source "./ui";
-@source "../../../reference/avatar-customizations.ts";
 @source "./lib";
 @source "./hooks";
 @source "./components";
+@source "../../../reference/textarea-customizations.ts";
+@source "../../../reference/input-group-customizations.ts";
 @source "../../../reference/customizations.ts";
-@source "../../../reference/skeleton-customizations.ts";
-@source "../../../stories/reference-utilities.stories.tsx";
-@source "../../../reference/table-customizations.ts";
+@source "../../../reference/avatar-customizations.ts";
 @source "../../../reference/dropdown-menu-customizations.ts";
+@source "../../../reference/kbd-customizations.ts";
+@source "../../../reference/table-customizations.ts";
+@source "../../../reference/aspect-customizations.ts";
+@source "../../../reference/skeleton-customizations.ts";
+@source "../../../reference/card-customizations.ts";
+@source "../../../reference/badge-customizations.ts";
+@source "../../../stories/reference-utilities.stories.tsx";
+@source "../../../reference/alert-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --breakpoint-3xl: 1600px;
