@@ -82,7 +82,8 @@
 @source "../../../reference/empty-customizations.ts";
 @source "../../../reference/alert-dialog-customizations.ts";
 @source "../../../reference/accordion-customizations.ts";
-
+@source "../../../reference/item-customizations.ts";
 @source "../../../reference/sheet-customizations.ts";
 
 @source "../../../reference/collapsible-customizations.ts";
+@source "../../../reference/popover-customizations.ts";
