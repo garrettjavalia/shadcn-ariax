@@ -93,6 +93,15 @@
       "@table-customizations": [
         "./stories/table-customizations.ts"
       ],
+      "@kbd": [
+        "./registry/ariax/ui/kbd.tsx"
+      ],
+      "@kbd-customizations": [
+        "./stories/kbd-customizations.ts"
+      ],
+      "@native-select": [
+        "./registry/ariax/ui/native-select.tsx"
+      ],
       "@dropdown-menu": [
         "./registry/ariax/ui/dropdown-menu.tsx"
       ],

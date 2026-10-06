@@ -42,12 +42,12 @@
 - [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd
+- [ ] Kbd — 기본 설치 구현; 공식 Tooltip/ButtonGroup 조합 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker
 - [ ] Message
 - [ ] Message Scroller
-- [ ] Native Select
+- [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [ ] Pagination
 - [ ] Popover
 - [ ] Progress
