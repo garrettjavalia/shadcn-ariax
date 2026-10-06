@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@table': resolve(upstream ? 'generated/reference/aria-nova/ui/table.tsx' : 'registry/ariax/ui/table.tsx'),
+      '@table-customizations': resolve(upstream ? 'reference/table-customizations.ts' : 'stories/table-customizations.ts'),
       '@textarea': resolve(upstream ? 'generated/reference/aria-nova/ui/textarea.tsx' : 'registry/ariax/ui/textarea.tsx'),
       '@textarea-customizations': resolve(upstream ? 'reference/textarea-customizations.ts' : 'stories/textarea-customizations.ts'),
       '@input-customizations': resolve(upstream ? 'reference/input-customizations.ts' : 'stories/input-customizations.ts'),
@@ -28,6 +30,8 @@ const config: StorybookConfig = {
       '@badge-customizations': resolve(upstream ? 'reference/badge-customizations.ts' : 'stories/badge-customizations.ts'),
       '@alert': resolve(upstream ? 'generated/reference/aria-nova/ui/alert.tsx' : 'registry/ariax/ui/alert.tsx'),
       '@alert-customizations': resolve(upstream ? 'reference/alert-customizations.ts' : 'stories/alert-customizations.ts'),
+      '@kbd': resolve(upstream ? 'generated/reference/aria-nova/ui/kbd.tsx' : 'registry/ariax/ui/kbd.tsx'),
+      '@kbd-customizations': resolve(upstream ? 'reference/kbd-customizations.ts' : 'stories/kbd-customizations.ts'),
       '@skeleton': resolve(upstream ? 'reference/skeleton.tsx' : 'registry/ariax/ui/skeleton.tsx'),
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),

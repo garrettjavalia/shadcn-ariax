@@ -42,7 +42,7 @@
 - [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd
+- [ ] Kbd — 기본 설치 구현; 공식 Tooltip/ButtonGroup 조합 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
 - [ ] Marker
 - [ ] Message
@@ -62,7 +62,7 @@
 - [ ] Sonner
 - [ ] Spinner
 - [ ] Switch
-- [ ] Table
+- [ ] Table — 기본 구현·Checkbox 조합 제공; Dropdown Actions 후속 통합 검증
 - [ ] Tabs
 - [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle

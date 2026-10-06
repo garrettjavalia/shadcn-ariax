@@ -1,0 +1,4 @@
+/* RAC creates header rows internally, without the exported TableRow wrapper. */
+.ariax-table-header tr { border-bottom-width: var(--ariax-table-header-border, 1px); }
+.ariax-table-body tr:last-child { --ariax-table-row-border: 0px; }
+.ariax-table-footer:last-child > tr { --ariax-table-row-border: 0px; }

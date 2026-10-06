@@ -13,6 +13,8 @@
     "textarea",
     "field",
     "input-group",
+    "table",
+    "kbd",
     "native-select"
   ]
 }
