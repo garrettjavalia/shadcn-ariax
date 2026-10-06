@@ -1,4 +1,4 @@
-import {markerShimmer,markerColumn,markerCenter,markerFlex,markerHover} from '@marker-customizations';
+import {markerDrawerClasses,markerShimmer,markerColumn,markerCenter,markerFlex,markerHover} from '@marker-customizations';
 "use client"
 
 import { toast } from "sonner"
@@ -15,6 +15,7 @@ import {
   MarkerContent,
   MarkerIcon,
 } from "@marker"
+import {Drawer,DrawerClose,DrawerContent,DrawerDescription,DrawerFooter,DrawerHeader,DrawerTitle,DrawerTrigger} from '@drawer';
 import { Spinner } from "@spinner"
 import {FileTextIcon,GitBranchIcon,ClockIcon,ChevronRightIcon,CircleUserIcon,SearchIcon,CheckIcon} from 'lucide-react';
 
@@ -176,6 +177,48 @@ export function MarkerAccordion() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+    </div>
+  )
+}
+
+export function MarkerDrawer({variant='separator'}:{variant?:'default'|'separator'|'border'}={}) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',width:'100%',maxWidth:'24rem',gap:'1rem'}}>
+      <Drawer swipeDirection="right">
+        <Marker variant={variant}>
+          <DrawerTrigger render={<Button variant="outline" />}>
+            <SearchIcon data-icon="inline-start"/>
+            Explored 4 files
+          </DrawerTrigger>
+        </Marker>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>File Activity</DrawerTitle>
+            <DrawerDescription>
+              Files read while preparing the response.
+            </DrawerDescription>
+          </DrawerHeader>
+          <div {...markerDrawerClasses.grid}>
+            <div {...markerDrawerClasses.row}>
+              <span {...markerDrawerClasses.truncate}>app/chat/page.tsx</span>
+              <span {...markerDrawerClasses.muted}>read</span>
+            </div>
+            <div {...markerDrawerClasses.row}>
+              <span {...markerDrawerClasses.truncate}>components/message.tsx</span>
+              <span {...markerDrawerClasses.muted}>read</span>
+            </div>
+            <div {...markerDrawerClasses.row}>
+              <span {...markerDrawerClasses.truncate}>lib/ai.ts</span>
+              <span {...markerDrawerClasses.muted}>read</span>
+            </div>
+          </div>
+          <DrawerFooter>
+            <DrawerClose render={<Button variant="outline" />}>
+              Close
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   )
 }

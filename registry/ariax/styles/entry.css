@@ -45,4 +45,6 @@
 @import "./animations-properties.css";
 @import './typography.css';
 
+@import "./message-scroller.css";
 @import "./bubble.css";
+@import "./attachment.css";

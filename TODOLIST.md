@@ -14,7 +14,7 @@
 - [x] Alert
 - [x] Alert Dialog
 - [x] Aspect Ratio
-- [ ] Attachment
+- [x] Attachment — 공식 조합 검증; native trigger의 원본 Dialog 미연결 동작 보존
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
 - [x] Badge
 - [x] Breadcrumb
@@ -45,9 +45,9 @@
 - [x] Item — 공식 문서·registry 조합, 링크·메뉴·RTL·미디어
 - [ ] Kbd — 기본 설치·Tooltip 내용 구현; 공식 ButtonGroup 컨테이너 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
-- [ ] Marker — 구현·문서 예제 검증; Drawer 조합 통합 대기
+- [x] Marker — 공식 문서·registry 예제, 실제 Drawer 조합
 - [ ] Message
-- [ ] Message Scroller
+- [ ] Message Scroller — primitive 구현; 공식 채팅 조합·스크롤 상태 검증 진행
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [x] Pagination
 - [x] Popover
@@ -60,7 +60,7 @@
 - [x] Sheet
 - [x] Sidebar
 - [x] Slider
-- [ ] Sonner
+- [x] Sonner — 공식 예제·타입·위치·RTL·토스트 API·시간별 애니메이션
 - [x] Spinner
 - [x] Switch
 - [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀

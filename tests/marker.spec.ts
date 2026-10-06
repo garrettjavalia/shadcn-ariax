@@ -5,10 +5,8 @@ import {upstreamURL,stylexURL} from './servers';
 test('Marker official document and explicit registry coverage',async({request})=>{
  const doc=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/marker.mdx','utf8');const names=[...doc.matchAll(/<ComponentPreview\b[^>]*name="marker-([^"]+)"/g)].map(m=>m[1]);expect(names).toHaveLength(8);const entries=(await(await request.get(stylexURL+'/index.json')).json()).entries;
  for(const name of [...names,'usage'])expect(entries['components-marker--'+name]?.tags,name).toContain('parity');
- const registry=await readFile('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/marker-example.tsx','utf8');const functions=[...registry.matchAll(/^function (Marker\w+)\(/gm)].map(m=>m[1]);const mapping:Record<string,string>={MarkerExample:'registry-markers',MarkerBorder:'registry-border',MarkerSeparator:'registry-separator',MarkerAccordion:'registry-accordion'};
- expect(functions.sort()).toEqual([...Object.keys(mapping),'MarkerDrawer'].sort());for(const story of Object.values(mapping))expect(entries['components-marker--'+story]?.tags).toContain('parity');
- // This real dependency composition is tracked, not replaced by a fake Drawer.
- expect(await readFile('TODOLIST.md','utf8')).toContain('Marker — 구현·문서 예제 검증; Drawer 조합 통합 대기');
+ const registry=await readFile('generated/upstream/shadcn/apps/v4/registry/bases/aria/examples/marker-example.tsx','utf8');const functions=[...registry.matchAll(/^function (Marker\w+)\(/gm)].map(m=>m[1]);const mapping:Record<string,string>={MarkerExample:'registry-markers',MarkerBorder:'registry-border',MarkerSeparator:'registry-separator',MarkerAccordion:'registry-accordion',MarkerDrawer:'registry-drawer'};
+ expect(functions.sort()).toEqual(Object.keys(mapping).sort());for(const story of Object.values(mapping))expect(entries['components-marker--'+story]?.tags).toContain('parity');
 });
 for(const theme of ['light','dark'])test(`Marker interactive render, accordion and customization / ${theme}`,async({browser},info)=>{const context=await browser.newContext({viewport:{width:1000,height:900}});const pages=await Promise.all([context.newPage(),context.newPage()]);try{for(const story of ['link-button','registry-accordion','customization']){
  await Promise.all(pages.map((p,i)=>p.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-marker--${story}&globals=theme:${theme}`)));for(const p of pages)await expect(p.locator('#parity-root')).toBeVisible();
