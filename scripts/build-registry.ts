@@ -6,8 +6,10 @@ const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const componentNames = await discoverComponents(process.cwd());
 const recipeNames = (await readdir('registry/ariax/ui')).filter(name => /^[a-z][a-z0-9-]*\.recipe\.stylex\.ts$/.test(name)).map(name => name.slice(0, -17)).sort();
 const sharedFiles = [
+  ...['stylex', 'unplugin'].map(name => ({ path: `patches/@stylexjs__${name}@0.19.1.patch`, type: 'registry:file', target: `@ui/ariax/setup/@stylexjs__${name}@0.19.1.patch` })),
   { path: 'registry/ariax/ui/animations.stylex.ts', type: 'registry:file', target: '@ui/animations.stylex.ts' },
   ...(await readdir('registry/ariax/styles')).filter(name => name.endsWith('.css')).sort().map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  { path: 'licenses/STYLEX-LICENSE', type: 'registry:file', target: '@ui/ariax/setup/STYLEX-LICENSE' },
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
@@ -20,7 +22,7 @@ const items = await Promise.all([...componentNames.map(name => ({ name, type: 'r
   dependencies: [...new Set([`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`, ...source.dependencies])],
   devDependencies: [`@stylexjs/unplugin@${pkg.devDependencies['@stylexjs/unplugin']}`],
   files: [...source.files, ...sharedFiles.filter(file => !source.files.some(source => source.path === file.path))],
-  docs: 'Configure @stylexjs/unplugin in Vite before the React plugin (useCSSLayers: false), then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
+  docs: 'Apply the installed ui/ariax/setup patches with pnpm patchedDependencies and reinstall dependencies. Configure @stylexjs/unplugin in Vite before the React plugin (useCSSLayers: false, lightningcssOptions: false) and set build.cssMinify: false, then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
   meta: { base: 'aria', style: 'nova', styling: 'stylex', theme: 'neutral', modes: ['light', 'dark'] },
   };
 }));

@@ -46,7 +46,15 @@ pnpm registry:build
 pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 ```
 
-소비 앱의 Vite에 `@stylexjs/unplugin`의 `stylex.vite({useCSSLayers:false})`를 React 플러그인보다 먼저 등록하고, 설치된 `ui/ariax/styles/entry.css`를 한 번 import한다. `<html class="dark">`로 다크 모드를 적용한다. 실제 CLI 설치·소비 앱 빌드는 `pnpm test:install`로 확인할 수 있다.
+설치된 패치를 소비 앱의 `pnpm-workspace.yaml`에 추가하고 `pnpm install`을 실행한다. 아래 경로는 기본 `src/components/ui` 별칭 기준이며 앱의 실제 설치 경로에 맞춘다. 패치는 고정한 StyleX 0.19.1의 조건부 스타일 주입과 CSS 계산식·색상·RTL 선택자 보존에 필요하다.
+
+```yaml
+patchedDependencies:
+  '@stylexjs/stylex@0.19.1': src/components/ui/ariax/setup/@stylexjs__stylex@0.19.1.patch
+  '@stylexjs/unplugin@0.19.1': src/components/ui/ariax/setup/@stylexjs__unplugin@0.19.1.patch
+```
+
+소비 앱의 Vite에 `@stylexjs/unplugin`의 `stylex.vite({useCSSLayers:false, lightningcssOptions:false})`를 React 플러그인보다 먼저 등록하고 `build.cssMinify:false`를 설정한다. 추가 CSS 변환 없이 현대 브라우저용 StyleX CSS를 배출하는 설정이다. 설치된 `ui/ariax/styles/entry.css`를 한 번 import한다. `<html class="dark">`로 다크 모드를 적용한다. 실제 CLI 설치·소비 앱 빌드는 `pnpm test:install`로 확인할 수 있다.
 
 ## 개발 문서
 
