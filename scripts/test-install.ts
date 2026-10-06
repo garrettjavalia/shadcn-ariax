@@ -13,7 +13,7 @@ const run = (command: string, args: string[], cwd = dir) => {
 };
 try {
   const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-  await writeFile(join(dir, 'package.json'), JSON.stringify({ name: 'ariax-consumer', private: true, type: 'module', dependencies: { react: pkg.dependencies.react, 'react-dom': pkg.dependencies['react-dom'] }, devDependencies: { vite: pkg.devDependencies.vite, typescript: pkg.devDependencies.typescript, '@types/react': pkg.devDependencies['@types/react'], '@types/react-dom': pkg.devDependencies['@types/react-dom'] } }, null, 2));
+  await writeFile(join(dir, 'package.json'), JSON.stringify({ name: 'ariax-consumer', private: true, type: 'module', dependencies: { react: pkg.dependencies.react, 'react-dom': pkg.dependencies['react-dom'], ...Object.assign({}, ...fixtures.map(fixture => fixture.dependencies)) }, devDependencies: { vite: pkg.devDependencies.vite, typescript: pkg.devDependencies.typescript, '@types/react': pkg.devDependencies['@types/react'], '@types/react-dom': pkg.devDependencies['@types/react-dom'] } }, null, 2));
   await mkdir(join(dir, 'src'), { recursive: true });
   await writeFile(join(dir, 'src/index.css'), '');
   await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'], ...Object.fromEntries(fixtures.map(fixture => [fixture.alias, [`./${fixture.installedPath}`]])) } }, include: ['src'] }));
@@ -21,6 +21,7 @@ try {
   // Actual published CLI, actual generated registry file, fresh consumer files and dependencies.
   run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => resolve(`public/r/${item.name}.json`)), '--yes', '--cwd', dir]);
   const installed = JSON.parse(await readFile(join(dir, 'package.json'), 'utf8'));
+  for (const fixture of fixtures) for (const [name, version] of Object.entries(fixture.dependencies)) assert.equal(installed.dependencies[name], version, `CLI changed composition fixture pin: ${name}`);
   for (const { item, installedPath } of fixtures) {
     const source = await readFile(join(dir, installedPath), 'utf8');
     const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}.tsx`), 'utf8');
