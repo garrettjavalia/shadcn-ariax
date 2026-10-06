@@ -27,12 +27,12 @@ const styles = stylex.create({
     '--ariax-field-padding':'0.625rem',
   },
   title:{display:'flex', '--ariax-field-title-width':{default:'fit-content', ':is(.ariax-field[data-orientation="vertical"] > *)':'100%', ':is(.ariax-field[data-orientation="responsive"] > *)':{default:'100%','@container field-group (min-width: 28rem)':'auto'}}, width:'var(--ariax-field-title-width)',alignItems:'center',gap:'0.5rem',fontSize:'0.875rem',lineHeight:'calc(1.25 / 0.875)',fontWeight:500,opacity:{default:null, ':is(.ariax-field[data-disabled="true"] *)':0.5}},
-  description:{color:'var(--muted-foreground)',textAlign:'left',fontSize:'0.875rem',lineHeight:1.5,fontWeight:400, marginTop:{default:null, ':last-child:not([data-variant="legend"] + *)':'0px', ':nth-last-child(2):not([data-variant="legend"] + *)':'-0.25rem', ':is([data-variant="legend"] + *)':'-0.375rem'},textWrap:{default:null, ':is(.ariax-field:has(:where([data-orientation="horizontal"])) *)':'balance'}, '--ariax-field-link-offset':'4px', '--ariax-field-link-hover':'var(--primary)'},
+  description:{color:'var(--muted-foreground)',textAlign:'start',fontSize:'0.875rem',lineHeight:1.5,fontWeight:400, marginTop:{default:null, ':last-child:not([data-variant="legend"] + *)':'0px', ':nth-last-child(2):not([data-variant="legend"] + *)':'-0.25rem', ':is([data-variant="legend"] + *)':'-0.375rem'},textWrap:{default:null, ':is(.ariax-field:has(:where([data-orientation="horizontal"])) *)':'balance'}, '--ariax-field-link-offset':'4px', '--ariax-field-link-hover':'var(--primary)'},
   separator:{position:'relative',marginBlock:'-0.5rem',height:'1.25rem',fontSize:'0.875rem',lineHeight:'calc(1.25 / 0.875)'},
   separatorLine:{position:'absolute',inset:'0px',top:'50%'},
   separatorContent:{position:'relative',marginInline:'auto',display:'block',width:'fit-content',backgroundColor:'var(--background)',color:'var(--muted-foreground)',paddingInline:'0.5rem'},
   error:{color:'var(--destructive)',fontSize:'0.875rem',lineHeight:'calc(1.25 / 0.875)',fontWeight:400},
-  errorList:{marginLeft:'1rem',display:'flex',listStyleType:'disc',flexDirection:'column',gap:'0.25rem'},
+  errorList:{marginInlineStart:'1rem',display:'flex',listStyleType:'disc',flexDirection:'column',gap:'0.25rem'},
 });
 function applied(base: (typeof styles)[keyof typeof styles] | readonly ((typeof styles)[keyof typeof styles] | null)[], xstyle: stylex.StyleXStyles, style?: CSSProperties, marker?: string) {
   const result=stylex.props(base,xstyle);

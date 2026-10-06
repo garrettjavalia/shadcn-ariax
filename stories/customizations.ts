@@ -23,6 +23,14 @@ export const checkboxCustomized = (width:number) => ({xstyle:[checkboxStyles.ini
 const fieldStyles = stylex.create({ field: {gap:'1.25rem',padding:'0.75rem'}, dynamic:(width:number)=>({width}), label:{color:'var(--primary)',fontSize:'1.25rem',lineHeight:1.4} });
 export const fieldCustomized = {xstyle:[fieldStyles.field,fieldStyles.dynamic(280)],style:{gap:'1.5rem'}};
 export const fieldLabelCustomized = {xstyle:fieldStyles.label,style:{opacity:0.75}};
+
+// Dynamic StyleX width must survive a separate inline height override.
+export const inlineSizing = { xstyle: styles.dynamic(160) };
+export const inlineSkeletonSizing = inlineSizing;
+
+const typographyStyles=stylex.create({dynamic:(fontSize:number,lineHeight:number)=>({fontSize,lineHeight})});
+export const typographySizing={xstyle:typographyStyles.dynamic(18,2)};
+
 const nativeSelectStyles=stylex.create({initial:{width:160,opacity:0.7},custom:{width:220,opacity:0.8},dynamic:(width:number)=>({width}),option:{color:'var(--primary)',fontWeight:500},group:(fontWeight:number)=>({fontWeight})});
 export const nativeSelectCustomized=(width:number)=>({xstyle:[nativeSelectStyles.initial,nativeSelectStyles.custom,nativeSelectStyles.dynamic(width)],style:{opacity:0.6}});
 export const nativeSelectOptionCustomized={xstyle:nativeSelectStyles.option,style:{color:'blue'}};
