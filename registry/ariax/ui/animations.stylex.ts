@@ -44,6 +44,7 @@ const scrollRevealEnd=stylex.keyframes({
 });
 
 export const animationStyles = stylex.create({
+  activeEnter: { animationName: { default: null, ":is([data-active])": enter } },
   overlay: { animationName: { default: null, ":is([data-entering])": enter, ":is([data-exiting])": exit } },
   pulse: { animationName: pulse },
   spin: { animationName: spin },

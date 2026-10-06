@@ -4,9 +4,9 @@ import { isDeepStrictEqual } from 'node:util';
 
 export async function snapshot(page: Page) {
   const captured = await page.evaluate(() => {
-    // A non-filling CSS animation disappears from getAnimations() at its end,
-    // while animation-name remains computed until React clears the state. Keep
-    // the observed effect handle to compare its real metadata at that boundary.
+    // Preview observes effects from animationstart, including non-filling
+    // effects that ended before this first snapshot. Also capture active effects
+    // here, retaining only handles whose current computed names still match.
     const scope = window as Window & { parityAnimationEffects?: WeakMap<Element, CSSAnimation[]> };
     const effects = scope.parityAnimationEffects ??= new WeakMap<Element, CSSAnimation[]>();
     const animations = (node: Element) => {

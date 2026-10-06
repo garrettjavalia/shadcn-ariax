@@ -1,4 +1,6 @@
-import type { ComponentProps } from 'react';
+'use client';
+import {useContext,type ComponentProps} from 'react';
+import {RenderStylesContext} from './render-styles.internal';
 import * as stylex from '@stylexjs/stylex';
 
 export type CardPartProps = Omit<ComponentProps<'div'>, 'className'> & {
@@ -45,12 +47,16 @@ export function CardHeader({ xstyle, className: _className, style, ...props }: C
   return <div data-slot="card-header" {...props} className={applied.className} style={{ ...applied.style, ...style }} />;
 }
 export function CardTitle({ xstyle, className: _className, style, ...props }: CardPartProps) {
-  const applied = stylex.props(styles.title, xstyle);
-  return <div data-slot="card-title" {...props} className={applied.className} style={{ ...applied.style, ...style }} />;
+  const inherited=useContext(RenderStylesContext);
+  const applied = stylex.props(styles.title, inherited, xstyle);
+  const element = <div data-slot="card-title" {...props} className={applied.className} style={{ ...applied.style, ...style }} />;
+  return inherited?<RenderStylesContext.Provider value={undefined}>{element}</RenderStylesContext.Provider>:element;
 }
 export function CardDescription({ xstyle, className: _className, style, ...props }: CardPartProps) {
-  const applied = stylex.props(styles.description, xstyle);
-  return <div data-slot="card-description" {...props} className={applied.className} style={{ ...applied.style, ...style }} />;
+  const inherited=useContext(RenderStylesContext);
+  const applied = stylex.props(styles.description, inherited, xstyle);
+  const element = <div data-slot="card-description" {...props} className={applied.className} style={{ ...applied.style, ...style }} />;
+  return inherited?<RenderStylesContext.Provider value={undefined}>{element}</RenderStylesContext.Provider>:element;
 }
 export function CardAction({ xstyle, className: _className, style, ...props }: CardPartProps) {
   const applied = stylex.props(styles.action, xstyle);
