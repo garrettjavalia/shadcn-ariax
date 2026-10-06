@@ -24,6 +24,20 @@ test("initial readiness waits for the actual asynchronous result", async ({
   });
   await waitForStoryReadiness(page);
   expect(await page.locator("main").textContent()).toBe("Completed");
+  // The SDK's DOM signal must work without a fixture-provided promise too.
+  await page.setContent(
+    '<main id="parity-root"><div data-pending-scroll>Pending</div></main>',
+  );
+  await page.evaluate(() => {
+    delete (window as Window & { parityReady?: Promise<void> }).parityReady;
+    setTimeout(() => {
+      const content = document.querySelector("[data-pending-scroll]")!;
+      content.removeAttribute("data-pending-scroll");
+      content.textContent = "Completed";
+    }, 50);
+  });
+  await waitForStoryReadiness(page);
+  expect(await page.locator("main").textContent()).toBe("Completed");
 });
 
 test("initial readiness failures propagate to the parity test", async ({

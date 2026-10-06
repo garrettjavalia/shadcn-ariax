@@ -3,6 +3,10 @@ import { expect, type Page } from "@playwright/test";
 // Shared story fixtures may expose completion of their initial JavaScript work.
 // Only initial navigation waits here; intermediate animation comparisons do not.
 export async function waitForStoryReadiness(page: Page) {
+  // The SDK marks initial positioning as pending until its scroll work commits.
+  await expect(page.locator("#parity-root [data-pending-scroll]")).toHaveCount(
+    0,
+  );
   await page.waitForFunction(() =>
     Array.from(
       document.querySelectorAll<HTMLImageElement>("#parity-root img"),
