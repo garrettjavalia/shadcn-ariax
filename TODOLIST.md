@@ -56,7 +56,7 @@
 - [x] Radio Group
 - [ ] Resizable
 - [ ] Scroll Area
-- [ ] Select
+- [x] Select — 공식 예제·검색·다중 선택·RTL
 - [ ] Sheet
 - [ ] Sidebar
 - [ ] Slider
