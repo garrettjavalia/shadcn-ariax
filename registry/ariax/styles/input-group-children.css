@@ -1,0 +1,5 @@
+/* Opaque descendant bridge; component StyleX declarations own the values. */
+[data-slot="input-group-addon"] > svg:not([class*="size-"]) { width: var(--ariax-addon-icon-size); height: var(--ariax-addon-icon-size); }
+[data-slot="input-group-addon"] > kbd { border-radius: var(--ariax-addon-kbd-radius); }
+.ariax-input-group-text svg { pointer-events: none; }
+.ariax-input-group-text svg:not([class*="size-"]) { width: var(--ariax-text-icon-size); height: var(--ariax-text-icon-size); }

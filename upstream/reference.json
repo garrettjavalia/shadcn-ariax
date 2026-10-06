@@ -11,6 +11,8 @@
     "input",
     "checkbox",
     "textarea",
+    "field",
+    "input-group",
     "table"
   ]
 }
