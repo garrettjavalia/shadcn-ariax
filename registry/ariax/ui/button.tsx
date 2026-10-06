@@ -36,7 +36,7 @@ const styles = stylex.create({
     opacity: { default: null, ':disabled': 0.5 },
     borderRadius: 'var(--radius)', borderWidth: 1, borderStyle: 'solid',
     borderColor: { default: 'transparent', ':focus-visible': 'var(--ring)', ':is([aria-invalid="true"])': 'var(--destructive)', ':is(.dark *)[aria-invalid="true"]': 'color-mix(in oklab, var(--destructive) 50%, transparent)' },
-    backgroundClip: 'padding-box', fontSize: '0.875rem', lineHeight: '1.25rem', fontWeight: 500,
+    backgroundClip: 'padding-box', fontSize: '0.875rem', lineHeight: 'calc(1.25 / .875)', fontWeight: 500,
     '--ariax-ring': { default: 'color-mix(in oklab, var(--ring) 50%, transparent)', ':is([aria-invalid="true"])': 'color-mix(in oklab, var(--destructive) 20%, transparent)', ':is(.dark *)[aria-invalid="true"]': 'color-mix(in oklab, var(--destructive) 40%, transparent)' },
     boxShadow: { default: null, ':focus-visible': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-ring), 0 0 0 0 #0000', ':is([aria-invalid="true"])': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-ring), 0 0 0 0 #0000' },
     translate: { default: null, ':active:not([aria-haspopup])': '0 1px' },
@@ -80,7 +80,7 @@ const variants = stylex.create({
 
 const sizes = stylex.create({
   default: { height: '2rem', gap: '0.375rem', paddingInline: '0.625rem', paddingRight: { default: '0.625rem', ':has([data-icon="inline-end"])': '0.5rem' }, paddingLeft: { default: '0.625rem', ':has([data-icon="inline-start"])': '0.5rem' } },
-  xs: { height: '1.5rem', gap: '0.25rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 10px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: '0.5rem', paddingRight: { default: '0.5rem', ':has([data-icon="inline-end"])': '0.375rem' }, paddingLeft: { default: '0.5rem', ':has([data-icon="inline-start"])': '0.375rem' }, fontSize: '0.75rem', lineHeight: '1rem', '--ariax-icon-size': '0.75rem' },
+  xs: { height: '1.5rem', gap: '0.25rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 10px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: '0.5rem', paddingRight: { default: '0.5rem', ':has([data-icon="inline-end"])': '0.375rem' }, paddingLeft: { default: '0.5rem', ':has([data-icon="inline-start"])': '0.375rem' }, fontSize: '0.75rem', lineHeight: 'calc(1 / .75)', '--ariax-icon-size': '0.75rem' },
   sm: { height: '1.75rem', gap: '0.25rem', borderRadius: { default: 'min(calc(var(--radius) * 0.8), 12px)', ':is([data-slot="button-group"] *)': 'var(--radius)' }, paddingInline: '0.625rem', paddingRight: { default: '0.625rem', ':has([data-icon="inline-end"])': '0.375rem' }, paddingLeft: { default: '0.625rem', ':has([data-icon="inline-start"])': '0.375rem' }, fontSize: '0.8rem', lineHeight: 'inherit', '--ariax-icon-size': '0.875rem' },
   lg: { height: '2.25rem', gap: '0.375rem', paddingInline: '0.625rem', paddingRight: { default: '0.625rem', ':has([data-icon="inline-end"])': '0.5rem' }, paddingLeft: { default: '0.625rem', ':has([data-icon="inline-start"])': '0.5rem' } },
   icon: { width: '2rem', height: '2rem' },
