@@ -4,8 +4,8 @@ import { compare } from './compare';
 import { upstreamURL, stylexURL } from './servers';
 for (const theme of ['light','dark']) test(`Tooltip official examples and trigger states / ${theme}`, async ({ browser }, info) => {
   test.setTimeout(120_000);
-  const context = await browser.newContext({ viewport: { width: 1000, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
-  const a=await context.newPage(), b=await context.newPage();
+  const contexts = await Promise.all([0,1].map(()=>browser.newContext({ viewport: { width: 1000, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' })));
+  const a=await contexts[0].newPage(), b=await contexts[1].newPage();
   const pages=[a,b];
   const load=async(story:string)=>Promise.all(pages.map(async(page,i)=>{await page.mouse.move(0,0);await page.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-tooltip--${story}&viewMode=story&globals=theme:${theme}`);await expect(page.locator('#parity-root')).toBeVisible();await page.mouse.move(0,0);}));
   const open=async(index=0)=>Promise.all(pages.map(async page=>{await page.getByRole('button').nth(index).hover();await expect(page.getByRole('button').nth(index)).toHaveAttribute('data-hovered','true');await expect(page.getByRole('tooltip')).toBeVisible();}));
@@ -24,10 +24,10 @@ for (const theme of ['light','dark']) test(`Tooltip official examples and trigge
     await load('disabled'); await Promise.all(pages.map(async page=>{await page.locator('#parity-root span').hover();await expect(page.getByRole('tooltip')).toBeVisible();}));await compare(a,b,info,'disabled-wrapper');await close();
     await load('disabled-trigger'); await Promise.all(pages.map(page=>page.getByRole('button').hover()));await compare(a,b,info,'disabled-trigger');await Promise.all(pages.map(async page=>{await expect(page.getByRole('tooltip')).toHaveCount(0);}));
     await load('delay');
-    await Promise.all(pages.map(async page=>{await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});await page.clock.pauseAt(new Date('2026-01-01T00:00:01Z'));await page.getByRole('button').hover({force:true});await expect(page.locator('output')).toHaveAttribute('data-open','false');await page.clock.runFor(249);await expect(page.locator('output')).toHaveAttribute('data-open','false');await page.clock.runFor(1);await expect(page.locator('output')).toHaveAttribute('data-open','true');await page.clock.resume();await expect(page.getByRole('tooltip')).toBeVisible();}));
+    await Promise.all(pages.map(async page=>{const box=await page.getByRole('button').boundingBox();if(!box)throw new Error('Missing delayed trigger');await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});await page.clock.pauseAt(new Date(await page.evaluate(()=>Date.now()+1000))); await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await expect(page.locator('output'), 'delay closed before deadline').toHaveAttribute('data-open','false');await page.clock.runFor(249);await expect(page.locator('output'), 'delay closed at 249ms').toHaveAttribute('data-open','false');await page.clock.runFor(1);await expect(page.locator('output')).toHaveAttribute('data-open','true');await page.clock.resume();await expect(page.getByRole('tooltip')).toBeVisible();}));
     await compare(a,b,info,'delayed-open');
     await Promise.all(pages.map(async page=>{await page.clock.pauseAt(new Date(await page.evaluate(()=>Date.now()+1000)));await page.mouse.move(0,0);await page.clock.runFor(249);await expect(page.locator('output')).toHaveAttribute('data-open','true');await page.clock.runFor(1);await expect(page.locator('output')).toHaveAttribute('data-open','false');await page.clock.resume();await expect(page.getByRole('tooltip')).toHaveCount(0);}));await compare(a,b,info,'delayed-close');
-  } finally {await context.close();}
+  } finally {await Promise.all(contexts.map(context=>context.close()));}
 });
 test('every official Tooltip preview and Usage has a registered parity story',async({request})=>{
   const document=await readFile('generated/upstream/shadcn/apps/v4/content/docs/components/aria/tooltip.mdx','utf8');

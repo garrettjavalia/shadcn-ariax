@@ -61,7 +61,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 
 ## 테스트 비용
 
-Chromium은 양쪽 비교 환경에 `--disable-partial-raster`를 적용한다. 원본끼리도 재현된 포커스 테두리의 래스터 차이를 줄이도록 부분 래스터 최적화를 끄며, DOM/CSS·애니메이션·픽셀 허용 기준은 유지한다. 이는 공통 인프라 PR #25의 `8f8a0ac` 설정과 동일하다.
+Chromium은 양쪽 비교 환경에 `--disable-partial-raster`를 적용한다. DOM/CSS·애니메이션·픽셀 허용 기준은 유지한다.
 
 기본 너비는 1000px로 통일하고 반응형 분기가 있는 예제만 추가 너비를 선언한다. 같은 상태의 반복 비교는 제거하되 서로 다른 동작·선택자 조건은 유지한다. 독립 worker 2개를 기본으로 사용하고, 속도 개선을 위해 비교 정밀도나 실패 기준을 완화하지 않는다. 픽셀 노이즈 예외는 위에 명시한 한계만 적용한다.
 
@@ -79,12 +79,8 @@ Input은 원본 React Aria Input을 감싸며 Nova 기본·disabled·invalid·fo
 
 현재 독립 Input의 light/dark·1000/390px DOM/CSS/픽셀, 포커스·편집·파일 선택과 파일 버튼 의사 요소를 검사한다. 공식 Basic 예제는 재현했다. Field·Badge·ButtonGroup·InputGroup·Select에 의존하는 공식 조합 예제는 해당 정식 컴포넌트 추가 후 검증해야 하므로 Input을 지원 완료로 표시하지 않는다.
 
-## Kbd (ButtonGroup 조합 대기)
+## Kbd (Tooltip 조합 대기)
 
-Kbd·KbdGroup은 React Aria Keyboard를 사용해 모두 kbd DOM을 보존한다. Kbd의 muted 배경, sans 폰트, unitless line-height, SVG 크기 선택자와 사용자 스타일 우선순위를 보존한다. 공식 6개 ComponentPreview를 자동 매핑하고 KbdTooltip 하나는 ButtonGroup 의존성 때문에 명시적 pending으로 남긴다. Tooltip+Kbd 실제 내용·동작은 별도 검증한다. Demo·Group·Button·Input Group·RTL·Usage와 20px font-size, SVG의 명시적 size 클래스 제외, 일반 DOM 조상으로 Tooltip 색상 선택자 분기(실제 Tooltip 지원과 구별), xstyle 배열·동적 변수와 일반 style 우선순위를 공통 비교기로 검사한다. 공식 방향 변환은 Kbd 본체를 변경하지 않으며 현재 RTL 비교는 일반 ui+dir 조건이다.
+Kbd·KbdGroup은 React Aria Keyboard를 사용해 모두 kbd DOM을 보존한다. Kbd의 muted 배경, sans 폰트, unitless line-height, SVG 크기 선택자와 사용자 스타일 우선순위를 보존한다. 공식 6개 ComponentPreview를 자동 매핑하고 Tooltip 하나는 명시적 pending으로 남긴다. Demo·Group·Button·Input Group·RTL·Usage와 20px font-size, SVG의 명시적 size 클래스 제외, 일반 DOM 조상으로 Tooltip 색상 선택자 분기(실제 Tooltip 지원과 구별), xstyle 배열·동적 변수와 일반 style 우선순위를 공통 비교기로 검사한다. 공식 방향 변환은 Kbd 본체를 변경하지 않으며 현재 RTL 비교는 일반 ui+dir 조건이다.
 
 Kbd 비교 레퍼런스의 import·dark variant·전체 @theme inline 토큰은 PR #27의 `5ea45de` 공식 CSS와 동일하고 @source는 Input Group/Kbd 스택 목록의 합집합이다. `tw-animate-css`는 개발 레퍼런스에 정확한 1.4.0으로 고정한다.
-
-## Tooltip
-
-TooltipTrigger는 원본의 두 자식 분리·Focusable 조합·delay=0을 보존한다. Tooltip은 RAC placement/offset/crossOffset·포털·상태 콜백과 원본 OverlayArrow의 배치별 transform을 보존한다. StyleX는 사용자 xstyle을 마지막에 합치고 동적 변수를 유지한 뒤 native style을 병합한다. tw-animate-css 1.4.0의 enter/exit CSS를 설치 파일에 정의하며 실제 진입·퇴장 애니메이션을 50ms에 멈춰 공통 DOM/CSS/픽셀 비교기로 검사한다. 공식 다섯 MDX preview와 Usage, 실제 Kbd 조합 내용을 검사하고 ButtonGroup에 의존하는 KbdTooltip 공식 전체 컨테이너는 pending으로 남긴다.

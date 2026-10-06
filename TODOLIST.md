@@ -7,6 +7,7 @@
 - [x] Button — Button, LinkButton, buttonProps; 6개 variant × 8개 size
 - [x] Skeleton — 크기·모양 xstyle, pulse, light·dark
 - [x] Separator — 가로·세로 구분선, 공식 예제·DOM 의미·StyleX 커스터마이징
+- [x] Tooltip — 공식 예제·실제 Kbd 조합; 일반 ui RTL 범위
 
 ## 지원 예정
 
@@ -42,7 +43,7 @@
 - [ ] Input Group
 - [ ] Input OTP
 - [ ] Item
-- [ ] Kbd — Kbd·KbdGroup 레지스트리 구현, 공식 Demo·Group·Button·Input Group·RTL 및 Usage 검증; ButtonGroup을 포함한 KbdTooltip 공식 전체 조합 대기
+- [ ] Kbd — 구현·Tooltip 조합 검증; 공식 ButtonGroup 컨테이너 대기
 - [ ] Label
 - [ ] Marker
 - [ ] Message
@@ -67,7 +68,6 @@
 - [ ] Textarea
 - [ ] Toggle
 - [ ] Toggle Group
-- [ ] Tooltip — 레지스트리 구현, 공식 예제·동작·애니메이션 검증 진행 중
 - [ ] Typography — 텍스트 스타일 예제
 
 Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
