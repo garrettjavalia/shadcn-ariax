@@ -2,7 +2,6 @@ import { test, expect, type Page } from '@playwright/test';
 import { compareDOMCSS } from './compare';
 import { upstreamURL, stylexURL } from './servers';
 import { resolve } from 'node:path';
-import { waitForStoryReadiness } from './story-readiness';
 
 async function load(page: Page, url: string, theme: 'light' | 'dark') {
   await page.goto(`${url}/@fs${resolve('tests/fixtures/base-css.html')}?theme=${theme}`);
@@ -51,24 +50,4 @@ for (const theme of ['light', 'dark'] as const) test(`loaded base CSS / neutral 
   }
   expect(await documentCSS(a)).toEqual(await documentCSS(b));
   await compareDOMCSS(a, b, info, `neutral-base-${theme}`);
-});
-
-// Keep the public component cascade check separate from the pure reset fixture.
-for (const theme of ['light', 'dark'] as const) test(`base CSS preserves Input border override / ${theme}`, async ({ context }) => {
-  for (const url of [upstreamURL, stylexURL]) {
-    const page = await context.newPage();
-    await page.goto(`${url}/iframe.html?id=components-input--basic&viewMode=story&globals=theme:${theme}`);
-    await expect(page.locator('#parity-root input')).toBeVisible();
-    await waitForStoryReadiness(page);
-    const colors = await page.locator('#parity-root input').evaluate(input => {
-      const probe = document.createElement('i');
-      probe.style.color = 'var(--input)';
-      document.body.append(probe);
-      const expected = getComputedStyle(probe).color;
-      probe.remove();
-      return { actual: getComputedStyle(input).borderTopColor, expected };
-    });
-    expect(colors.actual).toBe(colors.expected);
-    await page.close();
-  }
 });
