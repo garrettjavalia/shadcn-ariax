@@ -16,7 +16,7 @@ for(const theme of ['light','dark']) test(`Card spacing changes, nested small si
   try {
     for(const [page,url]of [[a,upstreamURL],[b,stylexURL]] as const){await page.goto(`${url}/iframe.html?id=components-card--spacing&viewMode=story&globals=theme:${theme}`);await expect(page.locator('#parity-root')).toBeVisible();}
     for(const [label,pixels] of [['20px',20],['24px',24],['32px',32]] as const){
-      await Promise.all([a,b].map(page=>page.getByRole('button',{name:label}).click()));
+      await Promise.all([a,b].map(async page=>{const option=page.getByRole('radio',{name:label});await option.click();await expect(option).toBeChecked();}));
       await compare(a,b,info,`card-spacing-${label}`);
       await expect(b.locator('[data-slot="card-content"]')).toHaveCSS('padding-left',`${pixels}px`);
     }
