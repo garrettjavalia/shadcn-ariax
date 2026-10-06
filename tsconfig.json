@@ -23,6 +23,12 @@
       ],
       "@customizations": [
         "./stories/customizations.ts"
+      ],
+      "@skeleton": [
+        "./registry/ariax/ui/skeleton.tsx"
+      ],
+      "@skeleton-customizations": [
+        "./stories/skeleton-customizations.ts"
       ]
     }
   },

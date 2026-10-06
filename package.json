@@ -5,8 +5,8 @@
   "type": "module",
   "packageManager": "pnpm@10.15.1",
   "scripts": {
-    "storybook": "pnpm upstream:prepare && pnpm registry:build && cross-env ARIAX_IMPLEMENTATION=stylex storybook dev -p 4200 --host 127.0.0.1 --ci --no-open",
-    "storybook:upstream": "pnpm upstream:prepare && cross-env ARIAX_IMPLEMENTATION=upstream storybook dev -p 4100 --host 127.0.0.1 --ci --no-open",
+    "storybook": "pnpm upstream:prepare && pnpm registry:build && node --import tsx scripts/storybook.ts stylex",
+    "storybook:upstream": "pnpm upstream:prepare && node --import tsx scripts/storybook.ts upstream",
     "dev": "concurrently -n upstream,stylex \"pnpm storybook:upstream\" \"pnpm storybook\"",
     "build:upstream": "pnpm upstream:prepare && cross-env ARIAX_IMPLEMENTATION=upstream storybook build -o dist/upstream",
     "build:stylex": "pnpm upstream:prepare && pnpm registry:build && cross-env ARIAX_IMPLEMENTATION=stylex storybook build -o dist/stylex",
