@@ -1,0 +1,4 @@
+.ariax-tabs-trigger svg {pointer-events:none;flex-shrink:0;}
+.ariax-tabs-trigger svg:not([class*="size-"]) {width:1rem;height:1rem;}
+.ariax-tabs-trigger:has([data-icon="inline-start"]) {padding-inline-start:0.25rem;}
+.ariax-tabs-trigger:has([data-icon="inline-end"]) {padding-inline-end:0.25rem;}
