@@ -14,7 +14,7 @@
 - [x] Alert
 - [x] Alert Dialog
 - [x] Aspect Ratio
-- [ ] Attachment
+- [x] Attachment — 공식 조합 검증; native trigger의 원본 Dialog 미연결 동작 보존
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
 - [x] Badge
 - [x] Breadcrumb
