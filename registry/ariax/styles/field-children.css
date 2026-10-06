@@ -16,4 +16,6 @@
 }
 [data-slot="field-label"] > [data-slot="field"] { padding: var(--ariax-field-padding); }
 .ariax-field-description > a { text-decoration-line: underline; text-underline-offset: var(--ariax-field-link-offset); }
-.ariax-field-description > a:hover { color: var(--ariax-field-link-hover); }
+@media (hover: hover) {
+  .ariax-field-description > a:hover { color: var(--ariax-field-link-hover); }
+}
