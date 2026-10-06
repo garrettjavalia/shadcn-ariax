@@ -32,6 +32,9 @@
       ],
       "@skeleton-customizations": [
         "./stories/skeleton-customizations.ts"
+      ],
+      "@reference/*": [
+        "./generated/reference/aria-nova/*"
       ]
     }
   },
