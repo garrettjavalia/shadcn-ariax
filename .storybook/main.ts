@@ -13,6 +13,8 @@ const config: StorybookConfig = {
   staticDirs: ['../public', ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
+    // Preserve authored calculations and color notation in both parity builds.
+    config.build = {...config.build,cssMinify:false};
     config.resolve ??= {};
     // Reference components and shared stories must use the same React Aria contexts.
     config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react-aria-components'])];
@@ -69,7 +71,7 @@ const config: StorybookConfig = {
       { find: /^@([a-z][a-z0-9-]*)$/, replacement: resolve(upstream ? 'generated/reference/aria-nova/ui' : 'registry/ariax/ui') + '/$1.tsx' },
     ];
     config.plugins = [
-      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: configType === 'DEVELOPMENT', cssInjectionTarget: file => /(?:^|\/)iframe(?:-[^/]+)?\.css$/.test(file) })]),
+      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, lightningcssOptions: false, runtimeInjection: configType === 'DEVELOPMENT', cssInjectionTarget: file => /(?:^|\/)iframe(?:-[^/]+)?\.css$/.test(file) })]),
       ...(config.plugins ?? []),
     ];
     config.server ??= {};

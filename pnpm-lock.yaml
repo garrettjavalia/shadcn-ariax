@@ -8,6 +8,9 @@ patchedDependencies:
   '@stylexjs/stylex@0.19.1':
     hash: e7441fdd74b3d809db67c2cc3bea14851aa22b05086b7bf0bb80f070392c31ae
     path: patches/@stylexjs__stylex@0.19.1.patch
+  '@stylexjs/unplugin@0.19.1':
+    hash: cf577180b1d54fa4bafaa13f0bf51531c8b00952d1bf3df61644bb6fd3f30c01
+    path: patches/@stylexjs__unplugin@0.19.1.patch
 
 importers:
 
@@ -76,7 +79,7 @@ importers:
         version: 1.1.1(react@19.3.0)
       '@stylexjs/unplugin':
         specifier: 0.19.1
-        version: 0.19.1(unplugin@2.3.11)
+        version: 0.19.1(patch_hash=cf577180b1d54fa4bafaa13f0bf51531c8b00952d1bf3df61644bb6fd3f30c01)(unplugin@2.3.11)
       '@tabler/icons-react':
         specifier: 3.34.1
         version: 3.34.1(react@19.3.0)
@@ -6554,7 +6557,7 @@ snapshots:
       invariant: 2.2.4
       styleq: 0.2.1
 
-  '@stylexjs/unplugin@0.19.1(unplugin@2.3.11)':
+  '@stylexjs/unplugin@0.19.1(patch_hash=cf577180b1d54fa4bafaa13f0bf51531c8b00952d1bf3df61644bb6fd3f30c01)(unplugin@2.3.11)':
     dependencies:
       '@babel/core': 7.29.7
       '@babel/plugin-syntax-flow': 7.29.7(@babel/core@7.29.7)
