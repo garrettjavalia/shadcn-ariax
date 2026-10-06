@@ -1,0 +1,3 @@
+.ariax-alert-dialog-media > svg:not([class*='size-']) { width: 1.5rem; height: 1.5rem; }
+.ariax-alert-dialog-description > a { text-decoration-line: underline; text-underline-offset: 3px; }
+@media (hover: hover) { .ariax-alert-dialog-description > a:hover { color: var(--foreground); } }
