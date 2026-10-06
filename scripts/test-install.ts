@@ -6,12 +6,15 @@ import { collectInstallFixtures } from './install-fixtures';
 const root = process.cwd();
 // Fail before running the CLI when the catalog and fixtures disagree.
 const fixtures = await collectInstallFixtures(root);
+const parentFiles = await Promise.all(['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'].map(async file => [file, await readFile(join(root, file), 'utf8')] as const));
 const dir = await mkdtemp(join(root, '.consumer-test-'));
 const run = (command: string, args: string[], cwd = dir) => {
   const r = spawnSync(command, args, { cwd, stdio: 'inherit', env: { ...process.env, CI: 'true' }, timeout: 180_000 });
   if (r.status !== 0) throw new Error(`${command} ${args.join(' ')} failed (${r.status}): ${r.error ?? ''}`);
 };
 try {
+  // shadcn launches pnpm itself, so a flag on our later install is insufficient.
+  await writeFile(join(dir, 'pnpm-workspace.yaml'), 'packages:\n  - "."\n');
   const pkg = JSON.parse(await readFile('package.json', 'utf8'));
   await writeFile(join(dir, 'package.json'), JSON.stringify({ name: 'ariax-consumer', private: true, type: 'module', dependencies: { react: pkg.dependencies.react, 'react-dom': pkg.dependencies['react-dom'], ...Object.assign({}, ...fixtures.map(fixture => fixture.dependencies)) }, devDependencies: { vite: pkg.devDependencies.vite, typescript: pkg.devDependencies.typescript, '@types/react': pkg.devDependencies['@types/react'], '@types/react-dom': pkg.devDependencies['@types/react-dom'] } }, null, 2));
   await mkdir(join(dir, 'src'), { recursive: true });
@@ -54,5 +57,6 @@ createRoot(document.getElementById('root')!).render(<>${components}</>);
   run('pnpm', ['install', '--ignore-workspace']);
   run('pnpm', ['exec', 'tsc', '--noEmit']);
   run('pnpm', ['exec', 'vite', 'build']);
+  for (const [file, contents] of parentFiles) assert.equal(await readFile(join(root, file), 'utf8'), contents, `Consumer installation must not modify the parent ${file}.`);
   console.log('PASS: actual shadcn add, dependencies, typecheck and production Vite build without Tailwind.');
 } finally { await rm(dir, { recursive: true, force: true }); }
