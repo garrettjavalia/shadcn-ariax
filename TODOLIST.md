@@ -70,4 +70,6 @@
 - [x] Tooltip — 기본 설치·실제 Kbd 조합; 공식 ButtonGroup 컨테이너 대기
 - [ ] Typography — 텍스트 스타일 예제
 
-Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
+Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
+
+- [ ] 배포 애니메이션을 StyleX 키프레임으로 통합하고 시간별 동등성을 검증하는 별도 PR
