@@ -15,7 +15,7 @@
 - [ ] Alert Dialog
 - [x] Aspect Ratio
 - [ ] Attachment
-- [ ] Avatar
+- [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
 - [x] Badge
 - [ ] Breadcrumb
 - [ ] Bubble
@@ -34,7 +34,7 @@
 - [ ] Dialog
 - [ ] Direction
 - [ ] Drawer
-- [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 공식 조합 후속 통합 검증
+- [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 조합 제공; 통합 회귀 후속 검증
 - [ ] Empty
 - [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card

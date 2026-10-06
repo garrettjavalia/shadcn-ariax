@@ -116,6 +116,12 @@
       ],
       "@switch": [
         "./registry/ariax/ui/switch.tsx"
+      ],
+      "@avatar": [
+        "./registry/ariax/ui/avatar.tsx"
+      ],
+      "@avatar-customizations": [
+        "./stories/avatar-customizations.ts"
       ]
     }
   },
