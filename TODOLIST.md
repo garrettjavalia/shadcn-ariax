@@ -34,7 +34,7 @@
 - [ ] Dialog
 - [ ] Direction
 - [ ] Drawer
-- [ ] Dropdown Menu
+- [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 공식 조합 후속 통합 검증
 - [ ] Empty
 - [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card
@@ -62,7 +62,7 @@
 - [ ] Sonner
 - [ ] Spinner
 - [ ] Switch
-- [ ] Table — 기본 구현·Checkbox 조합 제공; Dropdown Actions 후속 통합 검증
+- [ ] Table — 기본 구현·Checkbox 조합 제공; Table Actions 후속 통합 회귀
 - [ ] Tabs
 - [ ] Textarea — 기본 구현 제공; 공식 Field·RTL 조합 후속 통합 검증
 - [ ] Toggle

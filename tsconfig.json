@@ -101,6 +101,12 @@
       ],
       "@native-select": [
         "./registry/ariax/ui/native-select.tsx"
+      ],
+      "@dropdown-menu": [
+        "./registry/ariax/ui/dropdown-menu.tsx"
+      ],
+      "@dropdown-menu-customizations": [
+        "./stories/dropdown-menu-customizations.ts"
       ]
     }
   },

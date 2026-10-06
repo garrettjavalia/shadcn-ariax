@@ -15,6 +15,7 @@
     "input-group",
     "table",
     "kbd",
-    "native-select"
+    "native-select",
+    "dropdown-menu"
   ]
 }
