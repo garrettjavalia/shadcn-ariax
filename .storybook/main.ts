@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@input-customizations': resolve(upstream ? 'reference/input-customizations.ts' : 'stories/input-customizations.ts'),
+      '@input': resolve(upstream ? 'generated/reference/aria-nova/ui/input.tsx' : 'registry/ariax/ui/input.tsx'),
       '@skeleton': resolve(upstream ? 'reference/skeleton.tsx' : 'registry/ariax/ui/skeleton.tsx'),
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),

@@ -2,6 +2,6 @@
   "components": [
     "button",
     "skeleton",
-    "separator"
+    "separator", "input"
   ]
 }

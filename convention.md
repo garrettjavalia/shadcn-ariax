@@ -70,3 +70,9 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## Skeleton
 
 Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.
+
+## Input (구현 진행 중)
+
+Input은 원본 React Aria Input을 감싸며 Nova 기본·disabled·invalid·focus-visible·file·placeholder·RTL·768px 텍스트 크기를 보존한다. 사용자 `style` 객체와 React Aria 상태 콜백은 StyleX가 만든 동적 CSS 변수 뒤에 병합되어 사용자 값이 우선한다. `xstyle`과 일반 `style`을 지원하고 `className`은 제한한다. 기존 컴포넌트의 스타일 정책 변경은 별도 PR에서 처리한다.
+
+현재 독립 Input의 light/dark·1000/390px DOM/CSS/픽셀, 포커스·편집·파일 선택과 파일 버튼 의사 요소를 검사한다. 공식 Basic 예제는 재현했다. Field·Badge·ButtonGroup·InputGroup·Select에 의존하는 공식 조합 예제는 해당 정식 컴포넌트 추가 후 검증해야 하므로 Input을 지원 완료로 표시하지 않는다.

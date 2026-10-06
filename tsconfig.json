@@ -35,6 +35,12 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@input": [
+        "./registry/ariax/ui/input.tsx"
+      ],
+      "@input-customizations": [
+        "./stories/input-customizations.ts"
       ]
     }
   },
