@@ -49,3 +49,6 @@ export const Dynamic: Story = { render: () => <DynamicExample /> };
 
 // Reuse the generic parity suite for all exported style combinations.
 export const HelperMatrix: Story = { render: () => <main id="parity-root">{variants.map(variant => <section key={variant}><h2>{variant}</h2><div className="gallery">{sizes.map(size => <a key={size} href="#destination" aria-label={`${variant}-${size}`} {...buttonProps({variant, size})}><Icon />{!size.startsWith("icon") && <span>{size}</span>}</a>)}</div></section>)}</main> };
+
+// Nova small text changes font-size only; its line-height comes from the parent.
+export const InheritedLineHeight: Story = { render: () => <main id="parity-root" style={{ lineHeight: 'calc(1.25 / .875)' }}><div className="gallery"><Button size="sm">Small button</Button><LinkButton size="sm" href="#destination">Small link</LinkButton><a href="#destination" {...buttonProps({ size: 'sm' })}>Small helper</a><Button>Default button</Button></div></main> };
