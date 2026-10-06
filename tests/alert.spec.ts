@@ -34,3 +34,23 @@ test('Alert links preserve the upstream hover capability condition on touch devi
   try { await compare(pages[0], pages[1], info, 'alert-touch-link'); }
   finally { await context.close(); }
 });
+
+for (const theme of ['light', 'dark']) test(`Alert official RTL alignment and action direction / ${theme}`, async ({ browser }, info) => {
+  const context = await browser.newContext({ viewport: { width: 1000, height: 900 } });
+  const pages = await Promise.all([upstreamURL, stylexURL].map(async url => {
+    const page = await context.newPage();
+    await page.goto(`${url}/iframe.html?id=components-alert--rtl-action&viewMode=story&globals=theme:${theme}`);
+    await expect(page.locator('[data-slot="alert"]')).toBeVisible();
+    return page;
+  }));
+  try {
+    for (const page of pages) {
+      const alert = page.locator('[data-slot="alert"]');
+      await expect(alert).toHaveCSS('text-align', 'start');
+      await expect(alert).toHaveCSS('padding-left', '72px');
+      await expect(alert).toHaveCSS('padding-right', '10px');
+      await expect(page.locator('[data-slot="alert-action"]')).toHaveCSS('left', '8px');
+    }
+    await compare(pages[0], pages[1], info, 'alert-rtl-action');
+  } finally { await context.close(); }
+});

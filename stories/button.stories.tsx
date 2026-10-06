@@ -43,6 +43,8 @@ export const Loading: Story = { render: () => <main id="parity-root"><div classN
 export const AsLink: Story = { render: () => <main id="parity-root"><a href="#destination" {...buttonProps({ variant: 'secondary', size: 'sm' })}>Login</a><a href="#destination" {...buttonProps()}>Default helper</a><a href="#destination" {...buttonProps(undefined)}>Undefined helper</a></main> };
 export const Rtl: Story = { render: () => <main id="parity-root" dir="rtl"><div className="gallery"><Button variant="outline">زر</Button><Button variant="destructive">حذف</Button><Button variant="outline">إرسال<Icon end /></Button><Button variant="outline" size="icon" aria-label="Add"><Icon /></Button><Button variant="secondary" isDisabled><Spinner />جاري التحميل</Button></div></main> };
 
+export const RtlIconSizes: Story = { render: () => <main id="parity-root" dir="rtl">{sizes.slice(0, 4).map(size => <div key={size} className="gallery">{[false, true].map(end => <section key={String(end)}><Button size={size}><Icon end={end} />زر</Button><LinkButton size={size} href="#destination"><Icon end={end} />رابط</LinkButton><a href="#destination" {...buttonProps({ size })}><Icon end={end} />رابط</a></section>)}</div>)}</main> };
+
 export const Group: Story = { tags: ['viewport-390'], render: () => <main id="parity-root"><OfficialGroup /></main> };
 
 export const Customized: Story = { render: () => <main id="parity-root"><div className="gallery"><Button {...customized}>Customized</Button><LinkButton {...customized} href="#destination">Customized link</LinkButton></div></main> };
