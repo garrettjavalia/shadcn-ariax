@@ -60,6 +60,9 @@
       "@aspect-customizations": [
         "./stories/aspect-customizations.ts"
       ],
+      "@label": [
+        "./registry/ariax/ui/label.tsx"
+      ],
       "@input": [
         "./registry/ariax/ui/input.tsx"
       ],
