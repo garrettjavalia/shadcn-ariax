@@ -1,1 +1,1 @@
-[data-slot='bubble-content'][data-message-space] > :where(:not(:last-child)){margin-block-start:0;margin-block-end:.5rem}
+[data-slot='bubble-content'][data-message-space] > :where(:not(:last-child)){margin-block-start:0;margin-block-end:calc(var(--spacing, .25rem) * 2)}

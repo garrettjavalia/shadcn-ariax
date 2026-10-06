@@ -1,16 +1,16 @@
 import * as stylex from '@stylexjs/stylex';
 const styles = stylex.create({
   root: {
-    height: 240,
-    width: 320
+    height: 'calc(var(--spacing, .25rem) * 60)',
+    width: 'calc(var(--spacing, .25rem) * 80)'
   },
   content: {
-    gap: 12,
-    padding: 16
+    gap: 'calc(var(--spacing, .25rem) * 3)',
+    padding: 'calc(var(--spacing, .25rem) * 4)'
   },
   item: {
-    height: 160,
-    padding: 8,
+    height: 'calc(var(--spacing, .25rem) * 40)',
+    padding: 'calc(var(--spacing, .25rem) * 2)',
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: 'var(--border)'

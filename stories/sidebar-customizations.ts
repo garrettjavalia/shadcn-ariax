@@ -6,10 +6,10 @@ const styles = stylex.create({
   },
   controlHeader: {
     display: 'flex',
-    height: '3rem',
+    height: 'calc(var(--spacing, .25rem) * 12)',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingInline: '1rem'
+    paddingInline: 'calc(var(--spacing, .25rem) * 4)'
   },
   stateOpen: {
     backgroundColor: {
@@ -30,8 +30,8 @@ const styles = stylex.create({
   team: {
     display: 'flex',
     aspectRatio: '1 / 1',
-    width: '2rem',
-    height: '2rem',
+    width: 'calc(var(--spacing, .25rem) * 8)',
+    height: 'calc(var(--spacing, .25rem) * 8)',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 'var(--radius)',
@@ -39,8 +39,8 @@ const styles = stylex.create({
     color: 'var(--sidebar-primary-foreground)'
   },
   size16: {
-    width: '1rem',
-    height: '1rem'
+    width: 'calc(var(--spacing, .25rem) * 4)',
+    height: 'calc(var(--spacing, .25rem) * 4)'
   },
   details: {
     display: 'grid',
@@ -67,7 +67,7 @@ const styles = stylex.create({
   },
   menuWidth: {
     width: 'var(--radix-dropdown-menu-trigger-width)',
-    minWidth: '14rem',
+    minWidth: 'calc(var(--spacing, .25rem) * 56)',
     borderRadius: 'var(--radius)'
   },
   mutedXs: {
@@ -76,27 +76,27 @@ const styles = stylex.create({
     color: 'var(--muted-foreground)'
   },
   padded: {
-    gap: '.5rem',
-    padding: '.5rem'
+    gap: 'calc(var(--spacing, .25rem) * 2)',
+    padding: 'calc(var(--spacing, .25rem) * 2)'
   },
   teamSmall: {
     display: 'flex',
-    width: '1.5rem',
-    height: '1.5rem',
+    width: 'calc(var(--spacing, .25rem) * 6)',
+    height: 'calc(var(--spacing, .25rem) * 6)',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 'calc(var(--radius) * .8)',
     borderWidth: 1
   },
   size14: {
-    width: '.875rem',
-    height: '.875rem',
+    width: 'calc(var(--spacing, .25rem) * 3.5)',
+    height: 'calc(var(--spacing, .25rem) * 3.5)',
     flexShrink: 0
   },
   addTeam: {
     display: 'flex',
-    width: '1.5rem',
-    height: '1.5rem',
+    width: 'calc(var(--spacing, .25rem) * 6)',
+    height: 'calc(var(--spacing, .25rem) * 6)',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 'calc(var(--radius) * .8)',
@@ -136,7 +136,7 @@ const styles = stylex.create({
     borderWidth: 0
   },
   menu48: {
-    width: '12rem',
+    width: 'calc(var(--spacing, .25rem) * 48)',
     borderRadius: 'var(--radius)'
   },
   muted: {
@@ -146,8 +146,8 @@ const styles = stylex.create({
     color: 'color-mix(in oklab, var(--sidebar-foreground) 70%, transparent)'
   },
   avatar: {
-    height: '2rem',
-    width: '2rem',
+    height: 'calc(var(--spacing, .25rem) * 8)',
+    width: 'calc(var(--spacing, .25rem) * 8)',
     borderRadius: 'var(--radius)'
   },
   round: {
@@ -155,8 +155,8 @@ const styles = stylex.create({
   },
   leftIcon: {
     marginLeft: 'auto',
-    width: '1rem',
-    height: '1rem'
+    width: 'calc(var(--spacing, .25rem) * 4)',
+    height: 'calc(var(--spacing, .25rem) * 4)'
   },
   userLabel: {
     padding: 0,
@@ -165,9 +165,9 @@ const styles = stylex.create({
   userRow: {
     display: 'flex',
     alignItems: 'center',
-    gap: '.5rem',
-    paddingInline: '.25rem',
-    paddingBlock: '.375rem',
+    gap: 'calc(var(--spacing, .25rem) * 2)',
+    paddingInline: 'calc(var(--spacing, .25rem) * 1)',
+    paddingBlock: 'calc(var(--spacing, .25rem) * 1.5)',
     textAlign: 'left',
     fontSize: '.875rem',
     lineHeight: 'calc(1.25/.875)'
@@ -175,12 +175,12 @@ const styles = stylex.create({
   header: {
     display: 'flex',
     height: {
-      default: '4rem',
-      ':is(.ariax-sidebar-wrapper:has([data-collapsible="icon"]) *)': '3rem'
+      default: 'calc(var(--spacing, .25rem) * 16)',
+      ':is(.ariax-sidebar-wrapper:has([data-collapsible="icon"]) *)': 'calc(var(--spacing, .25rem) * 12)'
     },
     flexShrink: 0,
     alignItems: 'center',
-    gap: '.5rem',
+    gap: 'calc(var(--spacing, .25rem) * 2)',
     transitionProperty: 'width, height',
     transitionDuration: '150ms',
     transitionTimingFunction: 'linear'
@@ -188,11 +188,11 @@ const styles = stylex.create({
   headerInner: {
     display: 'flex',
     alignItems: 'center',
-    gap: '.5rem',
-    paddingInline: '1rem'
+    gap: 'calc(var(--spacing, .25rem) * 2)',
+    paddingInline: 'calc(var(--spacing, .25rem) * 4)'
   },
   trigger: {
-    marginLeft: '-.25rem'
+    marginLeft: 'calc(var(--spacing, .25rem) * -1)'
   },
   anchorWidth: {
     width: 'var(--radix-popper-anchor-width)'
@@ -243,21 +243,21 @@ const styles = stylex.create({
   },
   language: {
     position: 'absolute',
-    top: '1rem',
+    top: 'calc(var(--spacing, .25rem) * 4)',
     right: {
-      default: '1rem',
+      default: 'calc(var(--spacing, .25rem) * 4)',
       ':is([dir="rtl"] *)': 'auto'
     },
     left: {
       default: null,
-      ':is([dir="rtl"] *)': '1rem'
+      ':is([dir="rtl"] *)': 'calc(var(--spacing, .25rem) * 4)'
     },
     zIndex: 10
   },
   teamDetails: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '.125rem',
+    gap: 'calc(var(--spacing, .25rem) * 0.5)',
     lineHeight: 1
   },
   medium: {
@@ -300,8 +300,8 @@ const styles = stylex.create({
   },
   startIcon: {
     marginInlineStart: 'auto',
-    width: '1rem',
-    height: '1rem'
+    width: 'calc(var(--spacing, .25rem) * 4)',
+    height: 'calc(var(--spacing, .25rem) * 4)'
   }
 });
 const extraStyles = stylex.create({
@@ -334,38 +334,38 @@ const extraStyles = stylex.create({
     paddingBlock: 0
   },
   searchPadding: {
-    paddingLeft: '2rem'
+    paddingLeft: 'calc(var(--spacing, .25rem) * 8)'
   },
   searchIcon: {
     pointerEvents: 'none',
     position: 'absolute',
     top: '50%',
-    left: '.5rem',
-    width: '1rem',
-    height: '1rem',
+    left: 'calc(var(--spacing, .25rem) * 2)',
+    width: 'calc(var(--spacing, .25rem) * 4)',
+    height: 'calc(var(--spacing, .25rem) * 4)',
     translate: '0 -50%',
     opacity: .5,
     userSelect: 'none'
   },
   header: {
     display: 'flex',
-    height: '4rem',
+    height: 'calc(var(--spacing, .25rem) * 16)',
     flexShrink: 0,
     alignItems: 'center',
-    gap: '.5rem',
-    paddingInline: '1rem'
+    gap: 'calc(var(--spacing, .25rem) * 2)',
+    paddingInline: 'calc(var(--spacing, .25rem) * 4)'
   },
   main: {
     display: 'flex',
     flex: '1',
     flexDirection: 'column',
-    gap: '1rem',
-    padding: '1rem'
+    gap: 'calc(var(--spacing, .25rem) * 4)',
+    padding: 'calc(var(--spacing, .25rem) * 4)'
   },
   cards: {
     display: 'grid',
     gridAutoRows: 'min-content',
-    gap: '1rem',
+    gap: 'calc(var(--spacing, .25rem) * 4)',
     gridTemplateColumns: {
       default: null,
       '@media (width >= 48rem)': 'repeat(3, minmax(0, 1fr))'
@@ -396,18 +396,18 @@ const extraStyles = stylex.create({
   },
   borderHeader: {
     display: 'flex',
-    height: '4rem',
+    height: 'calc(var(--spacing, .25rem) * 16)',
     flexShrink: 0,
     alignItems: 'center',
-    gap: '.5rem',
+    gap: 'calc(var(--spacing, .25rem) * 2)',
     borderBottomWidth: 1,
-    paddingInline: '1rem'
+    paddingInline: 'calc(var(--spacing, .25rem) * 4)'
   },
   background: {
     backgroundColor: 'var(--background)'
   },
   cardMargin: {
-    marginInline: '-.5rem'
+    marginInline: 'calc(var(--spacing, .25rem) * -2)'
   },
   cta: {
     width: '100%',
@@ -433,12 +433,12 @@ const extraStyles = stylex.create({
   iconHeader: {
     display: 'flex',
     height: {
-      default: '4rem',
-      ':is(.ariax-sidebar-wrapper:has([data-collapsible="icon"]) *)': '3rem'
+      default: 'calc(var(--spacing, .25rem) * 16)',
+      ':is(.ariax-sidebar-wrapper:has([data-collapsible="icon"]) *)': 'calc(var(--spacing, .25rem) * 12)'
     },
     flexShrink: 0,
     alignItems: 'center',
-    gap: '.5rem',
+    gap: 'calc(var(--spacing, .25rem) * 2)',
     borderBottomWidth: 1,
     transitionProperty: 'width, height',
     transitionDuration: '150ms',
@@ -448,8 +448,8 @@ const extraStyles = stylex.create({
     display: 'flex',
     flex: '1',
     flexDirection: 'column',
-    gap: '1rem',
-    padding: '1rem',
+    gap: 'calc(var(--spacing, .25rem) * 4)',
+    padding: 'calc(var(--spacing, .25rem) * 4)',
     paddingTop: 0
   }
 });
