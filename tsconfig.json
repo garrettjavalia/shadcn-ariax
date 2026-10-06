@@ -41,6 +41,12 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@alert": [
+        "./registry/ariax/ui/alert.tsx"
+      ],
+      "@alert-customizations": [
+        "./stories/alert-customizations.ts"
       ]
     }
   },

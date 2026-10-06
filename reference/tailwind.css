@@ -9,6 +9,7 @@
 @source "../../../reference/card-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 /* Theme aliases from pinned apps/v4/app/globals.css. */
+@source "../../../reference/alert-customizations.ts";
 @theme inline {
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
