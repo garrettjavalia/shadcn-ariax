@@ -86,3 +86,6 @@
 @source "../../../reference/sheet-customizations.ts";
 
 @source "../../../reference/popover-customizations.ts";
+
+@source "../../../reference/chat-settings-customizations.ts";
+@custom-variant style-nova (&:where(.style-nova *));

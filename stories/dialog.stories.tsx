@@ -1,3 +1,4 @@
+import {DialogChatSettings} from './dialog-examples/chat-settings';
 import type {CSSProperties} from 'react';
 import {ModalContext} from 'react-aria-components';
 import * as Registry from './dialog-examples/registry';
@@ -33,3 +34,5 @@ export const Context:Story={render:()=> <ModalContext.Provider value={{isOpen:tr
 export const CallbackStyle:Story={render:()=> <DialogTrigger defaultOpen><Button>Open callback</Button><Dialog data-parity-portal style={({isEntering,isExiting,defaultStyle})=>({...defaultStyle,opacity:isEntering||isExiting?.5:.9})}><DialogTitle>Callback dialog</DialogTitle><DialogFooter showCloseButton/></Dialog></DialogTrigger>};
 
 export const HeadingToken:Story={render:()=> <DialogTrigger defaultOpen><Button>Open heading</Button><Dialog data-parity-portal style={{"--font-heading":"Courier New"} as CSSProperties}><DialogTitle>Inherited heading font</DialogTitle><DialogDescription>CLI transformation keeps heading font inherited</DialogDescription></Dialog></DialogTrigger>};
+
+export const ChatSettings:Story={render:()=> <DialogChatSettings/>};
