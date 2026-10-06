@@ -9,6 +9,7 @@
     "aspect-ratio",
     "label",
     "input",
+    "checkbox",
     "textarea"
   ]
 }

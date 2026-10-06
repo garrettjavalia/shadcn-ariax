@@ -69,6 +69,9 @@
       "@input-customizations": [
         "./stories/input-customizations.ts"
       ],
+      "@checkbox": [
+        "./registry/ariax/ui/checkbox.tsx"
+      ],
       "@textarea": [
         "./registry/ariax/ui/textarea.tsx"
       ],
@@ -87,5 +90,8 @@
     "reference",
     "generated/reference",
     "tests/types"
+  ],
+  "exclude": [
+    "generated/reference/**/source/**"
   ]
 }
