@@ -35,3 +35,18 @@ export const Rtl:Story={render:()=> <DropdownMenuRtl/>};
 export const TableActionsExample:Story={render:()=> <TableActions/>};
 function Dynamic(){const[width,setWidth]=useState(160);const custom=dropdownDynamic(width);return <><button onClick={()=>setWidth(220)}>Resize</button><DropdownMenuTrigger><Button variant="outline">Open</Button><DropdownMenu {...custom} style={state=>({...custom.style,opacity:.9})}><DropdownMenuGroup><DropdownMenuLabel inset>Dynamic</DropdownMenuLabel><DropdownMenuItem inset id="first" style={({isFocused})=>({fontWeight:isFocused?500:400})}>First</DropdownMenuItem><DropdownMenuItem id="second">Second</DropdownMenuItem></DropdownMenuGroup></DropdownMenu></DropdownMenuTrigger></>;}
 export const Customized:Story={render:()=> <Dynamic/>};
+import * as Registry from './dropdown-menu-examples/registry';
+export const RegistryBasic:Story={render:()=> <Registry.DropdownMenuBasic/>};
+export const RegistrySides:Story={render:()=> <Registry.DropdownMenuSides/>};
+export const RegistryIcons:Story={render:()=> <Registry.DropdownMenuWithIcons/>};
+export const RegistryShortcuts:Story={render:()=> <Registry.DropdownMenuWithShortcuts/>};
+export const RegistrySubmenu:Story={render:()=> <Registry.DropdownMenuWithSubmenu/>};
+export const RegistryCheckboxes:Story={render:()=> <Registry.DropdownMenuWithCheckboxes/>};
+export const RegistryRadio:Story={render:()=> <Registry.DropdownMenuWithRadio/>};
+export const RegistryCheckboxesIcons:Story={render:()=> <Registry.DropdownMenuWithCheckboxesIcons/>};
+export const RegistryRadioIcons:Story={render:()=> <Registry.DropdownMenuWithRadioIcons/>};
+export const RegistryDestructive:Story={render:()=> <Registry.DropdownMenuWithDestructive/>};
+export const RegistryAvatar:Story={render:()=> <Registry.DropdownMenuWithAvatar/>};
+export const RegistryDialog:Story={render:()=> <Registry.DropdownMenuInDialog/>};
+export const RegistryInset:Story={render:()=> <Registry.DropdownMenuWithInset/>};
+export const RegistryComplex:Story={render:()=> <Registry.DropdownMenuComplex/>};
