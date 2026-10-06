@@ -1,0 +1,4 @@
+.ariax-chart-preview > div {position:relative;display:flex;height:137px;width:224px;align-items:center;justify-content:center;padding:1rem}
+.ariax-chart-preview > .ariax-chart-preview-hidden {display:none}
+.ariax-chart-preview > .ariax-chart-preview-start {align-items:flex-start;justify-content:flex-start}
+@media(min-width:48rem){.ariax-chart-preview > .ariax-chart-preview-hidden{display:flex}}
