@@ -1,78 +1,43 @@
 # 개발 목표
 
-- shadcn의 React Aria 버전을 StyleX로 이식하여 모든 shadcn 컴포넌트를 제공하는 독립 shadcn 레지스트리를 만든다.
-- 원본의 기본 동작·DOM·스타일과 variant/size API를 보존한다. 커스터마이징은 StyleX 객체를 받는 xstyle과 일반 React style을 지원하고 외부 className은 받지 않는다. 배포 컴포넌트는 Tailwind 없이 동작한다.
-- 스타일 호환 기준은 원본 버튼에 최종 적용되는 CSS 속성이다. 헬퍼는 같은 스타일을 외부 요소에 적용할 수 있게 제공하며, Tailwind 클래스 문자열이나 병합 전 동작은 재현하지 않는다.
-- 비교 기준인 원본 커밋·디자인 스타일·의존성 버전을 고정하고, 전체 컴포넌트의 구현·검증 현황을 관리한다.
+- shadcn React Aria 컴포넌트를 StyleX로 제공하는 독립 레지스트리를 만든다. 배포 컴포넌트는 Tailwind 없이 동작한다.
+- 고정한 원본 커밋·디자인 스타일·테마·의존성을 기준으로 기본 동작·DOM·최종 CSS와 공개 API를 보존한다.
+- 전체 컴포넌트의 설치와 지원 범위 검증이 완료되어야 목표 달성으로 판단한다. 미구현·미검증 항목은 숨기지 않는다.
 
-# 자동 검증 원칙
+# 구현
 
-- Storybook + Vite를 원본(Tailwind)과 이식본(StyleX)으로 각각 실행한다. 예제 JSX·stories·기본 props를 공유한다. 커스터마이징은 원본의 유틸리티와 StyleX 객체를 각각 적용하는 어댑터로 같은 결과를 검증한다.
-- Playwright가 동일한 story의 독립 렌더링 페이지에 같은 조작을 수행한다. 두 환경의 CSS는 격리하고 브라우저·폰트·뷰포트·테마·언어·시간 조건을 고정한다.
-- 모든 하위 DOM과 포털의 구조·텍스트·동작 관련 속성을 재귀 비교한다. 생성 ID는 참조 관계로 정규화하고 스타일 클래스명은 제외한다. 대응 요소 누락은 실패다.
-- 모든 대응 요소와 지원 의사 요소의 계산된 CSS 속성을 비교한다. CSS 변수명 자체는 제외하고 실제 속성에 적용된 값을 검사한다. 위치·크기·스크롤·스크린샷·접근성 및 동작 결과도 검증한다.
-- 변형·크기·상태·테마·뷰포트·컴포넌트 조합을 검증 목록으로 명시한다. 애니메이션은 재생 시점을 통제하며, 비활성화만으로 동등성을 주장하지 않는다.
-- 허용 차이는 근거와 함께 명시하며 그 외 차이는 실패시킨다. 실패 보고서는 컴포넌트·조건·요소·속성·양쪽 값을 포함한다. 의도적으로 삽입한 차이를 탐지하는 테스트로 검증기도 검사한다.
-- CI에서 서버 실행부터 비교·보고서 생성까지 자동화한다. 실제 CLI 설치·타입 검사·프로덕션 빌드도 검증한다.
-- 검증 코드는 TypeScript로 작성하고 LLM·Python 없이 실행한다. `parity` 태그의 Storybook 스토리를 자동 수집하여 공통 비교기를 재사용한다. 컴포넌트 추가 시 예제·상태·고유 조작만 선언하고 DOM/CSS 검사 코드는 복제하지 않는다.
-- 원본과 처리된 레퍼런스는 generated/ 아래에 최초 필요 시 자동 준비하고 Git에서 제외한다. 캐시는 다운로드 완료 기록·소스 설정·필수 파일 존재 여부를 확인해 재사용한다. 파일별 내용 해시는 검사하지 않으며 일반 테스트가 기준 커밋을 갱신하지 않는다.
+- 구현과 자동화는 TypeScript로 작성한다. React Aria의 상태·컨텍스트·접근성 계약을 유지한다.
+- 커스터마이징은 `xstyle`과 일반 React `style`을 지원한다. 외부 `className`과 Tailwind 클래스 병합 동작은 제공하지 않는다.
+- 내부 스타일 뒤에 `xstyle`을 적용하고, StyleX 동적 CSS 변수를 보존하여 사용자 `style`을 병합한다. 동일 속성은 `style`이 우선하며 원본이 지원하는 상태 콜백도 보존한다.
+- 스타일 헬퍼는 외부 요소에 같은 스타일을 적용하는 용도로 제공한다. 원본의 선택자 조건·우선순위·상속·RTL 동작을 보존한다.
+- shadcn의 의미 토큰을 사용한다. 폰트는 `--font-sans`·`--font-mono`를 참조하고 Tailwind 전용 연결 변수는 배포하지 않는다.
+- 필요한 구조 선택자와 전역 키프레임은 설치되는 CSS에 포함한다. 사용하는 외부 코드의 라이선스도 배포한다.
+- 원본은 고정 메타데이터와 공식 shadcn 변환 API·CLI로 준비하며 자체 클래스 치환은 만들지 않는다. 자세한 준비 구조는 [upstream-structure.md](docs/upstream-structure.md)를 참고한다.
+- 다운로드·레퍼런스는 필요할 때 `generated/`에 자동 준비한다. 캐시는 완료 기록·소스 설정·필수 파일로 확인하며 파일별 내용 해시는 검사하지 않는다. 일반 테스트는 기준 커밋을 갱신하지 않는다.
 
-# 완료 기준
+# 검증
 
-전체 대상 컴포넌트가 레지스트리로 설치 가능하고, 명시된 지원 범위의 DOM/CSS 동일성 및 동작 검증을 모두 통과해야 한다. 미구현·미검증·제외 항목을 숨기지 않으며, 유한한 테스트를 모든 사용 조건에 대한 동등성 증명으로 표현하지 않는다.
+- Storybook + Vite에서 원본과 StyleX의 CSS를 격리하고 JSX·스토리·기본 props를 공유한다. 사용자 스타일은 양쪽 어댑터로 같은 결과를 검증한다.
+- `parity` 스토리를 자동 수집한다. 렌더링 영역은 `#parity-root`, 포털은 `data-parity-portal`로 지정한다. 컴포넌트 추가 시 예제·상태·고유 조작만 선언하고 비교 코드를 복제하지 않는다.
+- 고정한 공식 문서 예제와 스토리의 대응을 확인한다. 같은 조건의 중복 검사는 제거하되 서로 다른 동작과 선택자 조건은 유지한다.
+- 재귀 DOM·텍스트·동작 속성·생성 ID 참조, 모든 계산 CSS·의사 요소, 위치·크기·스크롤·포커스를 허용 오차 없이 비교한다. 클래스명·스타일 표현·CSS 변수명 대신 실제 적용값을 검사하며 대응 요소 누락은 실패다.
+- 앞의 검사가 통과한 경우에만 RGBA 채널 차이 최대 1/255와 변경 픽셀 비율 0.1% 이하의 렌더링 노이즈를 허용한다. 검증기에 의도적으로 삽입한 차이를 탐지하는 테스트도 유지한다.
+- 기본 환경은 Chromium, 1000px, light/dark, 독립 worker 2개다. 반응형 분기가 있는 스토리만 `viewport-390`으로 추가 검사한다. 양쪽에 `--disable-partial-raster`를 적용하며 속도를 위해 비교 기준을 완화하지 않는다.
+- 애니메이션은 시간을 통제하여 검사한다. 무한 애니메이션은 250ms 시점, 유한 전환은 완료 후 비교하고 필요한 중간 상태도 샘플링한다. 컨텍스트에 공유되는 시계를 중복 진행하지 않는다.
+- 타입·레지스트리·브라우저·실제 CLI 설치·소비 앱 빌드·양쪽 Storybook 빌드를 자동 검증한다. 실패는 조건·요소·속성·양쪽 값을 보고하며 LLM이나 Python 실행에 의존하지 않는다.
+- 유한한 테스트 통과를 모든 사용 조건의 동등성 증명으로 표현하지 않는다.
 
-## StyleX 커스터마이징
+# 문서
 
-외부 `className`은 받지 않는다. 일반 React `style`은 지원하며 StyleX가 생성한 동적 CSS 변수를 보존한 뒤 사용자 속성을 병합한다. 같은 속성은 `style`이 우선한다. React Aria 컴포넌트가 상태 기반 style 함수를 지원하면 그 계약도 보존한다. `stylex.create()`로 만든 객체를 `xstyle`에 전달한다. 내부 스타일 뒤에서 병합하므로 충돌 속성은 사용자 스타일이 우선한다. 배열·조건부 스타일·동적 스타일도 지원한다. `xstyle`은 이 프로젝트의 prop 이름이며 StyleX가 강제하는 이름은 아니다.
+- `README.md`는 프로젝트 소개와 환경 구성·설치·실행에 집중한다.
+- `convention.md`에는 여러 컴포넌트에 재사용할 구현·검증·Git 규칙만 기록한다. 컴포넌트별 사항은 공통 규칙으로 남길 가치가 있을 때만 반영한다.
+- `TODOLIST.md`는 지원·예정 컴포넌트와 남은 작업을 짧게 관리한다.
+- 컴포넌트별 API·예제·구현 과정·검증 상세를 문서에 나열하거나 별도 보고서로 만들지 않는다. PR에는 최종 변경과 실제 검증 결과만 간결하게 적는다.
+- `AGENTS.md`는 이 문서와 README의 역할을 안내한다.
 
-```tsx
-const styles = stylex.create({ wide: { height: 44, minWidth: 160 } });
-<Button xstyle={styles.wide}>저장</Button>
-<LinkButton href="/" xstyle={styles.wide}>홈</LinkButton>
-<a href="/" {...buttonProps({ variant: 'secondary', xstyle: styles.wide })}>홈</a>
-```
+# Git
 
-타입 검사로 외부 클래스와 xstyle에 일반 CSS 객체 전달을 거부하고, style 객체와 지원되는 상태 콜백을 허용한다. 브라우저 검증은 크기·여백·hover·배열의 우선순위·동적 값의 React 갱신을 검사한다. 둥근 버튼은 원본의 실제 Tailwind `rounded-full`과 StyleX 정의를 비교하며, 공용 CSS로 흉내 내지 않는다. 테마 토큰은 기존 CSS 변수 기반을 유지한다. 기본 폰트는 shadcn의 `--font-sans`·`--font-mono`를 직접 참조하며 Tailwind 전용 `--default-*` 연결 변수는 배포하지 않는다. font feature/variation 기본값은 `normal`이고 일반 CSS 속성으로 설정할 수 있다.
-
-## 컴포넌트 확장
-
-1. `upstream/reference.json`의 `components`에 원본 항목을 추가한다. 고정 원본 메타데이터와 공식 shadcn 변환 API·CLI build/add로 레퍼런스를 설치한다. 자체 클래스 치환은 만들지 않는다. StyleX 구현을 추가하고 `.storybook/main.ts`에 같은 import 별칭을 연결한다.
-2. 공통 스토리에 `tags: ['parity']`를 지정하고 렌더링 영역을 `#parity-root`로 감싼다. 포털에는 `data-parity-portal`을 지정한다.
-3. 변형·크기·예제는 스토리로 선언한다. 공통 비교기가 1000px의 light/dark에서 검사한다. 반응형 분기가 있는 스토리만 `viewport-390` 태그로 추가 검사하고, 확인용 중복 스토리는 `!parity`로 제외한다.
-4. 키보드·선택·열림 등 고유 조작만 별도 시나리오에 추가한다. 조작 후 `compare()`를 호출하며 DOM/CSS 검사 로직은 재작성하지 않는다.
-5. 공식 문서 예제와 스토리의 대응표를 유지한다. Button·Separator는 고정한 공식 MDX의 모든 `ComponentPreview`가 대응되는지 자동 검사한다.
-
-```sh
-PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
-```
-
-공통 비교기는 재귀 DOM·텍스트·속성·생성 ID 참조, 모든 계산 CSS 속성, `::before/::after/::marker`, 요소와 텍스트 위치·크기, 스크롤, 포커스, RGBA 스크린샷을 검사한다. 클래스·인라인 스타일 표현과 CSS 변수명은 비교하지 않으며 실제 적용값은 비교한다. DOM·계산 CSS·위치·크기 수치는 허용 오차 없이 비교한다. 이 검사가 통과한 경우에만 픽셀별 RGBA 채널 차이 최대 1/255이면서 변경 픽셀 비율 0.1% 이하인 렌더링 노이즈를 허용한다. 원본끼리도 재현된 브라우저 래스터 차이를 위한 예외이며 나머지 화면 차이는 실패다. 무한 애니메이션은 250ms 시점에 정지하고 유한 전환은 완료 후 비교한다. CSS·DOM·의사 요소·크기 변조를 실제로 탐지하는 검증기 테스트도 포함한다.
-
-기본 환경은 Chromium, 1000px, light/dark다. Group과 Separator Menu는 반응형 분기 검증을 위해 390px를 추가한다. 6개 variant × 8개 size, 아이콘·링크·RTL·둥근 버튼·로딩·disabled·pending·expanded와 포인터/키보드 조작을 검사한다. React Aria가 aria-invalid를 제거하므로 해당 중복 예제는 삭제했으며 invalid CSS는 검증 범위에 포함하지 않는다. axe 검사는 StyleX의 disabled/pending에 적용한다.
-
-## Git에 포함할 파일
-
-소스·설정·스토리·검증 코드·`pnpm-lock.yaml`·업스트림 선택 정보·배포 라이선스를 커밋한다. 다운로드한 원본과 변환 결과인 `generated/`는 제외한다. 의존성, 빌드 결과, 테스트 보고서, 캐시, 임시 소비 앱, 로컬 `.env`는 제외한다. 환경 변수 템플릿 `.env.example`은 포함할 수 있다.
-
-이 프로젝트의 `registry.json`, `public/registry.json`, `public/r/`는 `scripts/build-registry.ts`의 생성물이므로 제외한다. `pnpm registry:build`로 복원되며 StyleX Storybook 실행·빌드 및 설치 테스트도 먼저 생성한다. `registry/ariax/`의 실제 컴포넌트 소스는 반드시 포함한다.
-
-최초 자동 다운로드·캐시·전체 컴포넌트 확장 범위는 [docs/upstream-structure.md](docs/upstream-structure.md)를 참고한다.
-
-
-## 테스트 비용
-
-Chromium은 양쪽 비교 환경에 `--disable-partial-raster`를 적용한다. 원본끼리도 재현된 선택 카드 포커스 테두리의 래스터 차이를 줄이도록 부분 래스터 최적화를 끄며, DOM/CSS·애니메이션·픽셀 허용 기준은 그대로 유지한다.
-
-기본 너비는 1000px로 통일하고 반응형 분기가 있는 예제만 추가 너비를 선언한다. 같은 상태의 반복 비교는 제거하되 서로 다른 동작·선택자 조건은 유지한다. 독립 worker 2개를 기본으로 사용하고, 속도 개선을 위해 비교 정밀도나 실패 기준을 완화하지 않는다. 픽셀 노이즈 예외는 위에 명시한 한계만 적용한다.
-
-## Separator 검증 범위
-
-공식 기본·세로·메뉴·목록·RTL 예제를 light/dark에서 비교한다. 메뉴는 390px도 검사한다. 기본 hr, elementType=div, 세로 전환, SeparatorContext, DOM props, xstyle 치수·색상 덮어쓰기를 검증한다. 원본의 horizontal div는 aria-orientation 속성이 없어 높이 1px 스타일이 적용되지 않으므로 같은 조건을 보존한다. 사용자 스타일 비교는 원본의 hr 선택자와 동등한 Tailwind 유틸리티를 사용한다.
-
-## Skeleton
-
-Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle` 또는 `style`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.
-
-## Alert
-
-Alert·AlertTitle·AlertDescription·AlertAction은 Nova 기본/destructive, 아이콘·링크·문단·액션의 DOM/CSS를 보존한다. `xstyle`과 일반 React `style`을 지원하며 생성된 동적 CSS 변수를 유지한 채 사용자 `style`이 우선한다. 외부 `className`은 제한한다. 공식 Demo·Basic·Destructive·Action·Colors·RTL을 공유 스토리로 매핑하고, 추가 문단·링크 hover/focus·터치 hover 조건·390px wrapping·루트 폰트 확대·스타일 오버라이드를 검증한다. 자손 선택자는 `alert.css`, 자체 스타일은 StyleX로 제공한다.
+- 소스·설정·스토리·검증 코드·잠금 파일·업스트림 선택 정보·배포 라이선스를 커밋한다.
+- `generated/`, 의존성·빌드·보고서·캐시·임시 소비 앱·로컬 `.env`는 제외한다. `.env.example`은 포함할 수 있다.
+- 생성물인 `registry.json`, `public/registry.json`, `public/r/`는 제외하고 `pnpm registry:build`로 복원한다. 실제 `registry/ariax/` 소스는 포함한다.
+- 컴포넌트별 PR을 분리하고 의존 PR은 순서대로 처리한다. 사용자 승인이 있는 자동 머지는 검사 통과·충돌 없음·미해결 결함 없음이 확인된 PR만 squash로 처리한다.
