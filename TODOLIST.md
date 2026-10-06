@@ -29,8 +29,8 @@
 - [x] Combobox
 - [x] Command
 - [ ] Context Menu
-- [ ] Data Table — 조합 예제 포함
-- [ ] Date Picker — 조합 예제 포함
+- [x] Data Table — 조합 예제 포함
+- [x] Date Picker — 조합 예제 포함
 - [x] Dialog
 - [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
@@ -51,7 +51,7 @@
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [x] Pagination
 - [x] Popover
-- [ ] Progress
+- [x] Progress
 - [ ] Questionnaire
 - [x] Radio Group
 - [x] Resizable
@@ -59,7 +59,7 @@
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
 - [ ] Sidebar
-- [ ] Slider
+- [x] Slider
 - [ ] Sonner
 - [x] Spinner
 - [x] Switch
