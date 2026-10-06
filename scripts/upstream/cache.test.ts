@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
@@ -13,13 +13,23 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await cp(resolve(root, 'scripts/upstream'), join(dir, 'scripts/upstream'), { recursive: true });
     await cp(resolve(root, 'reference'), join(dir, 'reference'), { recursive: true });
     await mkdir(join(dir, 'upstream'));
-    await writeFile(join(dir, 'package.json'), '{"type":"module"}');
+    await cp(resolve(root, 'package.json'), join(dir, 'package.json'));
+    await cp(resolve(root, 'upstream/reference.json'), join(dir, 'upstream/reference.json'));
+    await symlink(resolve(root, 'node_modules'), join(dir, 'node_modules'), 'dir');
     const commit = 'a'.repeat(40);
-    const paths = ['apps/v4/registry/bases/aria/ui/button.tsx', 'apps/v4/registry/styles/style-nova.css'];
+    const buttonSource = 'import { helper } from "@/registry/bases/aria/lib/utils"; export function Button() { return <button className="cn-button">{helper}</button>; }';
+    const fixtures: Record<string, string> = {
+      'apps/v4/registry/bases/aria/ui/button.tsx': buttonSource,
+      'apps/v4/registry/styles/style-nova.css': '.cn-button { @apply h-8; }',
+      'apps/v4/registry/bases/aria/ui/_registry.ts': 'export const ui = [{name:"button",type:"registry:ui",registryDependencies:["utils"],files:[{path:"ui/button.tsx",type:"registry:ui"}]}];',
+      'apps/v4/registry/bases/aria/lib/_registry.ts': 'export const lib = [{name:"utils",type:"registry:lib",dependencies:["cn"],files:[{path:"lib/utils.ts",type:"registry:lib"}]}];',
+      'apps/v4/registry/bases/aria/lib/utils.ts': 'export const helper = "fixture";',
+    };
+    const paths = Object.keys(fixtures);
     for (const path of paths) {
       const target = join(dir, 'archive', `ui-${commit}`, path);
       await mkdir(resolve(target, '..'), { recursive: true });
-      const value = path.endsWith('.tsx') ? 'export const button = "cn-button";\n' : '.cn-button { @apply h-8; }\n';
+      const value = fixtures[path];
       await writeFile(target, value);
     }
     const packed = spawnSync('tar', ['-czf', join(dir, 'fixture.tar.gz'), '-C', join(dir, 'archive'), `ui-${commit}`]);
@@ -39,7 +49,22 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     assert.equal(await downloads(), 1, 'Concurrent callers should download once.');
     let result = await run(true); assert.equal(result.code, 0, result.output);
     assert.equal(await downloads(), 1, 'Warm cache must work with networking disabled.');
-    assert.equal(await readFile(join(dir, 'generated/reference/aria-nova/button.tsx'), 'utf8'), 'export const button = "h-8";\n');
+    const installed = join(dir, 'generated/reference/aria-nova/ui/button.tsx');
+    const installedSource = await readFile(installed, 'utf8');
+    assert.match(installedSource, /className="h-8"/);
+    assert.match(installedSource, /@reference\/lib\/utils/);
+    assert.doesNotMatch(installedSource, /cn-button/);
+    const before = (await stat(installed)).mtimeMs;
+    result = await run(true); assert.equal(result.code, 0, result.output);
+    assert.equal((await stat(installed)).mtimeMs, before, 'Warm preparation must not rerun the CLI.');
+    await rm(installed);
+    result = await run(true); assert.equal(result.code, 0, result.output);
+    assert.equal(await readFile(installed, 'utf8'), installedSource, 'Missing installed output is recreated offline by the official CLI.');
+    assert.equal(await readFile(join(dir, 'package.json'), 'utf8'), await readFile(resolve(root, 'package.json'), 'utf8'), 'CLI must not modify the development package.');
+    await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['missing'] }));
+    result = await run(true); assert.notEqual(result.code, 0, 'Unknown reference selection must fail.');
+    assert.equal(await readFile(installed, 'utf8'), installedSource, 'Failed preparation must preserve the successful installation.');
+    await cp(resolve(root, 'upstream/reference.json'), join(dir, 'upstream/reference.json'));
     const rawFile = join(dir, 'generated/upstream/shadcn', paths[0]);
     await rm(rawFile);
     result = await run(); assert.equal(result.code, 0, result.output);
@@ -61,6 +86,6 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await writeFile(marker, '{}');
     await writeFile(join(dir, 'fixture.tar.gz'), 'invalid archive');
     result = await run(); assert.notEqual(result.code, 0);
-    assert.equal(await readFile(rawFile, 'utf8'), 'export const button = "cn-button";\n');
+    assert.equal(await readFile(rawFile, 'utf8'), buttonSource);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });

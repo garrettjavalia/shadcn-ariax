@@ -12,7 +12,7 @@ pnpm exec playwright install chromium
 pnpm dev
 ```
 
-첫 실행에는 고정한 원본을 다운로드하므로 네트워크가 필요하다. 원본과 변환된 레퍼런스는 `generated/`에 자동 준비되며 정상 캐시는 이후 오프라인에서도 재사용한다. 이 폴더를 직접 준비하거나 Git에 추가할 필요는 없다.
+첫 실행에는 고정한 원본을 다운로드하므로 네트워크가 필요하다. 원본과 공식 shadcn CLI로 설치한 레퍼런스는 `generated/`에 자동 준비되며 정상 캐시는 이후 오프라인에서도 재사용한다. 이 폴더를 직접 준비하거나 Git에 추가할 필요는 없다.
 
 - [원본 Storybook](http://127.0.0.1:4100/?path=/story/components-button--gallery)
 - [StyleX Storybook](http://127.0.0.1:4200/?path=/story/components-button--gallery)
@@ -50,3 +50,5 @@ pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 - [원본 고정 및 자동 준비 구조](docs/upstream-structure.md)
 
 비교 기준은 [고정한 shadcn 원본](https://github.com/shadcn-ui/ui/tree/3b1ae6e43f082dd82d0e5710b813cfad929abdb4)이며, 커밋과 선택 경로는 `upstream/`에 기록한다. 공식 Button 문서의 예제를 기준으로 별도의 DOM/CSS/픽셀 비교 수트를 구성했다. 현재 다른 컴포넌트·디자인 스타일은 미구현이며 메뉴 조합의 그룹·메뉴는 테스트용 fixture다. 원본 및 Tailwind reset의 MIT 라이선스를 배포에 포함한다.
+
+독립 작업트리는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 포트를 지정할 수 있다. 테스트에도 같은 환경 변수를 전달한다.

@@ -23,6 +23,9 @@
       ],
       "@customizations": [
         "./stories/customizations.ts"
+      ],
+      "@reference/*": [
+        "./generated/reference/aria-nova/*"
       ]
     }
   },

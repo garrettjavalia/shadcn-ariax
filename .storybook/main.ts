@@ -14,6 +14,7 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@reference': resolve('generated/reference/aria-nova'),
       '@button': resolve(upstream ? 'reference/button.ts' : 'registry/ariax/ui/button.tsx'),
       '@customizations': resolve(upstream ? 'reference/customizations.ts' : 'stories/customizations.ts'),
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'registry/ariax/styles/entry.css'),

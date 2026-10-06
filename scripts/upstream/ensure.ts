@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { root, rawRoot, markerName, source, checkPaths, checkRaw } from './common';
 
 // Concurrent commands share a download. A terminated owner's lock can be recovered.
-async function acquire(path: string) {
+export async function acquire(path: string) {
   for (let i = 0; i < 1200; i++) {
     try {
       const handle = await open(path, 'wx');
