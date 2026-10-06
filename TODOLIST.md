@@ -52,7 +52,7 @@
 - [ ] Popover
 - [ ] Progress
 - [ ] Questionnaire
-- [ ] Radio Group
+- [x] Radio Group
 - [ ] Resizable
 - [ ] Scroll Area
 - [ ] Select

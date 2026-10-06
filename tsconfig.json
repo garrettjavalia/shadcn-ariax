@@ -122,6 +122,9 @@
       ],
       "@avatar-customizations": [
         "./stories/avatar-customizations.ts"
+      ],
+      "@radio-group": [
+        "./registry/ariax/ui/radio-group.tsx"
       ]
     }
   },

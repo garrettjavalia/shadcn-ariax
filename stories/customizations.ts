@@ -38,3 +38,9 @@ export const nativeSelectGroupCustomized={xstyle:nativeSelectStyles.group(600),s
 
 const switchStyles=stylex.create({first:{width:60},last:{width:48},dynamic:(height:number)=>({height})});
 export const switchCustomized=(height:number)=>({xstyle:[switchStyles.first,switchStyles.last,switchStyles.dynamic(height)],style:({isSelected}:{isSelected:boolean})=>({opacity:isSelected?0.8:0.9})});
+
+const radioStyles=stylex.create({fit:{width:'fit-content'},max:{maxWidth:'24rem'},fieldset:{width:'100%',maxWidth:'20rem'},normal:{fontWeight:400}});
+export const radioFit={xstyle:radioStyles.fit};export const radioMax={xstyle:radioStyles.max};export const radioFieldset={xstyle:radioStyles.fieldset};export const radioNormal={xstyle:radioStyles.normal};
+const radioCustomStyles=stylex.create({initial:{width:180,gap:'0.25rem'},dynamic:(width:number)=>({width,gap:'1rem'}),item:{width:24,height:24}});
+export const radioCustom=(width:number)=>({xstyle:[radioCustomStyles.initial,radioCustomStyles.dynamic(width)],style:({isDisabled}:{isDisabled:boolean})=>({padding:isDisabled?0:8})});
+export const radioItemCustom={xstyle:radioCustomStyles.item,style:({isSelected}:{isSelected:boolean})=>({width:isSelected?28:24,opacity:0.8})};
