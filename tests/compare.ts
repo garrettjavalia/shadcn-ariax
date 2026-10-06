@@ -89,29 +89,38 @@ export async function snapshot(page: Page) {
 // Generated CSS animation names are identifiers, but only equivalent effects may
 // share an identifier. Compare resolved keyframes and timing before rewriting CSS.
 export function normalizeAnimationSnapshots(left: unknown, right: unknown): [unknown, unknown] {
-  const collect = (value: unknown, path = ''): unknown[] => {
+  const collect = (value: unknown): unknown[] => {
+    if (Array.isArray(value)) return value.flatMap(collect);
     if (!value || typeof value !== 'object') return [];
     const node = value as Record<string, unknown>;
-    const own = Array.isArray(node.animations) ? [{ path, effects: node.animations.map(({ name: _name, ...effect }) => effect) }] : [];
-    return [...own, ...Object.entries(node).filter(([key]) => key !== 'animations').flatMap(([key, child]) => collect(child, `${path}/${key}`))];
+    const own = Array.isArray(node.animations) && node.animations.length ? [{ path: node.path, effects: node.animations.map(({ name: _name, ...effect }) => effect) }] : [];
+    return [...own, ...collect(node.children)];
   };
   if (!isDeepStrictEqual(collect(left), collect(right))) return [left, right];
   const normalize = (value: unknown): unknown => {
     if (!value || typeof value !== 'object') return value;
-    if (Array.isArray(value)) return value.map(normalize);
+    if (Array.isArray(value)) {
+      const items = value.map(normalize);
+      return items.every((item, index) => item === value[index]) ? value : items;
+    }
     const node = value as Record<string, unknown>;
-    if (Array.isArray(node.animations)) {
+    if (Array.isArray(node.animations) && node.animations.length) {
       const effects = node.animations as { name: string; pseudo: string | null }[];
       const css = (value: unknown, pseudo: string | null) => {
         const properties = value as Record<string, string>;
         const names = new Map(effects.flatMap((effect, index) => effect.pseudo === pseudo ? [[effect.name, `effect:${index}`] as const] : []));
-        return Object.fromEntries(Object.entries(properties).map(([key, value]) => [key, key === 'animation-name' ? value.split(',').map(name => names.get(name.trim()) ?? name.trim()).join(', ') : key === 'animation' ? value.split(' ').map(token => names.get(token) ?? token).join(' ') : value]));
+        if (!names.size) return properties;
+        const normalized = { ...properties };
+        if (properties['animation-name']) normalized['animation-name'] = properties['animation-name'].split(',').map(name => names.get(name.trim()) ?? name.trim()).join(', ');
+        if (properties.animation) normalized.animation = properties.animation.split(' ').map(token => names.get(token) ?? token).join(' ');
+        return normalized;
       };
       return { ...node, animations: effects.map((effect, index) => ({ ...effect, name: `effect:${index}` })),
         css: css(node.css, null), pseudos: Object.fromEntries(Object.entries(node.pseudos as Record<string, unknown>).map(([pseudo, value]) => [pseudo, css(value, pseudo)])),
         children: normalize(node.children) };
     }
-    return Object.fromEntries(Object.entries(node).map(([key, child]) => [key, normalize(child)]));
+    const children = normalize(node.children);
+    return children === node.children ? node : { ...node, children };
   };
   return [normalize(left), normalize(right)];
 }
@@ -160,6 +169,10 @@ export function pixelsMatch(a: PNG, b: PNG): boolean {
 export async function compare(a: Page, b: Page, info: TestInfo, state: string, pixels = true, settleAnimations = true) {
   const started = performance.now();
   if (settleAnimations) await Promise.all([settle(a), settle(b)]);
+  else await Promise.all([a, b].map(page => page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+  })));
   const settled = performance.now();
   const raw = await Promise.all([snapshot(a), snapshot(b)]);
   const [left, right] = normalizeAnimationSnapshots(raw[0], raw[1]);
