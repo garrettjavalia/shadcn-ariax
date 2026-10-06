@@ -18,3 +18,5 @@ export const typographySizing={className:"text-[18px] leading-[2]"};
 export const nativeSelectCustomized=(width:number)=>({className:width===220?'w-[220px] opacity-80':'w-[280px] opacity-80',style:{opacity:0.6}});
 export const nativeSelectOptionCustomized={className:'text-primary font-medium',style:{color:'blue'}};
 export const nativeSelectGroupCustomized={className:'font-semibold',style:{fontWeight:400}};
+
+export const switchCustomized=(height:number)=>({style:({isSelected}:{isSelected:boolean})=>({width:48,height,opacity:isSelected?0.8:0.9})});

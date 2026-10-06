@@ -35,3 +35,6 @@ const nativeSelectStyles=stylex.create({initial:{width:160,opacity:0.7},custom:{
 export const nativeSelectCustomized=(width:number)=>({xstyle:[nativeSelectStyles.initial,nativeSelectStyles.custom,nativeSelectStyles.dynamic(width)],style:{opacity:0.6}});
 export const nativeSelectOptionCustomized={xstyle:nativeSelectStyles.option,style:{color:'blue'}};
 export const nativeSelectGroupCustomized={xstyle:nativeSelectStyles.group(600),style:{fontWeight:400}};
+
+const switchStyles=stylex.create({first:{width:60},last:{width:48},dynamic:(height:number)=>({height})});
+export const switchCustomized=(height:number)=>({xstyle:[switchStyles.first,switchStyles.last,switchStyles.dynamic(height)],style:({isSelected}:{isSelected:boolean})=>({opacity:isSelected?0.8:0.9})});
