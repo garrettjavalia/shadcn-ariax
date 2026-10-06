@@ -15,11 +15,11 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await mkdir(join(dir, 'upstream'));
     await writeFile(join(dir, 'package.json'), '{"type":"module"}');
     const commit = 'a'.repeat(40);
-    const paths = ['apps/v4/registry/bases/aria/ui/button.tsx', 'apps/v4/registry/bases/aria/ui/separator.tsx', 'apps/v4/registry/styles/style-nova.css'];
+    const paths = ['apps/v4/registry/bases/aria/ui/button.tsx', 'apps/v4/registry/bases/aria/ui/separator.tsx', 'apps/v4/registry/bases/aria/ui/skeleton.tsx', 'apps/v4/registry/styles/style-nova.css'];
     for (const path of paths) {
       const target = join(dir, 'archive', `ui-${commit}`, path);
       await mkdir(resolve(target, '..'), { recursive: true });
-      const value = path.endsWith('.tsx') ? 'export const button = "cn-button";\n' : '.cn-button { @apply h-8; }\n';
+      const value = path.endsWith('.tsx') ? 'export const button = "cn-button";\n' : '.cn-button { @apply h-8; }\n.cn-skeleton { @apply bg-muted rounded-md; }\n';
       await writeFile(target, value);
     }
     const packed = spawnSync('tar', ['-czf', join(dir, 'fixture.tar.gz'), '-C', join(dir, 'archive'), `ui-${commit}`]);

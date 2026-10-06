@@ -66,3 +66,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## Separator 검증 범위
 
 공식 기본·세로·메뉴·목록·RTL 예제를 light/dark에서 비교한다. 메뉴는 390px도 검사한다. 기본 hr, elementType=div, 세로 전환, SeparatorContext, DOM props, xstyle 치수·색상 덮어쓰기를 검증한다. 원본의 horizontal div는 aria-orientation 속성이 없어 높이 1px 스타일이 적용되지 않으므로 같은 조건을 보존한다. 사용자 스타일 비교는 원본의 hr 선택자와 동등한 Tailwind 유틸리티를 사용한다.
+
+## Skeleton
+
+Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.

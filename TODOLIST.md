@@ -5,7 +5,7 @@
 ## 지원 중
 
 - [x] Button — Button, LinkButton, buttonProps; 6개 variant × 8개 size
-
+- [x] Skeleton — 크기·모양 xstyle, pulse, light·dark
 - [x] Separator — 가로·세로 구분선, 공식 예제·DOM 의미·StyleX 커스터마이징
 
 ## 지원 예정
@@ -58,7 +58,6 @@
 - [ ] Select
 - [ ] Sheet
 - [ ] Sidebar
-- [ ] Skeleton
 - [ ] Slider
 - [ ] Sonner
 - [ ] Spinner

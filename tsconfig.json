@@ -26,6 +26,12 @@
       ],
       "@separator": [
         "./registry/ariax/ui/separator.tsx"
+      ],
+      "@skeleton": [
+        "./registry/ariax/ui/skeleton.tsx"
+      ],
+      "@skeleton-customizations": [
+        "./stories/skeleton-customizations.ts"
       ]
     }
   },
