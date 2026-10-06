@@ -4,3 +4,5 @@
 .ariax-example-markdown>:last-child{margin-bottom:0}
 .ariax-example-markdown [data-streamdown="strong"]{font-weight:600}
 .ariax-example-markdown [data-streamdown="inline-code"]{border-radius:.25rem;background-color:var(--muted);padding:.125rem .375rem;font-family:var(--font-mono);font-size:.875rem;line-height:calc(1.25 / .875)}
+.ariax-example-markdown [data-streamdown='ordered-list']{list-style-position:inside;list-style-type:decimal}
+.ariax-example-markdown [data-streamdown='list-item']{padding-block:.25rem}
