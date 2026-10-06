@@ -1,0 +1,47 @@
+import{Button}from'@button';
+import{custom3,custom4}from'@context-menu-customizations';
+import type{Meta,StoryObj}from'@storybook/react-vite';
+import{Pressable}from'react-aria-components';
+import{ContextMenu,ContextMenuTrigger,ContextMenuItem}from'@context-menu';
+import{ContextMenuDemo}from'./context-menu-examples/demo';
+import{ContextMenuBasic}from'./context-menu-examples/basic';
+import{ContextMenuSubmenu}from'./context-menu-examples/submenu';
+import{ContextMenuShortcuts}from'./context-menu-examples/shortcuts';
+import{ContextMenuGroups}from'./context-menu-examples/groups';
+import{ContextMenuIcons}from'./context-menu-examples/icons';
+import{ContextMenuCheckboxes}from'./context-menu-examples/checkboxes';
+import{ContextMenuRadio}from'./context-menu-examples/radio';
+import{ContextMenuDestructive}from'./context-menu-examples/destructive';
+import{ContextMenuSides}from'./context-menu-examples/sides';
+import{ContextMenuRtl}from'./context-menu-examples/rtl';
+import*as Registry from'./context-menu-examples/registry';
+const meta={title:'Components/ContextMenu',component:ContextMenu,tags:['parity'],decorators:[Story=><main id="parity-root"><Story/></main>]}satisfies Meta<typeof ContextMenu>;export default meta;type Story=StoryObj<typeof meta>;
+export const DemoExample:Story={tags:['viewport-390'],render:()=> <ContextMenuDemo/>};
+export const Basic:Story={render:()=> <ContextMenuBasic/>};
+export const Submenu:Story={render:()=> <ContextMenuSubmenu/>};
+export const Shortcuts:Story={render:()=> <ContextMenuShortcuts/>};
+export const Groups:Story={render:()=> <ContextMenuGroups/>};
+export const Icons:Story={render:()=> <ContextMenuIcons/>};
+export const Checkboxes:Story={render:()=> <ContextMenuCheckboxes/>};
+export const Radio:Story={render:()=> <ContextMenuRadio/>};
+export const Destructive:Story={render:()=> <ContextMenuDestructive/>};
+export const Sides:Story={tags:['viewport-390'],render:()=> <ContextMenuSides/>};
+export const Rtl:Story={tags:['viewport-390'],render:()=> <ContextMenuRtl/>};
+export const RegistryBasic:Story={render:()=> <Registry.ContextMenuBasic/>};
+export const RegistryIcons:Story={render:()=> <Registry.ContextMenuWithIcons/>};
+export const RegistryShortcuts:Story={render:()=> <Registry.ContextMenuWithShortcuts/>};
+export const RegistrySubmenu:Story={render:()=> <Registry.ContextMenuWithSubmenu/>};
+export const RegistryGroups:Story={render:()=> <Registry.ContextMenuWithGroups/>};
+export const RegistryCheckboxes:Story={render:()=> <Registry.ContextMenuWithCheckboxes/>};
+export const RegistryRadio:Story={render:()=> <Registry.ContextMenuWithRadio/>};
+export const RegistryDestructive:Story={render:()=> <Registry.ContextMenuWithDestructive/>};
+export const RegistrySides:Story={tags:['viewport-390'],render:()=> <Registry.ContextMenuWithSides/>};
+export const InDialog:Story={render:()=> <Registry.ContextMenuInDialog/>};
+export const Inset:Story={render:()=> <Registry.ContextMenuWithInset/>};
+export const Usage:Story={render:()=> <ContextMenuTrigger><Pressable><div data-parity-trigger role="button">Right click here</div></Pressable><ContextMenu data-parity-portal><ContextMenuItem>Profile</ContextMenuItem><ContextMenuItem>Billing</ContextMenuItem><ContextMenuItem>Team</ContextMenuItem><ContextMenuItem>Subscription</ContextMenuItem></ContextMenu></ContextMenuTrigger>};
+
+function CallbackExample(){
+ return <ContextMenuTrigger><Pressable><div data-parity-trigger role="button">Callback menu</div></Pressable><ContextMenu data-parity-portal {...custom3} style={()=>({opacity:0.95})}><ContextMenuItem id="callback" {...custom4} style={({isFocused})=>({width:180,fontSize:20,paddingBlock:isFocused?12:8})}>{({isFocused})=>isFocused?'Focused callback':'Callback content'}</ContextMenuItem><ContextMenuItem isDisabled>Disabled callback</ContextMenuItem></ContextMenu></ContextMenuTrigger>;
+}
+export const Callback:Story={render:()=> <CallbackExample/>};
+export const Keyboard:Story={render:()=> <ContextMenuTrigger><Button data-parity-trigger>Keyboard context menu</Button><ContextMenu data-parity-portal><ContextMenuItem>Back</ContextMenuItem><ContextMenuItem isDisabled>Forward</ContextMenuItem><ContextMenuItem>Reload</ContextMenuItem></ContextMenu></ContextMenuTrigger>};

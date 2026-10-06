@@ -22,13 +22,13 @@
 - [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
 - [x] Calendar
 - [x] Card
-- [ ] Carousel
+- [x] Carousel
 - [ ] Chart
 - [ ] Checkbox — 기본 구현; Field·데이터 테이블·폼 공식 조합 대기
 - [x] Collapsible
 - [x] Combobox
 - [x] Command
-- [ ] Context Menu
+- [x] Context Menu
 - [x] Data Table — 조합 예제 포함
 - [x] Date Picker — 조합 예제 포함
 - [x] Dialog
@@ -41,7 +41,7 @@
 - [x] Hover Card
 - [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group — 구현; Field·Tooltip·Kbd 등 공식 교차 조합·RTL 예제 대기
-- [ ] Input OTP
+- [x] Input OTP
 - [x] Item — 공식 문서·registry 조합, 링크·메뉴·RTL·미디어
 - [ ] Kbd — 기본 설치·Tooltip 내용 구현; 공식 ButtonGroup 컨테이너 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
@@ -51,7 +51,7 @@
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
 - [x] Pagination
 - [x] Popover
-- [ ] Progress
+- [x] Progress
 - [ ] Questionnaire
 - [x] Radio Group
 - [x] Resizable

@@ -1,0 +1,3 @@
+.fixture-otp-controlled > :not(:last-child) { margin-block-start: 0; margin-block-end: .5rem; }
+.fixture-otp-support { text-decoration-line: underline; text-underline-offset: 4px; transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to; transition-duration: 150ms; transition-timing-function: cubic-bezier(.4,0,.2,1); }
+@media (hover: hover) { .fixture-otp-support:hover { color: var(--primary); } }
