@@ -61,6 +61,8 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 
 ## 테스트 비용
 
+레퍼런스는 고정 원본 앱의 테마 별칭과 `shadcn/tailwind.css`·`tw-animate-css@1.4.0`를 연결한다. 선택 상태의 true/false·빈 속성과 orientation은 공식 custom variant 조건으로 구분하며, 계산 CSS 비교로 선택자 우선순위를 검증한다.
+
 기본 너비는 1000px로 통일하고 반응형 분기가 있는 예제만 추가 너비를 선언한다. 같은 상태의 반복 비교는 제거하되 서로 다른 동작·선택자 조건은 유지한다. 독립 worker 2개를 기본으로 사용하고, 속도 개선을 위해 비교 정밀도나 실패 기준을 완화하지 않는다. 픽셀 노이즈 예외는 위에 명시한 한계만 적용한다.
 
 ## Separator 검증 범위
