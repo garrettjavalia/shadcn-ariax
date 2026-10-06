@@ -1,9 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip', 'switch', 'avatar', 'radio-group'];
+const componentNames = ['button', 'skeleton', 'separator', 'card', 'alert', 'badge', 'aspect-ratio', 'label', 'input', 'checkbox', 'textarea', 'field', 'input-group', 'table', 'kbd', 'native-select', 'dropdown-menu', 'tooltip', 'switch', 'avatar', 'radio-group', 'button-group'];
 const sharedFiles = [
-  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css', 'kbd-children.css', 'dropdown-menu.css', 'tooltip.css', 'avatar.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...['entry.css', 'button-group.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'card.css', 'alert.css', 'badge.css', 'field-children.css', 'input-group-children.css', 'table.css', 'kbd-children.css', 'dropdown-menu.css', 'tooltip.css', 'avatar.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
@@ -13,7 +13,7 @@ const items = componentNames.map(name => ({
   description: `React Aria ${name}, Nova style, StyleX, Neutral light/dark tokens.`,
   dependencies: ['react-aria-components', '@stylexjs/stylex', ...(['checkbox','native-select'].includes(name) ? ['lucide-react'] : [])].map(name => `${name}@${pkg.dependencies[name] ?? pkg.devDependencies[name]}`),
   devDependencies: [`@stylexjs/unplugin@${pkg.devDependencies['@stylexjs/unplugin']}`],
-  files: [...(name === 'input-group' ? ['button', 'input', 'textarea'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : name === 'field' ? ['label', 'separator'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : []), { path: `registry/ariax/ui/${name}.tsx`, type: 'registry:ui', target: `@ui/${name}.tsx` }, ...sharedFiles],
+  files: [...(name === 'button-group' ? [{path: 'registry/ariax/ui/separator.tsx', type: 'registry:ui', target: '@ui/separator.tsx'}] : name === 'input-group' ? ['button', 'input', 'textarea'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : name === 'field' ? ['label', 'separator'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : []), { path: `registry/ariax/ui/${name}.tsx`, type: 'registry:ui', target: `@ui/${name}.tsx` }, ...sharedFiles],
   docs: 'Configure @stylexjs/unplugin in Vite before the React plugin (useCSSLayers: false), then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
   meta: { base: 'aria', style: 'nova', styling: 'stylex', theme: 'neutral', modes: ['light', 'dark'] },
 }));

@@ -20,6 +20,7 @@
     "tooltip",
     "switch",
     "avatar",
-    "radio-group"
+    "radio-group",
+    "button-group"
   ]
 }
