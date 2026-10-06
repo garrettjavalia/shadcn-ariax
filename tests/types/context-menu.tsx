@@ -51,8 +51,8 @@ export default function InstalledContextMenu() {
 }
 // @ts-expect-error external className is unsupported
 export const externalClass = <ContextMenu className="custom" />;
-// @ts-expect-error the source fixes the trigger mode to contextMenu
 export const wrongTrigger = (
+  // @ts-expect-error the source fixes the trigger mode to contextMenu
   <ContextMenuTrigger trigger="press">
     <Button>Open</Button>
     <ContextMenu />

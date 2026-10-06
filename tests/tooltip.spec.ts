@@ -257,17 +257,15 @@ for (const theme of ["light", "dark"])
       }
       await Promise.all(
         pages.map(async (page) => {
-          await page
-            .getByRole("tooltip")
-            .evaluate((element) =>
-              (
-                window as Window & {
-                  tooltipAnimations?: WeakMap<Element, Animation>;
-                }
-              )
-                .tooltipAnimations!.get(element)!
-                .finish(),
-            );
+          await page.getByRole("tooltip").evaluate((element) =>
+            (
+              window as Window & {
+                tooltipAnimations?: WeakMap<Element, Animation>;
+              }
+            )
+              .tooltipAnimations!.get(element)!
+              .finish(),
+          );
           await expect(page.getByRole("tooltip")).not.toHaveAttribute(
             "data-entering",
             "true",
@@ -293,17 +291,15 @@ for (const theme of ["light", "dark"])
       }
       await Promise.all(
         pages.map(async (page) => {
-          await page
-            .getByRole("tooltip")
-            .evaluate((element) =>
-              (
-                window as Window & {
-                  tooltipAnimations?: WeakMap<Element, Animation>;
-                }
-              )
-                .tooltipAnimations!.get(element)!
-                .finish(),
-            );
+          await page.getByRole("tooltip").evaluate((element) =>
+            (
+              window as Window & {
+                tooltipAnimations?: WeakMap<Element, Animation>;
+              }
+            )
+              .tooltipAnimations!.get(element)!
+              .finish(),
+          );
           await expect(page.getByRole("tooltip")).toHaveCount(0);
         }),
       );

@@ -29,13 +29,14 @@ pnpm typecheck      # 타입 검사
 pnpm test:upstream  # 다운로드·캐시 처리 테스트
 pnpm verify         # 전체 검증: 타입·레지스트리·브라우저·CLI 설치·빌드
 pnpm test:report    # 브라우저 테스트 보고서 열기
+pnpm format:tests   # 테스트 파일과 Playwright 설정 포맷
 pnpm test:benchmark # 실행 시간 및 비교 횟수 측정
 pnpm test:benchmark:ci # CI 검사 전체 실행·시간 측정 (로컬 10분 예산)
 ```
 
 CI는 기본 스토리의 DOM·CSS를 비교한다. 동작·화면·실제 설치까지 확인하려면 로컬에서 `pnpm test:full`을 실행한다. `pnpm build`로 만든 Storybook을 검사하려면 `ARIAX_STATIC_STORYBOOK=1 pnpm test:ci`를 사용한다.
 
-자원이 제한된 환경에서는 `pnpm test --workers=1`로 실행한다. 독립 작업트리의 포트는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 지정하며 테스트에도 같은 환경 변수를 전달한다.
+브라우저 검사는 로컬 worker 4개·CI 2개로 실행한다. `pnpm test --workers=10`처럼 병렬 실행 수를 변경할 수 있고, 자원이 제한된 환경에서는 `--workers=1`을 사용한다. 독립 작업트리의 포트는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 지정하며 테스트에도 같은 환경 변수를 전달한다.
 
 ## 소비 앱에 설치
 

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { readFile, readdir, mkdir, rm, writeFile, stat } from 'node:fs/promises';
+import { readFile, readdir, mkdir, rm, writeFile, stat, rename } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 import { dirname, relative, resolve, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parse } from '@babel/parser';
@@ -134,8 +135,24 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     preview.status = preview.counterparts.length ? 'mapped' : 'unmapped';
   }
   const output = resolve(repo, 'generated/original-stories');
-  await rm(output, { recursive: true, force: true });
   await mkdir(resolve(output, 'public'), { recursive: true });
+  const generated = new Set<string>();
+  const writeGenerated = async (file: string, content: string) => {
+    generated.add(file);
+    const previous = await readFile(file, 'utf8').catch((error: NodeJS.ErrnoException) => {
+      if (error.code === 'ENOENT') return undefined;
+      throw error;
+    });
+    if (previous === content) return;
+    // Preserve the live preview index on unchanged runs and never expose partial source.
+    const temporary = `${file}.${randomUUID()}.tmp`;
+    try {
+      await writeFile(temporary, content);
+      await rename(temporary, file);
+    } finally {
+      await rm(temporary, { force: true });
+    }
+  };
   for (const component of new Set(previews.map(preview => preview.component))) {
     const entries = [...new Map(previews.filter(preview => preview.component === component).map(preview => [preview.name, preview])).values()];
     const file = resolve(output, component + '.stories.tsx');
@@ -148,17 +165,21 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     const stories = entries.map((preview, index) => `export const ${identifier(preview.name)} = { name: ${JSON.stringify(preview.name)}, parameters: { originalSource: ${JSON.stringify(preview.source)}, stylexStoryIds: ${JSON.stringify(preview.stylexStoryIds)} }, render: () => <Original${index} /> };`).join('\n');
     // Explicit story IDs are derived from exported identifiers, not display names.
     for (const preview of entries) for (const occurrence of previews.filter(item => item.component === component && item.name === preview.name)) occurrence.storyId = toId(`original-docs-${component}`, storyNameFromExport(identifier(preview.name)));
-    await writeFile(file, `${imports}\n${harness}export default { id: ${JSON.stringify(`original-docs-${component}`)}, title: ${JSON.stringify(`Original documentation/${component}`)}, tags: ['original-documentation'], decorators: ${decorators} };\n${stories}\n`);
+    await writeGenerated(file, `${imports}\n${harness}export default { id: ${JSON.stringify(`original-docs-${component}`)}, title: ${JSON.stringify(`Original documentation/${component}`)}, tags: ['original-documentation'], decorators: ${decorators} };\n${stories}\n`);
   }
   // Each counterpart inherits the actual target CSF metadata and story decorators.
   // Canonical documentation previews remain separately registered for unmapped sources.
   for (const preview of new Map(previews.map(preview => [preview.name, preview])).values()) for (const match of preview.counterparts) {
     const file = resolve(output, 'parity-' + match.stylexStoryId + '.stories.tsx');
     const imported = preview.exportName === 'default' ? 'OfficialExample' : `{ ${preview.exportName} as OfficialExample }`;
-    await writeFile(file, `import ${imported} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};\nimport fixtureMeta, { ${match.exportName} as fixtureStory } from ${JSON.stringify(modulePath(file, resolve(repo, match.metaSource)))};\nexport default { ...fixtureMeta, id: ${JSON.stringify('original-parity-' + match.stylexStoryId)}, title: ${JSON.stringify('Original counterparts/' + match.stylexStoryId)}, tags: ['original-parity'] };\nexport const Original = { ...fixtureStory, tags: ['original-parity'], name: ${JSON.stringify(preview.name)}, render: () => <OfficialExample /> };\n`);
+    await writeGenerated(file, `import ${imported} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};\nimport fixtureMeta, { ${match.exportName} as fixtureStory } from ${JSON.stringify(modulePath(file, resolve(repo, match.metaSource)))};\nexport default { ...fixtureMeta, id: ${JSON.stringify('original-parity-' + match.stylexStoryId)}, title: ${JSON.stringify('Original counterparts/' + match.stylexStoryId)}, tags: ['original-parity'] };\nexport const Original = { ...fixtureStory, tags: ['original-parity'], name: ${JSON.stringify(preview.name)}, render: () => <OfficialExample /> };\n`);
   }
   const manifest: OriginalStoriesManifest = { version: 1, previews };
-  await writeFile(resolve(output, 'public/manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+  await writeGenerated(resolve(output, 'public/manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+  for (const file of await readdir(output)) {
+    const path = resolve(output, file);
+    if (file.endsWith('.stories.tsx') && !generated.has(path)) await rm(path);
+  }
   console.log(`Generated ${new Set(previews.map(preview => preview.storyId)).size} original stories for ${previews.length} official documentation previews.`);
   return manifest;
 }

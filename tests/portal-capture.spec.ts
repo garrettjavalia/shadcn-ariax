@@ -30,12 +30,10 @@ test("portal comparison captures the fixed viewport while preserving overflow ge
     const geometry = () =>
       Promise.all(
         pages.map((page) =>
-          page
-            .locator("#portal")
-            .evaluate((el) => ({
-              rect: el.getBoundingClientRect().toJSON(),
-              scrollWidth: document.documentElement.scrollWidth,
-            })),
+          page.locator("#portal").evaluate((el) => ({
+            rect: el.getBoundingClientRect().toJSON(),
+            scrollWidth: document.documentElement.scrollWidth,
+          })),
         ),
       );
     const before = await geometry();

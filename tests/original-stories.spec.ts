@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { readFile, readdir } from "node:fs/promises";
 import { readdirSync, readFileSync } from "node:fs";
 import { waitForStoryReadiness } from "./story-readiness";
+import { navigateStory } from "./story-navigation";
 import { upstreamURL } from "./servers";
 import type { OriginalStoriesManifest } from "../scripts/upstream/original-stories";
 
@@ -104,9 +105,14 @@ for (const document of documents)
       `No official previews registered for ${document}`,
     ).toBeGreaterThan(0);
     const errors: string[] = [];
+    const diagnostics: string[] = [];
     page.on("pageerror", (error) => errors.push(error.stack ?? error.message));
+    // Dependency development diagnostics do not prove a preview failed to run.
+    // Preserve them in the report; uncaught exceptions, error UI and failed
+    // assets below still fail execution without altering the official source.
     page.on("console", (message) => {
-      if (message.type() === "error") errors.push(message.text());
+      if (message.type() === "error" || message.type() === "warning")
+        diagnostics.push(`${message.type()}: ${message.text()}`);
     });
     page.on("requestfailed", (request) => {
       if (
@@ -118,12 +124,23 @@ for (const document of documents)
           `${request.resourceType()} ${request.url()}: ${request.failure()?.errorText}`,
         );
     });
+    page.on("response", (response) => {
+      const type = response.request().resourceType();
+      if (
+        ["script", "stylesheet", "font", "image"].includes(type) &&
+        response.status() >= 400
+      )
+        errors.push(`${type} ${response.url()}: HTTP ${response.status()}`);
+    });
     for (const preview of previews)
       await test.step(`${preview.storyId} (${preview.source})`, async () => {
         errors.length = 0;
+        diagnostics.length = 0;
         try {
-          await page.goto(
+          await navigateStory(
+            page,
             `${upstreamURL}/iframe.html?id=${preview.storyId}&viewMode=story&globals=theme:light`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await expect(page.locator(".sb-errordisplay")).not.toBeVisible();
@@ -151,9 +168,16 @@ for (const document of documents)
               ),
             "Original preview images must load successfully",
           ).toEqual([]);
+          await expect(page.locator("#parity-root")).toBeVisible();
+          await expect(page.locator(".sb-errordisplay")).not.toBeVisible();
         } catch (error) {
           errors.push(String(error));
         }
+        if (diagnostics.length)
+          await test.info().attach(`${preview.storyId}-console`, {
+            body: diagnostics.join("\n"),
+            contentType: "text/plain",
+          });
         expect
           .soft(
             errors,

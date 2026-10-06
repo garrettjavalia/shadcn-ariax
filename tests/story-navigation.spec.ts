@@ -17,6 +17,8 @@ test("preview transitions remount state and preserve fresh-page DOM/CSS", async 
       "components-checkbox--usage",
       "components-checkbox--controlled",
       "components-checkbox--context",
+      "components-progress--demo",
+      "components-checkbox--usage",
     ]) {
       const url = `${stylexURL}/iframe.html?id=${id}&viewMode=story&globals=theme:light`;
       const fresh = await context.newPage();
@@ -41,7 +43,7 @@ test("preview transitions remount state and preserve fresh-page DOM/CSS", async 
       ).toEqual([]);
       // Leave controlled component state and focus behind for the next transition.
       const checkbox = reused.getByRole("checkbox").first();
-      if (await checkbox.isEnabled())
+      if ((await checkbox.count()) && (await checkbox.isEnabled()))
         await reused.locator("[data-slot=checkbox]").first().click();
       await fresh.close();
     }

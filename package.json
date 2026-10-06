@@ -5,6 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.15.1",
   "scripts": {
+    "format:tests": "prettier --write \"tests/**/*.{ts,tsx}\" playwright.config.ts",
     "storybook": "pnpm upstream:prepare && pnpm registry:build && node --import tsx scripts/storybook.ts stylex",
     "storybook:upstream": "pnpm upstream:prepare && pnpm originals:generate && node --import tsx scripts/storybook.ts upstream",
     "dev": "concurrently -n upstream,stylex \"pnpm storybook:upstream\" \"pnpm storybook\"",
@@ -68,6 +69,7 @@
     "lucide-react": "1.52.0",
     "motion": "12.23.12",
     "pngjs": "7.0.0",
+    "prettier": "3.9.9",
     "radix-ui": "1.4.3",
     "react-resizable-panels": "4.5.8",
     "react-textarea-autosize": "8.5.9",

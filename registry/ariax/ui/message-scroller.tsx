@@ -129,7 +129,10 @@ const styles = stylex.create({
     '--scroll-fade-mask': 'linear-gradient(to bottom,#000 0,#000 calc(100% - var(--scroll-fade-b,0px)),transparent 100%)',
     WebkitMaskImage: 'var(--scroll-fade-mask)',
     maskImage: 'var(--scroll-fade-mask)',
-    WebkitMaskComposite: 'source-in',
+    WebkitMaskComposite: {
+      default: null,
+      '@supports not (mask-composite: intersect)': 'source-in'
+    },
     maskComposite: 'intersect',
     WebkitMaskRepeat: 'no-repeat',
     maskRepeat: 'no-repeat',

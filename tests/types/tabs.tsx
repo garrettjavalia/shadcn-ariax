@@ -22,8 +22,8 @@ import {
   })}
 />;
 
-// @ts-expect-error xstyle requires compiled StyleX styles
 <Tabs
+  // @ts-expect-error xstyle requires compiled StyleX styles
   xstyle={{
     width: 200,
   }}

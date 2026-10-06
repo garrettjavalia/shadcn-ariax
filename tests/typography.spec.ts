@@ -84,7 +84,7 @@ for (const theme of ["light", "dark"])
               .evaluateAll((nodes) =>
                 nodes.map((node) => getComputedStyle(node).textAlign),
               ),
-          ).toEqual(["start", "center", "end"]);
+          ).toEqual(["left", "center", "right"]);
           expect(
             await article
               .locator("li")

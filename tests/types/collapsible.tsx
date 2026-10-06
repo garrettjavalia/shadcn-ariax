@@ -35,8 +35,8 @@ const styles = stylex.create({
 <CollapsibleTrigger className="external" />;
 // @ts-expect-error external className unsupported
 <CollapsibleContent className="external">Panel</CollapsibleContent>;
-// @ts-expect-error xstyle requires compiled StyleX
 <Collapsible
+  // @ts-expect-error xstyle requires compiled StyleX
   xstyle={{
     width: 200,
   }}

@@ -23,8 +23,8 @@ const config = {
 <ChartTooltipContent labelClassName="font-bold" />;
 // @ts-expect-error external classes are not a Chart customization API
 <ChartLegendContent className="p-4" />;
-// @ts-expect-error a series cannot declare both fixed color and themed colors
 const invalid: ChartConfig = {
+  // @ts-expect-error a series cannot declare both fixed color and themed colors
   desktop: { color: "red", theme: { light: "red", dark: "blue" } },
 };
 void invalid;

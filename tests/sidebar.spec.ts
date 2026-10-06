@@ -145,6 +145,13 @@ for (const theme of ["light", "dark"])
         }
         for (const page of pages) {
           await page.mouse.move(0, 0);
+          if (story === "group-action") {
+            // Collapse from visible navigation after verifying the toast action.
+            await page
+              .locator('[data-slot="sidebar-menu-button"]:visible')
+              .first()
+              .focus();
+          }
           await page.keyboard.press("Control+b");
         }
         await compare(pages[0], pages[1], info, "desktop-collapsed");

@@ -28,13 +28,11 @@ for (const theme of ["light", "dark"])
         await Promise.all(
           [a, b].map(async (page) => {
             if (story === "file")
-              await page
-                .locator("input")
-                .setInputFiles({
-                  name: "sample.txt",
-                  mimeType: "text/plain",
-                  buffer: Buffer.from("Input test"),
-                });
+              await page.locator("input").setInputFiles({
+                name: "sample.txt",
+                mimeType: "text/plain",
+                buffer: Buffer.from("Input test"),
+              });
             else await page.locator("input").fill("Updated value");
           }),
         );

@@ -42,12 +42,10 @@ test("settle waits for a focus transition scheduled after effect completion", as
   await settle(page);
   // Read once: retrying assertions would conceal an early settle return.
   expect(
-    await page
-      .locator("#target")
-      .evaluate((element) => ({
-        focused: element === document.activeElement,
-        color: getComputedStyle(element).borderTopColor,
-      })),
+    await page.locator("#target").evaluate((element) => ({
+      focused: element === document.activeElement,
+      color: getComputedStyle(element).borderTopColor,
+    })),
   ).toEqual({ focused: true, color: "rgb(255, 0, 0)" });
   expect(
     await page.evaluate(() =>

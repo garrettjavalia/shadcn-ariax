@@ -172,6 +172,14 @@ for (const theme of ["light", "dark"]) {
             ).toBeVisible();
             await page.getByRole("searchbox").fill("Al");
             await expect(page.getByRole("menuitem")).toHaveCount(1);
+            // React Aria commits virtual focus after its input announcement.
+            // Wait for that public state before comparing or blurring the input.
+            const itemId = await page.getByRole("menuitem").getAttribute("id");
+            expect(itemId).toBeTruthy();
+            await expect(page.getByRole("searchbox")).toHaveAttribute(
+              "aria-activedescendant",
+              itemId!,
+            );
           }
           await compare(a, b, info, "prefix-filter");
         }
