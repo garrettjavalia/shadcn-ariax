@@ -14,6 +14,10 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     await cp(resolve(root, 'reference'), join(dir, 'reference'), { recursive: true });
     await mkdir(join(dir, 'upstream'));
     await cp(resolve(root, 'package.json'), join(dir, 'package.json'));
+    const parentLock = await readFile(resolve(root, 'pnpm-lock.yaml'), 'utf8');
+    await writeFile(join(dir, 'pnpm-lock.yaml'), parentLock);
+    await cp(resolve(root, 'pnpm-workspace.yaml'), join(dir, 'pnpm-workspace.yaml'));
+    await cp(resolve(root, 'patches'), join(dir, 'patches'), { recursive: true });
     await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'] }));
     await symlink(resolve(root, 'node_modules'), join(dir, 'node_modules'), 'dir');
     const commit = 'a'.repeat(40);
@@ -75,6 +79,7 @@ for (const module of [http, https]) { const request=module.request; module.reque
     result = await run(true); assert.equal(result.code, 0, result.output);
     assert.equal(await readFile(installed, 'utf8'), installedSource, 'Missing installed output is recreated offline by the official CLI.');
     assert.equal(await readFile(join(dir, 'package.json'), 'utf8'), await readFile(resolve(root, 'package.json'), 'utf8'), 'CLI must not modify the development package.');
+    assert.equal(await readFile(join(dir, 'pnpm-lock.yaml'), 'utf8'), parentLock, 'Reference installation must not modify the parent workspace lockfile.');
     await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['missing'] }));
     result = await run(true); assert.notEqual(result.code, 0, 'Unknown reference selection must fail.');
     assert.equal(await readFile(installed, 'utf8'), installedSource, 'Failed preparation must preserve the successful installation.');
