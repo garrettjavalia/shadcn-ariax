@@ -30,7 +30,21 @@ const scrollRevealBottom = stylex.keyframes({
 const caretBlink = stylex.keyframes({ '0%,70%,100%': {opacity:1}, '20%,50%': {opacity:0} });
 const shimmer = stylex.keyframes({from:{backgroundPosition:'100% 0'},to:{backgroundPosition:'0 0'}});
 
+const scrollRevealStart=stylex.keyframes({
+ // @ts-expect-error Registered CSS property.
+ from:{'--scroll-fade-s':'0px'},
+ // @ts-expect-error Registered CSS property.
+ to:{'--scroll-fade-s':'var(--_scroll-fade-size-s, var(--scroll-fade-size, min(12%, 2.5rem)))'},
+});
+const scrollRevealEnd=stylex.keyframes({
+ // @ts-expect-error Registered CSS property.
+ from:{'--scroll-fade-e':'var(--_scroll-fade-size-e, var(--scroll-fade-size, min(12%, 2.5rem)))'},
+ // @ts-expect-error Registered CSS property.
+ to:{'--scroll-fade-e':'0px'},
+});
+
 export const animationStyles = stylex.create({
+  activeEnter: { animationName: { default: null, ":is([data-active])": enter } },
   overlay: { animationName: { default: null, ":is([data-entering])": enter, ":is([data-exiting])": exit } },
   pulse: { animationName: pulse },
   spin: { animationName: spin },
@@ -42,6 +56,11 @@ export const animationStyles = stylex.create({
    '--_scroll-fade-size-t':'var(--scroll-fade-t-size, var(--scroll-fade-size, min(12%, 2.5rem)))','--_scroll-fade-size-b':'var(--scroll-fade-b-size, var(--scroll-fade-size, min(12%, 2.5rem)))','--scroll-fade-block':'linear-gradient(to bottom, transparent 0, #000 var(--scroll-fade-t, 0px), #000 calc(100% - var(--scroll-fade-b, 0px)), transparent 100%)',maskImage:'var(--scroll-fade-mask, var(--scroll-fade-block))',maskComposite:'intersect',maskRepeat:'no-repeat',
    animationName:{default:null,'@supports (animation-timeline: scroll())':`${scrollRevealTop}, ${scrollRevealBottom}`},animationDuration:{default:null,'@supports (animation-timeline: scroll())':'1ms, 1ms'},animationTimingFunction:{default:null,'@supports (animation-timeline: scroll())':'ease-in-out, ease-in-out'},animationDelay:{default:null,'@supports (animation-timeline: scroll())':'0s, 0s'},animationIterationCount:{default:null,'@supports (animation-timeline: scroll())':'1, 1' as unknown as number},animationDirection:{default:null,'@supports (animation-timeline: scroll())':'normal, normal' as 'normal'},animationFillMode:{default:null,'@supports (animation-timeline: scroll())':'both'},animationPlayState:{default:null,'@supports (animation-timeline: scroll())':'running, running' as 'running'},animationTimeline:{default:null,'@supports (animation-timeline: scroll())':'scroll(self y), scroll(self y)'},animationRange:{default:null,'@supports (animation-timeline: scroll())':'0 var(--scroll-fade-reveal, 6rem), calc(100% - var(--scroll-fade-reveal, 6rem)) 100%'},
    '--scroll-fade-t':{default:null,'@supports not (animation-timeline: scroll())':'var(--_scroll-fade-size-t)'},'--scroll-fade-b':{default:null,'@supports not (animation-timeline: scroll())':'var(--_scroll-fade-size-b)'},
+  },
+  scrollFadeInline:{
+   '--_scroll-fade-size-s':'var(--scroll-fade-s-size, var(--scroll-fade-size, min(12%, 2.5rem)))','--_scroll-fade-size-e':'var(--scroll-fade-e-size, var(--scroll-fade-size, min(12%, 2.5rem)))','--scroll-fade-inline':{default:'linear-gradient(to right, transparent 0, #000 var(--scroll-fade-s, 0px), #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%)',':where([dir="rtl"], [dir="rtl"] *)':'linear-gradient(to left, transparent 0, #000 var(--scroll-fade-s, 0px), #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%)'},maskImage:'var(--scroll-fade-mask, var(--scroll-fade-inline))',maskComposite:'intersect',maskRepeat:'no-repeat',
+   animationName:{default:null,'@supports (animation-timeline: scroll())':`${scrollRevealStart}, ${scrollRevealEnd}`},animationDuration:{default:null,'@supports (animation-timeline: scroll())':'1ms, 1ms'},animationTimingFunction:{default:null,'@supports (animation-timeline: scroll())':'ease-in-out, ease-in-out'},animationDelay:{default:null,'@supports (animation-timeline: scroll())':'0s, 0s'},animationIterationCount:{default:null,'@supports (animation-timeline: scroll())':'1, 1' as unknown as number},animationDirection:{default:null,'@supports (animation-timeline: scroll())':'normal, normal' as 'normal'},animationFillMode:{default:null,'@supports (animation-timeline: scroll())':'both'},animationPlayState:{default:null,'@supports (animation-timeline: scroll())':'running, running' as 'running'},animationTimeline:{default:null,'@supports (animation-timeline: scroll())':'scroll(self inline), scroll(self inline)'},animationRange:{default:null,'@supports (animation-timeline: scroll())':'0 var(--scroll-fade-reveal, 6rem), calc(100% - var(--scroll-fade-reveal, 6rem)) 100%'},
+   '--scroll-fade-s':{default:null,'@supports not (animation-timeline: scroll())':'var(--_scroll-fade-size-s)'},'--scroll-fade-e':{default:null,'@supports not (animation-timeline: scroll())':'var(--_scroll-fade-size-e)'},
   },
   caretBlink: { animationName: caretBlink },
   shimmer: {
