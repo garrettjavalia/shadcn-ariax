@@ -1,6 +1,6 @@
 import type {Meta,StoryObj} from '@storybook/react-vite';
 import {useState} from 'react';
-import {Group} from 'react-aria-components';
+import {Group,I18nProvider} from 'react-aria-components';
 import {SearchIcon} from 'lucide-react';
 import {Combobox,ComboboxContent,ComboboxInput,ComboboxItem,ComboboxList,ComboboxValue,ComboboxEmpty,ComboboxGroup,ComboboxLabel,ComboboxSeparator,ComboboxTrigger,useComboboxAnchor} from '@combobox';
 import {InputGroup as InputGroupComponent,InputGroupInput,InputGroupAddon} from '@input-group';
@@ -24,6 +24,7 @@ export const Invalid:Story={render:()=> <ComboboxInvalid/>};
 export const Disabled:Story={render:()=> <ComboboxDisabled/>};
 export const InputGroup:Story={render:()=> <ComboxboxInputGroup/>};
 export const Rtl:Story={render:()=> <ComboboxRtl/>};
+export const RtlChips:Story={render:()=> <I18nProvider locale="ar"><div dir="rtl"><ComboboxRtl/></div></I18nProvider>};
 const items=['Next.js','SvelteKit','Nuxt.js','Remix','Astro'];
 export const Usage:Story={render:()=> <Combobox><ComboboxInput placeholder="Select a framework"/><ComboboxContent><ComboboxList>{items.map(item=><ComboboxItem key={item} id={item}>{item}</ComboboxItem>)}</ComboboxList></ComboboxContent></Combobox>};
 function ControlledExample(){const [value,setValue]=useState<string|null>('Next.js');return <><Combobox value={value} onChange={key=>setValue(key as string)} aria-label="Controlled framework"><ComboboxInput showClear/><ComboboxContent><ComboboxList>{items.map(item=><ComboboxItem key={item} id={item} isDisabled={item==='Nuxt.js'}>{item}</ComboboxItem>)}</ComboboxList></ComboboxContent></Combobox><output>{value}</output></>;}
