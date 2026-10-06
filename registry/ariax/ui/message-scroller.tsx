@@ -220,11 +220,11 @@ const styles = stylex.create({
     },
     bottom: {
       default: null,
-      ':is([data-direction="end"])': '1rem'
+      ':is([data-direction="end"])': 'calc(var(--ariax-spacing, .25rem) * 4)'
     },
     top: {
       default: null,
-      ':is([data-direction="start"])': '1rem'
+      ':is([data-direction="start"])': 'calc(var(--ariax-spacing, .25rem) * 4)'
     }
   },
   srOnly: {

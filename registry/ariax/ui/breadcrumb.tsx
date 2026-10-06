@@ -39,11 +39,11 @@ export function BreadcrumbEllipsis({ className: _, xstyle, style, ...props }: Br
   return <span data-slot="breadcrumb-ellipsis" role="presentation" aria-hidden="true" {...props} className={['ariax-breadcrumb-ellipsis', sx.className].filter(Boolean).join(' ')} style={{ ...sx.style, ...style }}><MoreHorizontalIcon /><span className={stylex.props(styles.srOnly).className}>More</span></span>;
 }
 const styles = stylex.create({
-  list: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', overflowWrap: 'break-word', color: 'var(--muted-foreground)', gap: '.375rem', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
-  item: { display: 'inline-flex', alignItems: 'center', gap: '.25rem' },
+  list: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', overflowWrap: 'break-word', color: 'var(--muted-foreground)', gap: 'calc(var(--ariax-spacing, .25rem) * 1.5)', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
+  item: { display: 'inline-flex', alignItems: 'center', gap: 'calc(var(--ariax-spacing, .25rem) * 1)' },
   link: { color: { default: null, ':hover': { default: null, '@media (hover: hover)': 'var(--foreground)' } }, transitionProperty: 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' },
   page: { color: 'var(--foreground)', fontWeight: 400 },
-  ellipsis: { display: 'flex', alignItems: 'center', justifyContent: 'center', width: '1.25rem', height: '1.25rem' },
+  ellipsis: { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 'calc(var(--ariax-spacing, .25rem) * 5)', height: 'calc(var(--ariax-spacing, .25rem) * 5)' },
   chevron: { rotate: { default: null, ':where(:dir(rtl), [dir="rtl"], [dir="rtl"] *)': '180deg' } },
   srOnly: { position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clipPath: 'inset(50%)', whiteSpace: 'nowrap', borderWidth: 0 },
 });

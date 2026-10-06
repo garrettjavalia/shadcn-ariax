@@ -10,10 +10,10 @@ const styles = stylex.create({
     pointerEvents: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', userSelect: 'none',
     backgroundColor: { default: 'var(--muted)', ':is([data-slot="tooltip-content"] *)': 'color-mix(in oklab, var(--background) 20%, transparent)', ':is(.dark [data-slot="tooltip-content"] *)': 'color-mix(in oklab, var(--background) 10%, transparent)' },
     color: { default: 'var(--muted-foreground)', ':is([data-slot="tooltip-content"] *)': 'var(--background)' },
-    height: '1.25rem', width: 'fit-content', minWidth: '1.25rem', gap: '0.25rem', borderRadius: { default: 'calc(var(--radius) * 0.6)', ':is([data-slot="input-group-addon"] > *)': 'calc(var(--radius) - 5px)' }, paddingInline: '0.25rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 5)', width: 'fit-content', minWidth: 'calc(var(--ariax-spacing, .25rem) * 5)', gap: 'calc(var(--ariax-spacing, .25rem) * 1)', borderRadius: { default: 'calc(var(--radius) * 0.6)', ':is([data-slot="input-group-addon"] > *)': 'calc(var(--radius) - 5px)' }, paddingInline: 'calc(var(--ariax-spacing, .25rem) * 1)',
     fontFamily: 'var(--font-sans)', fontSize: '0.75rem', lineHeight: 'calc(1 / 0.75)', fontWeight: 500,
   },
-  group: { display: 'inline-flex', alignItems: 'center', gap: '0.25rem' },
+  group: { display: 'inline-flex', alignItems: 'center', gap: 'calc(var(--ariax-spacing, .25rem) * 1)' },
 });
 export function Kbd({ xstyle, className: _className, style, ...props }: KbdProps) {
   const applied = stylex.props(styles.key, xstyle);

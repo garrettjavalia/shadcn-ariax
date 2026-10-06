@@ -113,7 +113,7 @@ const styles = stylex.create({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: '0.75rem'
+    gap: 'calc(var(--ariax-spacing, .25rem) * 3)'
   },
   track: {
     position: 'relative',
@@ -122,7 +122,7 @@ const styles = stylex.create({
     alignItems: 'center',
     overflowX: 'hidden',
     backgroundColor: 'var(--muted)',
-    height: '0.25rem',
+    height: 'calc(var(--ariax-spacing, .25rem) * 1)',
     borderRadius: 'calc(infinity * 1px)'
   },
   indicator: {

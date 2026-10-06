@@ -95,7 +95,7 @@ export function TabsContent({
 const styles = stylex.create({
   root: {
     display: 'flex',
-    gap: '0.5rem',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 2)',
     flexDirection: {
       default: null,
       ':is([data-orientation="horizontal"])': 'column'
@@ -114,7 +114,7 @@ const styles = stylex.create({
     padding: 3,
     height: {
       default: null,
-      ':is(.ariax-tabs[data-orientation="horizontal"] *)': '2rem',
+      ':is(.ariax-tabs[data-orientation="horizontal"] *)': 'calc(var(--ariax-spacing, .25rem) * 8)',
       ':is(.ariax-tabs[data-orientation="vertical"] *)': 'fit-content'
     },
     flexDirection: {
@@ -126,7 +126,7 @@ const styles = stylex.create({
     backgroundColor: 'var(--muted)'
   },
   lineList: {
-    gap: '0.25rem',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 1)',
     backgroundColor: 'transparent'
   },
   trigger: {
@@ -156,7 +156,7 @@ const styles = stylex.create({
       '::after': 'var(--ariax-tabs-after-width)'
     },
     whiteSpace: 'nowrap',
-    gap: '0.375rem',
+    gap: 'calc(var(--ariax-spacing, .25rem) * 1.5)',
     borderRadius: 'calc(var(--radius) * 0.8)',
     borderWidth: 1,
     borderStyle: 'solid',
@@ -166,8 +166,8 @@ const styles = stylex.create({
       ':is(.dark *)[data-selected="true"]': 'var(--input)',
       ':is(.dark *):is(.ariax-tabs-list[data-variant="line"] *)[data-selected="true"]': 'transparent'
     },
-    paddingInline: '0.375rem',
-    paddingBlock: '0.125rem',
+    paddingInline: 'calc(var(--ariax-spacing, .25rem) * 1.5)',
+    paddingBlock: 'calc(var(--ariax-spacing, .25rem) * 0.5)',
     fontSize: '0.875rem',
     lineHeight: 'calc(1.25 / 0.875)',
     fontWeight: 500,
@@ -257,7 +257,7 @@ const styles = stylex.create({
     '--ariax-tabs-after-end': {
       default: 'auto',
       ':is(.ariax-tabs[data-orientation="horizontal"] *)': '0px',
-      ':is(.ariax-tabs[data-orientation="vertical"] *)': '-0.25rem'
+      ':is(.ariax-tabs[data-orientation="vertical"] *)': 'calc(var(--ariax-spacing, .25rem) * -1)'
     },
     '--ariax-tabs-after-top': {
       default: 'auto',
@@ -270,11 +270,11 @@ const styles = stylex.create({
     },
     '--ariax-tabs-after-height': {
       default: 'auto',
-      ':is(.ariax-tabs[data-orientation="horizontal"] *)': '0.125rem'
+      ':is(.ariax-tabs[data-orientation="horizontal"] *)': 'calc(var(--ariax-spacing, .25rem) * 0.5)'
     },
     '--ariax-tabs-after-width': {
       default: 'auto',
-      ':is(.ariax-tabs[data-orientation="vertical"] *)': '0.125rem'
+      ':is(.ariax-tabs[data-orientation="vertical"] *)': 'calc(var(--ariax-spacing, .25rem) * 0.5)'
     },
     insetInlineStart: {
       default: null,

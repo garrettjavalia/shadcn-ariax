@@ -11,13 +11,13 @@ const styles = stylex.create({
     animationTimingFunction: { default: null, ':is([data-entering], [data-exiting])': 'ease' },
     '--ariax-enter-opacity': { default: 1, ':is([data-entering])': 0 }, '--ariax-enter-scale': { default: 1, ':is([data-entering])': 0.95 },
     '--ariax-exit-opacity': { default: 1, ':is([data-exiting])': 0 }, '--ariax-exit-scale': { default: 1, ':is([data-exiting])': 0.95 },
-    '--ariax-enter-x': { default: '0px', ':is([data-placement="left"])': '0.5rem', ':is([data-placement="right"])': '-0.5rem' },
-    '--ariax-enter-y': { default: '0px', ':is([data-placement="bottom"])': '-0.5rem', ':is([data-placement="top"])': '0.5rem' },
+    '--ariax-enter-x': { default: '0px', ':is([data-placement="left"])': 'calc(var(--ariax-spacing, .25rem) * 2)', ':is([data-placement="right"])': 'calc(var(--ariax-spacing, .25rem) * -2)' },
+    '--ariax-enter-y': { default: '0px', ':is([data-placement="bottom"])': 'calc(var(--ariax-spacing, .25rem) * -2)', ':is([data-placement="top"])': 'calc(var(--ariax-spacing, .25rem) * 2)' },
     zIndex: 50, width: 'fit-content', maxWidth: '20rem', transformOrigin: 'var(--trigger-anchor-point)', backgroundColor: 'var(--foreground)', color: 'var(--background)',
-    display: 'inline-flex', alignItems: 'center', gap: '0.375rem', borderRadius: 'calc(var(--radius) * 0.8)', paddingBlock: '0.375rem', paddingInline: '0.75rem var(--ariax-tooltip-padding-end)', '--ariax-tooltip-padding-end': { default: '0.75rem', ':has([data-slot="kbd"])': '0.375rem' },
+    display: 'inline-flex', alignItems: 'center', gap: 'calc(var(--ariax-spacing, .25rem) * 1.5)', borderRadius: 'calc(var(--radius) * 0.8)', paddingBlock: 'calc(var(--ariax-spacing, .25rem) * 1.5)', paddingInline: 'calc(var(--ariax-spacing, .25rem) * 3) var(--ariax-tooltip-padding-end)', '--ariax-tooltip-padding-end': { default: 'calc(var(--ariax-spacing, .25rem) * 3)', ':has([data-slot="kbd"])': 'calc(var(--ariax-spacing, .25rem) * 1.5)' },
     fontSize: '0.75rem', lineHeight: 'calc(1 / 0.75)',
   },
-  arrow: { zIndex: 50, backgroundColor: 'var(--foreground)', fill: 'var(--foreground)', width: '0.625rem', height: '0.625rem', translate: '0 calc(-50% - 2px)', rotate: '45deg', borderRadius: 2 },
+  arrow: { zIndex: 50, backgroundColor: 'var(--foreground)', fill: 'var(--foreground)', width: 'calc(var(--ariax-spacing, .25rem) * 2.5)', height: 'calc(var(--ariax-spacing, .25rem) * 2.5)', translate: '0 calc(-50% - 2px)', rotate: '45deg', borderRadius: 2 },
 });
 export function TooltipTrigger({ delay = 0, children, ...props }: React.ComponentProps<typeof TooltipTriggerPrimitive>) {
   const [trigger, tooltip] = React.Children.toArray(children);

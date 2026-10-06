@@ -17,9 +17,9 @@ const styles = stylex.create({
   base: {
     position: { default:'relative', '::after':'absolute' },
     content: {default:null,'::after':'""'},
-    left:{default:null,'::after':'-0.75rem'},right:{default:null,'::after':'-0.75rem'},
-    top:{default:null,'::after':'-0.5rem'},bottom:{default:null,'::after':'-0.5rem'},
-    flexShrink:0, outlineStyle:'none', display:'flex', width:'1rem',height:'1rem',alignItems:'center',justifyContent:'center',
+    left:{default:null,'::after':'calc(var(--ariax-spacing, .25rem) * -3)'},right:{default:null,'::after':'calc(var(--ariax-spacing, .25rem) * -3)'},
+    top:{default:null,'::after':'calc(var(--ariax-spacing, .25rem) * -2)'},bottom:{default:null,'::after':'calc(var(--ariax-spacing, .25rem) * -2)'},
+    flexShrink:0, outlineStyle:'none', display:'flex', width:'calc(var(--ariax-spacing, .25rem) * 4)',height:'calc(var(--ariax-spacing, .25rem) * 4)',alignItems:'center',justifyContent:'center',
     borderRadius:4,borderWidth:1,borderStyle:'solid',
     borderColor:{default:'var(--input)',':is(:where(.group\\/field-label):has(:focus-visible) *):not([data-checked]):not([data-focus-visible]):not(:focus-visible)':'var(--input)',':is(:where(.group\\/field-label):has(:focus-visible) *)[data-checked]':'var(--primary)',':is([data-checked])':'var(--primary)',':is([data-selected])':'var(--primary)',':is([data-selected][data-focus-visible])':'var(--ring)',':is([data-selected]):focus-visible':'var(--ring)',':focus-visible':'var(--ring)',':is([data-focus-visible])':'var(--ring)',':is([aria-invalid="true"])':'var(--destructive)',':is([aria-invalid="true"][aria-checked="true"])':'var(--primary)',':is([data-invalid])':'var(--destructive)',':is(.dark *)[aria-invalid="true"]':'color-mix(in oklab, var(--destructive) 50%, transparent)',':is(.dark *)[data-invalid]':'color-mix(in oklab, var(--destructive) 50%, transparent)',':is([data-invalid][data-selected])':'var(--primary)',':is(.dark *)[data-invalid][data-selected]':'color-mix(in oklab, var(--destructive) 50%, transparent)'},
     backgroundColor:{default:null,':is(.dark *)':'color-mix(in oklab, var(--input) 30%, transparent)',':is([data-checked])':'var(--primary)',':is([data-selected])':'var(--primary)',':is(.dark *)[data-checked]':'var(--primary)',':is(.dark *)[data-selected]':'var(--primary)'},
@@ -31,5 +31,5 @@ const styles = stylex.create({
     boxShadow:{default:null,":is(:where(.group\\/field-label):has(:focus-visible) *)[data-focus-visible]":"0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-checkbox-ring), 0 0 0 0 #0000",':is(:where(.group\\/field-label):has(:focus-visible) *)':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0px var(--ariax-checkbox-ring), 0 0 0 0 #0000',':focus-visible':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-checkbox-ring), 0 0 0 0 #0000',':is([data-focus-visible])':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-checkbox-ring), 0 0 0 0 #0000',':is([aria-invalid="true"])':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-checkbox-ring), 0 0 0 0 #0000',':is([data-invalid])':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-checkbox-ring), 0 0 0 0 #0000'},
   },
   indicator:{display:'grid',placeContent:'center',color:'currentColor',transitionProperty:'none'},
-  icon:{width:'0.875rem',height:'0.875rem'},
+  icon:{width:'calc(var(--ariax-spacing, .25rem) * 3.5)',height:'calc(var(--ariax-spacing, .25rem) * 3.5)'},
 });
