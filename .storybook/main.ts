@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@badge': resolve(upstream ? 'generated/reference/aria-nova/badge.tsx' : 'registry/ariax/ui/badge.tsx'),
+      '@badge': resolve(upstream ? 'generated/reference/aria-nova/ui/badge.tsx' : 'registry/ariax/ui/badge.tsx'),
       '@badge-customizations': resolve(upstream ? 'reference/badge-customizations.ts' : 'stories/badge-customizations.ts'),
       '@skeleton': resolve(upstream ? 'reference/skeleton.tsx' : 'registry/ariax/ui/skeleton.tsx'),
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),

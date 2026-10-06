@@ -23,6 +23,5 @@
   --radius-md: calc(var(--radius) * 0.8);
 }
 
-@source "./badge.tsx";
 @source "../../../reference/badge-customizations.ts";
 @theme inline { --color-muted-foreground: var(--muted-foreground); }

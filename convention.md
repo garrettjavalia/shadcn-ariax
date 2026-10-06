@@ -70,3 +70,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## Skeleton
 
 Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.
+
+## Badge 검증 범위
+
+Badge는 고정한 공식 문서의 Demo·Variants·Icon·Spinner·Link·Colors·RTL 예제를 공유 스토리로 검사한다. 6개 variant·null, 링크 hover·키보드 focus-visible·aria-invalid를 light/dark에서 비교한다. Spinner는 Badge 예제용 Lucide fixture이며 별도 Spinner 컴포넌트 지원을 의미하지 않는다. `badgeProps`는 같은 StyleX 스타일을 다른 요소에 적용한다. Badge는 `xstyle`과 React `style`을 지원하며 StyleX 동적 CSS 변수를 유지하고 사용자 `style`을 마지막에 병합한다. 외부 `className`은 제한한다.
