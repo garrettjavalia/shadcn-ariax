@@ -26,16 +26,11 @@ for (const { theme, width, requiredTag } of selectedEnvironments) for (let batch
   test.skip(ids.length === 0, 'No selected stories in this batch.');
   const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
   await controlAvatarAssets(context);
-  const pages = [await context.newPage(), await context.newPage()] as const;
-  let calendarPages: typeof pages | undefined;
+  const a = await context.newPage(); const b = await context.newPage();
+  // One shared context clock makes current-date styling deterministic in all static stories.
+  await a.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'));
   try {
     for (const id of ids) await test.step(id, async () => {
-      // Calendar's current-date styling is deterministic; separate pages keep its clock local.
-      if (id.startsWith('components-calendar--') && !calendarPages) {
-        calendarPages = [await context.newPage(), await context.newPage()];
-        await Promise.all(calendarPages.map(page => page.clock.setFixedTime(new Date('2026-02-12T12:00:00Z'))));
-      }
-      const [a, b] = id.startsWith('components-calendar--') ? calendarPages! : pages;
       // Full navigation resets React state; pages are reused to bound browser overhead.
       const started = performance.now();
       await Promise.all(([[a, upstreamPort], [b, stylexPort]] as const).map(async ([page, port]) => {
