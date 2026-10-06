@@ -126,3 +126,29 @@ for (const theme of ['light', 'dark']) test(`group menu / ${theme}`, async ({ br
     await compare(a, b, info, 'escape-focus-restored');
   } finally { await context.close(); }
 });
+
+test('native style preserves dynamic StyleX values, overrides and RAC state callbacks', async ({ browser }, info) => {
+  const { context, a, b } = await pair(browser, 'inline-style', 'light');
+  try {
+    for (const p of [a, b]) {
+      for (const label of ['Inline button', 'Inline link', 'State button', 'Inline helper']) {
+        await expect(p.getByRole(label.includes('link') || label.includes('helper') ? 'link' : 'button', { name: label, exact: true })).toHaveCSS('width', '160px');
+      }
+      await expect(p.getByTestId('inline-skeleton')).toHaveCSS('width', '160px');
+      await expect(p.getByTestId('inline-separator')).toHaveCSS('width', '140px');
+      await p.getByRole('button', { name: 'Inline button', exact: true }).click();
+      await expect(p.getByTestId('inline-skeleton')).toHaveCSS('height', '52px');
+      await expect(p.getByRole('link', { name: 'Inline helper' })).toHaveCSS('height', '52px');
+      await p.getByRole('link', { name: 'Inline link' }).hover();
+      await expect(p.getByRole('link', { name: 'Inline link' })).toHaveCSS('opacity', '0.6');
+    }
+    await compare(a, b, info, 'inline-style-updated');
+    for (const p of [a, b]) {
+      await p.getByRole('button', { name: 'State button' }).hover();
+      await p.mouse.down();
+      await expect(p.getByRole('button', { name: 'State button' })).toHaveCSS('opacity', '0.4');
+    }
+    await compare(a, b, info, 'inline-style-pressed');
+    for (const p of [a, b]) await p.mouse.up();
+  } finally { await context.close(); }
+});
