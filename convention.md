@@ -70,3 +70,7 @@ PARITY_COMPONENT=components-button pnpm test tests/parity.spec.ts
 ## Skeleton
 
 Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존한다. 크기와 모양은 `xstyle`로 지정한다. 전역 `pulse` 키프레임은 설치되는 `skeleton.css`에 정의하고 StyleX가 애니메이션 속성을 적용한다. 고정한 `apps/v4/examples/aria/skeleton-*.tsx`의 Demo·Avatar·Card·Text·Form·Table·RTL과 사용 예제를 공유 스토리로 검증한다. Card는 Skeleton 배치를 위한 공유 레이아웃 fixture이며 Card 컴포넌트 지원을 의미하지 않는다. 기본 비교는 250ms 위상의 DOM/CSS/픽셀을 확인하고 별도 테스트가 pulse의 0/1000/2000ms opacity를 확인한다.
+
+## Alert
+
+Alert·AlertTitle·AlertDescription·AlertAction은 Nova 기본/destructive, 아이콘·링크·문단·액션의 DOM/CSS를 보존한다. `xstyle`과 일반 React `style`을 지원하며 생성된 동적 CSS 변수를 유지한 채 사용자 `style`이 우선한다. 외부 `className`은 제한한다. 공식 Demo·Basic·Destructive·Action·Colors·RTL을 공유 스토리로 매핑하고, 추가 문단·링크 hover/focus·390px wrapping·스타일 오버라이드를 검증한다. 자손 선택자는 `alert.css`, 자체 스타일은 StyleX로 제공한다.

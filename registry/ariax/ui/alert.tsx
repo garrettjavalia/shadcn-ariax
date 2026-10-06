@@ -5,12 +5,12 @@ import * as stylex from '@stylexjs/stylex';
 export type AlertPartProps = Omit<ComponentProps<'div'>, 'className'> & { className?: never; xstyle?: stylex.StyleXStyles };
 export type AlertProps = AlertPartProps & { variant?: 'default' | 'destructive' | null };
 export const alertStyles = stylex.create({
-  base: { position: 'relative', width: '100%', display: 'grid', gap: 2, borderRadius: 'var(--radius)', borderWidth: 1, paddingLeft: 10, paddingRight: 'var(--ariax-alert-pr, 10px)', paddingBlock: 8, textAlign: 'left', fontSize: 14, lineHeight: '20px' },
+  base: { position: 'relative', width: '100%', display: 'grid', rowGap: '.125rem', columnGap: 'var(--ariax-alert-column-gap, .125rem)', gridTemplateColumns: 'var(--ariax-alert-columns, none)', borderRadius: 'var(--radius)', borderWidth: 1, paddingLeft: '.625rem', paddingRight: 'var(--ariax-alert-pr, .625rem)', paddingBlock: '.5rem', textAlign: 'left', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
   default: { backgroundColor: 'var(--card)', color: 'var(--card-foreground)' },
   destructive: { backgroundColor: 'var(--card)', color: 'var(--destructive)' },
-  title: { fontWeight: 500 },
-  description: { color: 'var(--ariax-alert-description-color, var(--muted-foreground))', fontSize: 14, lineHeight: '20px', textWrap: { default: 'balance', '@media (min-width: 48rem)': 'pretty' } },
-  action: { position: 'absolute', top: 8, right: 8 },
+  title: { fontWeight: 500, gridColumnStart: 'var(--ariax-alert-title-column, auto)' },
+  description: { color: 'var(--ariax-alert-description-color, var(--muted-foreground))', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)', textWrap: { default: 'balance', '@media (min-width: 48rem)': 'pretty' } },
+  action: { position: 'absolute', top: '.5rem', right: '.5rem' },
 });
 export function Alert({ variant = 'default', xstyle, style, className: _className, ...props }: AlertProps) {
   const applied = stylex.props(alertStyles.base, variant && alertStyles[variant], xstyle);
@@ -26,5 +26,5 @@ export function AlertDescription({ xstyle, style, className: _className, ...prop
 }
 export function AlertAction({ xstyle, style, className: _className, ...props }: AlertPartProps) {
   const applied = stylex.props(alertStyles.action, xstyle);
-  return <div data-slot="alert-action" {...props} {...applied} style={{ ...applied.style, ...style }} />;
+  return <div data-slot="alert-action" {...props} className={applied.className} style={{ ...applied.style, ...style }} />;
 }

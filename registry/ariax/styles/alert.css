@@ -1,9 +1,13 @@
-/* Descendant relationships from the pinned Nova Alert. */
+/* Descendant relationships from the pinned Nova Alert. Reset local variables
+   so a nested Alert does not inherit its parent layout or variant. */
+.ariax-alert { --ariax-alert-pr: .625rem; --ariax-alert-columns: none; --ariax-alert-column-gap: .125rem; }
+.ariax-alert-title { --ariax-alert-title-column: auto; }
+.ariax-alert-description { --ariax-alert-description-color: var(--muted-foreground); }
 .ariax-alert:has([data-slot="alert-action"]) { --ariax-alert-pr: 4.5rem; }
-.ariax-alert:has(>svg) { grid-template-columns: auto 1fr; column-gap: .5rem; }
+.ariax-alert:has(>svg) { --ariax-alert-columns: auto 1fr; --ariax-alert-column-gap: .5rem; }
 .ariax-alert > svg { grid-row: span 2 / span 2; translate: 0 .125rem; color: currentColor; }
 .ariax-alert > svg:not([class*="size-"]) { width: 1rem; height: 1rem; }
-.ariax-alert:has(>svg) .ariax-alert-title { grid-column-start: 2; }
+.ariax-alert:has(>svg) .ariax-alert-title { --ariax-alert-title-column: 2; }
 .ariax-alert-destructive > [data-slot="alert-description"] { --ariax-alert-description-color: color-mix(in oklab, var(--destructive) 90%, transparent); }
 .ariax-alert-title a, .ariax-alert-description a { text-decoration-line: underline; text-underline-offset: 3px; }
 .ariax-alert-title a:hover, .ariax-alert-description a:hover { color: var(--foreground); }

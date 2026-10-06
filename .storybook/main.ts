@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@alert': resolve(upstream ? 'generated/reference/aria-nova/alert.tsx' : 'registry/ariax/ui/alert.tsx'),
+      '@alert': resolve(upstream ? 'generated/reference/aria-nova/ui/alert.tsx' : 'registry/ariax/ui/alert.tsx'),
       '@alert-customizations': resolve(upstream ? 'reference/alert-customizations.ts' : 'stories/alert-customizations.ts'),
       '@skeleton': resolve(upstream ? 'reference/skeleton.tsx' : 'registry/ariax/ui/skeleton.tsx'),
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
