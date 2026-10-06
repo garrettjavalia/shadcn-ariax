@@ -38,6 +38,9 @@
       ],
       "@label": [
         "./registry/ariax/ui/label.tsx"
+      ],
+      "@checkbox": [
+        "./registry/ariax/ui/checkbox.tsx"
       ]
     }
   },
@@ -51,5 +54,8 @@
     "reference",
     "generated/reference",
     "tests/types"
+  ],
+  "exclude": [
+    "generated/reference/**/source/**"
   ]
 }

@@ -73,4 +73,8 @@ Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존�
 
 ## Label
 
-Label은 Nova typography, group/peer disabled 선택자와 RAC LabelContext 동작을 보존한다. `htmlFor`가 있고 `slot`이 없으면 부모 LabelContext를 해제하며, slot이 명시되면 컨텍스트를 유지한다. 새 Label은 `style`과 `xstyle`을 지원하며 동적 StyleX CSS 변수 뒤에 사용자 style을 병합한다. 외부 className은 제한한다. Demo·RTL은 Label 자체 검증을 위한 native checkbox fixture를 쓰며 shadcn Checkbox 스타일 지원을 뜻하지 않는다. 공식 MDX의 교차 예제 field-demo는 Field 구현 PR에서 통합할 때까지 미완료다.
+Label은 Nova typography, group/peer disabled 선택자와 RAC LabelContext 동작을 보존한다. `htmlFor`가 있고 `slot`이 없으면 부모 LabelContext를 해제하며, slot이 명시되면 컨텍스트를 유지한다. 새 Label은 `style`과 `xstyle`을 지원하며 동적 StyleX CSS 변수 뒤에 사용자 style을 병합한다. 외부 className은 제한한다. Demo·RTL은 실제 StyleX Checkbox를 사용하여 Label 연결과 선택 동작을 함께 검증한다. 공식 MDX의 교차 예제 field-demo는 Field 구현 PR에서 통합할 때까지 미완료다.
+
+## Checkbox 검증 범위
+
+Checkbox 본체의 usage·selected·indeterminate·disabled·invalid·hover·키보드 포커스와 선택·controlled·render props·CheckboxContext·CheckboxGroup·RTL·Field disabled 선택자를 고정 CLI 원본과 light/dark에서 비교한다. 상대 rem 크기, Nova 색상, 확대 클릭 영역과 CheckIcon DOM을 보존한다. 일반 style과 RAC style callback을 지원하고 동적 xstyle 변수 뒤에서 사용자 style을 병합한다. className은 제한한다. Label Demo·RTL은 실제 Checkbox와 결합한다. 공식 checkbox-basic·checkbox-demo·checkbox-description·checkbox-disabled·checkbox-group·checkbox-invalid·checkbox-rtl·checkbox-table preview는 Field/Table 통합 구현까지 미완료로 추적하며, 이 PR에서 전체 Checkbox 예제 지원 완료를 주장하지 않는다.
