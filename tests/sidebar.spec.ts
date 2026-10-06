@@ -221,7 +221,9 @@ for (const story of ['controlled', 'registry-inset', 'registry-floating', 'regis
     });
     await page.goto(`${url}/iframe.html?id=components-sidebar--${story}`);
     await expect(page.locator('[data-slot=sidebar-container]')).toBeVisible();
-    await page.mouse.move(0, 0);
+    // The collapsing rail crosses (0, 0), starting an unrelated hover transition.
+    // Keep the pointer outside the viewport while sampling the collapse effects.
+    await page.mouse.move(-1, -1);
     await settle(page);
     await page.keyboard.press('Control+b');
     await page.evaluate(async () => {
@@ -231,10 +233,11 @@ for (const story of ['controlled', 'registry-inset', 'registry-floating', 'regis
       (window as Window & {
         sidebarEffects?: Animation[];
       }).sidebarEffects = animations;
-      for (const animation of animations) {
-        animation.pause();
-        animation.currentTime = 0;
-      }
+      // Pause the entire inventory before waiting; sequential ready waits
+      // otherwise let later effects finish while earlier ones are pausing.
+      for (const animation of animations) animation.pause();
+      await Promise.all(animations.map(animation => animation.ready));
+      for (const animation of animations) animation.currentTime = 0;
     });
     return page;
   }));
