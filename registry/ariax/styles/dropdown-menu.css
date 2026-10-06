@@ -1,0 +1,18 @@
+/* Descendant utilities target caller-provided icon nodes and nested text. */
+.ariax-dropdown-item svg, .ariax-dropdown-sub-trigger svg { pointer-events: none; flex-shrink: 0; }
+.ariax-dropdown-item svg:not([class*="size-"]), .ariax-dropdown-sub-trigger svg:not([class*="size-"]) { width: 1rem; height: 1rem; }
+.ariax-dropdown-item-none:not([data-variant="destructive"]):focus *, .ariax-dropdown-item-selection:focus *, .ariax-dropdown-sub-trigger:not([data-variant="destructive"]):focus * { color: var(--accent-foreground); }
+.ariax-dropdown-item-none[data-variant="destructive"] > svg { color: var(--destructive); }
+/* tw-animate-css 1.4.0 enter/exit definitions, using project-owned variables. */
+@property --ariax-enter-opacity { syntax: "*"; inherits: false; initial-value: 1; }
+@property --ariax-enter-scale { syntax: "*"; inherits: false; initial-value: 1; }
+@property --ariax-enter-x { syntax: "*"; inherits: false; initial-value: 0; }
+@property --ariax-enter-y { syntax: "*"; inherits: false; initial-value: 0; }
+@property --ariax-exit-opacity { syntax: "*"; inherits: false; initial-value: 1; }
+@property --ariax-exit-scale { syntax: "*"; inherits: false; initial-value: 1; }
+@keyframes enter {
+ from { opacity: var(--ariax-enter-opacity, 1); transform: translate3d(var(--ariax-enter-x, 0), var(--ariax-enter-y, 0), 0) scale3d(var(--ariax-enter-scale, 1), var(--ariax-enter-scale, 1), var(--ariax-enter-scale, 1)) rotate(0); filter: blur(0); }
+}
+@keyframes exit {
+ to { opacity: var(--ariax-exit-opacity, 1); transform: translate3d(0, 0, 0) scale3d(var(--ariax-exit-scale, 1), var(--ariax-exit-scale, 1), var(--ariax-exit-scale, 1)) rotate(0); filter: blur(0); }
+}

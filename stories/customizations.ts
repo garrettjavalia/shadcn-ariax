@@ -15,7 +15,26 @@ const separatorStyles = stylex.create({
 });
 export const separatorMenu = { xstyle: separatorStyles.menu };
 export const separatorCustom = { xstyle: separatorStyles.custom };
+const labelStyles = stylex.create({ custom: { fontSize: '1.5rem', opacity: 0.8 }, dynamic: (width: number) => ({width}) });
+export const labelCustomized = { xstyle: [labelStyles.custom, labelStyles.dynamic(240)], style: { opacity: 0.6 } };
+const checkboxStyles = stylex.create({ initial:{height:28}, custom:{height:24,opacity:0.8},dynamic:(width:number)=>({width}) });
+export const checkboxCustomized = (width:number) => ({xstyle:[checkboxStyles.initial,checkboxStyles.custom,checkboxStyles.dynamic(width)],style:{}});
+
+const fieldStyles = stylex.create({ field: {gap:'1.25rem',padding:'0.75rem'}, dynamic:(width:number)=>({width}), label:{color:'var(--primary)',fontSize:'1.25rem',lineHeight:1.4} });
+export const fieldCustomized = {xstyle:[fieldStyles.field,fieldStyles.dynamic(280)],style:{gap:'1.5rem'}};
+export const fieldLabelCustomized = {xstyle:fieldStyles.label,style:{opacity:0.75}};
 
 // Dynamic StyleX width must survive a separate inline height override.
 export const inlineSizing = { xstyle: styles.dynamic(160) };
 export const inlineSkeletonSizing = inlineSizing;
+
+const typographyStyles=stylex.create({dynamic:(fontSize:number,lineHeight:number)=>({fontSize,lineHeight})});
+export const typographySizing={xstyle:typographyStyles.dynamic(18,2)};
+
+const nativeSelectStyles=stylex.create({initial:{width:160,opacity:0.7},custom:{width:220,opacity:0.8},dynamic:(width:number)=>({width}),option:{color:'var(--primary)',fontWeight:500},group:(fontWeight:number)=>({fontWeight})});
+export const nativeSelectCustomized=(width:number)=>({xstyle:[nativeSelectStyles.initial,nativeSelectStyles.custom,nativeSelectStyles.dynamic(width)],style:{opacity:0.6}});
+export const nativeSelectOptionCustomized={xstyle:nativeSelectStyles.option,style:{color:'blue'}};
+export const nativeSelectGroupCustomized={xstyle:nativeSelectStyles.group(600),style:{fontWeight:400}};
+
+const switchStyles=stylex.create({first:{width:60},last:{width:48},dynamic:(height:number)=>({height})});
+export const switchCustomized=(height:number)=>({xstyle:[switchStyles.first,switchStyles.last,switchStyles.dynamic(height)],style:({isSelected}:{isSelected:boolean})=>({opacity:isSelected?0.8:0.9})});

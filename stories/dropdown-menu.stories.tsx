@@ -1,0 +1,35 @@
+import {useEffect,useState} from 'react';
+import type {Meta,StoryObj} from '@storybook/react-vite';
+import {Button} from '@button';
+import {DropdownMenu,DropdownMenuTrigger,DropdownMenuItem,DropdownMenuLabel,DropdownMenuGroup} from '@dropdown-menu';
+import {dropdownDynamic} from '@dropdown-menu-customizations';
+import {DropdownMenuBasic} from './dropdown-menu-examples/dropdown-menu-basic';
+import {DropdownMenuDemo} from './dropdown-menu-examples/dropdown-menu-demo';
+import {DropdownMenuSubmenu} from './dropdown-menu-examples/dropdown-menu-submenu';
+import {DropdownMenuShortcuts} from './dropdown-menu-examples/dropdown-menu-shortcuts';
+import {DropdownMenuIcons} from './dropdown-menu-examples/dropdown-menu-icons';
+import {DropdownMenuCheckboxes} from './dropdown-menu-examples/dropdown-menu-checkboxes';
+import {DropdownMenuCheckboxesIcons} from './dropdown-menu-examples/dropdown-menu-checkboxes-icons';
+import {DropdownMenuRadioGroupDemo} from './dropdown-menu-examples/dropdown-menu-radio-group';
+import {DropdownMenuRadioIcons} from './dropdown-menu-examples/dropdown-menu-radio-icons';
+import {DropdownMenuDestructive} from './dropdown-menu-examples/dropdown-menu-destructive';
+import {DropdownMenuComplex} from './dropdown-menu-examples/dropdown-menu-complex';
+import {DropdownMenuRtl} from './dropdown-menu-examples/dropdown-menu-rtl';
+import {TableActions} from './dropdown-menu-examples/table-actions';
+function Portals({children}:{children:React.ReactNode}){useEffect(()=>{const register=()=>{for(const child of document.body.children)if(!child.contains(document.querySelector('#parity-root'))&&child.querySelector('[role="menu"]'))child.setAttribute('data-parity-portal','');};const observer=new MutationObserver(register);observer.observe(document.body,{childList:true,subtree:true});register();return ()=>observer.disconnect();},[]);return <main id="parity-root">{children}</main>;}
+const meta={title:'Components/Dropdown Menu',component:DropdownMenu,tags:['parity'],decorators:[Story=><Portals><Story/></Portals>]} satisfies Meta<typeof DropdownMenu>;export default meta;type Story=StoryObj<typeof meta>;
+export const Basic:Story={render:()=> <DropdownMenuBasic/>};
+export const Demo:Story={render:()=> <DropdownMenuDemo/>};
+export const Submenu:Story={render:()=> <DropdownMenuSubmenu/>};
+export const Shortcuts:Story={render:()=> <DropdownMenuShortcuts/>};
+export const Icons:Story={render:()=> <DropdownMenuIcons/>};
+export const Checkboxes:Story={render:()=> <DropdownMenuCheckboxes/>};
+export const CheckboxesIcons:Story={render:()=> <DropdownMenuCheckboxesIcons/>};
+export const RadioGroup:Story={render:()=> <DropdownMenuRadioGroupDemo/>};
+export const RadioIcons:Story={render:()=> <DropdownMenuRadioIcons/>};
+export const Destructive:Story={render:()=> <DropdownMenuDestructive/>};
+export const Complex:Story={render:()=> <DropdownMenuComplex/>};
+export const Rtl:Story={render:()=> <DropdownMenuRtl/>};
+export const TableActionsExample:Story={render:()=> <TableActions/>};
+function Dynamic(){const[width,setWidth]=useState(160);const custom=dropdownDynamic(width);return <><button onClick={()=>setWidth(220)}>Resize</button><DropdownMenuTrigger><Button variant="outline">Open</Button><DropdownMenu {...custom} style={state=>({...custom.style,opacity:.9})}><DropdownMenuGroup><DropdownMenuLabel inset>Dynamic</DropdownMenuLabel><DropdownMenuItem inset id="first" style={({isFocused})=>({fontWeight:isFocused?500:400})}>First</DropdownMenuItem><DropdownMenuItem id="second">Second</DropdownMenuItem></DropdownMenuGroup></DropdownMenu></DropdownMenuTrigger></>;}
+export const Customized:Story={render:()=> <Dynamic/>};

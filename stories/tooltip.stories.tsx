@@ -1,8 +1,8 @@
+import { KbdTooltipComposition } from './kbd-tooltip';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Tooltip, TooltipTrigger } from '@tooltip';
 import { Button } from '@button';
-import {KbdTooltipComposition} from './kbd-tooltip';
 import { Kbd, KbdGroup } from '@kbd';
 import { SaveIcon } from 'lucide-react';
 import { customized, sideButton } from '@tooltip-customizations';
@@ -16,7 +16,7 @@ export const Keyboard: Story = { render: () => <TooltipTrigger><Button variant="
 export const Disabled: Story = { render: () => <TooltipTrigger><span style={{ display: 'inline-block', width: 'fit-content' }}><Button variant="outline" isDisabled>Disabled</Button></span><Tooltip data-parity-portal><p>This feature is currently unavailable</p></Tooltip></TooltipTrigger> };
 export const Rtl: Story = { render: () => <div style={{ display: 'grid', gap: 16 }}>{([['left','top','bottom','right'],['start','end']] as const).map((placements,row)=><div key={row} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>{placements.map((placement, i) => <TooltipTrigger key={placement}><Button variant="outline">{row===0?['يسار','أعلى','أسفل','يمين'][i]:['بداية السطر','نهاية السطر'][i]}</Button><Tooltip data-parity-portal placement={placement} dir="rtl">إضافة إلى المكتبة</Tooltip></TooltipTrigger>)}</div>)}</div> };
 export const Open: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">Open</Button><Tooltip data-parity-portal><p>Add to library</p></Tooltip></TooltipTrigger> };
-export const KbdComposition: Story = {render:()=> <KbdTooltipComposition/>};
+export const KbdComposition: Story = { render: () => <KbdTooltipComposition/> };
 export const Customized: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">Custom</Button><Tooltip data-parity-portal {...customized}>Custom tooltip</Tooltip></TooltipTrigger> };
 export const CallbackStyle: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">Callback</Button><Tooltip data-parity-portal style={({ placement, defaultStyle }) => ({ ...defaultStyle, color: placement === 'top' ? 'rgb(255, 0, 0)' : 'rgb(0, 128, 0)', fontSize: 20 })}>Callback tooltip</Tooltip></TooltipTrigger> };
 function DelayedTooltip() { const [open,setOpen]=useState(false); return <><TooltipTrigger delay={250} closeDelay={250} onOpenChange={setOpen}><Button variant="outline">Delayed</Button><Tooltip data-parity-portal>Delayed tooltip</Tooltip></TooltipTrigger><output data-open={open}>{open ? "open" : "closed"}</output></>; }
@@ -26,3 +26,5 @@ export const Offset: Story = { render: () => <TooltipTrigger defaultOpen><Button
 
 export const DomProps: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">DOM props</Button><Tooltip data-parity-portal data-slot="custom-tooltip" lang="en" aria-label="Custom description"><Kbd>S</Kbd></Tooltip></TooltipTrigger> };
 export const CustomizedKbd: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">Custom keys</Button><Tooltip data-parity-portal {...customized}>Shortcut <Kbd>S</Kbd></Tooltip></TooltipTrigger> };
+
+export const KbdRtl: Story = { render: () => <TooltipTrigger defaultOpen><Button variant="outline">RTL keys</Button><Tooltip data-parity-portal dir="rtl">Save Changes <Kbd>S</Kbd></Tooltip></TooltipTrigger> };

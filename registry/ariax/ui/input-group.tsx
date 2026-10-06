@@ -35,18 +35,18 @@ const styles = stylex.create({
  addon: { display: 'flex', cursor: 'text', alignItems: 'center', justifyContent: 'center', userSelect: 'none', color: 'var(--muted-foreground)', height: 'auto', gap: '0.5rem', paddingBlock: '0.375rem', fontSize: '0.875rem', lineHeight: 'calc(1.25 / .875)', fontWeight: 500, '--ariax-addon-icon-size': '1rem', '--ariax-addon-kbd-radius': 'calc(var(--radius) - 5px)', opacity: { default: null, ':is([data-slot="input-group"][data-disabled="true"] *)': 0.5 } },
  button: { display: 'flex', alignItems: 'center', boxShadow: '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000', gap: '0.5rem', fontSize: '0.875rem', lineHeight: 'calc(1.25 / .875)' },
  text: { '--ariax-text-icon-size': '1rem', display: 'flex', alignItems: 'center', color: 'var(--muted-foreground)', gap: '0.5rem', fontSize: '0.875rem', lineHeight: 'calc(1.25 / .875)' },
- control: { '--ariax-control-ring': { default: 'currentColor', ':focus-visible': 'color-mix(in oklab, var(--ring) 50%, transparent)', ':is([aria-invalid="true"])': 'color-mix(in oklab, var(--destructive) 20%, transparent)', ':is(.dark *)[aria-invalid="true"]': 'color-mix(in oklab, var(--destructive) 40%, transparent)' }, flex: '1 1 0%', borderRadius: 0, borderWidth: 0, backgroundColor: { default: 'transparent', ':is(.dark *)': 'transparent', ':disabled': 'transparent', ':is(.dark *):disabled': 'transparent' }, boxShadow: { default: zeroRing, ':focus-visible': zeroRing, ':is([aria-invalid="true"])': zeroRing }, paddingLeft: { default: null, ':is([data-slot="input-group"]:has(>[data-align="inline-start"]) > input)': '0.375rem' }, paddingRight: { default: null, ':is([data-slot="input-group"]:has(>[data-align="inline-end"]) > input)': '0.375rem' }, paddingTop: { default: null, ':is([data-slot="input-group"]:has(>[data-align="block-end"]) > input)': '0.75rem' }, paddingBottom: { default: null, ':is([data-slot="input-group"]:has(>[data-align="block-start"]) > input)': '0.75rem' } },
+ control: { '--ariax-control-ring': { default: 'currentColor', ':focus-visible': 'color-mix(in oklab, var(--ring) 50%, transparent)', ':is([aria-invalid="true"])': 'color-mix(in oklab, var(--destructive) 20%, transparent)', ':is(.dark *)[aria-invalid="true"]': 'color-mix(in oklab, var(--destructive) 40%, transparent)' }, flex: '1 1 0%', borderRadius: 0, borderWidth: 0, backgroundColor: { default: 'transparent', ':is(.dark *)': 'transparent', ':disabled': 'transparent', ':is(.dark *):disabled': 'transparent' }, boxShadow: { default: zeroRing, ':focus-visible': zeroRing, ':is([aria-invalid="true"])': zeroRing }, paddingInlineStart: { default: null, ':is([data-slot="input-group"]:has(>[data-align="inline-start"]) > input)': '0.375rem' }, paddingInlineEnd: { default: null, ':is([data-slot="input-group"]:has(>[data-align="inline-end"]) > input)': '0.375rem' }, paddingTop: { default: null, ':is([data-slot="input-group"]:has(>[data-align="block-end"]) > input)': '0.75rem' }, paddingBottom: { default: null, ':is([data-slot="input-group"]:has(>[data-align="block-start"]) > input)': '0.75rem' } },
  textarea: { resize: 'none', paddingBlock: '0.5rem' },
 });
 const aligns = stylex.create({
- 'inline-start': { order: -9999, paddingLeft: '0.5rem', marginLeft: { default: null, ':has(>button)': '-0.3rem', ':has(>kbd)': '-0.15rem' } },
- 'inline-end': { order: 9999, paddingRight: '0.5rem', marginRight: { default: null, ':has(>button)': '-0.3rem', ':has(>kbd)': '-0.15rem' } },
+ 'inline-start': { order: -9999, paddingInlineStart: '0.5rem', marginInlineStart: { default: null, ':has(>button)': '-0.3rem', ':has(>kbd)': '-0.15rem' } },
+ 'inline-end': { order: 9999, paddingInlineEnd: '0.5rem', marginInlineEnd: { default: null, ':has(>button)': '-0.3rem', ':has(>kbd)': '-0.15rem' } },
  'block-start': { order: -9999, width: '100%', justifyContent: 'flex-start', paddingInline: '0.625rem', paddingTop: '0.5rem' },
  'block-end': { order: 9999, width: '100%', justifyContent: 'flex-start', paddingInline: '0.625rem', paddingBottom: '0.5rem' },
 });
 const sizes = stylex.create({
- xs: { height: '1.5rem', gap: '0.25rem', borderRadius: 'calc(var(--radius) - 3px)', paddingLeft: '0.375rem', paddingRight: '0.375rem', '--ariax-icon-size': '0.875rem' },
+ xs: { height: '1.5rem', gap: '0.25rem', borderRadius: 'calc(var(--radius) - 3px)', paddingInlineStart: '0.375rem', paddingInlineEnd: '0.375rem', '--ariax-icon-size': '0.875rem' },
  sm: {},
- 'icon-xs': { width: '1.5rem', height: '1.5rem', borderRadius: 'calc(var(--radius) - 3px)', padding: 0, paddingLeft: 0, paddingRight: 0 },
- 'icon-sm': { width: '2rem', height: '2rem', padding: 0, paddingLeft: 0, paddingRight: 0 },
+ 'icon-xs': { width: '1.5rem', height: '1.5rem', borderRadius: 'calc(var(--radius) - 3px)', padding: 0, paddingInlineStart: 0, paddingInlineEnd: 0 },
+ 'icon-sm': { width: '2rem', height: '2rem', padding: 0, paddingInlineStart: 0, paddingInlineEnd: 0 },
 });
