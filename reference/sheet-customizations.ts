@@ -1,0 +1,11 @@
+export const capitalized={className:'capitalize'};
+export const limitedHeight={className:'data-[side=bottom]:max-h-[50vh] data-[side=top]:max-h-[50vh]'};
+export const sides={className:'flex flex-wrap gap-2'};
+export const form={className:'grid flex-1 auto-rows-min gap-6 px-4'};
+export const field={className:'grid gap-3'};
+export const paragraph={className:'mb-2 leading-relaxed'};
+export const registryParagraph={className:'mb-4 leading-normal'};
+export const scroll={className:'no-scrollbar overflow-y-auto px-4'};
+export const padded={className:'px-4'};
+export const customized={className:'data-[side=left]:sm:max-w-md data-[side=right]:sm:max-w-md',style:{opacity:.9}};
+export const paddedDiv=padded;

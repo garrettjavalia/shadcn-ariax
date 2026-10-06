@@ -33,6 +33,17 @@ export async function snapshot(page: Page) {
       if (!providers.has(prefix)) providers.set(prefix, providers.size);
       return `react-aria-provider:${providers.get(prefix)}-`;
     });
+    // Missing React Aria labels/panels still carry stable local identities.
+    // Only their random provider prefix is normalized; existing outside targets
+    // and arbitrary user IDs retain the strict external-reference comparison.
+    const referenceToken = (id: string) => {
+      const captured = ids.get(id);
+      if (captured !== undefined) return captured;
+      if (!document.getElementById(id) && /^react-aria\d+-_r_[a-z0-9]+_(?:-tabpanel-.+)?$/.test(id)) {
+        return `missing:${collectionToken(id)}`;
+      }
+      return `external:${id}`;
+    };
     const references = new Set(['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'aria-activedescendant', 'for']);
     const styleBank: Record<string, string>[] = [];
     const styleIds = new Map<string, number>();
@@ -56,7 +67,7 @@ export async function snapshot(page: Page) {
         attrs: Object.fromEntries([...node.attributes]
           .filter(a => !['class', 'style'].includes(a.name))
           .sort((a, b) => a.name.localeCompare(b.name))
-          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : (a.name === 'data-collection' || (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value))) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(id => ids.get(id) ?? `external:${id}`).join(' ') : a.value])),
+          .map(a => [a.name, a.name === 'id' ? ids.get(a.value) : (a.name === 'data-collection' || (a.name === 'name' && node instanceof HTMLInputElement && node.type === 'radio' && /^react-aria\d+-_r_[a-z0-9]+_$/.test(a.value))) ? collectionToken(a.value) : references.has(a.name) ? a.value.split(/\s+/).map(referenceToken).join(' ') : a.value])),
         animations: animations(node).map(animation => {
           const effect = animation.effect;
           if (!(effect instanceof KeyframeEffect)) throw new Error('Missing CSS animation keyframe effect');

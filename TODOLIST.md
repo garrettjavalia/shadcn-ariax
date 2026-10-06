@@ -10,9 +10,9 @@
 
 ## 지원 예정
 
-- [ ] Accordion
+- [x] Accordion
 - [x] Alert
-- [ ] Alert Dialog
+- [x] Alert Dialog
 - [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
@@ -35,7 +35,7 @@
 - [x] Direction — locale·방향 상속, 동적 전환, 실제 Card RTL 조합
 - [ ] Drawer
 - [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 조합 제공; 통합 회귀 후속 검증
-- [ ] Empty
+- [x] Empty — 공식 문서·registry 조합, RTL·반응형·StyleX 커스터마이징
 - [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Form
 - [ ] Hover Card
@@ -57,7 +57,7 @@
 - [ ] Resizable
 - [ ] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
-- [ ] Sheet
+- [x] Sheet
 - [ ] Sidebar
 - [ ] Slider
 - [ ] Sonner
