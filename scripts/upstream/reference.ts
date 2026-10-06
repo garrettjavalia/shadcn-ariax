@@ -89,7 +89,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   const registryURL = `http://127.0.0.1:${address.port}`;
   async function run(args: string[]) {
     await new Promise<void>((done, fail) => {
-      const child = spawn(process.execPath, [cli, ...args, '--cwd', directory], { cwd: directory, env: { ...process.env, CI: 'true', npm_config_offline: 'true', REGISTRY_URL: registryURL }, timeout: 120_000 });
+      const child = spawn(process.execPath, [cli, ...args, '--cwd', directory], { cwd: directory, env: { ...process.env, CI: 'true', REGISTRY_URL: registryURL }, timeout: 120_000 });
       let output = '';
       child.stdout.on('data', data => { output += data; }); child.stderr.on('data', data => { output += data; });
       child.on('error', fail);
