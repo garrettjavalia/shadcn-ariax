@@ -34,7 +34,7 @@
 - [ ] Dialog
 - [ ] Direction
 - [ ] Drawer
-- [ ] Dropdown Menu
+- [ ] Dropdown Menu — 12개 공식 preview 및 실제 table-actions 구현·검증, 실제 Avatar/공식 ui-rtl 통합 TODO
 - [ ] Empty
 - [ ] Field
 - [ ] Hover Card
@@ -70,6 +70,8 @@
 - [ ] Tooltip
 - [ ] Typography — 텍스트 스타일 예제
 
-Button Group과 Dropdown Menu는 현재 테스트 fixture만 있으며 배포용 지원은 아직 없다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
+Button Group은 현재 테스트 fixture만 있다. Dropdown Menu 배포용 draft는 실제 공식 예제와 TableActions 조합을 검증하며 Avatar 통합은 TODO다. Toast는 업스트림에서 deprecated되었으므로 Sonner로 지원한다.
 
 Checkbox의 미완료 공식 preview: checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl. checkbox-table은 Table PR의 실제 Checkbox/Table/Label 조합으로 검증한다. Field 구현 PR에서 실제 원본 예제를 공유 스토리로 연결하고 검증한 뒤 완료 표시한다.
+
+DropdownMenu 미완료 공식 preview: dropdown-menu-avatar(실제 Avatar/AvatarImage/AvatarFallback 의존). dropdown-menu-rtl은 일반 ui + Arabic/dir 비교만 포함하며 공식 ui-rtl 변환은 후속 검증이 필요하다.

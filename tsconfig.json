@@ -47,6 +47,12 @@
       ],
       "@checkbox": [
         "./registry/ariax/ui/checkbox.tsx"
+      ],
+      "@dropdown-menu": [
+        "./registry/ariax/ui/dropdown-menu.tsx"
+      ],
+      "@dropdown-menu-customizations": [
+        "./stories/dropdown-menu-customizations.ts"
       ]
     }
   },
