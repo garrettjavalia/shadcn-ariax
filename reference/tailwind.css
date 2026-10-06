@@ -64,6 +64,4 @@
   --color-selection-foreground: var(--selection-foreground);
 }
 
-
-
 @custom-variant style-nova (&:where(.style-nova *));
