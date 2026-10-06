@@ -49,7 +49,7 @@
 - [ ] Message
 - [ ] Message Scroller
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외
-- [ ] Pagination
+- [x] Pagination
 - [x] Popover
 - [ ] Progress
 - [ ] Questionnaire
