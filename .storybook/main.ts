@@ -34,6 +34,8 @@ const config: StorybookConfig = {
       '@alert-customizations': resolve(upstream ? 'reference/alert-customizations.ts' : 'stories/alert-customizations.ts'),
       '@kbd': resolve(upstream ? 'generated/reference/aria-nova/ui/kbd.tsx' : 'registry/ariax/ui/kbd.tsx'),
       '@kbd-customizations': resolve(upstream ? 'reference/kbd-customizations.ts' : 'stories/kbd-customizations.ts'),
+      '@tooltip': resolve(upstream ? 'generated/reference/aria-nova/ui/tooltip.tsx' : 'registry/ariax/ui/tooltip.tsx'),
+      '@tooltip-customizations': resolve(upstream ? 'reference/tooltip-customizations.ts' : 'stories/tooltip-customizations.ts'),
       '@skeleton': resolve(upstream ? 'reference/skeleton.tsx' : 'registry/ariax/ui/skeleton.tsx'),
       '@skeleton-customizations': resolve(upstream ? 'reference/skeleton-customizations.ts' : 'stories/skeleton-customizations.ts'),
       '@separator': resolve(upstream ? 'generated/reference/aria-nova/ui/separator.tsx' : 'registry/ariax/ui/separator.tsx'),
