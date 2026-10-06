@@ -1,0 +1,33 @@
+import {observeCarousel} from './carousel-examples/observe';
+import {useEffect,useState,type CSSProperties} from 'react';
+import type {Meta,StoryObj} from '@storybook/react-vite';
+import {Carousel,CarouselContent,CarouselItem,CarouselPrevious,CarouselNext,useCarousel,type CarouselApi} from '@carousel';
+import {Button} from '@button';
+import {carouselCustom,carouselCustomItem,carouselCustomButton} from '@carousel-customizations';
+import DemoExample from './carousel-examples/demo';
+import SizeExample from './carousel-examples/size';
+import SpacingExample from './carousel-examples/spacing';
+import OrientationExample from './carousel-examples/orientation';
+import ApiExample from './carousel-examples/api';
+import PluginExample from './carousel-examples/plugin';
+import {CarouselMultiple as MultipleExample} from './carousel-examples/multiple';
+import {CarouselRtl} from './carousel-examples/rtl';
+import * as Registry from './carousel-examples/registry';
+const meta={title:'Components/Carousel',component:Carousel,tags:['parity'],decorators:[Story=><main id="parity-root" style={{padding:64}}><Story/></main>]} satisfies Meta<typeof Carousel>;
+export default meta;type Story=StoryObj<typeof meta>;
+export const Demo:Story={tags:['viewport-390'],render:()=> <DemoExample/>};
+export const Size:Story={tags:['viewport-390'],render:()=> <SizeExample/>};
+export const Spacing:Story={tags:['viewport-390'],render:()=> <SpacingExample/>};
+export const Orientation:Story={render:()=> <OrientationExample/>};
+export const Api:Story={tags:['viewport-390'],render:()=> <ApiExample/>};
+export const Plugin:Story={tags:['viewport-390'],render:()=> <PluginExample/>};
+export const Rtl:Story={tags:['viewport-390'],render:()=> <CarouselRtl/>};
+export const Multiple:Story={tags:['viewport-390'],render:()=> <MultipleExample/>};
+export const RegistryBasic:Story={tags:['viewport-390'],render:()=> <Registry.CarouselBasic/>};
+export const RegistryMultiple:Story={tags:['viewport-390'],render:()=> <Registry.CarouselMultiple/>};
+export const RegistryGap:Story={tags:['viewport-390'],render:()=> <Registry.CarouselWithGap/>};
+export const Usage:Story={render:()=> <Carousel setApi={observeCarousel} style={{width:200}}><CarouselContent>{[1,2,3].map(n=><CarouselItem key={n}>{n}</CarouselItem>)}</CarouselContent><CarouselPrevious/><CarouselNext/></Carousel>};
+function Status(){const{api,canScrollPrev,canScrollNext}=useCarousel();const[current,setCurrent]=useState(0);useEffect(()=>{if(!api)return;const select=()=>setCurrent(api.selectedScrollSnap());select();api.on('select',select);return()=>{api.off('select',select);};},[api]);return <output aria-label="Carousel state">{current}:{String(canScrollPrev)}:{String(canScrollNext)}</output>;}
+function CustomExample({loop=false}:{loop?:boolean}){const[api,setApi]=useState<CarouselApi>();const[width,setWidth]=useState(200);return <><Button onPress={()=>setWidth(width===200?240:200)}>Resize</Button><Button onPress={()=>api?.scrollTo(2)}>Go to third</Button><Carousel {...carouselCustom(width)} style={{height:120,'--carousel-width':`${width}px`} as CSSProperties} setApi={api=>{setApi(api);observeCarousel(api);}} opts={{loop}}><CarouselContent>{[1,2,3,4,5].map(n=><CarouselItem key={n} {...carouselCustomItem} style={{height:100}}>{n}</CarouselItem>)}</CarouselContent><CarouselPrevious {...carouselCustomButton} style={{borderWidth:2}}/><CarouselNext/><Status/></Carousel></>;}
+export const Customization:Story={render:()=> <CustomExample/>};
+export const Loop:Story={render:()=> <CustomExample loop/>};
