@@ -17,3 +17,4 @@ export const shapes = {
   "flex": "h-4 flex-1",
   "usage": "h-[20px] w-[100px] rounded-full"
 };
+export const skeletonCardStyle={className:'w-full max-w-xs'};
