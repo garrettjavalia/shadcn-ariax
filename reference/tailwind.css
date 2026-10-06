@@ -1,9 +1,11 @@
+@import "./cli.css";
 @import "tailwindcss" source(none);
-@source "./button.tsx";
-@source "./separator.tsx";
-@source "./skeleton.tsx";
-@source "../../../reference/skeleton-customizations.ts";
+@source "./ui";
+@source "./lib";
+@source "./hooks";
+@source "./components";
 @source "../../../reference/customizations.ts";
+@source "../../../reference/skeleton-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --color-background: var(--background);

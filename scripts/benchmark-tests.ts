@@ -1,8 +1,9 @@
+import { upstreamPort, stylexPort } from '../tests/servers';
 import { spawn } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
 import { performance } from 'node:perf_hooks';
 
-const servers = await Promise.all([4100, 4200].map(async port => ({ port, ready: await fetch(`http://127.0.0.1:${port}/index.json`).then(r => r.ok, () => false) })));
+const servers = await Promise.all([upstreamPort, stylexPort].map(async port => ({ port, ready: await fetch(`http://127.0.0.1:${port}/index.json`).then(r => r.ok, () => false) })));
 const start = performance.now();
 const command = ['test', ...process.argv.slice(2)];
 const child = spawn('pnpm', command, { stdio: 'inherit', env: { ...process.env, PARITY_PROFILE: '1' } });
