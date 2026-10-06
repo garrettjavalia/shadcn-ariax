@@ -37,6 +37,4 @@ generated/                        # 전체 Git 제외
 
 동시 명령은 원본 다운로드와 CLI 준비 잠금을 공유한다. 임시 폴더에서 성공한 결과만 기존 캐시와 교체한다. CLI는 `generated/`의 격리된 프로젝트만 수정한다. 배포 레지스트리의 CLI 소비 앱 테스트는 이 준비 작업과 별도로 실행한다.
 
-기본 API는 공유 stories로 비교한다. 커스터마이징은 원본의 Tailwind 유틸리티와 이식본의 StyleX `xstyle`을 비교한다. 헬퍼 호환 기준은 원본 Button의 최종 `cn(buttonVariants(...))` 스타일이다. 현재 이식·검증 범위는 **Button·Skeleton·Separator / Nova / Neutral**이며 다운로드 범위와 구분한다.
-
 `pnpm test:upstream`은 원본 HTTP 응답만 로컬 아카이브로 바꾸고 공식 CLI는 실제로 실행한다. 자식 CLI 프로세스에도 외부 HTTP(S) 차단을 적용해 오프라인 설치 복구를 검증한다. 클래스 변환 결과, 로컬 의존 항목과 import 이동, 동시 단일 다운로드, 설치 캐시의 오프라인 재사용·누락 복구, 소스 설정 변경, 실패한 다운로드의 기존 캐시 보존을 검사한다.
