@@ -54,7 +54,7 @@
 - [ ] Progress
 - [ ] Questionnaire
 - [x] Radio Group
-- [ ] Resizable
+- [x] Resizable
 - [x] Scroll Area
 - [x] Select — 공식 예제·검색·다중 선택·RTL
 - [x] Sheet
