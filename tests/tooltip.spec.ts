@@ -44,19 +44,21 @@ test('Tooltip native style preserves StyleX dynamic variables and user priority'
 for(const theme of ['light','dark'])test(`Tooltip real enter and exit animation frames / ${theme}`,async({browser},info)=>{
   const context=await browser.newContext({viewport:{width:1000,height:900},locale:'en-US',timezoneId:'UTC',colorScheme:'light'});
   await context.addInitScript(()=>{
+    const sampled=new WeakSet<Animation>();const handles=new WeakMap<Element,Animation>();
+    (window as Window & {tooltipAnimations?:WeakMap<Element,Animation>}).tooltipAnimations=handles;
     new MutationObserver(()=>{
       for(const animation of document.getAnimations()){
         const target=(animation.effect as KeyframeEffect|null)?.target;
-        if(target instanceof HTMLElement&&target.dataset.slot==='tooltip-content'&&(target.hasAttribute('data-entering')||target.hasAttribute('data-exiting'))){animation.pause();animation.currentTime=50;}
+        if(target instanceof HTMLElement&&target.dataset.slot==='tooltip-content'&&(target.hasAttribute('data-entering')||target.hasAttribute('data-exiting'))&&!sampled.has(animation)){sampled.add(animation);handles.set(target,animation);animation.pause();animation.currentTime=0;}
       }
     }).observe(document,{subtree:true,childList:true,attributes:true});
   });
   const a=await context.newPage(),b=await context.newPage();const pages=[a,b];
   try{
     await Promise.all(pages.map(async(page,i)=>{await page.goto(`${[upstreamURL,stylexURL][i]}/iframe.html?id=components-tooltip--demo&viewMode=story&globals=theme:${theme}`);await expect(page.locator('#parity-root')).toBeVisible();await page.mouse.move(0,0);await page.getByRole('button').hover();await expect(page.getByRole('tooltip')).toHaveAttribute('data-entering','true');}));
-    await compare(a,b,info,'tooltip-enter-50ms');
-    await Promise.all(pages.map(async page=>{await page.evaluate(()=>document.getAnimations().forEach(animation=>animation.finish()));await expect(page.getByRole('tooltip')).not.toHaveAttribute('data-entering','true');await page.mouse.move(0,0);await page.keyboard.press('Escape');await expect(page.getByRole('tooltip')).toHaveAttribute('data-exiting','true');}));
-    await compare(a,b,info,'tooltip-exit-50ms');
-    await Promise.all(pages.map(async page=>{await page.evaluate(()=>document.getAnimations().forEach(animation=>animation.finish()));await expect(page.getByRole('tooltip')).toHaveCount(0);}));
+    for(const time of [0,75,150]){await Promise.all(pages.map(page=>page.getByRole('tooltip').evaluate((element,time)=>{const animation=element.getAnimations()[0];animation.currentTime=time;},time)));await compare(a,b,info,`tooltip-enter-${time}ms`);}
+    await Promise.all(pages.map(async page=>{await page.getByRole('tooltip').evaluate(element=>(window as Window & {tooltipAnimations?:WeakMap<Element,Animation>}).tooltipAnimations!.get(element)!.finish());await expect(page.getByRole('tooltip')).not.toHaveAttribute('data-entering','true');await page.mouse.move(0,0);await page.keyboard.press('Escape');await expect(page.getByRole('tooltip')).toHaveAttribute('data-exiting','true');}));
+    for(const time of [0,75,150]){await Promise.all(pages.map(page=>page.getByRole('tooltip').evaluate((element,time)=>{const animation=element.getAnimations()[0];animation.currentTime=time;},time)));await compare(a,b,info,`tooltip-exit-${time}ms`);}
+    await Promise.all(pages.map(async page=>{await page.getByRole('tooltip').evaluate(element=>(window as Window & {tooltipAnimations?:WeakMap<Element,Animation>}).tooltipAnimations!.get(element)!.finish());await expect(page.getByRole('tooltip')).toHaveCount(0);}));
   }finally{await context.close();}
 });

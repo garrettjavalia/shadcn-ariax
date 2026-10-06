@@ -1,4 +1,5 @@
 'use client';
+import { animationStyles } from './animations.stylex';
 import * as React from 'react';
 import * as stylex from '@stylexjs/stylex';
 import { Focusable, OverlayArrow, Tooltip as TooltipPrimitive, TooltipTrigger as TooltipTriggerPrimitive } from 'react-aria-components';
@@ -6,7 +7,6 @@ import { Focusable, OverlayArrow, Tooltip as TooltipPrimitive, TooltipTrigger as
 export type TooltipProps = Omit<React.ComponentProps<typeof TooltipPrimitive>, 'children' | 'className'> & { className?: never; children?: React.ReactNode; xstyle?: stylex.StyleXStyles };
 const styles = stylex.create({
   content: {
-    animationName: { default: null, ':is([data-entering])': 'enter', ':is([data-exiting])': 'exit' },
     animationDuration: { default: null, ':is([data-entering], [data-exiting])': '150ms' },
     animationTimingFunction: { default: null, ':is([data-entering], [data-exiting])': 'ease' },
     '--ariax-enter-opacity': { default: 1, ':is([data-entering])': 0 }, '--ariax-enter-scale': { default: 1, ':is([data-entering])': 0.95 },
@@ -24,7 +24,7 @@ export function TooltipTrigger({ delay = 0, children, ...props }: React.Componen
   return <TooltipTriggerPrimitive data-slot="tooltip-trigger" delay={delay} {...props}><Focusable>{trigger as React.ComponentProps<typeof Focusable>['children']}</Focusable>{tooltip}</TooltipTriggerPrimitive>;
 }
 export function Tooltip({ className: _className, placement = 'top', offset = 4, crossOffset = 0, children, xstyle, style, ...props }: TooltipProps) {
-  const applied = stylex.props(styles.content, xstyle);
+  const applied = stylex.props(animationStyles.overlay, styles.content, xstyle);
   const arrow = stylex.props(styles.arrow);
   return <TooltipPrimitive data-slot="tooltip-content" placement={placement} offset={offset} crossOffset={crossOffset} {...props} className={['ariax-tooltip', applied.className].filter(Boolean).join(' ')} style={state => ({ ...applied.style, ...(typeof style === 'function' ? style(state) : style) })}>
     {children}<OverlayArrow className={arrow.className} style={({ placement, defaultStyle }) => ({ ...arrow.style, ...defaultStyle, rotate: '0deg', translate: '0 0', transform: placement === 'bottom' ? 'translate(-50%, calc(50% + 2px)) rotate(45deg)' : placement === 'top' ? 'translate(-50%, calc(-50% - 2px)) rotate(45deg)' : placement === 'left' ? 'translate(calc(-50% - 2px), -50%) rotate(45deg)' : 'translate(calc(50% + 2px), -50%) rotate(45deg)' })}/>
