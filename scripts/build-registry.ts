@@ -1,9 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton', 'separator', 'label'];
+const componentNames = ['button', 'skeleton', 'separator', 'label', 'field'];
 const sharedFiles = [
-  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'field-children.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
@@ -12,7 +12,7 @@ const items = componentNames.map(name => ({
   description: `React Aria ${name}, Nova style, StyleX, Neutral light/dark tokens.`,
   dependencies: ['react-aria-components', '@stylexjs/stylex'].map(name => `${name}@${pkg.dependencies[name]}`),
   devDependencies: [`@stylexjs/unplugin@${pkg.devDependencies['@stylexjs/unplugin']}`],
-  files: [{ path: `registry/ariax/ui/${name}.tsx`, type: 'registry:ui', target: `@ui/${name}.tsx` }, ...sharedFiles],
+  files: [...(name === 'field' ? ['label', 'separator'].map(dependency => ({path: `registry/ariax/ui/${dependency}.tsx`, type: 'registry:ui', target: `@ui/${dependency}.tsx`})) : []), { path: `registry/ariax/ui/${name}.tsx`, type: 'registry:ui', target: `@ui/${name}.tsx` }, ...sharedFiles],
   docs: 'Configure @stylexjs/unplugin in Vite before the React plugin (useCSSLayers: false), then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
   meta: { base: 'aria', style: 'nova', styling: 'stylex', theme: 'neutral', modes: ['light', 'dark'] },
 }));
@@ -24,4 +24,4 @@ for (const item of items) {
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
 await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');
-console.log('Validated and built registry: button, skeleton, separator, label (source, styles, licenses).');
+console.log('Validated and built registry: button, skeleton, separator, label, field (source, styles, licenses).');

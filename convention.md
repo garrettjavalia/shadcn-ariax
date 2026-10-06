@@ -74,3 +74,7 @@ Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존�
 ## Label
 
 Label은 Nova typography, group/peer disabled 선택자와 RAC LabelContext 동작을 보존한다. `htmlFor`가 있고 `slot`이 없으면 부모 LabelContext를 해제하며, slot이 명시되면 컨텍스트를 유지한다. 새 Label은 `style`과 `xstyle`을 지원하며 동적 StyleX CSS 변수 뒤에 사용자 style을 병합한다. 외부 className은 제한한다. Demo·RTL은 Label 자체 검증을 위한 native checkbox fixture를 쓰며 shadcn Checkbox 스타일 지원을 뜻하지 않는다. 공식 MDX의 교차 예제 field-demo는 Field 구현 PR에서 통합할 때까지 미완료다.
+
+## Field
+
+Field·FieldSet·FieldLegend·FieldGroup·FieldContent·FieldLabel·FieldTitle·FieldDescription·FieldSeparator·FieldError를 제공한다. 일반 React `style`은 동적 StyleX CSS 변수 뒤에 병합하며 외부 className은 제한한다. 상대 단위와 unitless line-height, 28rem container query를 유지한다. 불투명한 소비자 자식의 너비·flex·padding·링크 선택자는 StyleX가 소유한 CSS 변수와 structural CSS로 적용한다. Anatomy·Orientations·States·ChoiceSelectors·Errors·RTL·Inline·Customized를 light/dark에서 비교하고 Orientations는 390px도 검사한다. 공식 13개 ComponentPreview의 의존성 미완료 목록은 `tests/field.spec.ts`에 고정 MDX와 함께 검사한다. Native-control fixture는 공식 Input·Textarea·Checkbox·Select·Slider·RadioGroup·Switch 조합 예제의 완료를 의미하지 않는다.
