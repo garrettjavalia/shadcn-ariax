@@ -1,6 +1,6 @@
 # shadcn-ariax
 
-shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. 모든 컴포넌트 제공을 목표로 하며, 현재 구현·검증 범위는 **Button·Skeleton·Separator·Label·Field·Switch / Nova / Neutral light·dark**다. 배포 컴포넌트는 Tailwind 없이 동작한다.
+shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. 모든 컴포넌트 제공을 목표로 하며, 현재 구현·검증 범위는 **Button·Skeleton·Separator·Label·Checkbox·Field·Switch / Nova / Neutral light·dark**다. 배포 컴포넌트는 Tailwind 없이 동작한다.
 
 ## 개발 환경 구성
 
@@ -57,8 +57,8 @@ Skeleton과 Separator 설치는 소비 앱 CLI 명령의 `button.json`을 각각
 
 Label 본체는 `label.json`으로 설치할 수 있다. `htmlFor`, RAC LabelContext, `xstyle` 및 일반 `style`을 지원한다. 공식 Checkbox·Field 조합 예제의 통합이 남아 있으므로 전체 지원 완료 목록에는 아직 포함하지 않는다.
 
-Checkbox 본체는 `checkbox.json`으로 설치할 수 있다. 선택·중간·비활성·오류·키보드 포커스, RAC context/render props와 일반 `style` 및 `xstyle`을 지원한다. 공식 Checkbox 문서의 8개 preview(checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl, checkbox-table)는 Field 또는 Table 구현과 통합 검증이 남아 있다. Label Demo·RTL fixture는 실제 Checkbox를 사용한다.
-Field 본체와 9개 하위 파트는 `field.json`으로 설치할 수 있다. Label·Separator도 함께 설치된다. `orientation`의 vertical/horizontal/responsive, 일반 `style`, `xstyle`과 오류 메시지 중복 제거를 지원한다. Field 자체 DOM·선택자·반응형 레이아웃은 native-control fixture로 비교한다. 공식 13개 조합 예제는 Input·Textarea·Checkbox·Select·Slider·RadioGroup·Switch 구현에 의존하며 아직 미완료다.
+Checkbox 본체는 `checkbox.json`으로 설치할 수 있다. 선택·중간·비활성·오류·키보드 포커스, RAC context/render props와 일반 `style` 및 `xstyle`을 지원한다. 공식 Basic·Demo·Description·Disabled·Group·Invalid 예제는 실제 Field 조합으로 검증한다. 공식 ui-rtl 변환과 Table 조합은 후속 검증 대상이다. Label Demo·RTL fixture는 실제 Checkbox를 사용한다.
+Field 본체와 9개 하위 파트는 `field.json`으로 설치할 수 있다. Label·Separator도 함께 설치된다. `orientation`의 vertical/horizontal/responsive, 일반 `style`, `xstyle`과 오류 메시지 중복 제거를 지원한다. Field 자체 DOM·선택자·반응형 레이아웃은 native-control fixture로 비교한다. 공식 Field Checkbox·Group·Switch 예제는 실제 컴포넌트 조합으로 검증한다. 나머지 10개 예제는 Input·Textarea·Select·Slider·RadioGroup 등의 미구현 컴포넌트에 의존한다.
 
 Switch는 default·sm 크기, 선택·disabled·invalid, render props·context, Field 조합 및 공식 7개 예제를 지원한다. Switch 설치는 `switch.json`을 사용한다.
 

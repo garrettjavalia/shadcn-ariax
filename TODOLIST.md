@@ -61,7 +61,7 @@
 - [ ] Slider
 - [ ] Sonner
 - [ ] Spinner
-- [ ] Switch
+- [ ] Switch — 본체·공식 7개 일반 ui 예제·실제 Field 조합 구현; 공식 ui-rtl 변환 및 기본 Chromium 반복 픽셀 안정화 후속
 - [ ] Table
 - [ ] Tabs
 - [ ] Textarea
