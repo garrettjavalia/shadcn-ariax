@@ -10,6 +10,7 @@ import { root, rawRoot, type Source } from './common';
 
 export async function referenceInputs(config: Source) {
   const selection: { components: string[] } = JSON.parse(await readFile(resolve(root, 'upstream/reference.json'), 'utf8'));
+  selection.components = [...new Set([...selection.components, ...(await readdir(resolve(root, 'registry/ariax/ui')).catch((error: NodeJS.ErrnoException) => { if (error.code === 'ENOENT') return []; throw error; })).filter(name => /^[a-z][a-z0-9-]*\.tsx$/.test(name)).map(name => name.slice(0, -4))])].sort();
   assert.ok(selection.components.length && selection.components.every(name => /^[a-z][a-z0-9-]*$/.test(name)), 'Invalid reference components');
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const installed = JSON.parse(await readFile(resolve(root, 'node_modules/shadcn/package.json'), 'utf8'));
