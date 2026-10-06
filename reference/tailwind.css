@@ -22,6 +22,7 @@
 @source "../../../stories/reference-utilities.stories.tsx";
 @source "../../../reference/alert-customizations.ts";
 @source "../../../reference/calendar-customizations.ts";
+@source "../../../reference/date-picker-customizations.ts";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --breakpoint-3xl: 1600px;
