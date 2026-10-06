@@ -10,7 +10,7 @@
 
 ## 지원 예정
 
-- [ ] Accordion
+- [x] Accordion
 - [x] Alert
 - [ ] Alert Dialog
 - [x] Aspect Ratio
