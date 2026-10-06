@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from '@skeleton';
-import { shapes } from '@skeleton-customizations';
+import { shapes, skeletonCardStyle } from '@skeleton-customizations';
+import {Card as SkeletonCard,CardHeader,CardContent} from '@card';
 import './skeleton-fixtures.css';
 
 const meta = {
@@ -40,15 +41,14 @@ export const Avatar: Story = {
 };
 export const Usage: Story = { args: { xstyle: shapes.usage } };
 
-// Shared card layout fixture; the Card component itself is not implemented here.
 export const Card: Story = {
   render: () => (
-    <div data-slot="card" data-size="default" style={{ ...column, gap: 16, paddingBlock: 16, width: '100%', maxWidth: 320 }}>
-      <div data-slot="card-header" style={{ display: 'grid', gap: 4, paddingInline: 16 }}>
+    <SkeletonCard {...skeletonCardStyle}>
+      <CardHeader>
         <Skeleton xstyle={shapes.twoThird} /><Skeleton xstyle={shapes.half} />
-      </div>
-      <div data-slot="card-content" style={{ paddingInline: 16 }}><Skeleton xstyle={shapes.video} /></div>
-    </div>
+      </CardHeader>
+      <CardContent><Skeleton xstyle={shapes.video} /></CardContent>
+    </SkeletonCard>
   ),
 };
 export const Text: Story = {
