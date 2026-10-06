@@ -24,4 +24,4 @@ for (const item of items) {
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
 await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');
-console.log('Validated and built registry: button, skeleton, separator (source, styles, licenses).');
+console.log('Validated and built registry: button, skeleton, separator, alert (source, styles, licenses).');

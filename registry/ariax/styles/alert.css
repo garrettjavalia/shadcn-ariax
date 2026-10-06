@@ -10,5 +10,7 @@
 .ariax-alert:has(>svg) .ariax-alert-title { --ariax-alert-title-column: 2; }
 .ariax-alert-destructive > [data-slot="alert-description"] { --ariax-alert-description-color: color-mix(in oklab, var(--destructive) 90%, transparent); }
 .ariax-alert-title a, .ariax-alert-description a { text-decoration-line: underline; text-underline-offset: 3px; }
-.ariax-alert-title a:hover, .ariax-alert-description a:hover { color: var(--foreground); }
+@media (hover: hover) {
+  .ariax-alert-title a:hover, .ariax-alert-description a:hover { color: var(--foreground); }
+}
 .ariax-alert-description p:not(:last-child) { margin-bottom: 1rem; }

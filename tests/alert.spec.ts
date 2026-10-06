@@ -20,3 +20,17 @@ for (const theme of ['light', 'dark']) test(`Alert links preserve hover and focu
     await compare(pages[0], pages[1], info, 'alert-rem-scaling');
   } finally { await context.close(); }
 });
+
+test('Alert links preserve the upstream hover capability condition on touch devices', async ({ browser }, info) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 900 }, hasTouch: true, isMobile: true });
+  const pages = await Promise.all([upstreamURL, stylexURL].map(async url => {
+    const page = await context.newPage();
+    await page.goto(`${url}/iframe.html?id=components-alert--content&viewMode=story`);
+    await expect(page.locator('#content-alert')).toBeVisible();
+    expect(await page.evaluate(() => matchMedia('(hover: hover)').matches)).toBe(false);
+    await page.locator('#content-alert a').nth(1).tap();
+    return page;
+  }));
+  try { await compare(pages[0], pages[1], info, 'alert-touch-link'); }
+  finally { await context.close(); }
+});

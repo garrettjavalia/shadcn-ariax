@@ -73,4 +73,4 @@ Skeleton은 원본 div 구조·Nova muted 배경·radius·2초 pulse를 보존�
 
 ## Alert
 
-Alert·AlertTitle·AlertDescription·AlertAction은 Nova 기본/destructive, 아이콘·링크·문단·액션의 DOM/CSS를 보존한다. `xstyle`과 일반 React `style`을 지원하며 생성된 동적 CSS 변수를 유지한 채 사용자 `style`이 우선한다. 외부 `className`은 제한한다. 공식 Demo·Basic·Destructive·Action·Colors·RTL을 공유 스토리로 매핑하고, 추가 문단·링크 hover/focus·390px wrapping·스타일 오버라이드를 검증한다. 자손 선택자는 `alert.css`, 자체 스타일은 StyleX로 제공한다.
+Alert·AlertTitle·AlertDescription·AlertAction은 Nova 기본/destructive, 아이콘·링크·문단·액션의 DOM/CSS를 보존한다. `xstyle`과 일반 React `style`을 지원하며 생성된 동적 CSS 변수를 유지한 채 사용자 `style`이 우선한다. 외부 `className`은 제한한다. 공식 Demo·Basic·Destructive·Action·Colors·RTL을 공유 스토리로 매핑하고, 추가 문단·링크 hover/focus·터치 hover 조건·390px wrapping·루트 폰트 확대·스타일 오버라이드를 검증한다. 자손 선택자는 `alert.css`, 자체 스타일은 StyleX로 제공한다.
