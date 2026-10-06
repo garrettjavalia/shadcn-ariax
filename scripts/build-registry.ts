@@ -1,9 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-const componentNames = ['button', 'skeleton', 'separator'];
+const componentNames = ['button', 'skeleton', 'separator', 'badge'];
 const sharedFiles = [
-  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  ...['entry.css', 'reset.css', 'theme.css', 'button-children.css', 'skeleton.css', 'badge.css'].map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];

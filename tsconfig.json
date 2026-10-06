@@ -35,6 +35,12 @@
       ],
       "@reference/*": [
         "./generated/reference/aria-nova/*"
+      ],
+      "@badge": [
+        "./registry/ariax/ui/badge.tsx"
+      ],
+      "@badge-customizations": [
+        "./stories/badge-customizations.ts"
       ]
     }
   },
