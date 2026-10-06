@@ -13,7 +13,7 @@ const styles = stylex.create({
   footer: { backgroundColor: 'color-mix(in oklab, var(--muted) 50%, transparent)', borderTopWidth: 1, fontWeight: 500 },
   row: {
     borderBottomWidth: 'var(--ariax-table-row-border, 1px)',
-    backgroundColor: { default: null, ':hover:not([data-selected]):not([data-state="selected"])': 'color-mix(in oklab, var(--muted) 50%, transparent)', ':is([data-state="selected"], [data-selected])': 'var(--muted)', ':has([aria-expanded="true"])': 'color-mix(in oklab, var(--muted) 50%, transparent)' },
+    backgroundColor: { default: null, ':hover:not([data-state="selected"])': { default: null, '@media (hover: hover)': 'color-mix(in oklab, var(--muted) 50%, transparent)' }, ':is([data-state="selected"], [data-selected="true"])': 'var(--muted)', ':has([aria-expanded="true"])': 'color-mix(in oklab, var(--muted) 50%, transparent)' },
     transitionProperty: 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms',
   },
   head: { color: 'var(--foreground)', height: '2.5rem', '--ariax-table-head-right': { default: '.5rem', ':has([role="checkbox"], [data-slot="checkbox"])': '0px' }, padding: '0 var(--ariax-table-head-right) 0 .5rem', textAlign: 'left', verticalAlign: 'middle', fontWeight: 500, whiteSpace: 'nowrap' },
