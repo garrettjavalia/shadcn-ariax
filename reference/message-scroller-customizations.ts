@@ -14,3 +14,12 @@ export const messageScrollerCustom = {
     }
   })
 };
+export function messageScrollerDynamic(width: number, style: React.CSSProperties = {}) {
+  return {
+    className: 'h-60 w-[var(--message-scroller-width)]',
+    style: {
+      '--message-scroller-width': `${width}px`,
+      ...style
+    } as React.CSSProperties
+  };
+}

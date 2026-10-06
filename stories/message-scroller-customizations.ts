@@ -33,3 +33,9 @@ export const messageScrollerCustom = {
     xstyle: styles.custom(width)
   })
 };
+export function messageScrollerDynamic(width: number, style: React.CSSProperties = {}) {
+  return {
+    xstyle: [styles.root, styles.custom(width)],
+    style
+  };
+}

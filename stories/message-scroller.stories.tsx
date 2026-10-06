@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton, useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVisibility } from '@message-scroller';
-import { messageScrollerCustom as custom } from '@message-scroller-customizations';
+import { messageScrollerDynamic, messageScrollerCustom as custom } from '@message-scroller-customizations';
 const meta = {
   title: 'Components/MessageScroller',
   component: MessageScroller,
@@ -41,4 +41,20 @@ export const LastAnchor: Story = {
 };
 export const Rtl: Story = {
   render: () => <State rtl />
+};
+function Customized() {
+  const [width, setWidth] = React.useState(320);
+  const [native, setNative] = React.useState(true);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [state, setState] = React.useState('');
+  return <MessageScrollerProvider><button onClick={() => setWidth(360)}>Resize</button><button onClick={() => setNative(false)}>Clear native width</button><button onClick={() => setState(ref.current?.dataset.slot ?? 'missing')}>Read ref</button><output>{state}</output><MessageScroller ref={ref} {...messageScrollerDynamic(width, {
+      width: native ? width + 4 : undefined,
+      fontSize: 20,
+      opacity: .9
+    })}><MessageScrollerViewport aria-label="Customized transcript"><MessageScrollerContent {...custom.content()}>{Array.from({
+            length: 5
+          }, (_, index) => <MessageScrollerItem key={index} messageId={`custom-${index}`} {...custom.item()}>Custom {index}</MessageScrollerItem>)}</MessageScrollerContent></MessageScrollerViewport><MessageScrollerButton direction="start" render={(props, state) => <button {...props} aria-label="Custom start" data-render-active={state.active} data-render-direction={state.direction} />} /><MessageScrollerButton /></MessageScroller></MessageScrollerProvider>;
+}
+export const Customization: Story = {
+  render: () => <Customized />
 };
