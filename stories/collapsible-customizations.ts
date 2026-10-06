@@ -138,18 +138,18 @@ const styles = stylex.create({
     transitionTimingFunction: 'ease',
     backgroundColor: {
       default: null,
-      ':hover': {
-        default: null,
-        '@media (hover: hover)': 'var(--accent)'
-      }
+      ':hover': { default: null, '@media (hover: hover)': 'var(--accent)' },
+      ':is(.ariax-button[aria-expanded="true"])': 'var(--muted)',
+      ':is(.ariax-button[aria-expanded="true"]):hover': 'var(--muted)',
+      ':is(.dark *):hover': { default: null, '@media (hover: hover)': 'color-mix(in oklab, var(--muted) 50%, transparent)' },
+      ':is(.dark *)[aria-expanded="true"]:hover': { default: null, '@media (hover: hover)': 'color-mix(in oklab, var(--muted) 50%, transparent)' },
     },
     color: {
       default: null,
-      ':hover': {
-        default: null,
-        '@media (hover: hover)': 'var(--accent-foreground)'
-      }
-    }
+      ':hover': { default: null, '@media (hover: hover)': 'var(--accent-foreground)' },
+      ':is(.ariax-button[aria-expanded="true"])': 'var(--foreground)',
+      ':is(.ariax-button[aria-expanded="true"]):hover': 'var(--foreground)',
+    },
   },
   folderChevron: {
     transitionProperty: 'transform, translate, scale, rotate',
