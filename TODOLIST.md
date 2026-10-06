@@ -31,7 +31,7 @@
 - [ ] Context Menu
 - [ ] Data Table — 조합 예제 포함
 - [ ] Date Picker — 조합 예제 포함
-- [ ] Dialog
+- [ ] Dialog — 기본·공식 문서/RTL 구현; ChatSettings의 Select·Tabs 조합 대기
 - [ ] Direction
 - [ ] Drawer
 - [ ] Dropdown Menu — 기본 구현·Table Actions 제공; Avatar 조합 제공; 통합 회귀 후속 검증
