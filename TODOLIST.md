@@ -45,7 +45,7 @@
 - [x] Item — 공식 문서·registry 조합, 링크·메뉴·RTL·미디어
 - [ ] Kbd — 기본 설치·Tooltip 내용 구현; 공식 ButtonGroup 컨테이너 통합 대기
 - [ ] Label — 실제 Checkbox 조합 지원; Field 공식 조합 대기
-- [ ] Marker — 구현·문서 예제 검증; Drawer 조합 통합 대기
+- [x] Marker — 공식 문서·registry 예제, 실제 Drawer 조합
 - [ ] Message
 - [ ] Message Scroller — primitive 구현; 공식 채팅 조합·스크롤 상태 검증 진행
 - [ ] Native Select — 구현; OS 네이티브 팝업 검증 제외

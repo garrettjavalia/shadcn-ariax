@@ -31,3 +31,7 @@ export const Usage:Story={render:()=> <Marker><MarkerIcon><CheckIcon/></MarkerIc
 export const Rtl:Story={render:()=> <div dir="rtl"><MarkerDemo/></div>};
 function CustomExample(){const[gap,setGap]=useState(12);const[count,setCount]=useState(0);return <><Button onPress={()=>setGap(gap===12?20:12)}>Change gap</Button><Marker {...markerCustom(gap)} style={{'--marker-gap':`${gap}px`,padding:12} as CSSProperties} render={props=><button {...props} type="button" onClick={()=>setCount(count+1)}/>}><MarkerIcon {...markerCustomIcon}><CheckIcon/></MarkerIcon><MarkerContent>Custom {count}</MarkerContent></Marker><Marker {...markerHelper}>Helper styles</Marker></>;}
 export const Customization:Story={render:()=> <CustomExample/>};
+
+export const RegistryDrawer:Story={render:()=> <Registry.MarkerDrawer/>};
+export const RegistryDrawerDefault:Story={render:()=> <Registry.MarkerDrawer variant="default"/>};
+export const RegistryDrawerBorder:Story={render:()=> <Registry.MarkerDrawer variant="border"/>};

@@ -10,3 +10,11 @@ export const markerHover={xstyle:styles.hover};
 export const markerCustom=(gap:number)=>({xstyle:styles.custom(gap)});
 export const markerCustomIcon={xstyle:styles.icon};
 export const markerHelper={xstyle:markerVariants({variant:'border'})};
+
+const drawerStyles=stylex.create({
+ grid:{display:'grid',gap:'.75rem',paddingInline:'1rem',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)'},
+ row:{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'1rem',borderRadius:'calc(var(--radius) * .8)',borderWidth:1,borderStyle:'solid',paddingInline:'.75rem',paddingBlock:'.5rem'},
+ truncate:{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'},muted:{color:'var(--muted-foreground)'},
+});
+function nativeDrawerStyle(value:stylex.StyleXStyles){const applied=stylex.props(value);return {className:applied.className,style:applied.style};}
+export const markerDrawerClasses={grid:nativeDrawerStyle(drawerStyles.grid),row:nativeDrawerStyle(drawerStyles.row),truncate:nativeDrawerStyle(drawerStyles.truncate),muted:nativeDrawerStyle(drawerStyles.muted)};
