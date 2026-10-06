@@ -5,10 +5,10 @@ import {upstreamURL,stylexURL} from './servers';
 // Pending means the genuine compound example is not yet implemented. Native-control
 // core stories deliberately cannot satisfy these entries.
 export const fieldDocumentationPending:Record<string,string[]>={
- 'field-demo':['input','textarea','checkbox','select'], 'field-input':['input'], 'field-textarea':['textarea'],
+ 'field-demo':['input','textarea','select'], 'field-input':['input'], 'field-textarea':['textarea'],
  'field-select':['select'], 'field-slider':['slider'], 'field-fieldset':['input'],
  'field-radio':['radio-group'], 'field-choice-card':['radio-group'],
- 'field-rtl':['input','textarea','checkbox','select'], 'field-responsive':['input'],
+ 'field-rtl':['input','textarea','select'], 'field-responsive':['input'],
 };
 const fieldDocumentation = {'field-checkbox':'compositions-fieldcheckbox--field-checkbox', 'field-group':'compositions-fieldcheckbox--field-group-example', 'field-switch':'components-switch--field-switch'};
 test('Field official example inventory keeps dependency gaps explicit',async({request})=>{
