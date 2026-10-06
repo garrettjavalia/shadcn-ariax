@@ -19,7 +19,7 @@
 - [x] Badge
 - [x] Breadcrumb
 - [x] Bubble
-- [ ] Button Group — 기본 구현·실제 Tooltip/Kbd 조합; Select·Popover 미구현; Dropdown·Field 공식 조합 후속 통합
+- [x] Button Group — 공식 문서·레지스트리 실제 조합; Field·Select·Popover·Dropdown·Label·RTL 동작 검증
 - [x] Calendar
 - [x] Card
 - [x] Carousel
