@@ -49,6 +49,7 @@
     "chrono-node": "2.8.4",
     "concurrently": "10.0.5",
     "cross-env": "10.1.0",
+    "input-otp": "1.4.2",
     "lucide-react": "1.52.0",
     "pngjs": "7.0.0",
     "react-resizable-panels": "4.5.8",

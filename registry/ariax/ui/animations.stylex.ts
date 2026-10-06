@@ -14,8 +14,11 @@ const exit = stylex.keyframes({ to: {
 const pulse = stylex.keyframes({ '50%': { opacity: .5 } });
 const spin = stylex.keyframes({ to: { transform: 'rotate(360deg)' } });
 
+const caretBlink = stylex.keyframes({ '0%,70%,100%': {opacity:1}, '20%,50%': {opacity:0} });
+
 export const animationStyles = stylex.create({
   overlay: { animationName: { default: null, ":is([data-entering])": enter, ":is([data-exiting])": exit } },
   pulse: { animationName: pulse },
   spin: { animationName: spin },
+  caretBlink: { animationName: caretBlink },
 });
