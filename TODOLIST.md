@@ -36,7 +36,7 @@
 - [ ] Drawer
 - [ ] Dropdown Menu
 - [ ] Empty
-- [ ] Field
+- [ ] Field — 기본 레지스트리·Checkbox 조합 구현; 나머지 공식 조합 통합 대기
 - [ ] Hover Card
 - [ ] Input — 기본 구현 제공; 공식 의존 조합·RTL 예제 후속 통합 검증
 - [ ] Input Group
