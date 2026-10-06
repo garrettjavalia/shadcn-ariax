@@ -26,7 +26,7 @@ const styles = stylex.create({
     gap: '0.25rem', borderTopLeftRadius: 'calc(var(--radius) * 1.4)', borderTopRightRadius: 'calc(var(--radius) * 1.4)',
     padding: '0 var(--card-spacing)',
   },
-  title: { '--ariax-card-title-size': {default: '1rem', ':is([data-slot="card"][data-size="sm"] *)': '0.875rem'}, fontSize: 'var(--ariax-card-title-size, 1rem)', lineHeight: 'var(--ariax-card-title-line, 1.375)', fontWeight: 500 },
+  title: { '--ariax-card-title-size': {default: '1rem', ':is([data-slot="card"][data-size="sm"] *)': '0.875rem'}, fontSize: 'var(--ariax-card-title-size, 1rem)', lineHeight: '1.375', fontWeight: 500 },
   description: { color: 'var(--muted-foreground)', fontSize: '0.875rem', lineHeight: 'calc(1.25 / 0.875)' },
   action: { gridColumnStart: 2, gridRowStart: 1, gridRowEnd: 'span 2', alignSelf: 'flex-start', justifySelf: 'flex-end' },
   content: { padding: '0 var(--card-spacing)' },

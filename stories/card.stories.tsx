@@ -199,7 +199,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
               <Label htmlFor="email-rtl">البريد الإلكتروني</Label>
               <Input
                 id="email-rtl"
-                type="email-rtl"
+                type="email"
                 placeholder="m@example.com"
                 required
               />
@@ -214,7 +214,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
                   نسيت كلمة المرور؟
                 </a>
               </div>
-              <Input id="password-rtl" type="password-rtl" required />
+              <Input id="password-rtl" type="password" required />
             </div>
           </div>
         </form>
