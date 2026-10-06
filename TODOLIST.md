@@ -10,9 +10,9 @@
 
 ## 지원 예정
 
-- [ ] Accordion
+- [x] Accordion
 - [x] Alert
-- [ ] Alert Dialog
+- [x] Alert Dialog
 - [x] Aspect Ratio
 - [ ] Attachment
 - [ ] Avatar — 기본 구현·Dropdown Avatar 제공; 통합 회귀 후속 검증
