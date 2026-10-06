@@ -14,20 +14,22 @@ for(const theme of ['light','dark']) test(`Card form links, spacing controls and
   const context=await browser.newContext({viewport:{width:1000,height:900}});
   const a=await context.newPage(), b=await context.newPage();
   try {
-    for (const story of ['demo', 'spacing']) {
+    for (const story of ['demo', 'rtl', 'spacing']) {
+      const rtl = story === 'rtl';
+      const linkName = rtl ? 'نسيت كلمة المرور؟' : 'Forgot your password?';
       for (const [page,url] of [[a,upstreamURL],[b,stylexURL]] as const) {
         await page.goto(`${url}/iframe.html?id=components-card--${story}&viewMode=story&globals=theme:${theme}`);
         await expect(page.locator('#parity-root')).toBeVisible();
-        await page.getByRole('textbox', {name:'Email', exact:true}).fill('card@example.com');
-        await page.getByLabel('Password', {exact:true}).fill('example-password');
-        const link = page.getByRole('link', {name:'Forgot your password?', exact:true});
+        await page.getByRole('textbox', {name:rtl ? 'البريد الإلكتروني' : 'Email', exact:true}).fill('card@example.com');
+        await page.getByLabel(rtl ? 'كلمة المرور' : 'Password', {exact:true}).fill('example-password');
+        const link = page.getByRole('link', {name:linkName, exact:true});
         await link.hover();
         await expect(link).toHaveCSS('text-decoration-line','underline');
       }
       await compare(a,b,info,`card-${story}-filled-link-hover`);
       for (const page of [a,b]) {
         await page.mouse.move(0,0);
-        await expect(page.getByRole('link',{name:'Forgot your password?',exact:true})).toHaveCSS('text-decoration-line','none');
+        await expect(page.getByRole('link',{name:linkName,exact:true})).toHaveCSS('text-decoration-line','none');
       }
       await compare(a,b,info,`card-${story}-filled-link-rest`);
     }

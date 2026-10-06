@@ -208,7 +208,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
                 <Label htmlFor="password-rtl">كلمة المرور</Label>
                 <a
                   href="#"
-                  style={{"marginInlineStart":"auto","display":"inline-block","fontSize":".875rem","textUnderlineOffset":".25rem"}}
+                  {...cardSpacingNativeStyle("ms-auto inline-block text-sm underline-offset-4 hover:underline")}
                 >
                   نسيت كلمة المرور؟
                 </a>
