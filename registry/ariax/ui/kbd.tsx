@@ -11,7 +11,7 @@ const styles = stylex.create({
     backgroundColor: { default: 'var(--muted)', ':is([data-slot="tooltip-content"] *)': 'color-mix(in oklab, var(--background) 20%, transparent)', ':is(.dark [data-slot="tooltip-content"] *)': 'color-mix(in oklab, var(--background) 10%, transparent)' },
     color: { default: 'var(--muted-foreground)', ':is([data-slot="tooltip-content"] *)': 'var(--background)' },
     height: '1.25rem', width: 'fit-content', minWidth: '1.25rem', gap: '0.25rem', borderRadius: { default: 'calc(var(--radius) * 0.6)', ':is([data-slot="input-group-addon"] > *)': 'calc(var(--radius) - 5px)' }, paddingInline: '0.25rem',
-    fontFamily: 'var(--font-sans, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji")', fontSize: '0.75rem', lineHeight: 'calc(1 / 0.75)', fontWeight: 500,
+    fontFamily: 'var(--font-sans)', fontSize: '0.75rem', lineHeight: 'calc(1 / 0.75)', fontWeight: 500,
   },
   group: { display: 'inline-flex', alignItems: 'center', gap: '0.25rem' },
 });

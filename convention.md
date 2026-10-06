@@ -80,3 +80,5 @@ Input은 원본 React Aria Input을 감싸며 Nova 기본·disabled·invalid·fo
 ## Kbd (Tooltip 조합 대기)
 
 Kbd·KbdGroup은 React Aria Keyboard를 사용해 모두 kbd DOM을 보존한다. Kbd의 muted 배경, sans 폰트, unitless line-height, SVG 크기 선택자와 사용자 스타일 우선순위를 보존한다. 공식 6개 ComponentPreview를 자동 매핑하고 Tooltip 하나는 명시적 pending으로 남긴다. Demo·Group·Button·Input Group·RTL·Usage와 20px font-size, SVG의 명시적 size 클래스 제외, 일반 DOM 조상으로 Tooltip 색상 선택자 분기(실제 Tooltip 지원과 구별), xstyle 배열·동적 변수와 일반 style 우선순위를 공통 비교기로 검사한다. 공식 방향 변환은 Kbd 본체를 변경하지 않으며 현재 RTL 비교는 일반 ui+dir 조건이다.
+
+Kbd 비교 레퍼런스의 import·dark variant·전체 @theme inline 토큰은 PR #27의 `5ea45de` 공식 CSS와 동일하고 @source는 Input Group/Kbd 스택 목록의 합집합이다. `tw-animate-css`는 개발 레퍼런스에 정확한 1.4.0으로 고정한다.
