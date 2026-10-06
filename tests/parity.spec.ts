@@ -1,3 +1,4 @@
+import {controlAvatarAssets,waitAvatarAssets} from './avatar-assets';
 import { upstreamPort, stylexPort, upstreamURL, stylexURL } from './servers';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
@@ -15,6 +16,7 @@ for (const { theme, width, requiredTag } of environments) test(`registered stori
   test.skip(ids.length === 0 && !!requiredTag, 'No selected stories declare this additional viewport.');
   expect(ids.length, 'No parity stories discovered').toBeGreaterThan(0);
   const context = await browser.newContext({ viewport: { width, height: 900 }, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' });
+  await controlAvatarAssets(context);
   const a = await context.newPage(); const b = await context.newPage();
   try {
     for (const id of ids) await test.step(id, async () => {
@@ -23,6 +25,7 @@ for (const { theme, width, requiredTag } of environments) test(`registered stori
       await Promise.all(([[a, upstreamPort], [b, stylexPort]] as const).map(async ([page, port]) => {
         await page.goto(`http://127.0.0.1:${port}/iframe.html?id=${id}&viewMode=story&globals=theme:${theme}`);
         await expect(page.locator('#parity-root')).toBeVisible();
+        await waitAvatarAssets(page);
         await expect(page.locator('html')).toHaveClass(theme === 'dark' ? /\bdark\b/ : /^(?!.*\bdark\b).*$/);
         await page.mouse.move(0, 0);
       }));
