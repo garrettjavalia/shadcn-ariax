@@ -12,8 +12,8 @@ const config: StorybookConfig = {
   core: { disableTelemetry: true },
   async viteFinal(config, { configType }) {
     config.resolve ??= {};
-    config.resolve.alias = {
-      ...config.resolve.alias,
+    const inheritedAliases = config.resolve.alias;
+    const aliases = {
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),
       '@avatar-customizations': resolve(upstream ? 'reference/avatar-customizations.ts' : 'stories/avatar-customizations.ts'),
       '@dropdown-menu': resolve(upstream ? 'generated/reference/aria-nova/ui/dropdown-menu.tsx' : 'registry/ariax/ui/dropdown-menu.tsx'),
@@ -56,6 +56,12 @@ const config: StorybookConfig = {
       '@customizations': resolve(upstream ? 'reference/customizations.ts' : 'stories/customizations.ts'),
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'registry/ariax/styles/entry.css'),
     };
+    config.resolve.alias = [
+      ...Object.entries(aliases).map(([find, replacement]) => ({ find, replacement })),
+      ...(Array.isArray(inheritedAliases) ? inheritedAliases : Object.entries(inheritedAliases ?? {}).map(([find, replacement]) => ({ find, replacement }))),
+      { find: /^@([a-z][a-z0-9-]*)-customizations$/, replacement: resolve(upstream ? 'reference' : 'stories') + '/$1-customizations.ts' },
+      { find: /^@([a-z][a-z0-9-]*)$/, replacement: resolve(upstream ? 'generated/reference/aria-nova/ui' : 'registry/ariax/ui') + '/$1.tsx' },
+    ];
     config.plugins = [
       ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, runtimeInjection: configType === 'DEVELOPMENT' })]),
       ...(config.plugins ?? []),
