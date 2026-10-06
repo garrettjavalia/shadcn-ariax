@@ -1,6 +1,6 @@
 # shadcn-ariax
 
-shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. 모든 컴포넌트 제공을 목표로 하며, 현재 구현·검증 범위는 **Button·Skeleton·Separator / Nova / Neutral light·dark**다. 배포 컴포넌트는 Tailwind 없이 동작한다.
+shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. Nova / Neutral light·dark를 기준으로 모든 컴포넌트 제공을 목표로 한다. 배포 컴포넌트는 Tailwind 없이 동작하며, 지원 현황은 [TODOLIST.md](TODOLIST.md)에서 확인한다.
 
 ## 개발 환경 구성
 
@@ -28,7 +28,7 @@ pnpm test:report    # 브라우저 테스트 보고서 열기
 pnpm test:benchmark # 실행 시간 및 비교 횟수 측정
 ```
 
-브라우저 검사는 worker 2개를 사용한다. 자원이 제한된 환경에서는 `pnpm test --workers=1`로 실행한다. 측정 결과는 `test-results/benchmark.json`에 저장된다.
+자원이 제한된 환경에서는 `pnpm test --workers=1`로 실행한다. 독립 작업트리의 포트는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 지정하며 테스트에도 같은 환경 변수를 전달한다.
 
 ## 소비 앱에 설치
 
@@ -42,23 +42,10 @@ pnpm registry:build
 pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
 ```
 
-소비 앱의 Vite에 `@stylexjs/unplugin`의 `stylex.vite({useCSSLayers:false})`를 React 플러그인보다 먼저 등록하고, 설치된 `ui/ariax/styles/entry.css`를 한 번 import한다. `<html class="dark">`로 다크 모드를 적용한다. `pnpm test:install`은 임시 소비 앱에서 실제 CLI 설치·타입 검사·프로덕션 빌드를 확인한다.
+소비 앱의 Vite에 `@stylexjs/unplugin`의 `stylex.vite({useCSSLayers:false})`를 React 플러그인보다 먼저 등록하고, 설치된 `ui/ariax/styles/entry.css`를 한 번 import한다. `<html class="dark">`로 다크 모드를 적용한다. 실제 CLI 설치·소비 앱 빌드는 `pnpm test:install`로 확인할 수 있다.
 
-## 개발 문서와 지원 범위
+## 개발 문서
 
+- [컴포넌트 지원 현황](TODOLIST.md)
 - [구현·검증 규칙](convention.md)
 - [원본 고정 및 자동 준비 구조](docs/upstream-structure.md)
-
-비교 기준은 [고정한 shadcn 원본](https://github.com/shadcn-ui/ui/tree/3b1ae6e43f082dd82d0e5710b813cfad929abdb4)이며, 커밋과 선택 경로는 `upstream/`에 기록한다. 공식 Button·Skeleton·Separator 문서의 예제를 기준으로 별도의 DOM/CSS/픽셀 비교 수트를 구성했다. 현재 그 외 컴포넌트·디자인 스타일은 미구현이며 메뉴 조합의 그룹·메뉴는 테스트용 fixture다. 원본 및 Tailwind reset의 MIT 라이선스를 배포에 포함한다.
-
-독립 작업트리는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 포트를 지정할 수 있다. 테스트에도 같은 환경 변수를 전달한다.
-
-Skeleton과 Separator 설치는 소비 앱 CLI 명령의 `button.json`을 각각 `skeleton.json`, `separator.json`으로 바꾸면 된다.
-
-Table은 별도 draft 범위로 레지스트리에 제공한다. Table·Header·Body·Footer·Row·Head·Cell·Caption과 RAC의 선택·키보드 API, caption, empty state, expanded, hover, RTL 및 가로 스크롤을 공유 스토리로 비교한다. 커스터마이징은 `xstyle`과 일반 React `style`(RAC render callback 포함)을 지원하며 충돌 시 사용자 `style`이 우선한다. 외부 `className`은 지원하지 않는다. 현재 RTL 스토리는 일반 aria-nova 레퍼런스에서 Arabic 텍스트와 `dir=rtl`을 비교한다. 공식 `ui-rtl`의 논리 방향 변환(`text-start`, `pe-0`) 검증은 후속 RTL 작업의 TODO다. 공식 `checkbox-table`의 실제 Checkbox/Table 조합 및 Label 클릭 선택은 지원 범위다. 공식 `table-actions`의 실제 DropdownMenu 조합은 DropdownMenu draft PR에서 포털·항목 동작과 함께 검증한다. Data Table/TanStack 조합도 이 범위에 포함하지 않는다. 설치 시 위 CLI 명령의 경로를 `table.json`으로 바꾸면 된다.
-
-Label 본체는 `label.json`으로 설치할 수 있다. `htmlFor`, RAC LabelContext, `xstyle` 및 일반 `style`을 지원한다. 공식 Checkbox·Field 조합 예제의 통합이 남아 있으므로 전체 지원 완료 목록에는 아직 포함하지 않는다.
-
-Checkbox 본체는 `checkbox.json`으로 설치할 수 있다. 선택·중간·비활성·오류·키보드 포커스, RAC context/render props와 일반 `style` 및 `xstyle`을 지원한다. 공식 checkbox-table은 실제 Table/Checkbox 조합과 Label 클릭으로 검증한다. 나머지 7개 preview(checkbox-basic, checkbox-demo, checkbox-description, checkbox-disabled, checkbox-group, checkbox-invalid, checkbox-rtl)는 Field 통합 검증이 남아 있다. Label Demo·RTL fixture는 실제 Checkbox를 사용한다.
-
-DropdownMenu draft는 `dropdown-menu.json`으로 설치한다. 10개 원본 exports, 포털·3단 하위 메뉴·체크/라디오 선택·비활성·destructive·shortcut·키보드·동적 xstyle와 일반 style(callback 포함)을 지원한다. 공식 13개 preview 중 Avatar를 제외한 12개 및 실제 table-actions를 공유 스토리로 비교한다. Avatar/AvatarImage/AvatarFallback 실제 구현이 필요한 avatar preview는 TODO이며 완료 범위에 포함하지 않는다. 현재 RTL은 일반 aria-nova + Arabic/dir 기준이고 공식 ui-rtl CLI 방향 변환은 후속 TODO다. 진입/종료 키프레임은 원본 tw-animate-css 1.4.0 정의를 기준으로 설치 CSS의 --ariax 변수로 작성하며 별도 animation phase 검사에서 검증한다.
