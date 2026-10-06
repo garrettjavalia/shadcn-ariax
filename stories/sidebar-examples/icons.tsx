@@ -1,0 +1,4 @@
+import type {ComponentProps} from 'react';
+import {ChevronsUpDownIcon,CheckIcon,SearchIcon,HomeIcon,ChartLineIcon,ShoppingBagIcon,ShoppingCartIcon,FileIcon,UserIcon,Settings2Icon,LifeBuoy,Send,ChevronRightIcon,MoreHorizontalIcon,TerminalSquareIcon,BotIcon,BookOpen,FrameIcon,PieChartIcon,MapIcon} from 'lucide-react';
+const icons={ChevronsUpDownIcon,CheckIcon,SearchIcon,HomeIcon,ChartLineIcon,ShoppingBagIcon,ShoppingCartIcon,FileIcon,UserIcon,Settings2Icon,LifeBuoy,Send,ChevronRightIcon,MoreHorizontalIcon,TerminalSquareIcon,BotIcon,BookOpen,FrameIcon,PieChartIcon,MapIcon};
+export function IconPlaceholder({lucide,tabler,hugeicons,phosphor,remixicon,...props}:{lucide:keyof typeof icons;tabler?:string;hugeicons?:string;phosphor?:string;remixicon?:string}&ComponentProps<'svg'>){const Icon=icons[lucide];return <Icon {...props}/>;}

@@ -1,0 +1,4 @@
+[data-sidebar="group-label"]>svg,.ariax-sidebar-group-label>svg,.ariax-sidebar-group-action>svg,.ariax-sidebar-menu-button svg,.ariax-sidebar-menu-action>svg,.ariax-sidebar-menu-sub-button>svg{width:1rem;height:1rem;flex-shrink:0}
+.ariax-sidebar-menu-sub-button>svg{color:var(--sidebar-accent-foreground)}
+.ariax-sidebar-menu-button>span:last-child,.ariax-sidebar-menu-sub-button>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+[data-mobile="true"] [data-slot="sheet-content"]>button{display:none}
