@@ -24,7 +24,7 @@ The first run prepares pinned upstream sources under `generated/`. Storybooks ru
 | `src/ariax/styles/` | Shared CSS and theme tokens, imported by `entry.css` |
 | `stories/`, `tests/` | Examples, browser comparisons, and installation fixtures |
 | `.storybook/`, `reference/` | Build configuration and reference-side adapters |
-| `scripts/build-registry.ts`, `scripts/registry-sources.ts` | Catalog generation and source/dependency discovery |
+| `scripts/generate-registry-catalog.ts`, `scripts/registry-sources.ts` | Catalog generation and source/dependency discovery |
 | `upstream/`, `scripts/upstream/` | Pinned source metadata and reference preparation |
 | `licenses/` | Distributed third-party licenses |
 
@@ -45,7 +45,7 @@ Commit sources, configuration, lockfiles, upstream metadata, and the generated r
 
 The generator discovers `ui/<name>.tsx` and recipes, follows relative imports, and uses exact package versions from `package.json`. Root `registry.json` contains file paths for GitHub installation; `registry/<item>.json` contains self-contained HTTP/local payloads.
 
-Both catalogs are identical and generated from one item definition. Each item includes its shared CSS, animations, licenses, and StyleX dependencies. Individual installation JSON adds only the item schema and actual file contents. GitHub installation reads all files from the selected source revision; no separately pinned shared item is required. After any source or dependency change, run `pnpm registry:build` and commit the root `registry.json` with the source.
+Both catalogs are identical and generated from one item definition. Each item includes its shared CSS, animations, licenses, and StyleX dependencies. The official `shadcn build registry.json --output registry` command produces the public catalog and individual installation JSON, adding the item schema and actual file contents. `pnpm registry:build` runs catalog generation and this official build together. GitHub installation reads all files from the selected source revision; no separately pinned shared item is required. After any source or dependency change, run `pnpm registry:build` and commit the root `registry.json` with the source.
 
 StyleX's Babel plugin compiles JavaScript references; its PostCSS plugin replaces `@stylex;` in `entry.css` with extracted CSS. `.storybook/main.ts` configures the two implementations. `pnpm build:upstream` and `pnpm build:stylex` write to `dist/upstream/` and `dist/stylex/`; the latter also checks CSS for lazy-loaded stories.
 

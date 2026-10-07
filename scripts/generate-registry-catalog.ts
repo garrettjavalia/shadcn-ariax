@@ -1,6 +1,6 @@
-import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { registrySchema, registryItemSchema } from 'shadcn/schema';
+import { registrySchema } from 'shadcn/schema';
 import { componentNames as discoverComponents, componentSources } from './registry-sources';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const componentNames = await discoverComponents(process.cwd());
@@ -36,12 +36,7 @@ if (process.argv.includes('--check')) {
   console.log('GitHub registry catalog matches the component sources.');
   process.exit(0);
 }
-await rm('registry', { recursive: true, force: true });
-await mkdir('registry', { recursive: true });
 await writeFile('registry.json', catalogJSON);
-for (const item of catalog.items) {
-  const built = registryItemSchema.parse({ ...item, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(item.files!.map(async file => ({ ...file, content: await readFile(file.path, 'utf8') }))) });
-  await writeFile(`registry/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
-}
-await writeFile('registry/registry.json', catalogJSON);
-console.log(`Validated and built registry: ${items.map(item => item.name).join(', ')} (source, styles, licenses).`);
+// The official build does not remove items deleted from the source catalog.
+await rm('registry', { recursive: true, force: true });
+console.log(`Generated source catalog: ${items.length} items.`);
