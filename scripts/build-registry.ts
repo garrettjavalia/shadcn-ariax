@@ -1,5 +1,6 @@
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 import { componentNames as discoverComponents, componentSources } from './registry-sources';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
@@ -20,14 +21,22 @@ const sharedItem = {
   devDependencies: ['@babel/core', '@stylexjs/babel-plugin', '@stylexjs/postcss-plugin', 'postcss'].map(name => `${name}@${pkg.devDependencies[name]}`),
   files: sharedFiles,
 };
+// GitHub dependency refs are independent of the selected component revision.
+const sharedRevision = 'ccb4b2ecdaeff064bde11859e8f6568dc71c7a4c';
+const sharedDependency = `garrettjavalia/shadcn_ariax/ariax-base#${sharedRevision}`;
+const sharedHash = createHash('sha256').update(JSON.stringify(registryItemSchema.parse(sharedItem)));
+for (const file of sharedFiles) sharedHash.update(await readFile(file.path));
+const sharedDigest = sharedHash.digest('hex');
+if (process.argv.includes('--publish-shared')) console.log(`Shared item digest: ${sharedDigest}`);
+else assert.equal(sharedDigest, '17cc6f11a9ec538f5b6fb6f75fc14b73be62e21384d070e42dac96643124e424', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
 const items = await Promise.all([...componentNames.map(name => ({ name, type: 'registry:ui' as const, extension: '.tsx' })), ...recipeNames.map(name => ({ name, type: 'registry:file' as const, extension: '.recipe.stylex.ts' }))].map(async ({ name, type, extension }) => {
   const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies}, extension);
   return {
   name, type, title: `Ariax ${name[0].toUpperCase()}${name.slice(1)}`,
   description: `${type === 'registry:file' ? 'Intrinsic HTML StyleX recipes' : 'React Aria component'}: ${name}, Nova style, Neutral light/dark tokens.`,
-  dependencies: [...new Set([`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`, ...source.dependencies])],
-  devDependencies: ['@babel/core', '@stylexjs/babel-plugin', '@stylexjs/postcss-plugin', 'postcss'].map(name => `${name}@${pkg.devDependencies[name]}`),
-  files: [...source.files, ...sharedFiles.filter(file => !source.files.some(source => source.path === file.path))],
+  dependencies: source.dependencies.filter(dependency => !sharedItem.dependencies.includes(dependency)),
+  registryDependencies: [sharedDependency],
+  files: source.files.filter(file => !sharedFiles.some(shared => shared.path === file.path)),
   docs: 'Configure the official StyleX Babel and PostCSS plugins as described in the README, then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
   meta: { base: 'aria', style: 'nova', styling: 'stylex', theme: 'neutral', modes: ['light', 'dark'] },
   };
@@ -43,7 +52,9 @@ if (process.argv.includes('--check')) {
 await mkdir('public/r', { recursive: true });
 await writeFile('registry.json', catalogJSON);
 for (const item of catalog.items) {
-  const built = registryItemSchema.parse({ ...item, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(item.files.map(async f => ({ ...f, content: await readFile(f.path, 'utf8') }))) });
+  // HTTP/local payloads are self-contained; GitHub catalogs use the pinned shared item.
+  const payload = item.name === sharedItem.name ? item : { ...item, registryDependencies: [], dependencies: [...new Set([...(item.dependencies ?? []), ...sharedItem.dependencies])], devDependencies: sharedItem.devDependencies, files: [...(item.files ?? []), ...sharedFiles] };
+  const built = registryItemSchema.parse({ ...payload, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(payload.files!.map(async f => ({ ...f, content: await readFile(f.path, 'utf8') }))) });
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
 await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');

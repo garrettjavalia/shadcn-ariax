@@ -17,7 +17,7 @@
     "typecheck": "pnpm upstream:prepare && tsc --noEmit",
     "test": "pnpm upstream:prepare && pnpm originals:generate && playwright test",
     "test:report": "playwright show-report --host 127.0.0.1",
-    "test:install": "pnpm registry:check && node --import tsx --test scripts/install-fixtures.test.ts scripts/registry-sources.test.ts && shadcn build registry.json --output public/r && node --import tsx scripts/test-install.ts",
+    "test:install": "pnpm registry:check && node --import tsx --test scripts/install-fixtures.test.ts scripts/registry-sources.test.ts && pnpm registry:build && node --import tsx scripts/test-install.ts",
     "verify": "pnpm registry:check && pnpm test:stylex && pnpm test:upstream && pnpm upstream:check && pnpm typecheck && pnpm registry:build && pnpm test && pnpm test:install && pnpm build:upstream && pnpm build:stylex",
     "upstream:check": "node --import tsx scripts/upstream/check.ts",
     "upstream:prepare": "node --import tsx scripts/upstream/prepare.ts",

@@ -179,3 +179,7 @@ pnpm format:tests
 - `.consumer-test-*/`: 임시 설치 픽스처.
 
 루트 `registry.json`은 예외입니다. 생성 파일이지만 GitHub 설치 진입점이므로 커밋합니다.
+
+공통 CSS·애니메이션·라이선스·StyleX 빌드 의존성은 `ariax-base`에 한 번 정의하며, 컴포넌트는 커밋이 고정된 GitHub `registryDependencies` 주소로 참조합니다. `public/r/`의 HTTP·로컬 설치 파일에는 공통 파일을 직접 포함합니다.
+
+공통 파일이나 의존성을 변경하면 `pnpm registry:build --publish-shared`로 생성한 공통 항목을 커밋·푸시한 다음, `scripts/build-registry.ts`의 `sharedRevision`과 출력된 digest를 갱신하고 카탈로그를 다시 생성합니다. GitHub 의존 항목은 컴포넌트의 리비전을 상속하지 않으므로 따로 고정합니다. 일반 빌드는 이 고정값을 갱신하지 않은 공통 파일 변경을 거부합니다.

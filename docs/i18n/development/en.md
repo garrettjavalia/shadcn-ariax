@@ -55,7 +55,7 @@ registry/ariax/ui/ + registry/ariax/styles/ + licenses/
 
 Component discovery uses `ui/<name>.tsx`. Relative imports are followed to collect accompanying source files, and imported packages are resolved against the exact versions declared in `package.json`.
 
-`<name>.internal.tsx` files are helpers, not standalone registry items. Intrinsic HTML recipes use `<name>.recipe.stylex.ts`. Shared CSS and license files are included in generated items.
+`<name>.internal.tsx` files are helpers, not standalone registry items. Intrinsic HTML recipes use `<name>.recipe.stylex.ts`. Shared CSS, animations, licenses, and StyleX build dependencies are defined once in `ariax-base`. Components reference it through a commit-pinned GitHub `registryDependencies` address. HTTP/local payloads in `public/r/` include these files directly.
 
 After changing registry sources or dependency declarations:
 
@@ -179,3 +179,5 @@ The following are regenerated or local outputs excluded from Git:
 - `.consumer-test-*/`: temporary installation fixtures.
 
 The root `registry.json` is the exception: it is generated and committed because it is the GitHub installation entry point.
+
+When changing shared files or dependencies, run `pnpm registry:build --publish-shared`, commit and push the shared item, then update `sharedRevision` and the printed digest in `scripts/build-registry.ts` and regenerate the catalog. GitHub dependency refs do not inherit the component revision; the pin keeps its shared files consistent. Normal builds reject changes that have not updated this pin.
