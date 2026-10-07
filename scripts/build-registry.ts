@@ -23,13 +23,13 @@ const sharedItem = {
   files: sharedFiles,
 };
 // GitHub dependency refs are independent of the selected component revision.
-const sharedRevision = 'ccb4b2ecdaeff064bde11859e8f6568dc71c7a4c';
+const sharedRevision = 'cdcf4c1a6c5a58089eb48361605559d91a15f368';
 const sharedDependency = `garrettjavalia/shadcn_ariax/ariax-base#${sharedRevision}`;
 const sharedHash = createHash('sha256').update(JSON.stringify(registryItemSchema.parse(sharedItem)));
 for (const file of sharedFiles) sharedHash.update(await readFile(file.path));
 const sharedDigest = sharedHash.digest('hex');
 if (process.argv.includes('--publish-shared')) console.log(`Shared item digest: ${sharedDigest}`);
-else assert.equal(sharedDigest, '17cc6f11a9ec538f5b6fb6f75fc14b73be62e21384d070e42dac96643124e424', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
+else assert.equal(sharedDigest, 'c0aaa572dc9976eec02fbe96fd4ec0f2f09d39715d6a6215931fc2bfe3ca1ac3', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
 const items = await Promise.all([...componentNames.map(name => ({ name, type: 'registry:ui' as const, extension: '.tsx' })), ...recipeNames.map(name => ({ name, type: 'registry:file' as const, extension: '.recipe.stylex.ts' }))].map(async ({ name, type, extension }) => {
   const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies}, extension);
   return {
