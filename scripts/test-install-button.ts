@@ -181,6 +181,11 @@ try {
     join(app, "src/main.tsx"),
     `${example("src/main.tsx")}\nimport {createRoot} from 'react-dom/client';\nimport App from './App';\ncreateRoot(document.getElementById('root')!).render(<App />);\n`,
   );
+  assert.equal(
+    await readFile(join(app, "src/components/ui/ariax/LICENSE"), "utf8"),
+    await readFile("LICENSE", "utf8"),
+    "The CLI must install the project's complete license notice",
+  );
   const installed = JSON.parse(
     await readFile(join(app, "package.json"), "utf8"),
   );
@@ -256,6 +261,7 @@ try {
     registry,
     checks: [
       "GitHub shadcn add",
+      "project MIT license installed intact",
       "README configurations",
       "consumer typecheck",
       "development Button CSS and keyboard focus",

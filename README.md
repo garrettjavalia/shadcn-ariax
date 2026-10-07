@@ -125,3 +125,7 @@ The first run downloads and prepares the pinned upstream sources. Generated refe
 - [Ariax Storybook](http://127.0.0.1:4200)
 
 See the [Development guide](docs/i18n/development/en.md) for project structure, modification guidelines, and repository checks.
+
+## License
+
+[MIT](LICENSE) © 2026 garrettjavalia. Third-party code retains its original copyright and license notices in [licenses/](licenses/). The shadcn CLI installs these notices alongside the components.

@@ -17,6 +17,11 @@
       ],
       "files": [
         {
+          "path": "LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/LICENSE"
+        },
+        {
           "path": "registry/ariax/ui/animations.stylex.ts",
           "type": "registry:file",
           "target": "@ui/animations.stylex.ts"

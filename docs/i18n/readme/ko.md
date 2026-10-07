@@ -125,3 +125,7 @@ pnpm dev
 - [Ariax Storybook](http://127.0.0.1:4200)
 
 프로젝트 구조, 수정 방법과 저장소 검사는 [개발 가이드](../development/ko.md)를 참고하세요.
+
+## 라이선스
+
+[MIT](../../../LICENSE) © 2026 garrettjavalia. 외부 코드의 원래 저작권과 라이선스 고지는 [licenses/](../../../licenses/)에 보존합니다. shadcn CLI는 이 고지들을 컴포넌트와 함께 설치합니다.
