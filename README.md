@@ -128,4 +128,4 @@ See the [Development guide](docs/i18n/development/en.md) for project structure, 
 
 ## License
 
-[MIT](LICENSE) © 2026 garrettjavalia. Third-party code retains its original copyright and license notices in [licenses/](licenses/). The shadcn CLI installs these notices alongside the components.
+[MIT](LICENSE) © 2026 Minsuk Jung. Third-party code retains its original copyright and license notices in [licenses/](licenses/). The shadcn CLI installs these notices alongside the components.

@@ -128,4 +128,4 @@ pnpm dev
 
 ## 라이선스
 
-[MIT](../../../LICENSE) © 2026 garrettjavalia. 외부 코드의 원래 저작권과 라이선스 고지는 [licenses/](../../../licenses/)에 보존합니다. shadcn CLI는 이 고지들을 컴포넌트와 함께 설치합니다.
+[MIT](../../../LICENSE) © 2026 Minsuk Jung. 외부 코드의 원래 저작권과 라이선스 고지는 [licenses/](../../../licenses/)에 보존합니다. shadcn CLI는 이 고지들을 컴포넌트와 함께 설치합니다.
