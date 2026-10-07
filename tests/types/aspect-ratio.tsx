@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import { AspectRatio } from "../../registry/ariax/ui/aspect-ratio";
+import { AspectRatio } from "../../src/ariax/ui/aspect-ratio";
 const styles = stylex.create({ width: (width: number) => ({ width }) });
 <AspectRatio
   ratio={1}

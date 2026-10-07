@@ -52,5 +52,5 @@
 
 - 소스·설정·스토리·검증 코드·잠금 파일·업스트림 선택 정보·배포 라이선스를 커밋한다.
 - `generated/`, 의존성·빌드·보고서·캐시·임시 소비 앱·로컬 `.env`는 제외한다. `.env.example`은 포함할 수 있다.
-- GitHub 직접 설치의 진입점인 루트 `registry.json`은 `pnpm registry:build`로 생성하여 소스 변경과 함께 커밋한다. `pnpm registry:check`는 소스와 카탈로그의 일치 및 참조 파일을 확인한다. `public/registry.json`, `public/r/`는 제외하고 같은 빌드 명령으로 복원한다. 실제 `registry/ariax/` 소스는 포함한다.
+- GitHub 직접 설치의 진입점인 루트 `registry.json`은 `pnpm registry:build`로 생성하여 소스 변경과 함께 커밋한다. `pnpm registry:check`는 소스와 카탈로그의 일치 및 참조 파일을 확인한다. `registry/`는 제외하고 같은 빌드 명령으로 복원한다. 실제 `src/ariax/` 소스는 포함한다.
 - 컴포넌트별 PR을 분리하고 의존 PR은 순서대로 처리한다. 충돌과 기본 검증을 확인한 뒤 CI 완료를 기다리지 않고 squash로만 머지한다. 통합 회귀는 별도 PR에서 수정하고 전체 수트로 검증한다.

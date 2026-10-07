@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import {animationStyles} from '../registry/ariax/ui/animations.stylex';
+import {animationStyles} from '../src/ariax/ui/animations.stylex';
 const styles=stylex.create({
  shortcutSelect:{position:'absolute',insetInlineEnd:0,top:0},
  centered:{marginInline:'auto',maxWidth:'28rem'},bottom:{marginTop:'auto'},min:{minWidth:0},full:{width:'100%'},status:{opacity:{default:null,':is([data-status="unanswered"])':.5}},wide:{marginInline:'auto',maxWidth:'32rem'},wideFull:{marginInline:'auto',width:'100%',maxWidth:'32rem'},center:{alignItems:'center',justifyContent:'center'},sr:{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',borderWidth:0},

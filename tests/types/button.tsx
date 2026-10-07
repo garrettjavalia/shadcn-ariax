@@ -3,7 +3,7 @@ import {
   Button,
   LinkButton,
   buttonProps,
-} from "../../registry/ariax/ui/button";
+} from "../../src/ariax/ui/button";
 const styles = stylex.create({
   wide: { minWidth: 160 },
   dynamic: (width: number) => ({ width }),

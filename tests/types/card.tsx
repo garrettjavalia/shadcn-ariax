@@ -8,7 +8,7 @@ import {
   CardAction,
   CardContent,
   CardFooter,
-} from "../../registry/ariax/ui/card";
+} from "../../src/ariax/ui/card";
 const styles = stylex.create({ card: (width: number) => ({ width }) });
 <Card
   ref={createRef<HTMLDivElement>()}

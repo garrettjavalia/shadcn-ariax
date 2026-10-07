@@ -5,7 +5,7 @@ import {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
-} from "../../registry/ariax/ui/input-group";
+} from "../../src/ariax/ui/input-group";
 <InputGroup
   style={({ isFocusWithin }) => ({ opacity: isFocusWithin ? 1 : 0.5 })}
 >

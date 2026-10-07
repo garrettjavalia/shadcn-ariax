@@ -1,7 +1,7 @@
 import {
   DirectionProvider,
   I18nProvider,
-} from "../../registry/ariax/ui/direction";
+} from "../../src/ariax/ui/direction";
 <DirectionProvider direction="rtl">
   <I18nProvider locale="en-US">Content</I18nProvider>
 </DirectionProvider>;

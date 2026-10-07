@@ -1,4 +1,4 @@
-import { Badge, badgeProps } from "../../registry/ariax/ui/badge";
+import { Badge, badgeProps } from "../../src/ariax/ui/badge";
 import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({
   custom: { color: "red" },

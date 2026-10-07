@@ -1,4 +1,4 @@
-import { Input } from "../../registry/ariax/ui/input";
+import { Input } from "../../src/ariax/ui/input";
 import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ custom: { width: 200 } });
 <Input xstyle={styles.custom} style={{ width: 240 }} />;

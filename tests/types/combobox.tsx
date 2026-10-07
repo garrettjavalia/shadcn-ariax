@@ -11,7 +11,7 @@ import {
   ComboboxChipsInput,
   ComboboxTrigger,
   ComboboxValue,
-} from "../../registry/ariax/ui/combobox";
+} from "../../src/ariax/ui/combobox";
 const styles = stylex.create({ width: (width: number) => ({ width }) });
 <Combobox
   selectionMode="multiple"

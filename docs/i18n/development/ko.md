@@ -20,19 +20,19 @@ pnpm dev
 
 | 경로 | 역할 |
 | --- | --- |
-| `registry/ariax/ui/` | 컴포넌트, `.internal.tsx` 헬퍼, `.recipe.stylex.ts` 레시피 |
-| `registry/ariax/styles/` | `entry.css`에서 가져오는 공통 CSS와 테마 토큰 |
+| `src/ariax/ui/` | 컴포넌트, `.internal.tsx` 헬퍼, `.recipe.stylex.ts` 레시피 |
+| `src/ariax/styles/` | `entry.css`에서 가져오는 공통 CSS와 테마 토큰 |
 | `stories/`, `tests/` | 예제, 브라우저 비교, 설치 픽스처 |
 | `.storybook/`, `reference/` | 빌드 설정과 원본 쪽 어댑터 |
 | `scripts/build-registry.ts`, `scripts/registry-sources.ts` | 카탈로그 생성과 소스·의존성 탐색 |
 | `upstream/`, `scripts/upstream/` | 고정 소스 메타데이터와 레퍼런스 준비 |
 | `licenses/` | 배포하는 외부 코드 라이선스 |
 
-소스, 설정, 잠금 파일, 업스트림 메타데이터와 생성된 루트 `registry.json`을 커밋합니다. `generated/`, `public/registry.json`, `public/r/`, `dist/`, 테스트 보고서는 로컬 출력물입니다.
+소스, 설정, 잠금 파일, 업스트림 메타데이터와 생성된 루트 `registry.json`을 커밋합니다. `generated/`, `registry/`, `dist/`, 테스트 보고서는 로컬 출력물입니다.
 
 ## 컴포넌트와 레지스트리 수정
 
-1. `registry/ariax/ui/`를 수정합니다. 로컬 의존 파일은 같은 디렉터리에 두고 상대 import를 사용합니다. React Aria의 동작·접근성을 유지하고, 내부 스타일 뒤에 `xstyle`과 `style`을 적용하며 동적 CSS 변수를 보존합니다.
+1. `src/ariax/ui/`를 수정합니다. 로컬 의존 파일은 같은 디렉터리에 두고 상대 import를 사용합니다. React Aria의 동작·접근성을 유지하고, 내부 스타일 뒤에 `xstyle`과 `style`을 적용하며 동적 CSS 변수를 보존합니다.
 2. 관련 스토리와 테스트를 수정합니다. 새 설치 항목에는 `tests/install/`에 같은 이름의 픽스처를 추가하고, 추가 패키지는 `<name>.dependencies.json`에 정확한 버전으로 선언합니다.
 3. 카탈로그를 재생성하고 검사합니다.
 
@@ -43,7 +43,7 @@ pnpm dev
 
 4. 영향받는 동작을 검사하고, 제공 여부나 검증 범위가 바뀌면 [컴포넌트 지원 현황](../components/ko.md)의 두 언어판을 수정합니다.
 
-생성기는 `ui/<name>.tsx`와 레시피를 탐색하고 상대 import를 따라 파일을 수집하며, `package.json`의 정확한 패키지 버전을 사용합니다. 루트 `registry.json`은 GitHub 설치용 파일 경로를 담고, `public/r/<item>.json`은 HTTP·로컬 설치에 필요한 내용을 직접 포함합니다.
+생성기는 `ui/<name>.tsx`와 레시피를 탐색하고 상대 import를 따라 파일을 수집하며, `package.json`의 정확한 패키지 버전을 사용합니다. 루트 `registry.json`은 GitHub 설치용 파일 경로를 담고, `registry/<item>.json`은 HTTP·로컬 설치에 필요한 내용을 직접 포함합니다.
 
 공통 CSS·애니메이션·라이선스·StyleX 의존성은 `ariax-base`에 둡니다. 의존 항목은 컴포넌트의 리비전을 상속하지 않으므로 별도 GitHub 커밋으로 고정합니다. 공통 파일이나 의존성을 변경한 경우:
 
@@ -55,20 +55,20 @@ StyleX Babel 플러그인은 JavaScript의 스타일 참조를 컴파일하고, 
 
 ## 레지스트리 디렉터리용 게시
 
-`Publish registry to GitHub Raw` 워크플로는 `main` 푸시 또는 `main`에서 수동 실행합니다. 소스 카탈로그를 검사하고 실제 CLI로 전체 컴포넌트 픽스처를 설치해 소비 앱을 빌드한 뒤 게시합니다. 저장소의 `GITHUB_TOKEN`(`contents: write`)으로 `deploy/shadcn-registry` 브랜치에 `main`의 추적 파일 전체와 생성된 `public/r/` JSON을 함께 게시합니다. 브랜치 규칙은 해당 워크플로의 `deploy/shadcn-registry` 갱신을 허용해야 합니다. 워크플로가 첫 게시 때 브랜치를 생성합니다. 각 배포 커밋은 원본 소스 커밋과 이전 배포 커밋(첫 게시 이후)을 부모로 가집니다. 파일 트리는 해당 소스 스냅샷과 생성된 JSON으로 구성하므로 이전 배포에서 삭제된 파일이 남지 않습니다. 같은 스냅샷이면 새 커밋을 만들지 않습니다. 소스 수정은 `main`을 통해 반영하고 생성된 배포 파일을 다시 병합하지 않습니다. GitHub Pages나 별도 서버는 필요하지 않습니다.
+`Publish registry to GitHub Raw` 워크플로는 `main` 푸시 또는 `main`에서 수동 실행합니다. 소스 카탈로그를 검사하고 실제 CLI로 전체 컴포넌트 픽스처를 설치해 소비 앱을 빌드한 뒤 게시합니다. 저장소의 `GITHUB_TOKEN`(`contents: write`)으로 `deploy/shadcn-registry` 브랜치에 `main`의 추적 파일 전체와 생성된 `registry/` JSON을 함께 게시합니다. 브랜치 규칙은 해당 워크플로의 `deploy/shadcn-registry` 갱신을 허용해야 합니다. 워크플로가 첫 게시 때 브랜치를 생성합니다. 각 배포 커밋은 원본 소스 커밋과 이전 배포 커밋(첫 게시 이후)을 부모로 가집니다. 파일 트리는 해당 소스 스냅샷과 생성된 JSON으로 구성하므로 이전 배포에서 삭제된 파일이 남지 않습니다. 같은 스냅샷이면 새 커밋을 만들지 않습니다. 소스 수정은 `main`을 통해 반영하고 생성된 배포 파일을 다시 병합하지 않습니다. GitHub Pages나 별도 서버는 필요하지 않습니다.
 
-`public/r/registry.json`은 HTTP 카탈로그로, 자체 완결적인 개별 항목과 메타데이터가 같지만 파일 내용은 제외합니다. `public/registry.json`은 GitHub 소스 카탈로그 사본으로 유지합니다. 빌드는 `public/r/`를 비워 삭제된 항목이 게시되지 않게 합니다. 생성된 JSON은 소스 브랜치에서 제외하고, 별도 `deploy/shadcn-registry` 브랜치의 게시 커밋은 이력을 보존합니다.
+`registry/registry.json`은 HTTP 카탈로그로, 자체 완결적인 개별 항목과 메타데이터가 같지만 파일 내용은 제외합니다. 빌드는 `registry/`를 비워 삭제된 항목이 게시되지 않게 합니다. 생성된 JSON은 소스 브랜치에서 제외하고, 별도 `deploy/shadcn-registry` 브랜치의 게시 커밋은 이력을 보존합니다.
 
 첫 게시가 성공하면 다음 URL 템플릿을 사용합니다.
 
 ```text
-https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/{name}.json
+https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/registry/{name}.json
 ```
 
 `{name}`을 `registry`로 바꾼 주소가 카탈로그입니다. 게시에 사용한 소스 리비전에서 공개 주소를 검증합니다.
 
 ```sh
-ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/ pnpm test:install
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/registry/ pnpm test:install
 ```
 
 재현 가능한 검사에는 URL의 `refs/heads/deploy/shadcn-registry` 전체 부분을 게시 커밋 SHA로 바꿉니다. `ARIAX_REGISTRY_URL`은 `/`로 끝나는 HTTP(S) 디렉터리 주소여야 합니다. 해당 주소에서 전체 컴포넌트 픽스처를 설치하고 의존성, TypeScript, Tailwind 없는 Vite 프로덕션 빌드를 검사합니다.
@@ -78,7 +78,7 @@ ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax
 ```json
 {
   "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/{name}.json"
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/registry/{name}.json"
   }
 }
 ```

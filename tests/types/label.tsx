@@ -1,4 +1,4 @@
-import { Label } from "../../registry/ariax/ui/label";
+import { Label } from "../../src/ariax/ui/label";
 import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ dynamic: (width: number) => ({ width }) });
 <Label htmlFor="field" xstyle={styles.dynamic(100)} style={{ width: 120 }}>

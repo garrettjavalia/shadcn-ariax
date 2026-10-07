@@ -28,7 +28,7 @@ try {
   await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'], ...Object.fromEntries(fixtures.map(fixture => [fixture.alias, [`./${fixture.installedPath}`]])) } }, include: ['src', 'vite.config.ts'] }));
   await writeFile(join(dir, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: 'aria-nova', rsc: false, tsx: true, tailwind: { config: '', css: 'src/index.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@/components', ui: '@/components/ui', utils: '@/lib/utils', lib: '@/lib', hooks: '@/hooks' } }));
   // Actual published CLI, actual generated registry file, fresh consumer files and dependencies.
-  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => registryURL ? new URL(`${item.name}.json`, registryURL).href : resolve(`public/r/${item.name}.json`)), '--yes', '--cwd', dir]);
+  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => registryURL ? new URL(`${item.name}.json`, registryURL).href : resolve(`registry/${item.name}.json`)), '--yes', '--cwd', dir]);
   // Use setup artifacts delivered by the CLI, as documented for consumers.
   const setupPath = 'src/components/ui/ariax/setup';
   assert.equal(await readFile(join(dir, setupPath, 'STYLEX-LICENSE'), 'utf8'), await readFile(join(root, 'licenses/STYLEX-LICENSE'), 'utf8'));
@@ -36,7 +36,7 @@ try {
   for (const fixture of fixtures) for (const [name, version] of Object.entries(fixture.dependencies)) assert.equal(installed.dependencies[name], version, `CLI changed composition fixture pin: ${name}`);
   for (const { item, installedPath } of fixtures) {
     const source = await readFile(join(dir, installedPath), 'utf8');
-    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}${item.type === 'registry:file' ? '.recipe.stylex.ts' : '.tsx'}`), 'utf8');
+    const original = await readFile(join(root, 'src/ariax/ui', `${item.name}${item.type === 'registry:file' ? '.recipe.stylex.ts' : '.tsx'}`), 'utf8');
     if (original.includes('@stylexjs/stylex')) {
       assert.match(source, /@stylexjs\/stylex/, `Installed ${item.name} must retain its StyleX import`);
     }

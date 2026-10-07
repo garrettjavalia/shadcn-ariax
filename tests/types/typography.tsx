@@ -2,7 +2,7 @@ import {
   typographyProps,
   type TypographyRecipe,
   type TypographyOptions,
-} from "../../registry/ariax/ui/typography.recipe.stylex";
+} from "../../src/ariax/ui/typography.recipe.stylex";
 const recipe: TypographyRecipe = "blockquote";
 const options: TypographyOptions = { style: { color: "red" } };
 <blockquote {...typographyProps(recipe, options)}>Quote</blockquote>;

@@ -5,7 +5,7 @@ import {
   ChartTooltipContent,
   ChartLegendContent,
   type ChartConfig,
-} from "../../registry/ariax/ui/chart";
+} from "../../src/ariax/ui/chart";
 import { BarChart } from "recharts";
 const config = {
   desktop: { label: "Desktop", theme: { light: "#2563eb", dark: "#60a5fa" } },

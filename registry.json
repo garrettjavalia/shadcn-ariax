@@ -22,212 +22,212 @@
           "target": "@ui/ariax/LICENSE"
         },
         {
-          "path": "registry/ariax/ui/animations.stylex.ts",
+          "path": "src/ariax/ui/animations.stylex.ts",
           "type": "registry:file",
           "target": "@ui/animations.stylex.ts"
         },
         {
-          "path": "registry/ariax/styles/accordion-children.css",
+          "path": "src/ariax/styles/accordion-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/accordion-children.css"
         },
         {
-          "path": "registry/ariax/styles/alert-dialog.css",
+          "path": "src/ariax/styles/alert-dialog.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/alert-dialog.css"
         },
         {
-          "path": "registry/ariax/styles/alert.css",
+          "path": "src/ariax/styles/alert.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/alert.css"
         },
         {
-          "path": "registry/ariax/styles/animations-properties.css",
+          "path": "src/ariax/styles/animations-properties.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/animations-properties.css"
         },
         {
-          "path": "registry/ariax/styles/attachment.css",
+          "path": "src/ariax/styles/attachment.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/attachment.css"
         },
         {
-          "path": "registry/ariax/styles/avatar.css",
+          "path": "src/ariax/styles/avatar.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/avatar.css"
         },
         {
-          "path": "registry/ariax/styles/badge.css",
+          "path": "src/ariax/styles/badge.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/badge.css"
         },
         {
-          "path": "registry/ariax/styles/base.css",
+          "path": "src/ariax/styles/base.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/base.css"
         },
         {
-          "path": "registry/ariax/styles/breadcrumb.css",
+          "path": "src/ariax/styles/breadcrumb.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/breadcrumb.css"
         },
         {
-          "path": "registry/ariax/styles/bubble.css",
+          "path": "src/ariax/styles/bubble.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/bubble.css"
         },
         {
-          "path": "registry/ariax/styles/button-children.css",
+          "path": "src/ariax/styles/button-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/button-children.css"
         },
         {
-          "path": "registry/ariax/styles/button-group.css",
+          "path": "src/ariax/styles/button-group.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/button-group.css"
         },
         {
-          "path": "registry/ariax/styles/calendar.css",
+          "path": "src/ariax/styles/calendar.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/calendar.css"
         },
         {
-          "path": "registry/ariax/styles/card.css",
+          "path": "src/ariax/styles/card.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/card.css"
         },
         {
-          "path": "registry/ariax/styles/chart.css",
+          "path": "src/ariax/styles/chart.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/chart.css"
         },
         {
-          "path": "registry/ariax/styles/combobox.css",
+          "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
         },
         {
-          "path": "registry/ariax/styles/command.css",
+          "path": "src/ariax/styles/command.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/command.css"
         },
         {
-          "path": "registry/ariax/styles/context-menu.css",
+          "path": "src/ariax/styles/context-menu.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/context-menu.css"
         },
         {
-          "path": "registry/ariax/styles/dialog.css",
+          "path": "src/ariax/styles/dialog.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/dialog.css"
         },
         {
-          "path": "registry/ariax/styles/drawer.css",
+          "path": "src/ariax/styles/drawer.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/drawer.css"
         },
         {
-          "path": "registry/ariax/styles/dropdown-menu.css",
+          "path": "src/ariax/styles/dropdown-menu.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/dropdown-menu.css"
         },
         {
-          "path": "registry/ariax/styles/empty.css",
+          "path": "src/ariax/styles/empty.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/empty.css"
         },
         {
-          "path": "registry/ariax/styles/entry.css",
+          "path": "src/ariax/styles/entry.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/entry.css"
         },
         {
-          "path": "registry/ariax/styles/field-children.css",
+          "path": "src/ariax/styles/field-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/field-children.css"
         },
         {
-          "path": "registry/ariax/styles/input-group-children.css",
+          "path": "src/ariax/styles/input-group-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/input-group-children.css"
         },
         {
-          "path": "registry/ariax/styles/input-otp.css",
+          "path": "src/ariax/styles/input-otp.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/input-otp.css"
         },
         {
-          "path": "registry/ariax/styles/item.css",
+          "path": "src/ariax/styles/item.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/item.css"
         },
         {
-          "path": "registry/ariax/styles/kbd-children.css",
+          "path": "src/ariax/styles/kbd-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/kbd-children.css"
         },
         {
-          "path": "registry/ariax/styles/marker.css",
+          "path": "src/ariax/styles/marker.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/marker.css"
         },
         {
-          "path": "registry/ariax/styles/message-scroller.css",
+          "path": "src/ariax/styles/message-scroller.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/message-scroller.css"
         },
         {
-          "path": "registry/ariax/styles/message.css",
+          "path": "src/ariax/styles/message.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/message.css"
         },
         {
-          "path": "registry/ariax/styles/reset.css",
+          "path": "src/ariax/styles/reset.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/reset.css"
         },
         {
-          "path": "registry/ariax/styles/resizable.css",
+          "path": "src/ariax/styles/resizable.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/resizable.css"
         },
         {
-          "path": "registry/ariax/styles/select.css",
+          "path": "src/ariax/styles/select.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/select.css"
         },
         {
-          "path": "registry/ariax/styles/sidebar.css",
+          "path": "src/ariax/styles/sidebar.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/sidebar.css"
         },
         {
-          "path": "registry/ariax/styles/table.css",
+          "path": "src/ariax/styles/table.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/table.css"
         },
         {
-          "path": "registry/ariax/styles/tabs-children.css",
+          "path": "src/ariax/styles/tabs-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tabs-children.css"
         },
         {
-          "path": "registry/ariax/styles/theme.css",
+          "path": "src/ariax/styles/theme.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/theme.css"
         },
         {
-          "path": "registry/ariax/styles/toggle-children.css",
+          "path": "src/ariax/styles/toggle-children.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/toggle-children.css"
         },
         {
-          "path": "registry/ariax/styles/tooltip.css",
+          "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
         },
         {
-          "path": "registry/ariax/styles/typography.css",
+          "path": "src/ariax/styles/typography.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/typography.css"
         },
@@ -268,7 +268,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/accordion.tsx",
+          "path": "src/ariax/ui/accordion.tsx",
           "type": "registry:ui",
           "target": "@ui/accordion.tsx"
         }
@@ -298,7 +298,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/alert.tsx",
+          "path": "src/ariax/ui/alert.tsx",
           "type": "registry:ui",
           "target": "@ui/alert.tsx"
         }
@@ -330,22 +330,22 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/alert-dialog.tsx",
+          "path": "src/ariax/ui/alert-dialog.tsx",
           "type": "registry:ui",
           "target": "@ui/alert-dialog.tsx"
         },
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/dialog.tsx",
+          "path": "src/ariax/ui/dialog.tsx",
           "type": "registry:ui",
           "target": "@ui/dialog.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -375,7 +375,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/aspect-ratio.tsx",
+          "path": "src/ariax/ui/aspect-ratio.tsx",
           "type": "registry:ui",
           "target": "@ui/aspect-ratio.tsx"
         }
@@ -406,17 +406,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/attachment.tsx",
+          "path": "src/ariax/ui/attachment.tsx",
           "type": "registry:ui",
           "target": "@ui/attachment.tsx"
         },
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -446,12 +446,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/avatar.tsx",
+          "path": "src/ariax/ui/avatar.tsx",
           "type": "registry:ui",
           "target": "@ui/avatar.tsx"
         },
         {
-          "path": "registry/ariax/ui/style-props.internal.ts",
+          "path": "src/ariax/ui/style-props.internal.ts",
           "type": "registry:file",
           "target": "@ui/style-props.internal.ts"
         }
@@ -481,7 +481,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/badge.tsx",
+          "path": "src/ariax/ui/badge.tsx",
           "type": "registry:ui",
           "target": "@ui/badge.tsx"
         }
@@ -513,7 +513,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/breadcrumb.tsx",
+          "path": "src/ariax/ui/breadcrumb.tsx",
           "type": "registry:ui",
           "target": "@ui/breadcrumb.tsx"
         }
@@ -543,7 +543,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/bubble.tsx",
+          "path": "src/ariax/ui/bubble.tsx",
           "type": "registry:ui",
           "target": "@ui/bubble.tsx"
         }
@@ -574,12 +574,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -610,17 +610,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button-group.tsx",
+          "path": "src/ariax/ui/button-group.tsx",
           "type": "registry:ui",
           "target": "@ui/button-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/separator.tsx",
+          "path": "src/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
         }
@@ -652,37 +652,37 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/calendar.tsx",
+          "path": "src/ariax/ui/calendar.tsx",
           "type": "registry:ui",
           "target": "@ui/calendar.tsx"
         },
         {
-          "path": "registry/ariax/ui/input-group.tsx",
+          "path": "src/ariax/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "@ui/input-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/select.tsx",
+          "path": "src/ariax/ui/select.tsx",
           "type": "registry:ui",
           "target": "@ui/select.tsx"
         },
         {
-          "path": "registry/ariax/ui/textarea.tsx",
+          "path": "src/ariax/ui/textarea.tsx",
           "type": "registry:ui",
           "target": "@ui/textarea.tsx"
         }
@@ -712,12 +712,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/card.tsx",
+          "path": "src/ariax/ui/card.tsx",
           "type": "registry:ui",
           "target": "@ui/card.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -750,17 +750,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/carousel.tsx",
+          "path": "src/ariax/ui/carousel.tsx",
           "type": "registry:ui",
           "target": "@ui/carousel.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -792,12 +792,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/chart.tsx",
+          "path": "src/ariax/ui/chart.tsx",
           "type": "registry:ui",
           "target": "@ui/chart.tsx"
         },
         {
-          "path": "registry/ariax/ui/style-props.internal.ts",
+          "path": "src/ariax/ui/style-props.internal.ts",
           "type": "registry:file",
           "target": "@ui/style-props.internal.ts"
         }
@@ -828,7 +828,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/checkbox.tsx",
+          "path": "src/ariax/ui/checkbox.tsx",
           "type": "registry:ui",
           "target": "@ui/checkbox.tsx"
         }
@@ -858,7 +858,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/collapsible.tsx",
+          "path": "src/ariax/ui/collapsible.tsx",
           "type": "registry:ui",
           "target": "@ui/collapsible.tsx"
         }
@@ -890,32 +890,32 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/combobox.tsx",
+          "path": "src/ariax/ui/combobox.tsx",
           "type": "registry:ui",
           "target": "@ui/combobox.tsx"
         },
         {
-          "path": "registry/ariax/ui/input-group.tsx",
+          "path": "src/ariax/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "@ui/input-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/textarea.tsx",
+          "path": "src/ariax/ui/textarea.tsx",
           "type": "registry:ui",
           "target": "@ui/textarea.tsx"
         }
@@ -947,37 +947,37 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/command.tsx",
+          "path": "src/ariax/ui/command.tsx",
           "type": "registry:ui",
           "target": "@ui/command.tsx"
         },
         {
-          "path": "registry/ariax/ui/dialog.tsx",
+          "path": "src/ariax/ui/dialog.tsx",
           "type": "registry:ui",
           "target": "@ui/dialog.tsx"
         },
         {
-          "path": "registry/ariax/ui/input-group.tsx",
+          "path": "src/ariax/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "@ui/input-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/textarea.tsx",
+          "path": "src/ariax/ui/textarea.tsx",
           "type": "registry:ui",
           "target": "@ui/textarea.tsx"
         }
@@ -1009,12 +1009,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/context-menu.tsx",
+          "path": "src/ariax/ui/context-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/context-menu.tsx"
         },
         {
-          "path": "registry/ariax/ui/style-props.internal.ts",
+          "path": "src/ariax/ui/style-props.internal.ts",
           "type": "registry:file",
           "target": "@ui/style-props.internal.ts"
         }
@@ -1046,17 +1046,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/dialog.tsx",
+          "path": "src/ariax/ui/dialog.tsx",
           "type": "registry:ui",
           "target": "@ui/dialog.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -1087,7 +1087,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/direction.tsx",
+          "path": "src/ariax/ui/direction.tsx",
           "type": "registry:ui",
           "target": "@ui/direction.tsx"
         }
@@ -1118,17 +1118,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/drawer.tsx",
+          "path": "src/ariax/ui/drawer.tsx",
           "type": "registry:ui",
           "target": "@ui/drawer.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/style-props.internal.ts",
+          "path": "src/ariax/ui/style-props.internal.ts",
           "type": "registry:file",
           "target": "@ui/style-props.internal.ts"
         }
@@ -1160,12 +1160,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/dropdown-menu.tsx",
+          "path": "src/ariax/ui/dropdown-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/dropdown-menu.tsx"
         },
         {
-          "path": "registry/ariax/ui/style-props.internal.ts",
+          "path": "src/ariax/ui/style-props.internal.ts",
           "type": "registry:file",
           "target": "@ui/style-props.internal.ts"
         }
@@ -1195,7 +1195,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/empty.tsx",
+          "path": "src/ariax/ui/empty.tsx",
           "type": "registry:ui",
           "target": "@ui/empty.tsx"
         }
@@ -1226,27 +1226,27 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/field.tsx",
+          "path": "src/ariax/ui/field.tsx",
           "type": "registry:ui",
           "target": "@ui/field.tsx"
         },
         {
-          "path": "registry/ariax/ui/label.tsx",
+          "path": "src/ariax/ui/label.tsx",
           "type": "registry:ui",
           "target": "@ui/label.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/separator.tsx",
+          "path": "src/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
         },
         {
-          "path": "registry/ariax/ui/style-props.internal.ts",
+          "path": "src/ariax/ui/style-props.internal.ts",
           "type": "registry:file",
           "target": "@ui/style-props.internal.ts"
         }
@@ -1277,7 +1277,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/hover-card.tsx",
+          "path": "src/ariax/ui/hover-card.tsx",
           "type": "registry:ui",
           "target": "@ui/hover-card.tsx"
         }
@@ -1308,7 +1308,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         }
@@ -1339,27 +1339,27 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/input-group.tsx",
+          "path": "src/ariax/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "@ui/input-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/textarea.tsx",
+          "path": "src/ariax/ui/textarea.tsx",
           "type": "registry:ui",
           "target": "@ui/textarea.tsx"
         }
@@ -1391,7 +1391,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/input-otp.tsx",
+          "path": "src/ariax/ui/input-otp.tsx",
           "type": "registry:ui",
           "target": "@ui/input-otp.tsx"
         }
@@ -1422,12 +1422,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/item.tsx",
+          "path": "src/ariax/ui/item.tsx",
           "type": "registry:ui",
           "target": "@ui/item.tsx"
         },
         {
-          "path": "registry/ariax/ui/separator.tsx",
+          "path": "src/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
         }
@@ -1458,7 +1458,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/kbd.tsx",
+          "path": "src/ariax/ui/kbd.tsx",
           "type": "registry:ui",
           "target": "@ui/kbd.tsx"
         }
@@ -1489,12 +1489,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/label.tsx",
+          "path": "src/ariax/ui/label.tsx",
           "type": "registry:ui",
           "target": "@ui/label.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -1524,7 +1524,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/marker.tsx",
+          "path": "src/ariax/ui/marker.tsx",
           "type": "registry:ui",
           "target": "@ui/marker.tsx"
         }
@@ -1554,7 +1554,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/message.tsx",
+          "path": "src/ariax/ui/message.tsx",
           "type": "registry:ui",
           "target": "@ui/message.tsx"
         }
@@ -1587,17 +1587,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/message-scroller.tsx",
+          "path": "src/ariax/ui/message-scroller.tsx",
           "type": "registry:ui",
           "target": "@ui/message-scroller.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -1628,7 +1628,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/native-select.tsx",
+          "path": "src/ariax/ui/native-select.tsx",
           "type": "registry:ui",
           "target": "@ui/native-select.tsx"
         }
@@ -1660,17 +1660,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/pagination.tsx",
+          "path": "src/ariax/ui/pagination.tsx",
           "type": "registry:ui",
           "target": "@ui/pagination.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -1701,7 +1701,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/popover.tsx",
+          "path": "src/ariax/ui/popover.tsx",
           "type": "registry:ui",
           "target": "@ui/popover.tsx"
         }
@@ -1732,7 +1732,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/progress.tsx",
+          "path": "src/ariax/ui/progress.tsx",
           "type": "registry:ui",
           "target": "@ui/progress.tsx"
         }
@@ -1765,22 +1765,22 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/questionnaire.internal.tsx",
+          "path": "src/ariax/ui/questionnaire.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/questionnaire.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/questionnaire.tsx",
+          "path": "src/ariax/ui/questionnaire.tsx",
           "type": "registry:ui",
           "target": "@ui/questionnaire.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         }
@@ -1810,7 +1810,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/radio-group.tsx",
+          "path": "src/ariax/ui/radio-group.tsx",
           "type": "registry:ui",
           "target": "@ui/radio-group.tsx"
         }
@@ -1840,7 +1840,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/resizable.tsx",
+          "path": "src/ariax/ui/resizable.tsx",
           "type": "registry:ui",
           "target": "@ui/resizable.tsx"
         }
@@ -1870,7 +1870,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/scroll-area.tsx",
+          "path": "src/ariax/ui/scroll-area.tsx",
           "type": "registry:ui",
           "target": "@ui/scroll-area.tsx"
         }
@@ -1902,32 +1902,32 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/input-group.tsx",
+          "path": "src/ariax/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "@ui/input-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/select.tsx",
+          "path": "src/ariax/ui/select.tsx",
           "type": "registry:ui",
           "target": "@ui/select.tsx"
         },
         {
-          "path": "registry/ariax/ui/textarea.tsx",
+          "path": "src/ariax/ui/textarea.tsx",
           "type": "registry:ui",
           "target": "@ui/textarea.tsx"
         }
@@ -1958,7 +1958,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/separator.tsx",
+          "path": "src/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
         }
@@ -1990,17 +1990,17 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/sheet.tsx",
+          "path": "src/ariax/ui/sheet.tsx",
           "type": "registry:ui",
           "target": "@ui/sheet.tsx"
         }
@@ -2032,47 +2032,47 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/button.tsx",
+          "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
         },
         {
-          "path": "registry/ariax/ui/input.tsx",
+          "path": "src/ariax/ui/input.tsx",
           "type": "registry:ui",
           "target": "@ui/input.tsx"
         },
         {
-          "path": "registry/ariax/ui/render-styles.internal.tsx",
+          "path": "src/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/separator.tsx",
+          "path": "src/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
         },
         {
-          "path": "registry/ariax/ui/sheet.tsx",
+          "path": "src/ariax/ui/sheet.tsx",
           "type": "registry:ui",
           "target": "@ui/sheet.tsx"
         },
         {
-          "path": "registry/ariax/ui/sidebar.internal.tsx",
+          "path": "src/ariax/ui/sidebar.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/sidebar.internal.tsx"
         },
         {
-          "path": "registry/ariax/ui/sidebar.tsx",
+          "path": "src/ariax/ui/sidebar.tsx",
           "type": "registry:ui",
           "target": "@ui/sidebar.tsx"
         },
         {
-          "path": "registry/ariax/ui/skeleton.tsx",
+          "path": "src/ariax/ui/skeleton.tsx",
           "type": "registry:ui",
           "target": "@ui/skeleton.tsx"
         },
         {
-          "path": "registry/ariax/ui/tooltip.tsx",
+          "path": "src/ariax/ui/tooltip.tsx",
           "type": "registry:ui",
           "target": "@ui/tooltip.tsx"
         }
@@ -2102,7 +2102,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/skeleton.tsx",
+          "path": "src/ariax/ui/skeleton.tsx",
           "type": "registry:ui",
           "target": "@ui/skeleton.tsx"
         }
@@ -2132,7 +2132,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/slider.tsx",
+          "path": "src/ariax/ui/slider.tsx",
           "type": "registry:ui",
           "target": "@ui/slider.tsx"
         }
@@ -2165,7 +2165,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/sonner.tsx",
+          "path": "src/ariax/ui/sonner.tsx",
           "type": "registry:ui",
           "target": "@ui/sonner.tsx"
         }
@@ -2196,7 +2196,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/spinner.tsx",
+          "path": "src/ariax/ui/spinner.tsx",
           "type": "registry:ui",
           "target": "@ui/spinner.tsx"
         }
@@ -2226,7 +2226,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/switch.tsx",
+          "path": "src/ariax/ui/switch.tsx",
           "type": "registry:ui",
           "target": "@ui/switch.tsx"
         }
@@ -2257,7 +2257,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/table.tsx",
+          "path": "src/ariax/ui/table.tsx",
           "type": "registry:ui",
           "target": "@ui/table.tsx"
         }
@@ -2288,7 +2288,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/tabs.tsx",
+          "path": "src/ariax/ui/tabs.tsx",
           "type": "registry:ui",
           "target": "@ui/tabs.tsx"
         }
@@ -2319,7 +2319,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/textarea.tsx",
+          "path": "src/ariax/ui/textarea.tsx",
           "type": "registry:ui",
           "target": "@ui/textarea.tsx"
         }
@@ -2349,7 +2349,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/toggle.tsx",
+          "path": "src/ariax/ui/toggle.tsx",
           "type": "registry:ui",
           "target": "@ui/toggle.tsx"
         }
@@ -2380,12 +2380,12 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/toggle-group.tsx",
+          "path": "src/ariax/ui/toggle-group.tsx",
           "type": "registry:ui",
           "target": "@ui/toggle-group.tsx"
         },
         {
-          "path": "registry/ariax/ui/toggle.tsx",
+          "path": "src/ariax/ui/toggle.tsx",
           "type": "registry:ui",
           "target": "@ui/toggle.tsx"
         }
@@ -2416,7 +2416,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/tooltip.tsx",
+          "path": "src/ariax/ui/tooltip.tsx",
           "type": "registry:ui",
           "target": "@ui/tooltip.tsx"
         }
@@ -2446,7 +2446,7 @@
       ],
       "files": [
         {
-          "path": "registry/ariax/ui/typography.recipe.stylex.ts",
+          "path": "src/ariax/ui/typography.recipe.stylex.ts",
           "type": "registry:file",
           "target": "@ui/typography.recipe.stylex.ts"
         }

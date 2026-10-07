@@ -4,11 +4,11 @@ import { dirname, relative, resolve } from 'node:path';
 import { parse } from '@babel/parser';
 
 export async function componentNames(root: string) {
-  return (await readdir(resolve(root, 'registry/ariax/ui'))).filter(name => /^[a-z][a-z0-9-]*\.tsx$/.test(name)).map(name => name.slice(0, -4)).sort();
+  return (await readdir(resolve(root, 'src/ariax/ui'))).filter(name => /^[a-z][a-z0-9-]*\.tsx$/.test(name)).map(name => name.slice(0, -4)).sort();
 }
 
 export async function componentSources(root: string, name: string, pins: Record<string, string>, extension = '.tsx') {
-  const base = resolve(root, 'registry/ariax/ui');
+  const base = resolve(root, 'src/ariax/ui');
   const files = new Set<string>();
   const dependencies = new Set<string>();
   const metadata = (await readdir(base)).filter(file => file.endsWith('.dependencies.json'));

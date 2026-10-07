@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
   SelectEmpty,
-} from "../../registry/ariax/ui/select";
+} from "../../src/ariax/ui/select";
 const styles = stylex.create({ width: (width: number) => ({ width }) });
 <Select
   selectionMode="multiple"

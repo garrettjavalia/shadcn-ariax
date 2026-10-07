@@ -20,19 +20,19 @@ The first run prepares pinned upstream sources under `generated/`. Storybooks ru
 
 | Path | Role |
 | --- | --- |
-| `registry/ariax/ui/` | Components, `.internal.tsx` helpers, and `.recipe.stylex.ts` recipes |
-| `registry/ariax/styles/` | Shared CSS and theme tokens, imported by `entry.css` |
+| `src/ariax/ui/` | Components, `.internal.tsx` helpers, and `.recipe.stylex.ts` recipes |
+| `src/ariax/styles/` | Shared CSS and theme tokens, imported by `entry.css` |
 | `stories/`, `tests/` | Examples, browser comparisons, and installation fixtures |
 | `.storybook/`, `reference/` | Build configuration and reference-side adapters |
 | `scripts/build-registry.ts`, `scripts/registry-sources.ts` | Catalog generation and source/dependency discovery |
 | `upstream/`, `scripts/upstream/` | Pinned source metadata and reference preparation |
 | `licenses/` | Distributed third-party licenses |
 
-Commit sources, configuration, lockfiles, upstream metadata, and the generated root `registry.json`. `generated/`, `public/registry.json`, `public/r/`, `dist/`, and test reports are local outputs.
+Commit sources, configuration, lockfiles, upstream metadata, and the generated root `registry.json`. `generated/`, `registry/`, `dist/`, and test reports are local outputs.
 
 ## Modifying components and the registry
 
-1. Edit `registry/ariax/ui/`; keep local dependencies in the same directory and use relative imports. Preserve React Aria behavior and accessibility. Apply internal styles before `xstyle` and `style`, preserving dynamic CSS variables.
+1. Edit `src/ariax/ui/`; keep local dependencies in the same directory and use relative imports. Preserve React Aria behavior and accessibility. Apply internal styles before `xstyle` and `style`, preserving dynamic CSS variables.
 2. Update the relevant stories and tests. New installable items need a matching fixture in `tests/install/`; additional fixture packages go in `<name>.dependencies.json` with exact versions.
 3. Regenerate the catalog and validate it:
 
@@ -43,7 +43,7 @@ Commit sources, configuration, lockfiles, upstream metadata, and the generated r
 
 4. Run checks for the affected behavior and update both translations of [Component status](../components/en.md) if coverage or availability changes.
 
-The generator discovers `ui/<name>.tsx` and recipes, follows relative imports, and uses exact package versions from `package.json`. Root `registry.json` contains file paths for GitHub installation; `public/r/<item>.json` contains self-contained HTTP/local payloads.
+The generator discovers `ui/<name>.tsx` and recipes, follows relative imports, and uses exact package versions from `package.json`. Root `registry.json` contains file paths for GitHub installation; `registry/<item>.json` contains self-contained HTTP/local payloads.
 
 Shared CSS, animations, licenses, and StyleX dependencies live in `ariax-base`. Components reference a fixed GitHub commit because dependency refs do not inherit the component revision. After changing shared files or dependencies:
 
@@ -55,20 +55,20 @@ StyleX's Babel plugin compiles JavaScript references; its PostCSS plugin replace
 
 ## Publishing for the registry directory
 
-The `Publish registry to GitHub Raw` workflow runs on pushes to `main`, or manually from `main`. It validates the source catalog, installs all component fixtures with the real CLI, and builds the consumer app before publishing. It publishes the complete tracked `main` snapshot plus generated `public/r/` JSON to the `deploy/shadcn-registry` branch using the repository's `GITHUB_TOKEN` (`contents: write`). Branch rules must allow that workflow to update `deploy/shadcn-registry`. The workflow creates this branch on first publication. Each deployment descends from its source commit and, after the first publication, the previous deployment. Its file tree is the source snapshot plus generated JSON, so removed files do not survive from previous deployments. Identical snapshots do not create another commit. Make source edits through `main`; do not merge generated deployment files back into it. GitHub Pages and a separate server are not required.
+The `Publish registry to GitHub Raw` workflow runs on pushes to `main`, or manually from `main`. It validates the source catalog, installs all component fixtures with the real CLI, and builds the consumer app before publishing. It publishes the complete tracked `main` snapshot plus generated `registry/` JSON to the `deploy/shadcn-registry` branch using the repository's `GITHUB_TOKEN` (`contents: write`). Branch rules must allow that workflow to update `deploy/shadcn-registry`. The workflow creates this branch on first publication. Each deployment descends from its source commit and, after the first publication, the previous deployment. Its file tree is the source snapshot plus generated JSON, so removed files do not survive from previous deployments. Identical snapshots do not create another commit. Make source edits through `main`; do not merge generated deployment files back into it. GitHub Pages and a separate server are not required.
 
-`public/r/registry.json` is the HTTP catalog: it matches the self-contained item payloads, but omits file contents. `public/registry.json` remains the GitHub source catalog copy. Builds clear `public/r/` so removed items are not published. Generated JSON stays out of the source branch; publication commits preserve history on the separate `deploy/shadcn-registry` branch.
+`registry/registry.json` is the HTTP catalog: it matches the self-contained item payloads, but omits file contents. Builds clear `registry/` so removed items are not published. Generated JSON stays out of the source branch; publication commits preserve history on the separate `deploy/shadcn-registry` branch.
 
 After the first successful publication, the URL template is:
 
 ```text
-https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/{name}.json
+https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/registry/{name}.json
 ```
 
 The catalog is at the same URL with `registry` substituted for `{name}`. Verify the published endpoint against the matching source revision:
 
 ```sh
-ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/ pnpm test:install
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/registry/ pnpm test:install
 ```
 
 For reproducible checks, replace the entire `refs/heads/deploy/shadcn-registry` segment with its publication commit SHA. `ARIAX_REGISTRY_URL` must be an HTTP(S) directory URL ending in `/`. This installs all component fixtures from the endpoint and checks dependencies, TypeScript, and a production Vite build without Tailwind.
@@ -78,7 +78,7 @@ Submit `@ariax`, the repository homepage, this URL template, a description, and 
 ```json
 {
   "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/{name}.json"
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/registry/{name}.json"
   }
 }
 ```

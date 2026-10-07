@@ -5,11 +5,11 @@ import { registrySchema, registryItemSchema } from 'shadcn/schema';
 import { componentNames as discoverComponents, componentSources } from './registry-sources';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const componentNames = await discoverComponents(process.cwd());
-const recipeNames = (await readdir('registry/ariax/ui')).filter(name => /^[a-z][a-z0-9-]*\.recipe\.stylex\.ts$/.test(name)).map(name => name.slice(0, -17)).sort();
+const recipeNames = (await readdir('src/ariax/ui')).filter(name => /^[a-z][a-z0-9-]*\.recipe\.stylex\.ts$/.test(name)).map(name => name.slice(0, -17)).sort();
 const sharedFiles = [
   { path: 'LICENSE', type: 'registry:file', target: '@ui/ariax/LICENSE' },
-  { path: 'registry/ariax/ui/animations.stylex.ts', type: 'registry:file', target: '@ui/animations.stylex.ts' },
-  ...(await readdir('registry/ariax/styles')).filter(name => name.endsWith('.css')).sort().map(name => ({ path: `registry/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
+  { path: 'src/ariax/ui/animations.stylex.ts', type: 'registry:file', target: '@ui/animations.stylex.ts' },
+  ...(await readdir('src/ariax/styles')).filter(name => name.endsWith('.css')).sort().map(name => ({ path: `src/ariax/styles/${name}`, type: 'registry:file', target: `@ui/ariax/styles/${name}` })),
   { path: 'licenses/STYLEX-LICENSE', type: 'registry:file', target: '@ui/ariax/setup/STYLEX-LICENSE' },
   { path: 'licenses/SHADCN-LICENSE.md', type: 'registry:file', target: '@ui/ariax/SHADCN-LICENSE.md' },
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
@@ -29,7 +29,7 @@ const sharedHash = createHash('sha256').update(JSON.stringify(registryItemSchema
 for (const file of sharedFiles) sharedHash.update(await readFile(file.path));
 const sharedDigest = sharedHash.digest('hex');
 if (process.argv.includes('--publish-shared')) console.log(`Shared item digest: ${sharedDigest}`);
-else assert.equal(sharedDigest, 'f5c3007cc04551aed7698e62aa2e0728eccbb199d5811e41ea5b8fd07845c336', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
+else assert.equal(sharedDigest, '40286ed1cd55a3f5edfe8d1da68b160e9c6deb6a64074747f5f71c3a4ce36adb', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
 const items = await Promise.all([...componentNames.map(name => ({ name, type: 'registry:ui' as const, extension: '.tsx' })), ...recipeNames.map(name => ({ name, type: 'registry:file' as const, extension: '.recipe.stylex.ts' }))].map(async ({ name, type, extension }) => {
   const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies}, extension);
   return {
@@ -50,8 +50,8 @@ if (process.argv.includes('--check')) {
   console.log('GitHub registry catalog matches the component sources.');
   process.exit(0);
 }
-await rm('public/r', { recursive: true, force: true });
-await mkdir('public/r', { recursive: true });
+await rm('registry', { recursive: true, force: true });
+await mkdir('registry', { recursive: true });
 await writeFile('registry.json', catalogJSON);
 const httpItems = [];
 for (const item of catalog.items) {
@@ -59,8 +59,7 @@ for (const item of catalog.items) {
   const payload = item.name === sharedItem.name ? item : { ...item, registryDependencies: [], dependencies: [...new Set([...(item.dependencies ?? []), ...sharedItem.dependencies])], devDependencies: sharedItem.devDependencies, files: [...(item.files ?? []), ...sharedFiles] };
   const built = registryItemSchema.parse({ ...payload, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(payload.files!.map(async f => ({ ...f, content: await readFile(f.path, 'utf8') }))) });
   httpItems.push({ ...built, files: built.files?.map(({ content, ...file }) => file) });
-  await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
+  await writeFile(`registry/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
-await writeFile('public/r/registry.json', JSON.stringify(registrySchema.parse({ ...catalog, items: httpItems }), null, 2) + '\n');
-await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');
+await writeFile('registry/registry.json', JSON.stringify(registrySchema.parse({ ...catalog, items: httpItems }), null, 2) + '\n');
 console.log(`Validated and built registry: ${items.map(item => item.name).join(', ')} (source, styles, licenses).`);

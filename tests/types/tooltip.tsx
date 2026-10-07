@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import { Tooltip, TooltipTrigger } from "../../registry/ariax/ui/tooltip";
+import { Tooltip, TooltipTrigger } from "../../src/ariax/ui/tooltip";
 const styles = stylex.create({ dynamic: (width: number) => ({ width }) });
 <Tooltip
   xstyle={[styles.dynamic(200), false]}

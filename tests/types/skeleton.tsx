@@ -1,4 +1,4 @@
-import { Skeleton } from "../../registry/ariax/ui/skeleton";
+import { Skeleton } from "../../src/ariax/ui/skeleton";
 import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ size: { height: 16, width: 100 } });
 <Skeleton xstyle={[styles.size, false]} aria-label="Loading" />;

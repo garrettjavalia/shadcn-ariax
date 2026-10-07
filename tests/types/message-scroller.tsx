@@ -7,7 +7,7 @@ import {
   MessageScrollerItem,
   MessageScrollerButton,
   MessageScrollerProvider,
-} from "../../registry/ariax/ui/message-scroller";
+} from "../../src/ariax/ui/message-scroller";
 const styles = stylex.create({ root: (height: number) => ({ height }) });
 const ref = React.createRef<HTMLDivElement>();
 <MessageScroller ref={ref} xstyle={styles.root(220)} style={{ height: 240 }} />;
