@@ -4,6 +4,12 @@ import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
 import { collectInstallFixtures } from './install-fixtures';
 const root = process.cwd();
+const registryURL = process.env.ARIAX_REGISTRY_URL;
+if (registryURL) {
+  const url = new URL(registryURL);
+  assert.ok(['https:', 'http:'].includes(url.protocol), 'ARIAX_REGISTRY_URL must be an HTTP(S) directory URL');
+  assert.ok(url.pathname.endsWith('/') && !url.search && !url.hash, 'ARIAX_REGISTRY_URL must end with / and have no query or fragment');
+}
 // Fail before running the CLI when the catalog and fixtures disagree.
 const fixtures = await collectInstallFixtures(root);
 const parentFiles = await Promise.all(['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'].map(async file => [file, await readFile(join(root, file), 'utf8')] as const));
@@ -22,7 +28,7 @@ try {
   await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'], ...Object.fromEntries(fixtures.map(fixture => [fixture.alias, [`./${fixture.installedPath}`]])) } }, include: ['src', 'vite.config.ts'] }));
   await writeFile(join(dir, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: 'aria-nova', rsc: false, tsx: true, tailwind: { config: '', css: 'src/index.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@/components', ui: '@/components/ui', utils: '@/lib/utils', lib: '@/lib', hooks: '@/hooks' } }));
   // Actual published CLI, actual generated registry file, fresh consumer files and dependencies.
-  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => resolve(`public/r/${item.name}.json`)), '--yes', '--cwd', dir]);
+  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => registryURL ? new URL(`${item.name}.json`, registryURL).href : resolve(`public/r/${item.name}.json`)), '--yes', '--cwd', dir]);
   // Use setup artifacts delivered by the CLI, as documented for consumers.
   const setupPath = 'src/components/ui/ariax/setup';
   assert.equal(await readFile(join(dir, setupPath, 'STYLEX-LICENSE'), 'utf8'), await readFile(join(root, 'licenses/STYLEX-LICENSE'), 'utf8'));

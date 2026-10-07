@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
@@ -50,13 +50,17 @@ if (process.argv.includes('--check')) {
   console.log('GitHub registry catalog matches the component sources.');
   process.exit(0);
 }
+await rm('public/r', { recursive: true, force: true });
 await mkdir('public/r', { recursive: true });
 await writeFile('registry.json', catalogJSON);
+const httpItems = [];
 for (const item of catalog.items) {
   // HTTP/local payloads are self-contained; GitHub catalogs use the pinned shared item.
   const payload = item.name === sharedItem.name ? item : { ...item, registryDependencies: [], dependencies: [...new Set([...(item.dependencies ?? []), ...sharedItem.dependencies])], devDependencies: sharedItem.devDependencies, files: [...(item.files ?? []), ...sharedFiles] };
   const built = registryItemSchema.parse({ ...payload, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(payload.files!.map(async f => ({ ...f, content: await readFile(f.path, 'utf8') }))) });
+  httpItems.push({ ...built, files: built.files?.map(({ content, ...file }) => file) });
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
+await writeFile('public/r/registry.json', JSON.stringify(registrySchema.parse({ ...catalog, items: httpItems }), null, 2) + '\n');
 await writeFile('public/registry.json', JSON.stringify(catalog, null, 2) + '\n');
 console.log(`Validated and built registry: ${items.map(item => item.name).join(', ')} (source, styles, licenses).`);

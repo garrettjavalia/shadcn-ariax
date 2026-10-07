@@ -1,0 +1,54 @@
+name: Publish registry to GitHub Raw
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.19.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm registry:check
+      - run: pnpm test:install
+      - name: Publish flat JSON registry
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          output=$(mktemp -d)
+          cp public/r/*.json "$output/"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git ls-remote --exit-code --heads origin registry; then
+            git fetch origin registry
+            git switch -C registry FETCH_HEAD
+          else
+            git switch --orphan registry
+          fi
+          git rm -rf --ignore-unmatch .
+          cp "$output/"*.json .
+          git add -- ./*.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish registry from $SOURCE_SHA"
+            git push origin HEAD:refs/heads/registry
+          fi

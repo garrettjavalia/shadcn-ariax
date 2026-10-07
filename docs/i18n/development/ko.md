@@ -53,6 +53,36 @@ pnpm dev
 
 StyleX Babel 플러그인은 JavaScript의 스타일 참조를 컴파일하고, PostCSS 플러그인은 `entry.css`의 `@stylex;`를 추출한 CSS로 교체합니다. `.storybook/main.ts`가 두 구현을 설정합니다. `pnpm build:upstream`과 `pnpm build:stylex`는 `dist/upstream/`과 `dist/stylex/`에 출력하며, 후자는 지연 로딩 스토리의 CSS도 검사합니다.
 
+## 레지스트리 디렉터리용 게시
+
+`Publish registry to GitHub Raw` 워크플로는 `main` 푸시 또는 `main`에서 수동 실행합니다. 소스 카탈로그를 검사하고 실제 CLI로 전체 컴포넌트 픽스처를 설치해 소비 앱을 빌드한 뒤 게시합니다. 저장소의 `GITHUB_TOKEN`(`contents: write`)으로 `registry` 브랜치에 생성된 JSON 파일만 기록합니다. 브랜치 규칙은 해당 워크플로의 `registry` 갱신을 허용해야 합니다. GitHub Pages나 별도 서버는 필요하지 않습니다.
+
+`public/r/registry.json`은 HTTP 카탈로그로, 자체 완결적인 개별 항목과 메타데이터가 같지만 파일 내용은 제외합니다. `public/registry.json`은 GitHub 소스 카탈로그 사본으로 유지합니다. 빌드는 `public/r/`를 비워 삭제된 항목이 게시되지 않게 합니다. 생성된 JSON은 소스 브랜치에서 제외하고, 별도 `registry` 브랜치의 게시 커밋은 이력을 보존합니다.
+
+첫 게시가 성공하면 다음 URL 템플릿을 사용합니다.
+
+```text
+https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/registry/{name}.json
+```
+
+`{name}`을 `registry`로 바꾼 주소가 카탈로그입니다. 게시에 사용한 소스 리비전에서 공개 주소를 검증합니다.
+
+```sh
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/registry/ pnpm test:install
+```
+
+재현 가능한 검사에는 URL의 `registry` 브랜치 부분을 게시 커밋 SHA로 바꿉니다. `ARIAX_REGISTRY_URL`은 `/`로 끝나는 HTTP(S) 디렉터리 주소여야 합니다. 해당 주소에서 전체 컴포넌트 픽스처를 설치하고 의존성, TypeScript, Tailwind 없는 Vite 프로덕션 빌드를 검사합니다.
+
+`shadcn-ui/ui`의 `apps/v4/registry/directory.json`에 `@ariax`, 저장소 홈페이지, 위 URL 템플릿, 소개 문구와 SVG 로고를 제출합니다. 등록 PR 전에 해당 저장소의 `pnpm validate:registries`를 실행합니다. [공식 요건](https://ui.shadcn.com/docs/registry/registry-index)을 참고하세요. JSON 게시만으로 네임스페이스가 자동 등록되지는 않습니다. 승인 전에는 기존 GitHub 설치 주소를 사용하거나, 게시 후 `components.json`에 네임스페이스를 직접 설정합니다.
+
+```json
+{
+  "registries": {
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/registry/{name}.json"
+  }
+}
+```
+
 ## 업스트림 준비
 
 ```text
