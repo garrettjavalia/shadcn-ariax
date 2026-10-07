@@ -56,7 +56,7 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderColor: {
       default: "transparent",
-      ":focus-visible": "var(--ring)",
+      ':focus-visible:not([aria-invalid="true"])': "var(--ring)",
       ':is([aria-invalid="true"])': "var(--destructive)",
     },
     paddingBlock: "calc(var(--ariax-spacing, .25rem) * 0.5)",
@@ -134,7 +134,7 @@ const variants = stylex.create({
   outline: {
     borderColor: {
       default: "var(--border)",
-      ":focus-visible": "var(--ring)",
+      ':focus-visible:not([aria-invalid="true"])': "var(--ring)",
       ':is([aria-invalid="true"])': "var(--destructive)",
     },
     color: {

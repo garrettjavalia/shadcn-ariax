@@ -12,15 +12,27 @@ test("stories without a readiness signal need no additional work", async ({
 test("initial readiness waits for the actual asynchronous result", async ({
   page,
 }) => {
-  await page.setContent("<main>Pending</main>");
+  await page.setContent('<main id="parity-root"><div>Pending</div></main>');
   await page.evaluate(() => {
-    (window as Window & { parityReady?: Promise<void> }).parityReady =
-      new Promise((resolve) => {
-        setTimeout(() => {
-          document.querySelector("main")!.textContent = "Completed";
-          resolve();
-        }, 50);
-      });
+    const scope = window as Window & { parityReady?: Promise<void> };
+    scope.parityReady = new Promise((resolveCanceled) => {
+      setTimeout(() => {
+        // A discarded generation releases its waiter while the replacement
+        // still has actual initialization and SDK positioning to complete.
+        scope.parityReady = new Promise((resolveReplacement) => {
+          setTimeout(() => {
+            const content = document.querySelector("main div")!;
+            content.setAttribute("data-pending-scroll", "");
+            resolveReplacement();
+            setTimeout(() => {
+              content.removeAttribute("data-pending-scroll");
+              content.textContent = "Completed";
+            }, 50);
+          }, 50);
+        });
+        resolveCanceled();
+      }, 50);
+    });
   });
   await waitForStoryReadiness(page);
   expect(await page.locator("main").textContent()).toBe("Completed");

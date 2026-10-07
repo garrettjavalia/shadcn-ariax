@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, type ReactNode } from "react";
+import { useLayoutEffect, type ReactNode } from "react";
 import type { Decorator } from "@storybook/react-vite";
 
 function StateReadiness({
@@ -8,36 +8,34 @@ function StateReadiness({
   check: () => boolean;
   children: ReactNode;
 }) {
-  const [ready] = useState(() => {
+  useLayoutEffect(() => {
+    const scope = window as Window & { parityReady?: Promise<void> };
     let resolve!: () => void;
     const promise = new Promise<void>((done) => {
       resolve = done;
     });
-    return { promise, resolve };
-  });
-  const scope = window as Window & { parityReady?: Promise<void> };
-  // Publish before the story mounts so browser readiness cannot miss the work.
-  scope.parityReady = ready.promise;
-  useLayoutEffect(() => {
-    scope.parityReady = ready.promise;
+    // Publish only committed work; discarded renders must not leave a signal.
+    scope.parityReady = promise;
     const observer = new MutationObserver(checkState);
     function checkState() {
       if (check()) {
         observer.disconnect();
-        ready.resolve();
+        resolve();
       }
     }
     observer.observe(document, {
       subtree: true,
       childList: true,
       attributes: true,
+      characterData: true,
     });
     checkState();
     return () => {
       observer.disconnect();
-      if (scope.parityReady === ready.promise) delete scope.parityReady;
+      resolve();
+      if (scope.parityReady === promise) delete scope.parityReady;
     };
-  }, [check, ready]);
+  }, [check]);
   return <>{children}</>;
 }
 

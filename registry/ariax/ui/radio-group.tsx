@@ -115,8 +115,10 @@ const styles = stylex.create({
         "var(--primary)",
       ":is([data-checked])": "var(--primary)",
       ":is([data-selected])": "var(--primary)",
-      ":focus-visible": "var(--ring)",
-      ":is([data-focus-visible])": "var(--ring)",
+      ':focus-visible:not([aria-invalid="true"], [data-invalid])':
+        "var(--ring)",
+      ':is([data-focus-visible]):not([aria-invalid="true"], [data-invalid])':
+        "var(--ring)",
       ':is([aria-invalid="true"])': "var(--destructive)",
       ':is([aria-invalid="true"][aria-checked="true"])': "var(--primary)",
       ":is([data-invalid])": "var(--destructive)",
@@ -145,8 +147,9 @@ const styles = stylex.create({
     opacity: { default: null, ":is([data-disabled])": 0.5 },
     "--ariax-radio-ring": {
       default: "currentColor",
-      ":focus-visible": "color-mix(in oklab, var(--ring) 50%, transparent)",
-      ":is([data-focus-visible])":
+      ':focus-visible:not([aria-invalid="true"], [data-invalid])':
+        "color-mix(in oklab, var(--ring) 50%, transparent)",
+      ':is([data-focus-visible]):not([aria-invalid="true"], [data-invalid])':
         "color-mix(in oklab, var(--ring) 50%, transparent)",
       ':is([aria-invalid="true"])':
         "color-mix(in oklab, var(--destructive) 20%, transparent)",

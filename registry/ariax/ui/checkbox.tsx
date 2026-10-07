@@ -89,10 +89,14 @@ const styles = stylex.create({
         "var(--primary)",
       ":is([data-checked])": "var(--primary)",
       ":is([data-selected])": "var(--primary)",
-      ":is([data-selected][data-focus-visible])": "var(--ring)",
-      ":is([data-selected]):focus-visible": "var(--ring)",
-      ":focus-visible": "var(--ring)",
-      ":is([data-focus-visible])": "var(--ring)",
+      ':is([data-selected][data-focus-visible]):not([aria-invalid="true"], [data-invalid])':
+        "var(--ring)",
+      ':is([data-selected]):focus-visible:not([aria-invalid="true"], [data-invalid])':
+        "var(--ring)",
+      ':focus-visible:not([aria-invalid="true"], [data-invalid])':
+        "var(--ring)",
+      ':is([data-focus-visible]):not([aria-invalid="true"], [data-invalid])':
+        "var(--ring)",
       ':is([aria-invalid="true"])': "var(--destructive)",
       ':is([aria-invalid="true"][aria-checked="true"])': "var(--primary)",
       ":is([data-invalid])": "var(--destructive)",

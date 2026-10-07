@@ -2,7 +2,7 @@ import { createStoryPair, loadStoryPair } from "./story-pair";
 import { readFile } from "node:fs/promises";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
-import { stylexURL } from "./servers";
+import { stylexURL, upstreamURL } from "./servers";
 async function load(pages: [Page, Page], story: string, theme: string) {
   await loadStoryPair(pages, `components-sonner--${story}`, theme);
 }
@@ -138,8 +138,19 @@ test("Sonner official example inventory", async ({ request }) => {
     "sonner-position",
   ]);
   const index = await (await request.get(stylexURL + "/index.json")).json();
-  for (const name of names)
-    expect(
-      index.entries["components-sonner--" + name.slice(7)]?.tags,
-    ).toContain("parity");
+  const manifest = await (
+    await request.get(upstreamURL + "/original-stories/manifest.json")
+  ).json();
+  for (const name of names) {
+    const storyId = "components-sonner--" + name.slice(7);
+    expect(index.entries[storyId]?.tags).toContain("parity");
+    const preview = manifest.previews.find(
+      (entry: { name: string }) => entry.name === name,
+    );
+    expect(preview?.status).toBe("mapped");
+    expect(preview?.stylexStoryIds).toContain(storyId);
+    expect(preview?.counterparts).toContainEqual(
+      expect.objectContaining({ stylexStoryId: storyId }),
+    );
+  }
 });

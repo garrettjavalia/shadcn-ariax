@@ -29,6 +29,11 @@ for (const theme of ["light", "dark"])
           p.getByRole("button", { name: "Start", exact: true }).click(),
         ),
       );
+      await Promise.all(
+        pages.map((p) =>
+          expect(p.locator("[data-sonner-toast]")).toBeVisible(),
+        ),
+      );
       await mark(pages);
       await compare(pages[0], pages[1], info, "loading");
       await Promise.all(
@@ -89,6 +94,11 @@ for (const theme of ["light", "dark"])
       await Promise.all(
         pages.map((p) =>
           p.getByRole("button", { name: "Show", exact: true }).click(),
+        ),
+      );
+      await Promise.all(
+        pages.map((p) =>
+          expect(p.locator("[data-sonner-toast]")).toBeVisible(),
         ),
       );
       await mark(pages);
@@ -283,6 +293,15 @@ for (const theme of ["light", "dark"])
         pages.map((p) =>
           p.getByRole("button", { name: "RTL Toast", exact: true }).click(),
         ),
+      );
+      await Promise.all(
+        pages.map(async (p) => {
+          await expect(p.locator("[data-sonner-toast]")).toBeVisible();
+          await expect(p.locator("[data-sonner-toast]")).toHaveAttribute(
+            "data-mounted",
+            "true",
+          );
+        }),
       );
       await mark(pages);
       for (const p of pages) {

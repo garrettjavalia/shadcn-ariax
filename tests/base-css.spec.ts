@@ -1,12 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
 import { compareDOMCSS } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
-import { resolve } from "node:path";
 
 async function load(page: Page, url: string, theme: "light" | "dark") {
-  await page.goto(
-    `${url}/@fs${resolve("tests/fixtures/base-css.html")}?theme=${theme}`,
-  );
+  await page.goto(`${url}/tests/fixtures/base-css.html?theme=${theme}`);
   await expect(page.locator("html")).toHaveAttribute(
     "data-base-css-ready",
     "true",

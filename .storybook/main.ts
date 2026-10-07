@@ -23,8 +23,8 @@ const config: StorybookConfig = {
   core: { disableTelemetry: true },
   async viteFinal(config) {
     config.resolve ??= {};
-    // Reference namespaces and shared stories must use the same primitive contexts.
-    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts'])];
+    // Reference namespaces and shared stories must use the same primitive contexts and singleton stores.
+    config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts', 'sonner', 'next-themes'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'registry/ariax/ui/avatar.tsx'),
@@ -80,6 +80,19 @@ const config: StorybookConfig = {
     config.plugins = [
       ...(upstream ? [tailwind()] : [react({ babel })]),
       ...(config.plugins ?? []),
+      {
+        name: 'ariax-base-css-fixture',
+        config(config, { command }) {
+          if (command !== 'build') return;
+          const options = config.build?.rollupOptions;
+          if (!options?.input) throw new Error('Storybook preview build input is missing');
+          const fixture = resolve('tests/fixtures/base-css.html');
+          const input = options.input;
+          options.input = typeof input === 'string' ? [input, fixture]
+            : Array.isArray(input) ? [...input, fixture]
+            : { ...input, baseCss: fixture };
+        },
+      },
     ];
     if (!upstream) {
       config.css = { ...config.css, postcss: { plugins: [stylexPostcss({

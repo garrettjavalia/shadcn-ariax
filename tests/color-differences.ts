@@ -29,8 +29,43 @@ export async function filterColorDifferences(page: Page, diffs: Difference[]) {
     const convert = (value: string) => {
       if (cache.has(value)) return cache.get(value)!;
       let result: number[] | null = null;
-      const relative = `oklab(from ${value} l a b / alpha)`;
+      // Computed absolute colors expose their alpha directly. Reading it through
+      // relative color conversion quantizes legacy rgba() alpha to 8 bits in Chromium.
+      // Do not round alpha or let unsupported expressions silently become opaque.
+      const functional = /^([\w-]+)\(([^()]*)\)$/.exec(value);
+      let color = value;
+      let alpha: number | null = value.toLowerCase() === "transparent" ? 0 : 1;
+      if (functional) {
+        const [, name, body] = functional;
+        let channel = body.split("/")[1]?.trim();
+        if (body.includes(",")) {
+          const parts = body.split(",").map((part) => part.trim());
+          if (
+            !/^(rgb|rgba|hsl|hsla)$/i.test(name) ||
+            ![3, 4].includes(parts.length)
+          )
+            alpha = null;
+          else {
+            channel = parts[3];
+            color = `${name.replace(/a$/i, "")}(${parts.slice(0, 3).join(" ")}${channel === undefined ? "" : ` / ${channel}`})`;
+          }
+        }
+        if (channel !== undefined) {
+          alpha = /^[-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?%?$/i.test(channel)
+            ? Math.max(
+                0,
+                Math.min(
+                  1,
+                  parseFloat(channel) / (channel.endsWith("%") ? 100 : 1),
+                ),
+              )
+            : null;
+        }
+        if (/\b(?:from|none)\b/i.test(body)) alpha = null;
+      } else if (value.includes("(") || value.startsWith("#")) alpha = null;
+      const relative = `oklab(from ${color} l a b / 1)`;
       if (
+        alpha !== null &&
         !/^(currentcolor|inherit|initial|unset|revert|revert-layer)$/i.test(
           value,
         ) &&
@@ -39,11 +74,8 @@ export async function filterColorDifferences(page: Page, diffs: Difference[]) {
         probe.style.setProperty("color", relative, "important");
         const match = /^oklab\(([^)]+)\)$/.exec(getComputedStyle(probe).color);
         if (match) {
-          const [lab, alpha = "1"] = match[1].split("/");
-          const channels = [
-            ...lab.trim().split(/\s+/).map(Number),
-            Number(alpha),
-          ];
+          const [lab] = match[1].split("/");
+          const channels = [...lab.trim().split(/\s+/).map(Number), alpha];
           if (channels.length === 4 && channels.every(Number.isFinite))
             result = channels;
         }

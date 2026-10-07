@@ -276,11 +276,12 @@ for (const story of ["skeletons", "rsc"])
         height: 900,
       },
     });
-    await context.addInitScript(() => {
-      const random = Math.random;
-      Math.random = () =>
-        new Error().stack?.includes("SidebarMenuSkeleton") ? 0.5 : random();
-    });
+    await context.addInitScript(
+      (seed) => {
+        Math.random = () => seed;
+      },
+      story === "skeletons" ? 0.2 : 0.8,
+    );
     try {
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {

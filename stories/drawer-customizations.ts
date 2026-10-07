@@ -19,7 +19,8 @@ custom12:{width:'100%',height:'100%',borderRadius:'calc(var(--radius) * 1.8)',ba
 custom13:{display:'flex',flexWrap:'wrap',gap:'calc(var(--spacing, .25rem) * 2)'},
 custom14:{padding:'calc(var(--spacing, .25rem) * 4)'},
 custom15:{height:'calc(var(--spacing, .25rem) * 80)',width:'100%',backgroundColor:'var(--muted)'},
-custom16:{height:'calc(var(--spacing, .25rem) * 80)',width:'100%',backgroundColor:'oklch(0.882 0.059 254.128)'},
+// Preserve the source color through minification, including rounded-edge blending.
+custom16:{height:'calc(var(--spacing, .25rem) * 80)',width:'100%','--drawer-example-blue-200':'oklch(0.882 0.059 254.128)',backgroundColor:'var(--drawer-example-blue-200)'},
 custom17:{textTransform:'capitalize'},
 custom18:{backgroundColor:'var(--muted)',width:{default:null,":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"x\"] *)":'100%',":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"y\"] *)":'100%'},height:{default:null,":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"x\"] *)":'100%',":is(:where(.ariax-drawer-popup)[data-swipe-axis=\"y\"] *)":'calc(var(--spacing, .25rem) * 80)'}},
 custom19:{height:{default:null,':is([data-swipe-direction=down])':'calc(var(--spacing, .25rem) * 64)'}},
