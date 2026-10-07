@@ -2,11 +2,11 @@
 
 English · [한국어](ko.md)
 
-This document maps the repository's source files, generation steps, and checks to common changes. For application installation, see the [README](../../../README.md).
+For developers working on Ariax. For application installation, see the [README](../../../README.md).
 
 ## Local environment
 
-Use Node.js 22.19+ and pnpm 10.15.1. Run commands from the repository root.
+Use Node.js 22.19+ and pnpm 10.15.1. Run commands from the cloned repository root.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -14,172 +14,94 @@ pnpm exec playwright install chromium
 pnpm dev
 ```
 
-The first run downloads the pinned upstream sources and prepares reference components under `generated/`.
-
-| Server | URL | Implementation |
-| --- | --- | --- |
-| Upstream Storybook | http://127.0.0.1:4100 | Prepared upstream components and examples |
-| Ariax Storybook | http://127.0.0.1:4200 | Sources in `registry/ariax/` |
-
-Both servers use `.storybook/`. `ARIAX_IMPLEMENTATION` selects the implementation; the package scripts set it for you. To change ports, set `ARIAX_UPSTREAM_PORT` and `ARIAX_STYLEX_PORT` consistently for development and test commands.
+The first run prepares pinned upstream sources under `generated/`. Storybooks run at [upstream :4100](http://127.0.0.1:4100) and [Ariax :4200](http://127.0.0.1:4200). To change ports, use `ARIAX_UPSTREAM_PORT` and `ARIAX_STYLEX_PORT` consistently for development and tests.
 
 ## Repository structure
 
 | Path | Role |
 | --- | --- |
-| `registry/ariax/ui/` | Component implementations, internal helpers, and StyleX recipes |
-| `registry/ariax/styles/` | Shared CSS, theme tokens, and the `entry.css` stylesheet |
-| `stories/` | Ariax examples and comparison stories |
-| `reference/` | Reference-side adapters and customization fixtures |
-| `.storybook/` | Implementation aliases, preview setup, and build integration |
-| `tests/` | Playwright comparisons, interaction tests, and shared test helpers |
-| `tests/install/` | Consumer fixtures for each installable registry item |
-| `scripts/build-registry.ts` | Registry catalog and item generation |
-| `scripts/registry-sources.ts` | Source discovery and dependency collection |
-| `scripts/upstream/` | Upstream download, reference installation, and example generation |
-| `upstream/source.json` | Pinned upstream source revision |
-| `upstream/reference.json` | Reference components and helper selections |
-| `licenses/` | Third-party license files included in the registry |
-| `registry.json` | Committed catalog used for GitHub installation |
+| `registry/ariax/ui/` | Components, `.internal.tsx` helpers, and `.recipe.stylex.ts` recipes |
+| `registry/ariax/styles/` | Shared CSS and theme tokens, imported by `entry.css` |
+| `stories/`, `tests/` | Examples, browser comparisons, and installation fixtures |
+| `.storybook/`, `reference/` | Build configuration and reference-side adapters |
+| `scripts/build-registry.ts`, `scripts/registry-sources.ts` | Catalog generation and source/dependency discovery |
+| `upstream/`, `scripts/upstream/` | Pinned source metadata and reference preparation |
+| `licenses/` | Distributed third-party licenses |
 
-## Generation and build flow
+Commit sources, configuration, lockfiles, upstream metadata, and the generated root `registry.json`. `generated/`, `public/registry.json`, `public/r/`, `dist/`, and test reports are local outputs.
 
-### Registry
+## Modifying components and the registry
 
-```text
-registry/ariax/ui/ + registry/ariax/styles/ + licenses/
-    → pnpm registry:build
-    → registry.json
-    → public/registry.json + public/r/<item>.json
-```
+1. Edit `registry/ariax/ui/`; keep local dependencies in the same directory and use relative imports. Preserve React Aria behavior and accessibility. Apply internal styles before `xstyle` and `style`, preserving dynamic CSS variables.
+2. Update the relevant stories and tests. New installable items need a matching fixture in `tests/install/`; additional fixture packages go in `<name>.dependencies.json` with exact versions.
+3. Regenerate the catalog and validate it:
 
-Component discovery uses `ui/<name>.tsx`. Relative imports are followed to collect accompanying source files, and imported packages are resolved against the exact versions declared in `package.json`.
+   ```sh
+   pnpm registry:build
+   pnpm registry:check
+   ```
 
-`<name>.internal.tsx` files are helpers, not standalone registry items. Intrinsic HTML recipes use `<name>.recipe.stylex.ts`. Shared CSS, animations, licenses, and StyleX build dependencies are defined once in `ariax-base`. Components reference it through a commit-pinned GitHub `registryDependencies` address. HTTP/local payloads in `public/r/` include these files directly.
+4. Run checks for the affected behavior and update both translations of [Component status](../components/en.md) if coverage or availability changes.
 
-When changing shared files or dependencies, run `pnpm registry:build --publish-shared`, commit and push the shared item, then update `sharedRevision` and the printed digest in `scripts/build-registry.ts` and regenerate the catalog. GitHub dependency refs do not inherit the component revision; the pin keeps its shared files consistent. Normal builds reject changes that have not updated this pin.
+The generator discovers `ui/<name>.tsx` and recipes, follows relative imports, and uses exact package versions from `package.json`. Root `registry.json` contains file paths for GitHub installation; `public/r/<item>.json` contains self-contained HTTP/local payloads.
 
-After changing registry sources or dependency declarations:
+Shared CSS, animations, licenses, and StyleX dependencies live in `ariax-base`. Components reference a fixed GitHub commit because dependency refs do not inherit the component revision. After changing shared files or dependencies:
 
-```sh
-pnpm registry:build
-pnpm registry:check
-```
+1. Run `pnpm registry:build --publish-shared`, then commit and push the shared item and its sources.
+2. Update `sharedRevision` and the printed digest in `scripts/build-registry.ts`.
+3. Regenerate and validate the catalog. Normal builds reject unrecorded shared-file changes.
 
-The check compares the committed catalog with the current sources and validates it through the shadcn CLI.
+StyleX's Babel plugin compiles JavaScript references; its PostCSS plugin replaces `@stylex;` in `entry.css` with extracted CSS. `.storybook/main.ts` configures the two implementations. `pnpm build:upstream` and `pnpm build:stylex` write to `dist/upstream/` and `dist/stylex/`; the latter also checks CSS for lazy-loaded stories.
 
-### Upstream references
+## Upstream preparation
 
 ```text
 upstream/source.json + upstream/reference.json
-    → pnpm upstream:prepare
-    → generated/upstream/ + generated/reference/
-    → pnpm originals:generate
-    → generated/original-stories/
+  → upstream:prepare → generated/upstream/shadcn/ + generated/reference/
+  → originals:generate → generated/original-stories/
 ```
 
-Reference components are prepared through the official shadcn CLI. Original example stories are generated from the pinned upstream documentation. The preparation scripts reuse valid caches.
+`source.json` pins the repository, commit, selected paths, and required files. `reference.json` selects components and helper references. To add a reference, update its `components` or `helperReferences` and declare any required npm packages at exact versions in this project.
 
-Change the source metadata or generator when the reference setup needs updating. See [Upstream preparation](../../upstream-structure.md) for cache handling and generation details.
+Preparation reads upstream `*/_registry.ts`, applies the official `createStyleMap` and `transformStyle` APIs, and runs shadcn CLI `build` and `add` in isolated projects. Neutral colors come from the same commit through a local registry. The reference is determined by that commit and the locked CLI/packages. `rtl: true` enables official logical-direction transforms for both LTR and RTL comparisons.
 
-### Styles and Storybook
+`generated/reference/aria-nova/` holds the primary installed UI; `base-nova/` and `radix-rhea/` supply example helpers. `@reference/*` resolves to the primary installation. CLI-owned `cli.css` is separate from the comparison harness's `tailwind.css`.
 
-The official StyleX Babel plugin compiles style references in JavaScript. The PostCSS plugin scans the configured sources and replaces `@stylex;` in `registry/ariax/styles/entry.css` with generated CSS.
+`originals:generate` finds official TSX examples through MDX `ComponentPreview` entries and creates stories without changing their JSX or classes. `/original-stories/manifest.json` records matches; unmatched examples remain visible. `reference/` supplies React adapters for Next Image/Link and example fonts.
 
-`.storybook/main.ts` configures the build for each implementation. The preview imports `@implementation-css`, which resolves to the appropriate stylesheet. Production builds are written to `dist/upstream/` and `dist/stylex/`.
+Tests, typechecks, and Storybook commands prepare references automatically. `scripts/upstream/ensure.ts` handles downloads, `reference.ts` builds installations, and `prepare.ts` manages the installation cache. Completion records, source settings, and required files determine reuse; valid caches work offline. Shared locks and temporary directories protect concurrent preparation and preserve the old cache on failure. Missing installation files are rebuilt; suspected manual damage requires `pnpm upstream:sync`. Normal checks do not update the pinned source revision.
 
-```sh
-pnpm build:upstream
-pnpm build:stylex
-```
+## Checks
 
-The StyleX build also checks that the iframe entry CSS contains the compiled StyleX classes used by lazy-loaded stories.
-
-## Modifying a component
-
-1. Edit the implementation in `registry/ariax/ui/`. Keep component dependencies in that directory and use relative imports between local source files.
-2. Put shared selectors or theme changes in `registry/ariax/styles/`. Import new shared stylesheets from `entry.css`.
-3. Update the relevant story and tests to exercise the changed behavior.
-4. Regenerate the registry and run checks that cover the change.
-5. Update [Component status](../components/en.md) and its [Korean translation](../components/ko.md) if availability or documented coverage changes.
-
-Preserve the React Aria behavior, accessibility contract, and upstream semantics. Components expose `xstyle` and `style`; apply internal styles before user styles and preserve dynamic CSS variables. Keep external dependency versions exact.
-
-For a new installable item, add a fixture with the matching name under `tests/install/`. Declare additional fixture dependencies in its `.dependencies.json` file when required. Installation validation checks fixture coverage against the registry.
-
-## Stories and comparisons
-
-Comparison stories use the `parity` tag and render their content under `#parity-root`. Register additional portal roots with `data-parity-portal`. Stories needing the 390px comparison also use `viewport-390`.
-
-`tests/parity.spec.ts` discovers and partitions the registered stories. `tests/compare.ts` captures the DOM and computed styles; `tests/color-differences.ts` handles the OKLab color comparison. Add component-specific interactions in the relevant test rather than duplicating the comparison helpers.
-
-The CI comparison covers DOM, text, attributes, computed CSS, and pseudo-elements at 1000px. It allows an OKLab distance of 0.002 for standalone computed color values; alpha and other values remain exact. Geometry, pixels, scrolling, focus, and explicit animation-time samples are covered by the broader browser suite.
-
-## Choosing checks
-
-Run the following commands from a clone of this repository when developing Ariax.
-
-Start with the changed component or subsystem, then expand to the affected shared behavior.
+These are repository development checks. Choose the affected scope; the full verification pipeline can take about an hour.
 
 | Change | Checks |
 | --- | --- |
-| Documentation | Relative links, command names, code examples, and matching translations |
-| Component markup or styles | Typecheck, affected component tests, and relevant CI comparisons |
-| Interaction or animation behavior | Relevant interaction or animation tests |
-| Registry contents or dependencies | Registry generation, validation, and CLI installation test |
-| StyleX integration | Extraction tests, consumer installation/build test, and StyleX Storybook build |
-| Upstream preparation | Upstream tests and source checks |
-| Shared comparison code | Comparator contract tests and affected comparisons |
+| Documentation | Links, command names, and matching translations |
+| Components | `pnpm typecheck`, affected browser tests and CI comparisons |
+| Registry or dependencies | `pnpm registry:check`, `pnpm test:install` |
+| StyleX integration | `pnpm test:stylex`, installation test, StyleX build |
+| Upstream preparation | `pnpm test:upstream`, `pnpm upstream:check` |
+| Comparator | Comparator contract tests and affected comparisons |
 
-Run an individual browser test or restrict the CI comparison by story ID prefix:
+Start with an individual test or component comparison:
 
 ```sh
 pnpm test tests/button.spec.ts
 PARITY_COMPONENT=components-button-- pnpm test:ci:light
 ```
 
-Select a theme for the lightweight comparison:
+`test:ci:light` and `test:ci:dark` select one theme; `test:ci` runs both. CI comparisons cover DOM, text, attributes, computed CSS, and pseudo-elements at 1000px. Standalone colors allow OKLab ΔE ≤ 0.002; alpha and other values remain exact. Interaction, geometry, pixels, focus, scrolling, and animation checks belong to the broader suite.
 
-```sh
-pnpm test:ci:light
-pnpm test:ci:dark
-pnpm test:ci
-```
+Comparison stories use `parity`, render inside `#parity-root`, and mark portals with `data-parity-portal`; `viewport-390` adds mobile coverage. Shared comparison logic is in `tests/parity.spec.ts`, `tests/compare.ts`, and `tests/color-differences.ts`.
 
-The last command runs both themes. `ARIAX_TEST_THEME=light` or `dark` selects a theme only in CI comparison mode. A single-theme run covers only that theme.
-
-To compare production builds:
+For production comparisons, rebuild after source changes:
 
 ```sh
 pnpm build
 ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
 ```
 
-Rebuild after source changes when using static Storybooks.
+`pnpm test:upstream` uses local source archives with the real CLI to check transforms, concurrent preparation, offline reuse, and cache recovery. `pnpm test:install` separately installs the Ariax registry into a consumer app.
 
-Other checks:
-
-```sh
-pnpm typecheck
-pnpm test:stylex
-pnpm test:install
-pnpm test:upstream
-pnpm upstream:check
-pnpm format:tests
-```
-
-`pnpm test` runs the browser suite. `pnpm test:full` runs the broader verification pipeline, including browser tests, installation, and builds. Open browser results with `pnpm test:report`.
-
-## Source and generated files
-
-Commit component sources, shared styles, stories, tests, tooling, dependency declarations and lockfiles, upstream metadata, license files, and the generated root `registry.json`.
-
-The following are regenerated or local outputs excluded from Git:
-
-- `generated/`: upstream sources, reference installations, and generated stories.
-- `public/registry.json` and `public/r/`: generated registry payloads.
-- `dist/`: production Storybooks.
-- `test-results/` and `playwright-report/`: test output.
-- `.consumer-test-*/`: temporary installation fixtures.
-
-The root `registry.json` is the exception: it is generated and committed because it is the GitHub installation entry point.
+`pnpm test` runs the browser suite; `pnpm test:full` runs full verification, including installation and builds. View results with `pnpm test:report`; format tests with `pnpm format:tests`. Detailed implementation and verification rules are in [convention.md](../../../convention.md).

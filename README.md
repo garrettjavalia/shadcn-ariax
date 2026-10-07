@@ -124,6 +124,4 @@ The first run downloads and prepares the pinned upstream sources. Generated refe
 - [Upstream Storybook](http://127.0.0.1:4100)
 - [Ariax Storybook](http://127.0.0.1:4200)
 
-See [Upstream preparation](docs/upstream-structure.md) for details about pinned sources and generated references.
-
 See the [Development guide](docs/i18n/development/en.md) for project structure, modification guidelines, and repository checks.
