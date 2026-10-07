@@ -18,7 +18,6 @@ assert.ok(
   registry,
   "Provide a GitHub item, e.g. garrettjavalia/shadcn_ariax/button#<revision>",
 );
-const root = process.cwd();
 const app = await mkdtemp(join(tmpdir(), "ariax-button-"));
 const output = resolve("generated/install-button");
 const pkg = JSON.parse(await readFile("package.json", "utf8"));
@@ -129,6 +128,7 @@ try {
         jsx: "react-jsx",
         strict: true,
         skipLibCheck: true,
+        types: ["vite/client"],
         paths: { "@/*": ["./src/*"] },
       },
       include: ["src", "vite.config.ts"],
