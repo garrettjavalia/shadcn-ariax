@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
 import { compare } from "./compare";
@@ -5,12 +6,9 @@ for (const theme of ["light", "dark"])
   test(`Kbd official button and input composition interactions / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-      colorScheme: "light",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+    );
     const a = await context.newPage(),
       b = await context.newPage();
     try {
@@ -59,12 +57,9 @@ test("Kbd style retains dynamic variables and renders both primitives as kbd", a
 test("Kbd sans and Input Group mono preserve missing-token inheritance and defined tokens", async ({
   browser,
 }, info) => {
-  const context = await browser.newContext({
-    viewport: { width: 1000, height: 900 },
-    locale: "en-US",
-    timezoneId: "UTC",
-    colorScheme: "light",
-  });
+  const context = await browser.newContext(
+    deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+  );
   const a = await context.newPage(),
     b = await context.newPage();
   try {

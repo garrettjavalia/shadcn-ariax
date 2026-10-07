@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { settle, compare, snapshot, differences } from "./compare";
 
@@ -77,8 +78,7 @@ test("scroll-driven effects remain at their actual scroll progress while time ef
   browser,
 }, info) => {
   test.setTimeout(10_000);
-  const context = await browser.newContext();
-  const pages = await Promise.all([context.newPage(), context.newPage()]);
+  const { context, pages } = await createStoryPair(browser, undefined);
   try {
     for (const page of pages)
       await page.setContent(`<style>

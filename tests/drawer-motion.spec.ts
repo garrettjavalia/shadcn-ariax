@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -5,8 +6,7 @@ for (const theme of ["light", "dark"])
   test(`Drawer opacity and transform transition samples / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await ctx.addInitScript(() =>
         document.addEventListener(
@@ -89,10 +89,9 @@ for (const theme of ["light", "dark"])
   test(`Drawer real pointer swipe cancellation and dismissal / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 390, height: 900 },
     });
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
     const sessions = await Promise.all(pages.map((p) => ctx.newCDPSession(p)));
     try {
       await Promise.all(

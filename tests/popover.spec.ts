@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -7,12 +8,9 @@ for (const theme of ["light", "dark"])
     test(`Popover official placements, form, dismissal and focus / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       try {
         for (const name of [
           "demo-example",
@@ -119,10 +117,7 @@ for (const theme of ["light", "dark"])
   test(`Popover in real Dialog and outside dismissal / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await Promise.all(
         pages.map(async (p, i) => {
@@ -181,10 +176,7 @@ for (const theme of ["light", "dark"])
   test(`Popover enter/exit effects at 0/50/100ms with RTL placements / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       for (const n of [0, 1, 2, 3, 4, 5])
         for (const phase of ["enter", "exit"]) {

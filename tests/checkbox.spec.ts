@@ -1,7 +1,11 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { test, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import AxeBuilder from "@axe-core/playwright";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 import { compare } from "./compare";
 
 for (const theme of ["light", "dark"])
@@ -16,21 +20,18 @@ for (const theme of ["light", "dark"])
     test(`Checkbox interactions / ${story} / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-        locale: "en-US",
-        timezoneId: "UTC",
-        colorScheme: "light",
-      });
-      const [a, b] = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const p = await context.newPage();
+      const {
+        context,
+        pages: [a, b],
+      } = await createStoryPair(
+        browser,
+        deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+        async (p, url) => {
           await p.goto(
             `${url}/iframe.html?id=components-checkbox--${story}&viewMode=story&globals=theme:${theme}`,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
-          return p;
-        }),
+        },
       );
       const each = (fn: (p: Page) => Promise<unknown>) =>
         Promise.all([a, b].map(fn));

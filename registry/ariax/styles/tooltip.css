@@ -1,8 +1,37 @@
-.ariax-tooltip [data-slot="kbd"] { position: relative; isolation: isolate; z-index: 50; border-radius: calc(var(--radius) * 0.6); }
+.ariax-tooltip [data-slot="kbd"] {
+  position: relative;
+  isolation: isolate;
+  z-index: 50;
+  border-radius: calc(var(--radius) * 0.6);
+}
 /* Animation variables must not inherit into nested overlays. */
-@property --ariax-enter-opacity { syntax: "*"; inherits: false; initial-value: 1; }
-@property --ariax-enter-scale { syntax: "*"; inherits: false; initial-value: 1; }
-@property --ariax-enter-x { syntax: "*"; inherits: false; initial-value: 0; }
-@property --ariax-enter-y { syntax: "*"; inherits: false; initial-value: 0; }
-@property --ariax-exit-opacity { syntax: "*"; inherits: false; initial-value: 1; }
-@property --ariax-exit-scale { syntax: "*"; inherits: false; initial-value: 1; }
+@property --ariax-enter-opacity {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --ariax-enter-scale {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --ariax-enter-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --ariax-enter-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --ariax-exit-opacity {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --ariax-exit-scale {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}

@@ -1,20 +1,20 @@
+import { createStoryPair, loadStoryPair } from "./story-pair";
 import { readFile } from "node:fs/promises";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
-async function open(pages: Page[], story: string, theme: string) {
-  await Promise.all(
-    pages.map(async (p, i) => {
-      await p.goto(
-        `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-attachment--${story}&viewMode=story&globals=theme:${theme}`,
-      );
-      await expect(p.locator("#parity-root")).toBeVisible();
+import { stylexURL } from "./servers";
+async function open(pages: [Page, Page], story: string, theme: string) {
+  await loadStoryPair(
+    pages,
+    `components-attachment--${story}`,
+    theme,
+    async (p) => {
       await p
         .locator("#parity-root img")
         .evaluateAll(async (nodes) =>
           Promise.all(nodes.map((n) => (n as HTMLImageElement).decode())),
         );
-    }),
+    },
   );
 }
 test("Attachment six official documentation and eight registry combinations", async ({
@@ -60,10 +60,9 @@ for (const theme of ["light", "dark"])
   test(`Attachment overlay trigger, action isolation, keyboard and native style / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([ctx.newPage(), ctx.newPage()]);
     try {
       await open(pages, "conditions", theme);
       for (const p of pages) {
@@ -144,10 +143,9 @@ for (const theme of ["light", "dark"])
     test(`Attachment actual shimmer 0/mid/end and scroll position / ${theme} / ${dir}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width: 390, height: 900 },
       });
-      const pages = await Promise.all([ctx.newPage(), ctx.newPage()]);
       try {
         await open(pages, dir === "rtl" ? "rtl" : "states", theme);
         await compare(pages[0], pages[1], info, "initial");
@@ -210,10 +208,9 @@ for (const theme of ["light", "dark"])
   test(`Attachment all size, orientation and upload states / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([ctx.newPage(), ctx.newPage()]);
     try {
       for (const story of ["matrix", "matrix-rtl"]) {
         await open(pages, story, theme);

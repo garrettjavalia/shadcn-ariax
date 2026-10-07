@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -8,12 +9,9 @@ for (const theme of ["light", "dark"])
     test(`AlertDialog official examples, default/sm/media and closing / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       try {
         for (const name of [
           "demo",
@@ -100,10 +98,7 @@ for (const theme of ["light", "dark"])
   test(`AlertDialog action closure and nested Dialog focus / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await Promise.all(
         pages.map((p, i) =>
@@ -152,10 +147,7 @@ for (const theme of ["light", "dark"])
   test(`AlertDialog enter/exit animation effects at 0/50/100ms / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < 2; i++) {
@@ -233,12 +225,9 @@ for (const theme of ["light", "dark"])
     test(`AlertDialog small RTL Media and focus return / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       try {
         await Promise.all(
           pages.map((p, i) =>

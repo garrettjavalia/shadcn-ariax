@@ -1,2 +1,8 @@
-.ariax-toggle svg {pointer-events:none; flex-shrink:0}
-.ariax-toggle svg:not([class*='size-']) {width:var(--ariax-toggle-icon-size);height:var(--ariax-toggle-icon-size)}
+.ariax-toggle svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.ariax-toggle svg:not([class*="size-"]) {
+  width: var(--ariax-toggle-icon-size);
+  height: var(--ariax-toggle-icon-size);
+}

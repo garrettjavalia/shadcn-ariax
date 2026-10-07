@@ -1,1 +1,5 @@
-.ariax-badge > svg { pointer-events: none; width: calc(var(--ariax-spacing, .25rem) * 3) !important; height: calc(var(--ariax-spacing, .25rem) * 3) !important; }
+.ariax-badge > svg {
+  pointer-events: none;
+  width: calc(var(--ariax-spacing, 0.25rem) * 3) !important;
+  height: calc(var(--ariax-spacing, 0.25rem) * 3) !important;
+}

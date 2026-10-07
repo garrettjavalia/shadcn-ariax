@@ -1,4 +1,19 @@
-.ariax-command-group [cmdk-group-heading] { color: var(--muted-foreground); padding-inline: calc(var(--ariax-spacing, .25rem) * 2); padding-block: calc(var(--ariax-spacing, .25rem) * 1.5); font-size: .75rem; line-height: calc(1 / .75); font-weight: 500; }
-.ariax-command-item svg { pointer-events: none; flex-shrink: 0; }
-.ariax-command-item svg:not([class*="size-"]) { width: calc(var(--ariax-spacing, .25rem) * 4); height: calc(var(--ariax-spacing, .25rem) * 4); }
-.ariax-command-item:is([data-selected="true"],[data-focused]) > svg { color: var(--foreground); }
+.ariax-command-group [cmdk-group-heading] {
+  color: var(--muted-foreground);
+  padding-inline: calc(var(--ariax-spacing, 0.25rem) * 2);
+  padding-block: calc(var(--ariax-spacing, 0.25rem) * 1.5);
+  font-size: 0.75rem;
+  line-height: calc(1 / 0.75);
+  font-weight: 500;
+}
+.ariax-command-item svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.ariax-command-item svg:not([class*="size-"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}
+.ariax-command-item:is([data-selected="true"], [data-focused]) > svg {
+  color: var(--foreground);
+}

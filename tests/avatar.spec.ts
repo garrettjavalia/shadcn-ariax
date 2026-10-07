@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
@@ -50,11 +51,9 @@ for (const theme of ["light", "dark"])
   test(`Avatar missing/loading/loaded/error and original callback precedence / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     let finish!: () => void;
     const delayed = new Promise<void>((resolve) => (finish = resolve));
     await controlAvatarAssets(context, delayed);
@@ -116,11 +115,9 @@ for (const theme of ["light", "dark"])
   test(`Avatar dynamic xstyle, native style precedence and src error transition / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     await controlAvatarAssets(context);
     const a = await context.newPage();
     const b = await context.newPage();
@@ -175,11 +172,9 @@ for (const theme of ["light", "dark"])
   test(`official Avatar Dropdown opens full portal and executes keyboard item / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     await controlAvatarAssets(context);
     const a = await context.newPage();
     const b = await context.newPage();

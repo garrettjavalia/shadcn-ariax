@@ -1,9 +1,42 @@
-.ariax-chart .recharts-cartesian-axis-tick text {fill:var(--muted-foreground)}
-.ariax-chart .recharts-cartesian-grid line[stroke='#ccc'] {stroke:color-mix(in oklab,var(--border) 50%,transparent)}
-.ariax-chart .recharts-curve.recharts-tooltip-cursor,.ariax-chart .recharts-polar-grid [stroke='#ccc'],.ariax-chart .recharts-reference-line [stroke='#ccc'] {stroke:var(--border)}
-.ariax-chart .recharts-dot[stroke='#fff'],.ariax-chart .recharts-sector[stroke='#fff'] {stroke:transparent}
-.ariax-chart .recharts-radial-bar-background-sector,.ariax-chart .recharts-rectangle.recharts-tooltip-cursor {fill:var(--muted)}
-.ariax-chart .recharts-layer,.ariax-chart .recharts-sector,.ariax-chart .recharts-surface {outline-style:none}
-.ariax-chart-tooltip-item > svg {width:calc(var(--ariax-spacing, .25rem) * 2.5);height:calc(var(--ariax-spacing, .25rem) * 2.5);color:var(--muted-foreground)}
-.ariax-chart-legend-item > svg {width:calc(var(--ariax-spacing, .25rem) * 3);height:calc(var(--ariax-spacing, .25rem) * 3);color:var(--muted-foreground)}
-@media(forced-colors:active){.ariax-chart .recharts-layer,.ariax-chart .recharts-sector,.ariax-chart .recharts-surface {outline:2px solid transparent;outline-offset:2px}}
+.ariax-chart .recharts-cartesian-axis-tick text {
+  fill: var(--muted-foreground);
+}
+.ariax-chart .recharts-cartesian-grid line[stroke="#ccc"] {
+  stroke: color-mix(in oklab, var(--border) 50%, transparent);
+}
+.ariax-chart .recharts-curve.recharts-tooltip-cursor,
+.ariax-chart .recharts-polar-grid [stroke="#ccc"],
+.ariax-chart .recharts-reference-line [stroke="#ccc"] {
+  stroke: var(--border);
+}
+.ariax-chart .recharts-dot[stroke="#fff"],
+.ariax-chart .recharts-sector[stroke="#fff"] {
+  stroke: transparent;
+}
+.ariax-chart .recharts-radial-bar-background-sector,
+.ariax-chart .recharts-rectangle.recharts-tooltip-cursor {
+  fill: var(--muted);
+}
+.ariax-chart .recharts-layer,
+.ariax-chart .recharts-sector,
+.ariax-chart .recharts-surface {
+  outline-style: none;
+}
+.ariax-chart-tooltip-item > svg {
+  width: calc(var(--ariax-spacing, 0.25rem) * 2.5);
+  height: calc(var(--ariax-spacing, 0.25rem) * 2.5);
+  color: var(--muted-foreground);
+}
+.ariax-chart-legend-item > svg {
+  width: calc(var(--ariax-spacing, 0.25rem) * 3);
+  height: calc(var(--ariax-spacing, 0.25rem) * 3);
+  color: var(--muted-foreground);
+}
+@media (forced-colors: active) {
+  .ariax-chart .recharts-layer,
+  .ariax-chart .recharts-sector,
+  .ariax-chart .recharts-surface {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+}

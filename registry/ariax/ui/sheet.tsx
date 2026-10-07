@@ -1,26 +1,296 @@
-'use client';
-import * as React from 'react';
-import * as stylex from '@stylexjs/stylex';
-import {composeRenderProps,Dialog as Primitive,DialogTrigger as Trigger,Heading,ModalOverlay,Modal,type DialogProps as SheetPrimitiveProps,type DialogTriggerProps as SheetTriggerPrimitiveProps} from 'react-aria-components';
-import {Button,type ButtonProps} from './button';
-import {XIcon} from 'lucide-react';
-export type {SheetPrimitiveProps,SheetTriggerPrimitiveProps};
-type Custom={xstyle?:stylex.StyleXStyles;className?:never};
-type OverlayProps=Omit<React.ComponentProps<typeof ModalOverlay>,'className'|'children'> & Custom & {children:React.ReactNode};
-export type SheetProps=OverlayProps & {side?:'top'|'right'|'bottom'|'left';showCloseButton?:boolean;isDismissable?:boolean};
-const styles=stylex.create({
- overlay:{position:'fixed',inset:0,zIndex:50,backgroundColor:'color-mix(in oklab, black 10%, transparent)',backdropFilter:{default:null,'@supports (backdrop-filter: blur(1px))':'blur(4px)'},transitionProperty:'opacity',transitionDuration:'150ms',transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)',opacity:{default:1,':is([data-entering],[data-exiting])':0}},
- content:{position:'fixed',zIndex:50,display:'flex',flexDirection:'column',gap:'calc(var(--ariax-spacing, .25rem) * 4)',backgroundColor:'var(--popover)',color:'var(--popover-foreground)',backgroundClip:'padding-box',fontSize:'0.875rem',lineHeight:'calc(1.25 / 0.875)',boxShadow:'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',transitionProperty:'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events',transitionDuration:'200ms',transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)',opacity:{default:1,':is([data-entering],[data-exiting])':0},translate:{default:null,':is([data-side="top"]):is([data-entering],[data-exiting])':'0 -2.5rem',':is([data-side="bottom"]):is([data-entering],[data-exiting])':'0 2.5rem',':is([data-side="left"]):is([data-entering],[data-exiting])':'-2.5rem 0',':is([data-side="left"]):is([data-entering],[data-exiting]):dir(rtl)':'2.5rem 0',':is([data-side="right"]):is([data-entering],[data-exiting])':'2.5rem 0',':is([data-side="right"]):is([data-entering],[data-exiting]):dir(rtl)':'-2.5rem 0'},insetInline:{default:null,':is([data-side="top"],[data-side="bottom"])':0},insetBlock:{default:null,':is([data-side="left"],[data-side="right"])':0},top:{default:null,':is([data-side="top"])':0},bottom:{default:null,':is([data-side="bottom"])':0},left:{default:null,':is([data-side="left"])':0},right:{default:null,':is([data-side="right"])':0},height:{default:null,':is([data-side="left"],[data-side="right"])':'100%',':is([data-side="top"],[data-side="bottom"])':'auto'},width:{default:null,':is([data-side="left"],[data-side="right"])':'75%'},maxWidth:{default:null,':is([data-side="left"],[data-side="right"])':{default:null,'@media (width >= 40rem)':'24rem'}},borderTopWidth:{default:null,':is([data-side="bottom"])':1},borderBottomWidth:{default:null,':is([data-side="top"])':1},borderInlineStartWidth:{default:null,':is([data-side="right"])':1},borderInlineEndWidth:{default:null,':is([data-side="left"])':1}},
- primitive:{display:'inherit',height:'100%',maxHeight:'inherit',flexDirection:'inherit',gap:'inherit',outlineStyle:'none'},close:{position:'absolute',top:'calc(var(--ariax-spacing, .25rem) * 3)',insetInlineEnd:'calc(var(--ariax-spacing, .25rem) * 3)'},srOnly:{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',borderWidth:0},
- header:{display:'flex',flexDirection:'column',gap:'calc(var(--ariax-spacing, .25rem) * 0.5)',padding:'calc(var(--ariax-spacing, .25rem) * 4)'},footer:{display:'flex',flexDirection:'column',marginTop:'auto',gap:'calc(var(--ariax-spacing, .25rem) * 2)',padding:'calc(var(--ariax-spacing, .25rem) * 4)'},title:{color:'var(--foreground)',fontSize:'1rem',lineHeight:1.5,fontWeight:500},description:{color:'var(--muted-foreground)',fontSize:'0.875rem',lineHeight:'calc(1.25 / 0.875)'},
+"use client";
+import * as React from "react";
+import * as stylex from "@stylexjs/stylex";
+import {
+  composeRenderProps,
+  Dialog as Primitive,
+  DialogTrigger as Trigger,
+  Heading,
+  ModalOverlay,
+  Modal,
+  type DialogProps as SheetPrimitiveProps,
+  type DialogTriggerProps as SheetTriggerPrimitiveProps,
+} from "react-aria-components";
+import { Button, type ButtonProps } from "./button";
+import { XIcon } from "lucide-react";
+export type { SheetPrimitiveProps, SheetTriggerPrimitiveProps };
+type Custom = { xstyle?: stylex.StyleXStyles; className?: never };
+type OverlayProps = Omit<
+  React.ComponentProps<typeof ModalOverlay>,
+  "className" | "children"
+> &
+  Custom & { children: React.ReactNode };
+export type SheetProps = OverlayProps & {
+  side?: "top" | "right" | "bottom" | "left";
+  showCloseButton?: boolean;
+  isDismissable?: boolean;
+};
+const styles = stylex.create({
+  overlay: {
+    position: "fixed",
+    inset: 0,
+    zIndex: 50,
+    backgroundColor: "color-mix(in oklab, black 10%, transparent)",
+    backdropFilter: {
+      default: null,
+      "@supports (backdrop-filter: blur(1px))": "blur(4px)",
+    },
+    transitionProperty: "opacity",
+    transitionDuration: "150ms",
+    transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+    opacity: { default: 1, ":is([data-entering],[data-exiting])": 0 },
+  },
+  content: {
+    position: "fixed",
+    zIndex: 50,
+    display: "flex",
+    flexDirection: "column",
+    gap: "calc(var(--ariax-spacing, .25rem) * 4)",
+    backgroundColor: "var(--popover)",
+    color: "var(--popover-foreground)",
+    backgroundClip: "padding-box",
+    fontSize: "0.875rem",
+    lineHeight: "calc(1.25 / 0.875)",
+    boxShadow:
+      "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+    transitionProperty:
+      "color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events",
+    transitionDuration: "200ms",
+    transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+    opacity: { default: 1, ":is([data-entering],[data-exiting])": 0 },
+    translate: {
+      default: null,
+      ':is([data-side="top"]):is([data-entering],[data-exiting])': "0 -2.5rem",
+      ':is([data-side="bottom"]):is([data-entering],[data-exiting])':
+        "0 2.5rem",
+      ':is([data-side="left"]):is([data-entering],[data-exiting])': "-2.5rem 0",
+      ':is([data-side="left"]):is([data-entering],[data-exiting]):dir(rtl)':
+        "2.5rem 0",
+      ':is([data-side="right"]):is([data-entering],[data-exiting])': "2.5rem 0",
+      ':is([data-side="right"]):is([data-entering],[data-exiting]):dir(rtl)':
+        "-2.5rem 0",
+    },
+    insetInline: {
+      default: null,
+      ':is([data-side="top"],[data-side="bottom"])': 0,
+    },
+    insetBlock: {
+      default: null,
+      ':is([data-side="left"],[data-side="right"])': 0,
+    },
+    top: { default: null, ':is([data-side="top"])': 0 },
+    bottom: { default: null, ':is([data-side="bottom"])': 0 },
+    left: { default: null, ':is([data-side="left"])': 0 },
+    right: { default: null, ':is([data-side="right"])': 0 },
+    height: {
+      default: null,
+      ':is([data-side="left"],[data-side="right"])': "100%",
+      ':is([data-side="top"],[data-side="bottom"])': "auto",
+    },
+    width: {
+      default: null,
+      ':is([data-side="left"],[data-side="right"])': "75%",
+    },
+    maxWidth: {
+      default: null,
+      ':is([data-side="left"],[data-side="right"])': {
+        default: null,
+        "@media (width >= 40rem)": "24rem",
+      },
+    },
+    borderTopWidth: { default: null, ':is([data-side="bottom"])': 1 },
+    borderBottomWidth: { default: null, ':is([data-side="top"])': 1 },
+    borderInlineStartWidth: { default: null, ':is([data-side="right"])': 1 },
+    borderInlineEndWidth: { default: null, ':is([data-side="left"])': 1 },
+  },
+  primitive: {
+    display: "inherit",
+    height: "100%",
+    maxHeight: "inherit",
+    flexDirection: "inherit",
+    gap: "inherit",
+    outlineStyle: "none",
+  },
+  close: {
+    position: "absolute",
+    top: "calc(var(--ariax-spacing, .25rem) * 3)",
+    insetInlineEnd: "calc(var(--ariax-spacing, .25rem) * 3)",
+  },
+  srOnly: {
+    position: "absolute",
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "hidden",
+    clipPath: "inset(50%)",
+    whiteSpace: "nowrap",
+    borderWidth: 0,
+  },
+  header: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "calc(var(--ariax-spacing, .25rem) * 0.5)",
+    padding: "calc(var(--ariax-spacing, .25rem) * 4)",
+  },
+  footer: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: "auto",
+    gap: "calc(var(--ariax-spacing, .25rem) * 2)",
+    padding: "calc(var(--ariax-spacing, .25rem) * 4)",
+  },
+  title: {
+    color: "var(--foreground)",
+    fontSize: "1rem",
+    lineHeight: 1.5,
+    fontWeight: 500,
+  },
+  description: {
+    color: "var(--muted-foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "calc(1.25 / 0.875)",
+  },
 });
-export function SheetTrigger(props:SheetTriggerPrimitiveProps){return <Trigger data-slot="sheet-trigger" {...props}/>;}
-export function SheetClose({variant='outline',size='default',...props}:ButtonProps){return <Button slot="close" data-slot="sheet-close" variant={variant} size={size} {...props}/>;}
-function SheetOverlay({xstyle,style,className:_,children,isDismissable=true,...props}:OverlayProps){const a=stylex.props(styles.overlay,xstyle);return <ModalOverlay data-slot="sheet-overlay" isDismissable={isDismissable} {...props} className={a.className} style={composeRenderProps(style,value=>({...a.style,...value}))}>{children}</ModalOverlay>;}
-export function Sheet({xstyle,className:_,children,side='right',showCloseButton=true,...props}:SheetProps){const a=stylex.props(styles.content,xstyle),p=stylex.props(styles.primitive),sr=stylex.props(styles.srOnly);return <SheetOverlay {...props}><Modal data-slot="sheet-content" data-side={side} className={a.className} style={a.style}><Primitive data-slot="sheet" className={p.className} style={p.style}>{children}{showCloseButton&&<SheetClose variant="ghost" size="icon-sm" xstyle={styles.close}><XIcon/><span className={sr.className} style={sr.style}>Close</span></SheetClose>}</Primitive></Modal></SheetOverlay>;}
-export function SheetContent(props:SheetProps){return <Sheet {...props}/>;}
-type DivProps=Omit<React.ComponentProps<'div'>,'className'> & Custom;
-export function SheetHeader({xstyle,style,className:_,...props}:DivProps){const a=stylex.props(styles.header,xstyle);return <div data-slot="sheet-header" {...props} className={a.className} style={{...a.style,...style}}/>;}
-export function SheetFooter({xstyle,style,className:_,...props}:DivProps){const a=stylex.props(styles.footer,xstyle);return <div data-slot="sheet-footer" {...props} className={a.className} style={{...a.style,...style}}/>;}
-export function SheetTitle({xstyle,style,className:_,...props}:Omit<React.ComponentProps<typeof Heading>,'slot'|'className'> & Custom){const a=stylex.props(styles.title,xstyle);return <Heading slot="title" data-slot="sheet-title" {...props} className={a.className} style={{...a.style,...style}}/>;}
-export function SheetDescription({xstyle,style,className:_,...props}:Omit<DivProps,'slot'>){const a=stylex.props(styles.description,xstyle);return <div data-slot="sheet-description" {...props} className={a.className} style={{...a.style,...style}}/>;}
+export function SheetTrigger(props: SheetTriggerPrimitiveProps) {
+  return <Trigger data-slot="sheet-trigger" {...props} />;
+}
+export function SheetClose({
+  variant = "outline",
+  size = "default",
+  ...props
+}: ButtonProps) {
+  return (
+    <Button
+      slot="close"
+      data-slot="sheet-close"
+      variant={variant}
+      size={size}
+      {...props}
+    />
+  );
+}
+function SheetOverlay({
+  xstyle,
+  style,
+  className: _,
+  children,
+  isDismissable = true,
+  ...props
+}: OverlayProps) {
+  const a = stylex.props(styles.overlay, xstyle);
+  return (
+    <ModalOverlay
+      data-slot="sheet-overlay"
+      isDismissable={isDismissable}
+      {...props}
+      className={a.className}
+      style={composeRenderProps(style, (value) => ({ ...a.style, ...value }))}
+    >
+      {children}
+    </ModalOverlay>
+  );
+}
+export function Sheet({
+  xstyle,
+  className: _,
+  children,
+  side = "right",
+  showCloseButton = true,
+  ...props
+}: SheetProps) {
+  const a = stylex.props(styles.content, xstyle),
+    p = stylex.props(styles.primitive),
+    sr = stylex.props(styles.srOnly);
+  return (
+    <SheetOverlay {...props}>
+      <Modal
+        data-slot="sheet-content"
+        data-side={side}
+        className={a.className}
+        style={a.style}
+      >
+        <Primitive data-slot="sheet" className={p.className} style={p.style}>
+          {children}
+          {showCloseButton && (
+            <SheetClose variant="ghost" size="icon-sm" xstyle={styles.close}>
+              <XIcon />
+              <span className={sr.className} style={sr.style}>
+                Close
+              </span>
+            </SheetClose>
+          )}
+        </Primitive>
+      </Modal>
+    </SheetOverlay>
+  );
+}
+export function SheetContent(props: SheetProps) {
+  return <Sheet {...props} />;
+}
+type DivProps = Omit<React.ComponentProps<"div">, "className"> & Custom;
+export function SheetHeader({
+  xstyle,
+  style,
+  className: _,
+  ...props
+}: DivProps) {
+  const a = stylex.props(styles.header, xstyle);
+  return (
+    <div
+      data-slot="sheet-header"
+      {...props}
+      className={a.className}
+      style={{ ...a.style, ...style }}
+    />
+  );
+}
+export function SheetFooter({
+  xstyle,
+  style,
+  className: _,
+  ...props
+}: DivProps) {
+  const a = stylex.props(styles.footer, xstyle);
+  return (
+    <div
+      data-slot="sheet-footer"
+      {...props}
+      className={a.className}
+      style={{ ...a.style, ...style }}
+    />
+  );
+}
+export function SheetTitle({
+  xstyle,
+  style,
+  className: _,
+  ...props
+}: Omit<React.ComponentProps<typeof Heading>, "slot" | "className"> & Custom) {
+  const a = stylex.props(styles.title, xstyle);
+  return (
+    <Heading
+      slot="title"
+      data-slot="sheet-title"
+      {...props}
+      className={a.className}
+      style={{ ...a.style, ...style }}
+    />
+  );
+}
+export function SheetDescription({
+  xstyle,
+  style,
+  className: _,
+  ...props
+}: Omit<DivProps, "slot">) {
+  const a = stylex.props(styles.description, xstyle);
+  return (
+    <div
+      data-slot="sheet-description"
+      {...props}
+      className={a.className}
+      style={{ ...a.style, ...style }}
+    />
+  );
+}

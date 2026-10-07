@@ -1,7 +1,8 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 test("Toggle official previews and usage are mapped", async ({ request }) => {
   const doc = await readFile(
     "generated/upstream/shadcn/apps/v4/content/docs/components/aria/toggle.mdx",
@@ -32,16 +33,15 @@ for (const theme of ["light", "dark"])
     test(`Toggle ${story} interaction / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext();
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
+      const { context, pages } = await createStoryPair(
+        browser,
+        undefined,
+        async (page, url) => {
           await page.goto(
             `${url}/iframe.html?id=components-toggle--${story}&globals=theme:${theme}`,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
-          return page;
-        }),
+        },
       );
       try {
         await compare(pages[0], pages[1], info, "initial");

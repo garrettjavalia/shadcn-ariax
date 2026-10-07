@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import {
   controlCarouselFrames,
   advanceCarousel,
@@ -59,10 +60,9 @@ for (const theme of ["light", "dark"])
     browser,
   }, info) => {
     test.setTimeout(180_000);
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const story of [
         "demo",
@@ -147,10 +147,9 @@ for (const theme of ["light", "dark"])
   test(`Carousel pointer drag in LTR, RTL and vertical / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 390, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const story of ["demo", "rtl", "orientation", "registry-multiple"]) {
         await Promise.all(
@@ -196,10 +195,9 @@ for (const theme of ["light", "dark"])
   test(`Carousel autoplay, hover stop and explicit restart / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const [p, i] of pages.map((p, i) => [p, i] as const)) {
         await p.goto(
@@ -251,10 +249,9 @@ for (const theme of ["light", "dark"])
   test(`Carousel actual motion at 0/250/500ms and settle / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const story of ["demo", "orientation", "rtl", "loop"]) {
         await Promise.all(

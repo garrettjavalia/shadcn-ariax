@@ -1,16 +1,53 @@
 /* Descendant relationships from the pinned Nova Alert. Reset local variables
    so a nested Alert does not inherit its parent layout or variant. */
-.ariax-alert { --ariax-alert-pr: calc(var(--ariax-spacing, .25rem) * 2.5); --ariax-alert-columns: none; --ariax-alert-column-gap: calc(var(--ariax-spacing, .25rem) * 0.5); }
-.ariax-alert-title { --ariax-alert-title-column: auto; }
-.ariax-alert-description { --ariax-alert-description-color: var(--muted-foreground); }
-.ariax-alert:has([data-slot="alert-action"]) { --ariax-alert-pr: calc(var(--ariax-spacing, .25rem) * 18); }
-.ariax-alert:has(>svg) { --ariax-alert-columns: auto 1fr; --ariax-alert-column-gap: calc(var(--ariax-spacing, .25rem) * 2); }
-.ariax-alert > svg { grid-row: span 2 / span 2; translate: 0 calc(var(--ariax-spacing, .25rem) * 0.5); color: currentColor; }
-.ariax-alert > svg:not([class*="size-"]) { width: calc(var(--ariax-spacing, .25rem) * 4); height: calc(var(--ariax-spacing, .25rem) * 4); }
-.ariax-alert:has(>svg) .ariax-alert-title { --ariax-alert-title-column: 2; }
-.ariax-alert-destructive > [data-slot="alert-description"] { --ariax-alert-description-color: color-mix(in oklab, var(--destructive) 90%, transparent); }
-.ariax-alert-title a, .ariax-alert-description a { text-decoration-line: underline; text-underline-offset: 3px; }
-@media (hover: hover) {
-  .ariax-alert-title a:hover, .ariax-alert-description a:hover { color: var(--foreground); }
+.ariax-alert {
+  --ariax-alert-pr: calc(var(--ariax-spacing, 0.25rem) * 2.5);
+  --ariax-alert-columns: none;
+  --ariax-alert-column-gap: calc(var(--ariax-spacing, 0.25rem) * 0.5);
 }
-.ariax-alert-description p:not(:last-child) { margin-bottom: calc(var(--ariax-spacing, .25rem) * 4); }
+.ariax-alert-title {
+  --ariax-alert-title-column: auto;
+}
+.ariax-alert-description {
+  --ariax-alert-description-color: var(--muted-foreground);
+}
+.ariax-alert:has([data-slot="alert-action"]) {
+  --ariax-alert-pr: calc(var(--ariax-spacing, 0.25rem) * 18);
+}
+.ariax-alert:has(> svg) {
+  --ariax-alert-columns: auto 1fr;
+  --ariax-alert-column-gap: calc(var(--ariax-spacing, 0.25rem) * 2);
+}
+.ariax-alert > svg {
+  grid-row: span 2 / span 2;
+  translate: 0 calc(var(--ariax-spacing, 0.25rem) * 0.5);
+  color: currentColor;
+}
+.ariax-alert > svg:not([class*="size-"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}
+.ariax-alert:has(> svg) .ariax-alert-title {
+  --ariax-alert-title-column: 2;
+}
+.ariax-alert-destructive > [data-slot="alert-description"] {
+  --ariax-alert-description-color: color-mix(
+    in oklab,
+    var(--destructive) 90%,
+    transparent
+  );
+}
+.ariax-alert-title a,
+.ariax-alert-description a {
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+@media (hover: hover) {
+  .ariax-alert-title a:hover,
+  .ariax-alert-description a:hover {
+    color: var(--foreground);
+  }
+}
+.ariax-alert-description p:not(:last-child) {
+  margin-bottom: calc(var(--ariax-spacing, 0.25rem) * 4);
+}

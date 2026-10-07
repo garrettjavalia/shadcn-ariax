@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { upstreamURL, stylexURL } from "./servers";
@@ -31,11 +32,9 @@ for (const theme of ["light", "dark"])
   test(`NativeSelect focus hover selection and customization / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     const a = await context.newPage(),
       b = await context.newPage();
     try {
@@ -108,13 +107,9 @@ for (const theme of ["light", "dark"])
 test("NativeSelect dark hover respects non-hover touch media", async ({
   browser,
 }, info) => {
-  const context = await browser.newContext({
-    viewport: { width: 1000, height: 900 },
-    locale: "en-US",
-    timezoneId: "UTC",
-    isMobile: true,
-    hasTouch: true,
-  });
+  const context = await browser.newContext(
+    deterministicStoryContextOptions(1000, { isMobile: true, hasTouch: true }),
+  );
   const a = await context.newPage(),
     b = await context.newPage();
   try {

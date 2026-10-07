@@ -1,50 +1,556 @@
-'use client';
-import * as React from 'react';
-import{animationStyles}from'./animations.stylex';
-import{RenderStylesContext}from'./render-styles.internal';
-import * as stylex from '@stylexjs/stylex';
-import { Drawer as DrawerPrimitive } from '@base-ui/react/drawer';
+"use client";
+import { applied as dom } from "./style-props.internal";
+import * as React from "react";
+import { animationStyles } from "./animations.stylex";
+import { RenderStylesContext } from "./render-styles.internal";
+import * as stylex from "@stylexjs/stylex";
+import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 
-type Styled<P> = Omit<P, 'className'> & { className?: never; xstyle?: stylex.StyleXStyles };
-export type DrawerProps = DrawerPrimitive.Root.Props & { showSwipeHandle?: boolean };
+type Styled<P> = Omit<P, "className"> & {
+  className?: never;
+  xstyle?: stylex.StyleXStyles;
+};
+export type DrawerProps = DrawerPrimitive.Root.Props & {
+  showSwipeHandle?: boolean;
+};
 export type DrawerContentProps = Styled<DrawerPrimitive.Popup.Props>;
-type DrawerContextProps = { hasSnapPoints: boolean; modal: DrawerPrimitive.Root.Props['modal']; showSwipeHandle: boolean; swipeDirection: NonNullable<DrawerPrimitive.Root.Props['swipeDirection']> };
+type DrawerContextProps = {
+  hasSnapPoints: boolean;
+  modal: DrawerPrimitive.Root.Props["modal"];
+  showSwipeHandle: boolean;
+  swipeDirection: NonNullable<DrawerPrimitive.Root.Props["swipeDirection"]>;
+};
 const DrawerContext = React.createContext<DrawerContextProps | null>(null);
-function useDrawer(){const context=React.useContext(DrawerContext);if(!context)throw new Error('useDrawer must be used within a Drawer.');return context;}
+function useDrawer() {
+  const context = React.useContext(DrawerContext);
+  if (!context) throw new Error("useDrawer must be used within a Drawer.");
+  return context;
+}
 const styles = stylex.create({
- overlay: {
-  backgroundColor:'oklab(0 0 0 / .1)',backdropFilter:{default:null,'@supports (backdrop-filter: blur(0px))':'blur(4px)'},position:{default:'fixed','@supports (-webkit-touch-callout: none)':'absolute'},inset:0,zIndex:50,minHeight:'100dvh',userSelect:'none',
-  opacity:{default:'max(var(--drawer-overlay-min-opacity, 0), calc(1 - var(--drawer-swipe-progress)))',':is([data-starting-style],[data-ending-style])':0},pointerEvents:{default:null,':is([data-ending-style])':'none'},'--drawer-overlay-min-opacity':{default:null,':is([data-snap-points])':'.5'},
- },
- viewport:{pointerEvents:{default:'none',':is([data-modal="true"])':'auto'},position:'fixed',inset:0,zIndex:50,userSelect:'none'},
- popup:{
-  backgroundColor:'var(--popover)',color:'var(--popover-foreground)',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)',pointerEvents:'auto',position:'fixed',zIndex:50,margin:'var(--drawer-inset, 0px)',display:'flex',height:{default:'var(--drawer-content-height)',':is([data-swipe-axis="y"][data-nested-drawer-open])':'var(--stack-height)'},maxHeight:'var(--drawer-content-max-height, none)',minHeight:0,width:'var(--drawer-content-width, auto)',transform:{default:'translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0) scale(var(--stack-scale))',':is([data-starting-style],[data-ending-style])':'var(--closed-transform)'},flexDirection:{default:'column',':is([data-swipe-axis="x"])':'row'},willChange:'transform',outlineStyle:'none',userSelect:'none',interpolateSize:'allow-keywords',overflow:{default:null,':is([data-nested-drawer-open])':'hidden'},filter:{default:null,':is([data-nested-drawer-open])':'brightness(.95)'},opacity:{default:null,':is([data-ending-style])':.9999},
-  '--drawer-content-height':{default:'var(--drawer-height, auto)',':is([data-swipe-axis="y"][data-snap-points])':'100dvh'},'--drawer-content-width':{default:null,':is([data-swipe-axis="x"])':{default:'75%','@media (min-width: 640px)':'24rem'}},'--drawer-content-max-height':{default:null,':is([data-swipe-axis="y"])':'calc(100dvh - 6rem)'},
-  '--bleed':'3rem','--peek':'1rem','--stack-height':'var(--drawer-frontmost-height, var(--drawer-height, 0px))','--stack-peek-offset':'max(0px, calc((var(--nested-drawers) - var(--stack-progress)) * var(--peek)))','--stack-progress':'clamp(0, var(--drawer-swipe-progress), 1)','--stack-scale-base':'max(0, calc(1 - (var(--nested-drawers) * var(--stack-step))))','--stack-scale':'clamp(0, calc(var(--stack-scale-base) + (var(--stack-step) * var(--stack-progress))), 1)','--stack-shrink':'calc(1 - var(--stack-scale))','--stack-step':'.05',
-  left:{default:null,':is([data-swipe-axis="y"])':0},right:{default:null,':is([data-swipe-axis="y"])':0},top:{default:null,':is([data-swipe-axis="x"],[data-swipe-direction="up"])':0},bottom:{default:null,':is([data-swipe-axis="x"],[data-swipe-direction="down"])':0},insetInlineStart:{default:null,':is([data-swipe-direction="left"])':0},insetInlineEnd:{default:null,':is([data-swipe-direction="right"])':0},
-  transformOrigin:{default:null,':is([data-swipe-direction="down"])':'bottom',':is([data-swipe-direction="up"])':'top'},
-  '--closed-transform':{default:null,':is([data-swipe-direction="down"])':'translate3d(0, calc(100% + var(--drawer-inset, 0px) + 2px), 0)',':is([data-swipe-direction="up"])':'translate3d(0, calc(-100% - var(--drawer-inset, 0px) - 2px), 0)',':is([data-swipe-direction="left"])':'translate3d(calc(-100% - var(--drawer-inset, 0px) - 2px), 0, 0)',':is([data-swipe-direction="right"])':'translate3d(calc(100% + var(--drawer-inset, 0px) + 2px), 0, 0)'},
-  '--translate-y':{default:null,':is([data-swipe-direction="down"])':'calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y) - var(--stack-peek-offset) - (var(--stack-shrink) * var(--stack-height)))',':is([data-swipe-direction="up"])':'calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y) + var(--stack-peek-offset) + (var(--stack-shrink) * var(--stack-height)))'},'--translate-x':{default:null,':is([data-swipe-direction="left"])':'calc(var(--drawer-swipe-movement-x) + var(--stack-peek-offset) + (var(--stack-shrink) * 100%))',':is([data-swipe-direction="right"])':'calc(var(--drawer-swipe-movement-x) - var(--stack-peek-offset) - (var(--stack-shrink) * 100%))'},
-  borderTopWidth:{default:null,':is([data-swipe-direction="down"])':1},borderBottomWidth:{default:null,':is([data-swipe-direction="up"])':1},borderInlineEndWidth:{default:null,':is([data-swipe-direction="left"])':1},borderInlineStartWidth:{default:null,':is([data-swipe-direction="right"])':1},
-  borderTopLeftRadius:{default:null,':is([data-swipe-direction="down"])':'calc(var(--radius) * 1.4)'},borderTopRightRadius:{default:null,':is([data-swipe-direction="down"])':'calc(var(--radius) * 1.4)'},borderBottomLeftRadius:{default:null,':is([data-swipe-direction="up"])':'calc(var(--radius) * 1.4)'},borderBottomRightRadius:{default:null,':is([data-swipe-direction="up"])':'calc(var(--radius) * 1.4)'},borderStartEndRadius:{default:null,':is([data-swipe-direction="left"])':'calc(var(--radius) * 1.4)'},borderEndEndRadius:{default:null,':is([data-swipe-direction="left"])':'calc(var(--radius) * 1.4)'},borderStartStartRadius:{default:null,':is([data-swipe-direction="right"])':'calc(var(--radius) * 1.4)'},borderEndStartRadius:{default:null,':is([data-swipe-direction="right"])':'calc(var(--radius) * 1.4)'},
-  '::after':{content:'""',pointerEvents:'none',position:'absolute',backgroundColor:'var(--drawer-bleed-background, var(--popover))'},
- },
- content:{display:'flex',minHeight:0,flex:1,flexDirection:'column',overflow:'hidden',overscrollBehavior:'contain',borderRadius:'inherit',userSelect:{default:'text',':is(:where(.ariax-drawer-popup)[data-swiping] *)':'none'},opacity:{default:null,':is(:where(.ariax-drawer-popup)[data-nested-drawer-open] *):not(:is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *))':0,':is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *)':1}},
- handle:{position:'relative',zIndex:10,display:'flex',flexShrink:0,cursor:{default:'grab',':active':'grabbing'},transitionProperty:'opacity',transitionDuration:'200ms',transitionTimingFunction:'cubic-bezier(.4,0,.2,1)',opacity:{default:null,':is(:where(.ariax-drawer-popup)[data-nested-drawer-open] *):not(:is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *))':0,':is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *)':1},order:{default:null,':is(:where(.ariax-drawer-popup)[data-swipe-direction="left"] *, :where(.ariax-drawer-popup)[data-swipe-direction="up"] *)':9999},height:{default:null,':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)':'calc(var(--ariax-spacing, .25rem) * 3)',':is(:where(.ariax-drawer-popup)[data-swipe-axis="x"] *)':'100%'},width:{default:null,':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)':'100%',':is(:where(.ariax-drawer-popup)[data-swipe-axis="x"] *)':'calc(var(--ariax-spacing, .25rem) * 3)'},alignItems:{default:null,':is(:where(.ariax-drawer-popup)[data-swipe-direction="down"] *)':'flex-end',':is(:where(.ariax-drawer-popup)[data-swipe-direction="up"] *)':'flex-start',':is(:where(.ariax-drawer-popup)[data-swipe-axis="x"] *)':'center'},justifyContent:{default:null,':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)':'center',':is(:where(.ariax-drawer-popup)[data-swipe-direction="left"] *)':'flex-start',':is(:where(.ariax-drawer-popup)[data-swipe-direction="right"] *)':'flex-end'},'::after':{content:'""',display:'block',flexShrink:0,borderRadius:'calc(infinity * 1px)',backgroundColor:'var(--muted)'}},
- header:{gap:'calc(var(--ariax-spacing, .25rem) * 0.5)',padding:'calc(var(--ariax-spacing, .25rem) * 4)',paddingBottom:0,display:'flex',flexShrink:0,flexDirection:'column',textAlign:{default:null,'@media (min-width: 768px)':'start',':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)':'center'}},
- footer:{gap:'calc(var(--ariax-spacing, .25rem) * 2)',padding:'calc(var(--ariax-spacing, .25rem) * 4)',paddingTop:0,marginTop:'auto',display:'flex',flexShrink:0,flexDirection:'column'},
- title:{color:'var(--foreground)',fontSize:'1rem',lineHeight:1.5,fontWeight:500},description:{color:'var(--muted-foreground)',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)',textWrap:'balance'},
+  overlay: {
+    backgroundColor: "oklab(0 0 0 / .1)",
+    backdropFilter: {
+      default: null,
+      "@supports (backdrop-filter: blur(0px))": "blur(4px)",
+    },
+    position: {
+      default: "fixed",
+      "@supports (-webkit-touch-callout: none)": "absolute",
+    },
+    inset: 0,
+    zIndex: 50,
+    minHeight: "100dvh",
+    userSelect: "none",
+    opacity: {
+      default:
+        "max(var(--drawer-overlay-min-opacity, 0), calc(1 - var(--drawer-swipe-progress)))",
+      ":is([data-starting-style],[data-ending-style])": 0,
+    },
+    pointerEvents: { default: null, ":is([data-ending-style])": "none" },
+    "--drawer-overlay-min-opacity": {
+      default: null,
+      ":is([data-snap-points])": ".5",
+    },
+  },
+  viewport: {
+    pointerEvents: { default: "none", ':is([data-modal="true"])': "auto" },
+    position: "fixed",
+    inset: 0,
+    zIndex: 50,
+    userSelect: "none",
+  },
+  popup: {
+    backgroundColor: "var(--popover)",
+    color: "var(--popover-foreground)",
+    fontSize: ".875rem",
+    lineHeight: "calc(1.25 / .875)",
+    pointerEvents: "auto",
+    position: "fixed",
+    zIndex: 50,
+    margin: "var(--drawer-inset, 0px)",
+    display: "flex",
+    height: {
+      default: "var(--drawer-content-height)",
+      ':is([data-swipe-axis="y"][data-nested-drawer-open])':
+        "var(--stack-height)",
+    },
+    maxHeight: "var(--drawer-content-max-height, none)",
+    minHeight: 0,
+    width: "var(--drawer-content-width, auto)",
+    transform: {
+      default:
+        "translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0) scale(var(--stack-scale))",
+      ":is([data-starting-style],[data-ending-style])":
+        "var(--closed-transform)",
+    },
+    flexDirection: { default: "column", ':is([data-swipe-axis="x"])': "row" },
+    willChange: "transform",
+    outlineStyle: "none",
+    userSelect: "none",
+    interpolateSize: "allow-keywords",
+    overflow: { default: null, ":is([data-nested-drawer-open])": "hidden" },
+    filter: {
+      default: null,
+      ":is([data-nested-drawer-open])": "brightness(.95)",
+    },
+    opacity: { default: null, ":is([data-ending-style])": 0.9999 },
+    "--drawer-content-height": {
+      default: "var(--drawer-height, auto)",
+      ':is([data-swipe-axis="y"][data-snap-points])': "100dvh",
+    },
+    "--drawer-content-width": {
+      default: null,
+      ':is([data-swipe-axis="x"])': {
+        default: "75%",
+        "@media (min-width: 640px)": "24rem",
+      },
+    },
+    "--drawer-content-max-height": {
+      default: null,
+      ':is([data-swipe-axis="y"])': "calc(100dvh - 6rem)",
+    },
+    "--bleed": "3rem",
+    "--peek": "1rem",
+    "--stack-height":
+      "var(--drawer-frontmost-height, var(--drawer-height, 0px))",
+    "--stack-peek-offset":
+      "max(0px, calc((var(--nested-drawers) - var(--stack-progress)) * var(--peek)))",
+    "--stack-progress": "clamp(0, var(--drawer-swipe-progress), 1)",
+    "--stack-scale-base":
+      "max(0, calc(1 - (var(--nested-drawers) * var(--stack-step))))",
+    "--stack-scale":
+      "clamp(0, calc(var(--stack-scale-base) + (var(--stack-step) * var(--stack-progress))), 1)",
+    "--stack-shrink": "calc(1 - var(--stack-scale))",
+    "--stack-step": ".05",
+    left: { default: null, ':is([data-swipe-axis="y"])': 0 },
+    right: { default: null, ':is([data-swipe-axis="y"])': 0 },
+    top: {
+      default: null,
+      ':is([data-swipe-axis="x"],[data-swipe-direction="up"])': 0,
+    },
+    bottom: {
+      default: null,
+      ':is([data-swipe-axis="x"],[data-swipe-direction="down"])': 0,
+    },
+    insetInlineStart: {
+      default: null,
+      ':is([data-swipe-direction="left"])': 0,
+    },
+    insetInlineEnd: { default: null, ':is([data-swipe-direction="right"])': 0 },
+    transformOrigin: {
+      default: null,
+      ':is([data-swipe-direction="down"])': "bottom",
+      ':is([data-swipe-direction="up"])': "top",
+    },
+    "--closed-transform": {
+      default: null,
+      ':is([data-swipe-direction="down"])':
+        "translate3d(0, calc(100% + var(--drawer-inset, 0px) + 2px), 0)",
+      ':is([data-swipe-direction="up"])':
+        "translate3d(0, calc(-100% - var(--drawer-inset, 0px) - 2px), 0)",
+      ':is([data-swipe-direction="left"])':
+        "translate3d(calc(-100% - var(--drawer-inset, 0px) - 2px), 0, 0)",
+      ':is([data-swipe-direction="right"])':
+        "translate3d(calc(100% + var(--drawer-inset, 0px) + 2px), 0, 0)",
+    },
+    "--translate-y": {
+      default: null,
+      ':is([data-swipe-direction="down"])':
+        "calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y) - var(--stack-peek-offset) - (var(--stack-shrink) * var(--stack-height)))",
+      ':is([data-swipe-direction="up"])':
+        "calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y) + var(--stack-peek-offset) + (var(--stack-shrink) * var(--stack-height)))",
+    },
+    "--translate-x": {
+      default: null,
+      ':is([data-swipe-direction="left"])':
+        "calc(var(--drawer-swipe-movement-x) + var(--stack-peek-offset) + (var(--stack-shrink) * 100%))",
+      ':is([data-swipe-direction="right"])':
+        "calc(var(--drawer-swipe-movement-x) - var(--stack-peek-offset) - (var(--stack-shrink) * 100%))",
+    },
+    borderTopWidth: { default: null, ':is([data-swipe-direction="down"])': 1 },
+    borderBottomWidth: { default: null, ':is([data-swipe-direction="up"])': 1 },
+    borderInlineEndWidth: {
+      default: null,
+      ':is([data-swipe-direction="left"])': 1,
+    },
+    borderInlineStartWidth: {
+      default: null,
+      ':is([data-swipe-direction="right"])': 1,
+    },
+    borderTopLeftRadius: {
+      default: null,
+      ':is([data-swipe-direction="down"])': "calc(var(--radius) * 1.4)",
+    },
+    borderTopRightRadius: {
+      default: null,
+      ':is([data-swipe-direction="down"])': "calc(var(--radius) * 1.4)",
+    },
+    borderBottomLeftRadius: {
+      default: null,
+      ':is([data-swipe-direction="up"])': "calc(var(--radius) * 1.4)",
+    },
+    borderBottomRightRadius: {
+      default: null,
+      ':is([data-swipe-direction="up"])': "calc(var(--radius) * 1.4)",
+    },
+    borderStartEndRadius: {
+      default: null,
+      ':is([data-swipe-direction="left"])': "calc(var(--radius) * 1.4)",
+    },
+    borderEndEndRadius: {
+      default: null,
+      ':is([data-swipe-direction="left"])': "calc(var(--radius) * 1.4)",
+    },
+    borderStartStartRadius: {
+      default: null,
+      ':is([data-swipe-direction="right"])': "calc(var(--radius) * 1.4)",
+    },
+    borderEndStartRadius: {
+      default: null,
+      ':is([data-swipe-direction="right"])': "calc(var(--radius) * 1.4)",
+    },
+    "::after": {
+      content: '""',
+      pointerEvents: "none",
+      position: "absolute",
+      backgroundColor: "var(--drawer-bleed-background, var(--popover))",
+    },
+  },
+  content: {
+    display: "flex",
+    minHeight: 0,
+    flex: 1,
+    flexDirection: "column",
+    overflow: "hidden",
+    overscrollBehavior: "contain",
+    borderRadius: "inherit",
+    userSelect: {
+      default: "text",
+      ":is(:where(.ariax-drawer-popup)[data-swiping] *)": "none",
+    },
+    opacity: {
+      default: null,
+      ":is(:where(.ariax-drawer-popup)[data-nested-drawer-open] *):not(:is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *))": 0,
+      ":is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *)": 1,
+    },
+  },
+  handle: {
+    position: "relative",
+    zIndex: 10,
+    display: "flex",
+    flexShrink: 0,
+    cursor: { default: "grab", ":active": "grabbing" },
+    transitionProperty: "opacity",
+    transitionDuration: "200ms",
+    transitionTimingFunction: "cubic-bezier(.4,0,.2,1)",
+    opacity: {
+      default: null,
+      ":is(:where(.ariax-drawer-popup)[data-nested-drawer-open] *):not(:is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *))": 0,
+      ":is(:where(.ariax-drawer-popup)[data-nested-drawer-swiping] *)": 1,
+    },
+    order: {
+      default: null,
+      ':is(:where(.ariax-drawer-popup)[data-swipe-direction="left"] *, :where(.ariax-drawer-popup)[data-swipe-direction="up"] *)': 9999,
+    },
+    height: {
+      default: null,
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)':
+        "calc(var(--ariax-spacing, .25rem) * 3)",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="x"] *)': "100%",
+    },
+    width: {
+      default: null,
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)': "100%",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="x"] *)':
+        "calc(var(--ariax-spacing, .25rem) * 3)",
+    },
+    alignItems: {
+      default: null,
+      ':is(:where(.ariax-drawer-popup)[data-swipe-direction="down"] *)':
+        "flex-end",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-direction="up"] *)':
+        "flex-start",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="x"] *)': "center",
+    },
+    justifyContent: {
+      default: null,
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)': "center",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-direction="left"] *)':
+        "flex-start",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-direction="right"] *)':
+        "flex-end",
+    },
+    "::after": {
+      content: '""',
+      display: "block",
+      flexShrink: 0,
+      borderRadius: "calc(infinity * 1px)",
+      backgroundColor: "var(--muted)",
+    },
+  },
+  header: {
+    gap: "calc(var(--ariax-spacing, .25rem) * 0.5)",
+    padding: "calc(var(--ariax-spacing, .25rem) * 4)",
+    paddingBottom: 0,
+    display: "flex",
+    flexShrink: 0,
+    flexDirection: "column",
+    textAlign: {
+      default: null,
+      "@media (min-width: 768px)": "start",
+      ':is(:where(.ariax-drawer-popup)[data-swipe-axis="y"] *)': "center",
+    },
+  },
+  footer: {
+    gap: "calc(var(--ariax-spacing, .25rem) * 2)",
+    padding: "calc(var(--ariax-spacing, .25rem) * 4)",
+    paddingTop: 0,
+    marginTop: "auto",
+    display: "flex",
+    flexShrink: 0,
+    flexDirection: "column",
+  },
+  title: {
+    color: "var(--foreground)",
+    fontSize: "1rem",
+    lineHeight: 1.5,
+    fontWeight: 500,
+  },
+  description: {
+    color: "var(--muted-foreground)",
+    fontSize: ".875rem",
+    lineHeight: "calc(1.25 / .875)",
+    textWrap: "balance",
+  },
 });
-function mergedStyle<State>(generated:React.CSSProperties|undefined,style:React.CSSProperties|((state:State)=>React.CSSProperties|undefined)|undefined){if(typeof style==='function')return(state:State)=>({...generated,...style(state)});return generated?{...generated,...style}:style;}
-function dom(base:stylex.StyleXStyles,xstyle:stylex.StyleXStyles|undefined,style:React.CSSProperties|undefined,marker?:string){const sx=stylex.props(base,xstyle);return{className:[marker,sx.className].filter(Boolean).join(' '),style:{...sx.style,...style}};}
-export function Drawer({modal=true,showSwipeHandle=false,snapPoints,swipeDirection='down',...props}:DrawerProps){const hasSnapPoints=snapPoints!=null&&snapPoints.length>0;const context=React.useMemo(()=>({hasSnapPoints,modal,showSwipeHandle,swipeDirection}),[hasSnapPoints,modal,showSwipeHandle,swipeDirection]);return <DrawerContext.Provider value={context}><DrawerPrimitive.Root data-slot="drawer" modal={modal} snapPoints={snapPoints} swipeDirection={swipeDirection} {...props}/></DrawerContext.Provider>;}
-export function DrawerTrigger({className:_,xstyle,style,...props}:Styled<DrawerPrimitive.Trigger.Props>){const sx=stylex.props(xstyle);return <RenderStylesContext.Provider value={props.render?xstyle:undefined}><DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} className={sx.className} style={mergedStyle(sx.style,style)}/></RenderStylesContext.Provider>;}
-export function DrawerPortal({className:_,xstyle,style,...props}:Styled<DrawerPrimitive.Portal.Props>){const sx=stylex.props(xstyle);return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} className={sx.className} style={mergedStyle(sx.style,style)}/>;}
-export function DrawerClose({className:_,xstyle,style,...props}:Styled<DrawerPrimitive.Close.Props>){const sx=stylex.props(xstyle);return <RenderStylesContext.Provider value={props.render?xstyle:undefined}><DrawerPrimitive.Close data-slot="drawer-close" {...props} className={sx.className} style={mergedStyle(sx.style,style)}/></RenderStylesContext.Provider>;}
-export function DrawerOverlay({className:_,xstyle,style,...props}:Styled<DrawerPrimitive.Backdrop.Props>){const sx=stylex.props(animationStyles.drawerOverlay,styles.overlay,xstyle);return <DrawerPrimitive.Backdrop data-slot="drawer-overlay" {...props} className={sx.className} style={mergedStyle(sx.style,style)}/>;}
-export function DrawerSwipeHandle({className:_,xstyle,style,...props}:Styled<React.ComponentProps<'div'>>){return <div data-slot="drawer-swipe-handle" aria-hidden="true" {...props} {...dom(styles.handle,xstyle,style,'ariax-drawer-swipe-handle')}/>;}
-export function DrawerContent({className:_,xstyle,style,children,...props}:DrawerContentProps){const{hasSnapPoints,modal,showSwipeHandle,swipeDirection}=useDrawer();const swipeAxis=swipeDirection==='down'||swipeDirection==='up'?'y':'x';const sx=stylex.props(animationStyles.drawerPopup,styles.popup,xstyle);return <DrawerPortal data-slot="drawer-portal">{modal===true&&<DrawerOverlay data-snap-points={hasSnapPoints?'':undefined}/>}<DrawerPrimitive.Viewport data-slot="drawer-viewport" data-modal={modal} {...dom(styles.viewport,undefined,undefined)}><DrawerPrimitive.Popup data-slot="drawer-popup" data-swipe-axis={swipeAxis} data-snap-points={hasSnapPoints?'':undefined} {...props} className={['ariax-drawer-popup',sx.className].filter(Boolean).join(' ')} style={mergedStyle(sx.style,style)}>{showSwipeHandle&&<DrawerSwipeHandle/>}<DrawerPrimitive.Content data-slot="drawer-content" {...dom([animationStyles.drawerContent,styles.content],undefined,undefined,'ariax-drawer-content')}>{children}</DrawerPrimitive.Content></DrawerPrimitive.Popup></DrawerPrimitive.Viewport></DrawerPortal>;}
-export function DrawerHeader({className:_,xstyle,style,...props}:Styled<React.ComponentProps<'div'>>){return <div data-slot="drawer-header" {...props} {...dom(styles.header,xstyle,style)}/>;}
-export function DrawerFooter({className:_,xstyle,style,...props}:Styled<React.ComponentProps<'div'>>){return <div data-slot="drawer-footer" {...props} {...dom(styles.footer,xstyle,style)}/>;}
-export function DrawerTitle({className:_,xstyle,style,...props}:Styled<DrawerPrimitive.Title.Props>){const sx=stylex.props(styles.title,xstyle);return <DrawerPrimitive.Title data-slot="drawer-title" {...props} className={sx.className} style={mergedStyle(sx.style,style)}/>;}
-export function DrawerDescription({className:_,xstyle,style,...props}:Styled<DrawerPrimitive.Description.Props>){const sx=stylex.props(styles.description,xstyle);return <DrawerPrimitive.Description data-slot="drawer-description" {...props} className={sx.className} style={mergedStyle(sx.style,style)}/>;}
+function mergedStyle<State>(
+  generated: React.CSSProperties | undefined,
+  style:
+    | React.CSSProperties
+    | ((state: State) => React.CSSProperties | undefined)
+    | undefined,
+) {
+  if (typeof style === "function")
+    return (state: State) => ({ ...generated, ...style(state) });
+  return generated ? { ...generated, ...style } : style;
+}
+
+export function Drawer({
+  modal = true,
+  showSwipeHandle = false,
+  snapPoints,
+  swipeDirection = "down",
+  ...props
+}: DrawerProps) {
+  const hasSnapPoints = snapPoints != null && snapPoints.length > 0;
+  const context = React.useMemo(
+    () => ({ hasSnapPoints, modal, showSwipeHandle, swipeDirection }),
+    [hasSnapPoints, modal, showSwipeHandle, swipeDirection],
+  );
+  return (
+    <DrawerContext.Provider value={context}>
+      <DrawerPrimitive.Root
+        data-slot="drawer"
+        modal={modal}
+        snapPoints={snapPoints}
+        swipeDirection={swipeDirection}
+        {...props}
+      />
+    </DrawerContext.Provider>
+  );
+}
+export function DrawerTrigger({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<DrawerPrimitive.Trigger.Props>) {
+  const sx = stylex.props(xstyle);
+  return (
+    <RenderStylesContext.Provider value={props.render ? xstyle : undefined}>
+      <DrawerPrimitive.Trigger
+        data-slot="drawer-trigger"
+        {...props}
+        className={sx.className}
+        style={mergedStyle(sx.style, style)}
+      />
+    </RenderStylesContext.Provider>
+  );
+}
+export function DrawerPortal({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<DrawerPrimitive.Portal.Props>) {
+  const sx = stylex.props(xstyle);
+  return (
+    <DrawerPrimitive.Portal
+      data-slot="drawer-portal"
+      {...props}
+      className={sx.className}
+      style={mergedStyle(sx.style, style)}
+    />
+  );
+}
+export function DrawerClose({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<DrawerPrimitive.Close.Props>) {
+  const sx = stylex.props(xstyle);
+  return (
+    <RenderStylesContext.Provider value={props.render ? xstyle : undefined}>
+      <DrawerPrimitive.Close
+        data-slot="drawer-close"
+        {...props}
+        className={sx.className}
+        style={mergedStyle(sx.style, style)}
+      />
+    </RenderStylesContext.Provider>
+  );
+}
+export function DrawerOverlay({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<DrawerPrimitive.Backdrop.Props>) {
+  const sx = stylex.props(
+    animationStyles.drawerOverlay,
+    styles.overlay,
+    xstyle,
+  );
+  return (
+    <DrawerPrimitive.Backdrop
+      data-slot="drawer-overlay"
+      {...props}
+      className={sx.className}
+      style={mergedStyle(sx.style, style)}
+    />
+  );
+}
+export function DrawerSwipeHandle({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<React.ComponentProps<"div">>) {
+  return (
+    <div
+      data-slot="drawer-swipe-handle"
+      aria-hidden="true"
+      {...props}
+      {...dom(styles.handle, xstyle, style, "ariax-drawer-swipe-handle")}
+    />
+  );
+}
+export function DrawerContent({
+  className: _,
+  xstyle,
+  style,
+  children,
+  ...props
+}: DrawerContentProps) {
+  const { hasSnapPoints, modal, showSwipeHandle, swipeDirection } = useDrawer();
+  const swipeAxis =
+    swipeDirection === "down" || swipeDirection === "up" ? "y" : "x";
+  const sx = stylex.props(animationStyles.drawerPopup, styles.popup, xstyle);
+  return (
+    <DrawerPortal data-slot="drawer-portal">
+      {modal === true && (
+        <DrawerOverlay data-snap-points={hasSnapPoints ? "" : undefined} />
+      )}
+      <DrawerPrimitive.Viewport
+        data-slot="drawer-viewport"
+        data-modal={modal}
+        {...dom(styles.viewport, undefined, undefined)}
+      >
+        <DrawerPrimitive.Popup
+          data-slot="drawer-popup"
+          data-swipe-axis={swipeAxis}
+          data-snap-points={hasSnapPoints ? "" : undefined}
+          {...props}
+          className={["ariax-drawer-popup", sx.className]
+            .filter(Boolean)
+            .join(" ")}
+          style={mergedStyle(sx.style, style)}
+        >
+          {showSwipeHandle && <DrawerSwipeHandle />}
+          <DrawerPrimitive.Content
+            data-slot="drawer-content"
+            {...dom(
+              [animationStyles.drawerContent, styles.content],
+              undefined,
+              undefined,
+              "ariax-drawer-content",
+            )}
+          >
+            {children}
+          </DrawerPrimitive.Content>
+        </DrawerPrimitive.Popup>
+      </DrawerPrimitive.Viewport>
+    </DrawerPortal>
+  );
+}
+export function DrawerHeader({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<React.ComponentProps<"div">>) {
+  return (
+    <div
+      data-slot="drawer-header"
+      {...props}
+      {...dom(styles.header, xstyle, style)}
+    />
+  );
+}
+export function DrawerFooter({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<React.ComponentProps<"div">>) {
+  return (
+    <div
+      data-slot="drawer-footer"
+      {...props}
+      {...dom(styles.footer, xstyle, style)}
+    />
+  );
+}
+export function DrawerTitle({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<DrawerPrimitive.Title.Props>) {
+  const sx = stylex.props(styles.title, xstyle);
+  return (
+    <DrawerPrimitive.Title
+      data-slot="drawer-title"
+      {...props}
+      className={sx.className}
+      style={mergedStyle(sx.style, style)}
+    />
+  );
+}
+export function DrawerDescription({
+  className: _,
+  xstyle,
+  style,
+  ...props
+}: Styled<DrawerPrimitive.Description.Props>) {
+  const sx = stylex.props(styles.description, xstyle);
+  return (
+    <DrawerPrimitive.Description
+      data-slot="drawer-description"
+      {...props}
+      className={sx.className}
+      style={mergedStyle(sx.style, style)}
+    />
+  );
+}

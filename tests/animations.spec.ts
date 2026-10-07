@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
 import {
@@ -11,16 +12,15 @@ for (const theme of ["light", "dark"])
   test(`Skeleton effect and repeat frames / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const page = await context.newPage();
+    const { context, pages } = await createStoryPair(
+      browser,
+      undefined,
+      async (page, url) => {
         await page.goto(
           `${url}/iframe.html?id=components-skeleton--usage&globals=theme:${theme}`,
         );
         await expect(page.locator('[data-slot="skeleton"]')).toBeVisible();
-        return page;
-      }),
+      },
     );
     try {
       for (const time of [0, 1000, 2000]) {

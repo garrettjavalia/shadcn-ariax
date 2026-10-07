@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { upstreamURL, stylexURL } from "./servers";
@@ -324,13 +325,11 @@ for (const theme of ["light", "dark"])
     browser,
   }, info) => {
     for (const forced of [true, false]) {
-      const context = await browser.newContext(
+      const { context, pages } = await createStoryPair(
+        browser,
         forced
           ? { forcedColors: "active" }
           : { viewport: { width: 390, height: 900 } },
-      );
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => context.newPage()),
       );
       try {
         await Promise.all(

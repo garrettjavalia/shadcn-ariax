@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -30,16 +31,15 @@ for (const theme of ["light", "dark"])
     "descendants",
   ])
     test(`Accordion ${story} states / ${theme}`, async ({ browser }, info) => {
-      const context = await browser.newContext();
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
+      const { context, pages } = await createStoryPair(
+        browser,
+        undefined,
+        async (page, url) => {
           await page.goto(
             `${url}/iframe.html?id=components-accordion--${story}&viewMode=story&globals=theme:${theme}`,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
-          return page;
-        }),
+        },
       );
       const [a, b] = pages;
       try {
@@ -99,16 +99,15 @@ for (const theme of ["light", "dark"])
   test(`Accordion controlled callbacks and dynamic overrides / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const page = await context.newPage();
+    const { context, pages } = await createStoryPair(
+      browser,
+      undefined,
+      async (page, url) => {
         await page.goto(
           `${url}/iframe.html?id=components-accordion--controlled&globals=theme:${theme}`,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
-        return page;
-      }),
+      },
     );
     try {
       await compare(pages[0], pages[1], info, "controlled-initial");

@@ -1,4 +1,7 @@
-import { upstreamPort, stylexPort } from "./servers";
+import {
+  createStoryPair,
+  deterministicStoryContextOptions,
+} from "./story-pair";
 import { test, expect, type Browser, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { compare } from "./compare";
@@ -9,22 +12,16 @@ async function pair(
   theme: string,
   width = 1000,
 ) {
-  const context = await browser.newContext({
-    viewport: { width, height: 900 },
-    locale: "en-US",
-    timezoneId: "UTC",
-    colorScheme: "light",
-  });
-  const pages = await Promise.all(
-    [upstreamPort, stylexPort].map(async (port) => {
-      const page = await context.newPage();
+  const { context, pages } = await createStoryPair(
+    browser,
+    deterministicStoryContextOptions(width, { colorScheme: "light" }),
+    async (page, url) => {
       await page.goto(
-        `http://127.0.0.1:${port}/iframe.html?id=components-button--${story}&viewMode=story&globals=theme:${theme}`,
+        `${url}/iframe.html?id=components-button--${story}&viewMode=story&globals=theme:${theme}`,
       );
       await expect(page.locator("#parity-root")).toBeVisible();
       await page.mouse.move(0, 0);
-      return page;
-    }),
+    },
   );
   return { context, a: pages[0], b: pages[1] };
 }

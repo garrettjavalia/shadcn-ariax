@@ -1,7 +1,8 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 test("all official Collapsible previews and snippets have parity stories", async ({
   request,
 }) => {
@@ -30,16 +31,15 @@ for (const theme of ["light", "dark"])
     test(`Collapsible ${story} states / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext();
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
+      const { context, pages } = await createStoryPair(
+        browser,
+        undefined,
+        async (page, url) => {
           await page.goto(
             `${url}/iframe.html?id=components-collapsible--${story}&globals=theme:${theme}`,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
-          return page;
-        }),
+        },
       );
       try {
         await compare(pages[0], pages[1], info, "initial");
@@ -119,16 +119,15 @@ for (const theme of ["light", "dark"])
   test(`Collapsible native style and disabled state / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const page = await context.newPage();
+    const { context, pages } = await createStoryPair(
+      browser,
+      undefined,
+      async (page, url) => {
         await page.goto(
           `${url}/iframe.html?id=components-collapsible--native&globals=theme:${theme}`,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
-        return page;
-      }),
+      },
     );
     try {
       await compare(pages[0], pages[1], info, "initial");
@@ -188,16 +187,15 @@ for (const theme of ["light", "dark"])
   test(`Collapsible original data-open conditions / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const page = await context.newPage();
+    const { context, pages } = await createStoryPair(
+      browser,
+      undefined,
+      async (page, url) => {
         await page.goto(
           `${url}/iframe.html?id=components-collapsible--flags&globals=theme:${theme}`,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
-        return page;
-      }),
+      },
     );
     try {
       await compare(pages[0], pages[1], info, "initial");

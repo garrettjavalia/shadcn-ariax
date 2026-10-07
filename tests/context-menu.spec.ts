@@ -1,3 +1,7 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { test, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -49,10 +53,9 @@ for (const theme of ["light", "dark"])
       test(`ContextMenu official ${name} / ${theme} / ${width}`, async ({
         browser,
       }, info) => {
-        const context = await browser.newContext({
+        const { context, pages } = await createStoryPair(browser, {
           viewport: { width, height: 900 },
         });
-        const pages = await Promise.all([0, 1].map(() => context.newPage()));
         try {
           const count =
             name === "sides" ? 4 : name === "registry-sides" ? 6 : 1;
@@ -138,10 +141,9 @@ for (const theme of ["light", "dark"])
   test(`ContextMenu selection, submenus, Dialog and callback overrides / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([0, 1].map(() => context.newPage()));
     const load = async (name: string) =>
       Promise.all(
         pages.map(async (p, i) => {
@@ -261,11 +263,9 @@ for (const theme of ["light", "dark"])
   test(`ContextMenu enter/exit animation phases and finite completion / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
 
     await context.addInitScript(() => {
       const sampled = new WeakSet<Animation>();
@@ -454,8 +454,7 @@ for (const theme of ["light", "dark"])
   test(`ContextMenu RTL submenus preserve logical placement and shortcuts / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => context.newPage()));
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       for (let n = 0; n < 2; n++) {
         await Promise.all(
@@ -485,11 +484,10 @@ for (const theme of ["light", "dark"])
   test(`ContextMenu keyboard trigger, typeahead and forced colors / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
       forcedColors: "active",
     });
-    const pages = await Promise.all([0, 1].map(() => context.newPage()));
     try {
       for (const [i, p] of pages.entries()) {
         await p.goto(

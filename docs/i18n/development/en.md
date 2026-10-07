@@ -104,4 +104,4 @@ ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
 
 `pnpm test:upstream` uses local source archives with the real CLI to check transforms, concurrent preparation, offline reuse, and cache recovery. `pnpm test:install` separately installs the Ariax registry into a consumer app.
 
-`pnpm test` runs the browser suite; `pnpm test:full` runs full verification, including installation and builds. View results with `pnpm test:report`; format tests with `pnpm format:tests`. Detailed implementation and verification rules are in [convention.md](../../../convention.md).
+`pnpm test` runs the browser suite; `pnpm test:full` runs full verification, including installation and builds. View results with `pnpm test:report`; format tests with `pnpm format:tests` and components/shipped CSS with `pnpm format:components`. `pnpm format:check` checks both scopes during full local verification and CI. Detailed implementation and verification rules are in [convention.md](../../../convention.md).

@@ -1,16 +1,10 @@
+import { createStoryPair, loadStoryPair } from "./story-pair";
 import { readFile } from "node:fs/promises";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
-async function load(pages: Page[], story: string, theme: string) {
-  await Promise.all(
-    pages.map(async (p, i) => {
-      await p.goto(
-        `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-sonner--${story}&viewMode=story&globals=theme:${theme}`,
-      );
-      await expect(p.locator("#parity-root")).toBeVisible();
-    }),
-  );
+import { stylexURL } from "./servers";
+async function load(pages: [Page, Page], story: string, theme: string) {
+  await loadStoryPair(pages, `components-sonner--${story}`, theme);
 }
 for (const theme of ["light", "dark"])
   for (const story of [
@@ -29,8 +23,7 @@ for (const theme of ["light", "dark"])
     "non-dismissible",
   ])
     test(`Sonner ${story} / ${theme}`, async ({ browser }, info) => {
-      const ctx = await browser.newContext();
-      const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+      const { context: ctx, pages } = await createStoryPair(browser, undefined);
       try {
         await load(pages, story, theme);
         const count = await pages[0]
@@ -96,10 +89,9 @@ for (const theme of ["light", "dark"])
 for (const theme of ["light", "dark"])
   for (const story of ["position", "rtl"])
     test(`Sonner mobile ${story} / ${theme}`, async ({ browser }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width: 390, height: 900 },
       });
-      const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
       try {
         await load(pages, story, theme);
         const count = await pages[0].locator("#parity-root button").count();

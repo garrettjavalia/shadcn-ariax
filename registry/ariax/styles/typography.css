@@ -1,1 +1,3 @@
-.ariax-typography-list > li {margin-top:calc(var(--ariax-spacing, .25rem) * 2)}
+.ariax-typography-list > li {
+  margin-top: calc(var(--ariax-spacing, 0.25rem) * 2);
+}

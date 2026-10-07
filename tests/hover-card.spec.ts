@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -7,10 +8,9 @@ for (const theme of ["light", "dark"])
     test(`HoverCard official hover, placements and callbacks / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
+      const { context, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all([0, 1].map(() => context.newPage()));
       try {
         for (const name of [
           "demo-example",
@@ -99,8 +99,7 @@ for (const theme of ["light", "dark"])
   test(`HoverCard keyboard focus, nested Dialog and default context / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => context.newPage()));
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       await Promise.all(
         pages.map(async (p, i) => {

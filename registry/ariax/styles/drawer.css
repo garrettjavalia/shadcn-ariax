@@ -1,8 +1,30 @@
-.ariax-drawer-popup[data-swipe-axis="x"]::after{inset-block:0;width:var(--bleed)}
-.ariax-drawer-popup[data-swipe-axis="y"]::after{inset-inline:0;height:var(--bleed)}
-.ariax-drawer-popup[data-swipe-direction="down"]::after{top:100%}
-.ariax-drawer-popup[data-swipe-direction="up"]::after{bottom:100%}
-.ariax-drawer-popup[data-swipe-direction="left"]::after{inset-inline-end:100%}
-.ariax-drawer-popup[data-swipe-direction="right"]::after{inset-inline-start:100%}
-:where(.ariax-drawer-popup)[data-swipe-axis="y"] .ariax-drawer-swipe-handle::after{height:calc(var(--ariax-spacing, .25rem) * 1);width:calc(var(--ariax-spacing, .25rem) * 24)}
-:where(.ariax-drawer-popup)[data-swipe-axis="x"] .ariax-drawer-swipe-handle::after{height:calc(var(--ariax-spacing, .25rem) * 24);width:calc(var(--ariax-spacing, .25rem) * 1)}
+.ariax-drawer-popup[data-swipe-axis="x"]::after {
+  inset-block: 0;
+  width: var(--bleed);
+}
+.ariax-drawer-popup[data-swipe-axis="y"]::after {
+  inset-inline: 0;
+  height: var(--bleed);
+}
+.ariax-drawer-popup[data-swipe-direction="down"]::after {
+  top: 100%;
+}
+.ariax-drawer-popup[data-swipe-direction="up"]::after {
+  bottom: 100%;
+}
+.ariax-drawer-popup[data-swipe-direction="left"]::after {
+  inset-inline-end: 100%;
+}
+.ariax-drawer-popup[data-swipe-direction="right"]::after {
+  inset-inline-start: 100%;
+}
+:where(.ariax-drawer-popup)[data-swipe-axis="y"]
+  .ariax-drawer-swipe-handle::after {
+  height: calc(var(--ariax-spacing, 0.25rem) * 1);
+  width: calc(var(--ariax-spacing, 0.25rem) * 24);
+}
+:where(.ariax-drawer-popup)[data-swipe-axis="x"]
+  .ariax-drawer-swipe-handle::after {
+  height: calc(var(--ariax-spacing, 0.25rem) * 24);
+  width: calc(var(--ariax-spacing, 0.25rem) * 1);
+}

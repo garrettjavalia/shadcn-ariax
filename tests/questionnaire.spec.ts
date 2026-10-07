@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -48,10 +49,9 @@ for (const theme of ["light", "dark"])
       browser,
     }, info) => {
       test.setTimeout(90_000);
-      const context = await browser.newContext({
+      const { context, pages } = await createStoryPair(browser, {
         viewport: { width: story === "mobile" ? 390 : 1000, height: 900 },
       });
-      const pages = await Promise.all([context.newPage(), context.newPage()]);
       try {
         await Promise.all(
           pages.map((p, i) =>

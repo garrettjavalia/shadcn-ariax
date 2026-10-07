@@ -1,20 +1,27 @@
-'use client';
+"use client";
 
-import * as stylex from '@stylexjs/stylex';
-import { Slider as SliderPrimitive, SliderTrack, SliderFill, SliderThumb, composeRenderProps, type SliderProps as PrimitiveProps } from 'react-aria-components';
+import * as stylex from "@stylexjs/stylex";
+import {
+  Slider as SliderPrimitive,
+  SliderTrack,
+  SliderFill,
+  SliderThumb,
+  composeRenderProps,
+  type SliderProps as PrimitiveProps,
+} from "react-aria-components";
 export type SliderValue = number | number[];
-export type SliderProps<T extends SliderValue = SliderValue> = Omit<PrimitiveProps<T>, 'className'> & {
+export type SliderProps<T extends SliderValue = SliderValue> = Omit<
+  PrimitiveProps<T>,
+  "className"
+> & {
   className?: never;
   xstyle?: stylex.StyleXStyles;
 };
 function attrs(xstyle: stylex.StyleXStyles) {
-  const {
-    className,
-    style
-  } = stylex.props(xstyle);
+  const { className, style } = stylex.props(xstyle);
   return {
     className,
-    style
+    style,
   };
 }
 export function Slider<T extends SliderValue = SliderValue>({
@@ -24,137 +31,164 @@ export function Slider<T extends SliderValue = SliderValue>({
   ...props
 }: SliderProps<T>) {
   const applied = attrs([styles.root, xstyle]);
-  return <SliderPrimitive data-slot="slider" {...props} className={['ariax-slider', applied.className].filter(Boolean).join(' ')} style={composeRenderProps(style, value => ({
-    ...applied.style,
-    ...value
-  }))}>{({
-      state
-    }) => <><SliderTrack data-slot="slider-track" {...attrs(styles.track)}><SliderFill data-slot="slider-range" {...attrs(styles.fill)} /></SliderTrack>{state.values.map((_, index) => <SliderThumb data-slot="slider-thumb" key={index} index={index} {...attrs(styles.thumb)} />)}</>}</SliderPrimitive>;
+  return (
+    <SliderPrimitive
+      data-slot="slider"
+      {...props}
+      className={["ariax-slider", applied.className].filter(Boolean).join(" ")}
+      style={composeRenderProps(style, (value) => ({
+        ...applied.style,
+        ...value,
+      }))}
+    >
+      {({ state }) => (
+        <>
+          <SliderTrack data-slot="slider-track" {...attrs(styles.track)}>
+            <SliderFill data-slot="slider-range" {...attrs(styles.fill)} />
+          </SliderTrack>
+          {state.values.map((_, index) => (
+            <SliderThumb
+              data-slot="slider-thumb"
+              key={index}
+              index={index}
+              {...attrs(styles.thumb)}
+            />
+          ))}
+        </>
+      )}
+    </SliderPrimitive>
+  );
 }
 const styles = stylex.create({
   root: {
-    position: 'relative',
-    display: 'flex',
+    position: "relative",
+    display: "flex",
     width: {
-      default: '100%',
-      ':where([data-orientation="vertical"])': 'auto',
-      ':is(.ariax-field[data-orientation="vertical"] > *)': '100%',
+      default: "100%",
+      ':where([data-orientation="vertical"])': "auto",
+      ':is(.ariax-field[data-orientation="vertical"] > *)': "100%",
       ':is(.ariax-field[data-orientation="responsive"] > *)': {
-        default: '100%',
-        '@container field-group (min-width: 28rem)': 'auto'
-      }
+        default: "100%",
+        "@container field-group (min-width: 28rem)": "auto",
+      },
     },
-    touchAction: 'none',
-    alignItems: 'center',
-    userSelect: 'none',
+    touchAction: "none",
+    alignItems: "center",
+    userSelect: "none",
     opacity: {
       default: null,
-      ':where([data-disabled]:not([data-disabled="false"]))': .5
+      ':where([data-disabled]:not([data-disabled="false"]))': 0.5,
     },
     height: {
       default: null,
-      ':where([data-orientation="vertical"])': '100%'
+      ':where([data-orientation="vertical"])': "100%",
     },
     minHeight: {
       default: null,
-      ':where([data-orientation="vertical"])': 'calc(var(--ariax-spacing, .25rem) * 40)'
+      ':where([data-orientation="vertical"])':
+        "calc(var(--ariax-spacing, .25rem) * 40)",
     },
     flexDirection: {
       default: null,
-      ':where([data-orientation="vertical"])': 'column'
-    }
+      ':where([data-orientation="vertical"])': "column",
+    },
   },
   track: {
-    position: 'relative',
+    position: "relative",
     flexGrow: 1,
-    overflow: 'hidden',
-    userSelect: 'none',
-    backgroundColor: 'var(--muted)',
-    borderRadius: 'calc(infinity * 1px)',
+    overflow: "hidden",
+    userSelect: "none",
+    backgroundColor: "var(--muted)",
+    borderRadius: "calc(infinity * 1px)",
     height: {
       default: null,
-      ':where([data-orientation="horizontal"])': 'calc(var(--ariax-spacing, .25rem) * 1)',
-      ':where([data-orientation="vertical"])': '100%'
+      ':where([data-orientation="horizontal"])':
+        "calc(var(--ariax-spacing, .25rem) * 1)",
+      ':where([data-orientation="vertical"])': "100%",
     },
     width: {
       default: null,
-      ':where([data-orientation="horizontal"])': '100%',
-      ':where([data-orientation="vertical"])': 'calc(var(--ariax-spacing, .25rem) * 1)'
-    }
+      ':where([data-orientation="horizontal"])': "100%",
+      ':where([data-orientation="vertical"])':
+        "calc(var(--ariax-spacing, .25rem) * 1)",
+    },
   },
   fill: {
-    position: 'absolute',
-    userSelect: 'none',
-    backgroundColor: 'var(--primary)',
+    position: "absolute",
+    userSelect: "none",
+    backgroundColor: "var(--primary)",
     height: {
       default: null,
-      ':where([data-orientation="horizontal"])': '100%'
+      ':where([data-orientation="horizontal"])': "100%",
     },
     width: {
       default: null,
-      ':where([data-orientation="vertical"])': '100%'
-    }
+      ':where([data-orientation="vertical"])': "100%",
+    },
   },
   thumb: {
-    display: 'block',
-    position: 'relative',
+    display: "block",
+    position: "relative",
     flexShrink: 0,
-    userSelect: 'none',
+    userSelect: "none",
     top: {
       default: null,
-      ':is(.ariax-slider[data-orientation="horizontal"] *)': '50%'
+      ':is(.ariax-slider[data-orientation="horizontal"] *)': "50%",
     },
     insetInlineStart: {
       default: null,
-      ':is(.ariax-slider[data-orientation="vertical"] *)': '50%'
+      ':is(.ariax-slider[data-orientation="vertical"] *)': "50%",
     },
     pointerEvents: {
       default: null,
-      ':disabled': 'none'
+      ":disabled": "none",
     },
     opacity: {
       default: null,
-      ':disabled': .5
+      ":disabled": 0.5,
     },
-    width: 'calc(var(--ariax-spacing, .25rem) * 3)',
-    height: 'calc(var(--ariax-spacing, .25rem) * 3)',
-    borderRadius: 'calc(infinity * 1px)',
+    width: "calc(var(--ariax-spacing, .25rem) * 3)",
+    height: "calc(var(--ariax-spacing, .25rem) * 3)",
+    borderRadius: "calc(infinity * 1px)",
     borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'var(--ring)',
-    backgroundColor: '#fff',
-    transitionProperty: 'color, box-shadow',
-    transitionDuration: '150ms',
-    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    borderStyle: "solid",
+    borderColor: "var(--ring)",
+    backgroundColor: "#fff",
+    transitionProperty: "color, box-shadow",
+    transitionDuration: "150ms",
+    transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
     boxShadow: {
       default: null,
-      ':hover': {
+      ":hover": {
         default: null,
-        '@media (hover: hover)': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000'
+        "@media (hover: hover)":
+          "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000",
       },
-      ':focus-visible': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000',
-      ':active': '0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000'
+      ":focus-visible":
+        "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000",
+      ":active":
+        "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000",
     },
     outlineWidth: {
       default: null,
-      ':focus-visible': 2
+      ":focus-visible": 2,
     },
     outlineStyle: {
       default: null,
-      ':focus-visible': 'solid'
+      ":focus-visible": "solid",
     },
     outlineColor: {
       default: null,
-      ':focus-visible': 'transparent'
+      ":focus-visible": "transparent",
     },
     outlineOffset: {
       default: null,
-      ':focus-visible': 2
+      ":focus-visible": 2,
     },
-    '::after': {
+    "::after": {
       content: '""',
-      position: 'absolute',
-      inset: 'calc(var(--ariax-spacing, .25rem) * -2)'
-    }
-  }
+      position: "absolute",
+      inset: "calc(var(--ariax-spacing, .25rem) * -2)",
+    },
+  },
 });

@@ -1,1 +1,4 @@
-.ariax-message-content:is(:where(.ariax-message)[data-align='end'] *) > :where([data-slot]) {align-self:flex-end;}
+.ariax-message-content:is(:where(.ariax-message)[data-align="end"] *)
+  > :where([data-slot]) {
+  align-self: flex-end;
+}

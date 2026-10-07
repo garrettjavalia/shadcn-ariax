@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { PNG } from "pngjs";
 import { compare } from "./compare";
@@ -5,10 +6,9 @@ import { compare } from "./compare";
 test("portal comparison captures the fixed viewport while preserving overflow geometry", async ({
   browser,
 }, info) => {
-  const context = await browser.newContext({
+  const { context, pages } = await createStoryPair(browser, {
     viewport: { width: 390, height: 900 },
   });
-  const pages = await Promise.all([0, 1].map(() => context.newPage()));
   try {
     await Promise.all(
       pages.map((page) =>

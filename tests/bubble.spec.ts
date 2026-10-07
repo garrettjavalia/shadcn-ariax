@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -35,10 +36,9 @@ for (const theme of ["light", "dark"])
   test(`Bubble variants hover/focus and consumer overrides / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const story of ["interactive-variants", "customization"]) {
         await Promise.all(
@@ -101,10 +101,9 @@ for (const theme of ["light", "dark"])
   test(`Bubble actual collapsible, popover and tooltip / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const story of ["collapsible", "popover", "tooltip"]) {
         await Promise.all(

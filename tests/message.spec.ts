@@ -1,15 +1,15 @@
+import { loadStoryPair } from "./story-pair";
 import { readFile } from "node:fs/promises";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
-async function open(pages: Page[], story: string, theme: string) {
-  await Promise.all(
-    pages.map(async (p, i) => {
-      await p.goto(
-        `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-message--${story}&viewMode=story&globals=theme:${theme}`,
-      );
-      await expect(p.locator("#parity-root")).toBeVisible();
+async function open(pages: [Page, Page], story: string, theme: string) {
+  await loadStoryPair(
+    pages,
+    `components-message--${story}`,
+    theme,
+    async (p) => {
       await waitAvatarAssets(p);
       await p
         .locator("#parity-root img")
@@ -18,7 +18,7 @@ async function open(pages: Page[], story: string, theme: string) {
             nodes.map((n) => (n as HTMLImageElement).decode().catch(() => {})),
           ),
         );
-    }),
+    },
   );
 }
 test("Message six documentation, markdown and eight registry examples", async ({

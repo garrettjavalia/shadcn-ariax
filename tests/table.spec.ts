@@ -1,3 +1,7 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -5,11 +9,9 @@ for (const theme of ["light", "dark"])
   test(`Table pointer selection, hover, keyboard and horizontal scroll / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     const a = await context.newPage();
     const b = await context.newPage();
     try {
@@ -60,11 +62,7 @@ for (const theme of ["light", "dark"])
 test("Table dynamic xstyle updates and user style precedence match upstream", async ({
   browser,
 }, info) => {
-  const context = await browser.newContext({
-    viewport: { width: 1000, height: 900 },
-    locale: "en-US",
-    timezoneId: "UTC",
-  });
+  const context = await browser.newContext(deterministicStoryContextOptions());
   const a = await context.newPage();
   const b = await context.newPage();
   try {
@@ -91,20 +89,15 @@ for (const theme of ["light", "dark"])
     test(`official Checkbox/Table composition / ${theme} / labels=${labels}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-        locale: "en-US",
-        timezoneId: "UTC",
-      });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
+      const { context, pages } = await createStoryPair(
+        browser,
+        deterministicStoryContextOptions(),
+        async (page, url) => {
           await page.goto(
             `${url}/iframe.html?id=components-table--${labels ? "checkbox-labels" : "checkbox-selection"}&globals=theme:${theme}`,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
-          return page;
-        }),
+        },
       );
       const [a, b] = pages;
       try {

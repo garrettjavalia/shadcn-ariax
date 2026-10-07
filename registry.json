@@ -449,6 +449,11 @@
           "path": "registry/ariax/ui/avatar.tsx",
           "type": "registry:ui",
           "target": "@ui/avatar.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -790,6 +795,11 @@
           "path": "registry/ariax/ui/chart.tsx",
           "type": "registry:ui",
           "target": "@ui/chart.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1002,6 +1012,11 @@
           "path": "registry/ariax/ui/context-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/context-menu.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1111,6 +1126,11 @@
           "path": "registry/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1143,6 +1163,11 @@
           "path": "registry/ariax/ui/dropdown-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/dropdown-menu.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1219,6 +1244,11 @@
           "path": "registry/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
