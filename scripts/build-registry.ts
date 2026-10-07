@@ -1,6 +1,5 @@
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { registrySchema, registryItemSchema } from 'shadcn/schema';
 import { componentNames as discoverComponents, componentSources } from './registry-sources';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
@@ -15,35 +14,22 @@ const sharedFiles = [
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
-const sharedItem = {
-  name: 'ariax-base', type: 'registry:item' as const,
-  title: 'AriaX shared styles',
-  dependencies: [`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`],
-  devDependencies: ['@babel/core', '@stylexjs/babel-plugin', '@stylexjs/postcss-plugin', 'postcss'].map(name => `${name}@${pkg.devDependencies[name]}`),
-  files: sharedFiles,
-};
-// GitHub dependency refs are independent of the selected component revision.
-const sharedRevision = '8a40e113ce5fc0bd71213fded5e2d489060dc4b3';
-const sharedDependency = `garrettjavalia/shadcn_ariax/ariax-base#${sharedRevision}`;
-const sharedHash = createHash('sha256').update(JSON.stringify(registryItemSchema.parse(sharedItem)));
-for (const file of sharedFiles) sharedHash.update(await readFile(file.path));
-const sharedDigest = sharedHash.digest('hex');
-if (process.argv.includes('--publish-shared')) console.log(`Shared item digest: ${sharedDigest}`);
-else assert.equal(sharedDigest, '40286ed1cd55a3f5edfe8d1da68b160e9c6deb6a64074747f5f71c3a4ce36adb', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
+const sharedDependencies = [`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`];
+const sharedDevDependencies = ['@babel/core', '@stylexjs/babel-plugin', '@stylexjs/postcss-plugin', 'postcss'].map(name => `${name}@${pkg.devDependencies[name]}`);
 const items = await Promise.all([...componentNames.map(name => ({ name, type: 'registry:ui' as const, extension: '.tsx' })), ...recipeNames.map(name => ({ name, type: 'registry:file' as const, extension: '.recipe.stylex.ts' }))].map(async ({ name, type, extension }) => {
   const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies}, extension);
   return {
   name, type, title: `AriaX ${name[0].toUpperCase()}${name.slice(1)}`,
   description: `${type === 'registry:file' ? 'Intrinsic HTML StyleX recipes' : 'React Aria component'}: ${name}, Nova style, Neutral light/dark tokens.`,
-  dependencies: source.dependencies.filter(dependency => !sharedItem.dependencies.includes(dependency)),
-  registryDependencies: [sharedDependency],
-  files: source.files.filter(file => !sharedFiles.some(shared => shared.path === file.path)),
+  dependencies: [...new Set([...source.dependencies, ...sharedDependencies])],
+  devDependencies: sharedDevDependencies,
+  files: [...source.files.filter(file => !sharedFiles.some(shared => shared.path === file.path)), ...sharedFiles],
   docs: 'Configure the official StyleX Babel and PostCSS plugins as described in the README, then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.',
   meta: { base: 'aria', style: 'nova', styling: 'stylex', theme: 'neutral', modes: ['light', 'dark'] },
   };
 }));
 assert.equal(new Set(items.map(item => item.name)).size, items.length, 'Duplicate component or recipe registry name');
-const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: 'https://github.com/garrettjavalia/shadcn_ariax', items: [sharedItem, ...items] });
+const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: 'https://github.com/garrettjavalia/shadcn_ariax', items });
 const catalogJSON = JSON.stringify(catalog, null, 2) + '\n';
 if (process.argv.includes('--check')) {
   assert.equal(await readFile('registry.json', 'utf8'), catalogJSON, 'registry.json is stale. Run pnpm registry:build and commit registry.json.');
@@ -53,13 +39,9 @@ if (process.argv.includes('--check')) {
 await rm('registry', { recursive: true, force: true });
 await mkdir('registry', { recursive: true });
 await writeFile('registry.json', catalogJSON);
-const httpItems = [];
 for (const item of catalog.items) {
-  // HTTP/local payloads are self-contained; GitHub catalogs use the pinned shared item.
-  const payload = item.name === sharedItem.name ? item : { ...item, registryDependencies: [], dependencies: [...new Set([...(item.dependencies ?? []), ...sharedItem.dependencies])], devDependencies: sharedItem.devDependencies, files: [...(item.files ?? []), ...sharedFiles] };
-  const built = registryItemSchema.parse({ ...payload, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(payload.files!.map(async f => ({ ...f, content: await readFile(f.path, 'utf8') }))) });
-  httpItems.push({ ...built, files: built.files?.map(({ content, ...file }) => file) });
+  const built = registryItemSchema.parse({ ...item, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(item.files!.map(async file => ({ ...file, content: await readFile(file.path, 'utf8') }))) });
   await writeFile(`registry/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
-await writeFile('registry/registry.json', JSON.stringify(registrySchema.parse({ ...catalog, items: httpItems }), null, 2) + '\n');
+await writeFile('registry/registry.json', catalogJSON);
 console.log(`Validated and built registry: ${items.map(item => item.name).join(', ')} (source, styles, licenses).`);

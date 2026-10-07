@@ -45,11 +45,7 @@ pnpm dev
 
 생성기는 `ui/<name>.tsx`와 레시피를 탐색하고 상대 import를 따라 파일을 수집하며, `package.json`의 정확한 패키지 버전을 사용합니다. 루트 `registry.json`은 GitHub 설치용 파일 경로를 담고, `registry/<item>.json`은 HTTP·로컬 설치에 필요한 내용을 직접 포함합니다.
 
-공통 CSS·애니메이션·라이선스·StyleX 의존성은 `ariax-base`에 둡니다. 의존 항목은 컴포넌트의 리비전을 상속하지 않으므로 별도 GitHub 커밋으로 고정합니다. 공통 파일이나 의존성을 변경한 경우:
-
-1. `pnpm registry:build --publish-shared`를 실행하고 공통 항목과 소스를 커밋·푸시합니다.
-2. `scripts/build-registry.ts`의 `sharedRevision`과 출력된 digest를 갱신합니다.
-3. 카탈로그를 재생성하고 검사합니다. 일반 빌드는 기록되지 않은 공통 파일 변경을 거부합니다.
+두 카탈로그는 하나의 항목 정의에서 동일하게 생성합니다. 각 항목에는 공통 CSS·애니메이션·라이선스·StyleX 의존성을 포함합니다. 개별 설치 JSON은 항목 스키마와 실제 파일 내용만 추가합니다. GitHub 설치는 선택한 소스 리비전에서 모든 파일을 읽으므로 별도로 고정한 공통 항목이 필요하지 않습니다. 소스나 의존성을 변경하면 `pnpm registry:build`를 실행하고 루트 `registry.json`을 소스와 함께 커밋합니다.
 
 StyleX Babel 플러그인은 JavaScript의 스타일 참조를 컴파일하고, PostCSS 플러그인은 `entry.css`의 `@stylex;`를 추출한 CSS로 교체합니다. `.storybook/main.ts`가 두 구현을 설정합니다. `pnpm build:upstream`과 `pnpm build:stylex`는 `dist/upstream/`과 `dist/stylex/`에 출력하며, 후자는 지연 로딩 스토리의 CSS도 검사합니다.
 

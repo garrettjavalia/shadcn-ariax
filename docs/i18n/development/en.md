@@ -45,11 +45,7 @@ Commit sources, configuration, lockfiles, upstream metadata, and the generated r
 
 The generator discovers `ui/<name>.tsx` and recipes, follows relative imports, and uses exact package versions from `package.json`. Root `registry.json` contains file paths for GitHub installation; `registry/<item>.json` contains self-contained HTTP/local payloads.
 
-Shared CSS, animations, licenses, and StyleX dependencies live in `ariax-base`. Components reference a fixed GitHub commit because dependency refs do not inherit the component revision. After changing shared files or dependencies:
-
-1. Run `pnpm registry:build --publish-shared`, then commit and push the shared item and its sources.
-2. Update `sharedRevision` and the printed digest in `scripts/build-registry.ts`.
-3. Regenerate and validate the catalog. Normal builds reject unrecorded shared-file changes.
+Both catalogs are identical and generated from one item definition. Each item includes its shared CSS, animations, licenses, and StyleX dependencies. Individual installation JSON adds only the item schema and actual file contents. GitHub installation reads all files from the selected source revision; no separately pinned shared item is required. After any source or dependency change, run `pnpm registry:build` and commit the root `registry.json` with the source.
 
 StyleX's Babel plugin compiles JavaScript references; its PostCSS plugin replaces `@stylex;` in `entry.css` with extracted CSS. `.storybook/main.ts` configures the two implementations. `pnpm build:upstream` and `pnpm build:stylex` write to `dist/upstream/` and `dist/stylex/`; the latter also checks CSS for lazy-loaded stories.
 

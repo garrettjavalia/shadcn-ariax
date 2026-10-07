@@ -12,6 +12,19 @@ if (registryURL) {
 }
 // Fail before running the CLI when the catalog and fixtures disagree.
 const fixtures = await collectInstallFixtures(root);
+// Both transports must describe exactly the same installation, including shared files.
+const catalogJSON = await readFile('registry.json', 'utf8');
+assert.equal(await readFile('registry/registry.json', 'utf8'), catalogJSON);
+for (const item of JSON.parse(catalogJSON).items) {
+  const { $schema, files, ...metadata } = JSON.parse(await readFile(`registry/${item.name}.json`, 'utf8'));
+  assert.equal($schema, 'https://ui.shadcn.com/schema/registry-item.json');
+  const definitions = [];
+  for (const { content, ...file } of files) {
+    assert.equal(content, await readFile(file.path, 'utf8'), `Payload differs from source: ${file.path}`);
+    definitions.push(file);
+  }
+  assert.deepEqual({ ...metadata, files: definitions }, item, `Installation metadata differs: ${item.name}`);
+}
 const parentFiles = await Promise.all(['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'].map(async file => [file, await readFile(join(root, file), 'utf8')] as const));
 const dir = await mkdtemp(join(root, '.consumer-test-'));
 const run = (command: string, args: string[], cwd = dir) => {
