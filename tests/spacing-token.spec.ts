@@ -14,9 +14,7 @@ const components = readdirSync("src/ariax/ui")
   .filter(
     (file) =>
       /(?:\.tsx|\.recipe\.stylex\.ts)$/.test(file) &&
-      readFileSync(`src/ariax/ui/${file}`, "utf8").includes(
-        "--ariax-spacing",
-      ),
+      readFileSync(`src/ariax/ui/${file}`, "utf8").includes("--ariax-spacing"),
   )
   .map((file) =>
     file.replace(/(?:\.internal|\.recipe\.stylex)?\.(tsx|ts)$/, ""),

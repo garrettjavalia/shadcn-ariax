@@ -23,7 +23,7 @@ const sharedItem = {
   files: sharedFiles,
 };
 // GitHub dependency refs are independent of the selected component revision.
-const sharedRevision = 'efd6a81c356547f0862261dabe89f4081189963c';
+const sharedRevision = '8a40e113ce5fc0bd71213fded5e2d489060dc4b3';
 const sharedDependency = `garrettjavalia/shadcn_ariax/ariax-base#${sharedRevision}`;
 const sharedHash = createHash('sha256').update(JSON.stringify(registryItemSchema.parse(sharedItem)));
 for (const file of sharedFiles) sharedHash.update(await readFile(file.path));

@@ -1,9 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import {
-  Button,
-  LinkButton,
-  buttonProps,
-} from "../../src/ariax/ui/button";
+import { Button, LinkButton, buttonProps } from "../../src/ariax/ui/button";
 const styles = stylex.create({
   wide: { minWidth: 160 },
   dynamic: (width: number) => ({ width }),
