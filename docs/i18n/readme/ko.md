@@ -124,6 +124,4 @@ pnpm dev
 - [원본 Storybook](http://127.0.0.1:4100)
 - [Ariax Storybook](http://127.0.0.1:4200)
 
-원본 고정과 레퍼런스 생성 과정은 [업스트림 준비 구조](../../upstream-structure.md)를 참고하세요.
-
 프로젝트 구조, 수정 방법과 저장소 검사는 [개발 가이드](../development/ko.md)를 참고하세요.
