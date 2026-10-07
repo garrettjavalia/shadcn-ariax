@@ -55,30 +55,30 @@ StyleX's Babel plugin compiles JavaScript references; its PostCSS plugin replace
 
 ## Publishing for the registry directory
 
-The `Publish registry to GitHub Raw` workflow runs on pushes to `main`, or manually from `main`. It validates the source catalog, installs all component fixtures with the real CLI, and builds the consumer app before publishing. It writes only generated JSON files to the `registry` branch using the repository's `GITHUB_TOKEN` (`contents: write`). Branch rules must allow that workflow to update `registry`. GitHub Pages and a separate server are not required.
+The `Publish registry to GitHub Raw` workflow runs on pushes to `main`, or manually from `main`. It validates the source catalog, installs all component fixtures with the real CLI, and builds the consumer app before publishing. It publishes the complete tracked `main` snapshot plus generated `public/r/` JSON to the `deploy/shadcn-registry` branch using the repository's `GITHUB_TOKEN` (`contents: write`). Branch rules must allow that workflow to update `deploy/shadcn-registry`. The workflow creates this branch on first publication. Each deployment descends from its source commit and, after the first publication, the previous deployment. Its file tree is the source snapshot plus generated JSON, so removed files do not survive from previous deployments. Identical snapshots do not create another commit. Make source edits through `main`; do not merge generated deployment files back into it. GitHub Pages and a separate server are not required.
 
-`public/r/registry.json` is the HTTP catalog: it matches the self-contained item payloads, but omits file contents. `public/registry.json` remains the GitHub source catalog copy. Builds clear `public/r/` so removed items are not published. Generated JSON stays out of the source branch; publication commits preserve history on the separate `registry` branch.
+`public/r/registry.json` is the HTTP catalog: it matches the self-contained item payloads, but omits file contents. `public/registry.json` remains the GitHub source catalog copy. Builds clear `public/r/` so removed items are not published. Generated JSON stays out of the source branch; publication commits preserve history on the separate `deploy/shadcn-registry` branch.
 
 After the first successful publication, the URL template is:
 
 ```text
-https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/registry/{name}.json
+https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/{name}.json
 ```
 
 The catalog is at the same URL with `registry` substituted for `{name}`. Verify the published endpoint against the matching source revision:
 
 ```sh
-ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/registry/ pnpm test:install
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/ pnpm test:install
 ```
 
-For reproducible checks, replace the `registry` branch segment with its publication commit SHA. `ARIAX_REGISTRY_URL` must be an HTTP(S) directory URL ending in `/`. This installs all component fixtures from the endpoint and checks dependencies, TypeScript, and a production Vite build without Tailwind.
+For reproducible checks, replace the entire `refs/heads/deploy/shadcn-registry` segment with its publication commit SHA. `ARIAX_REGISTRY_URL` must be an HTTP(S) directory URL ending in `/`. This installs all component fixtures from the endpoint and checks dependencies, TypeScript, and a production Vite build without Tailwind.
 
 Submit `@ariax`, the repository homepage, this URL template, a description, and an SVG logo in `apps/v4/registry/directory.json` of `shadcn-ui/ui`. Run its `pnpm validate:registries` before opening the submission PR; see the [official requirements](https://ui.shadcn.com/docs/registry/registry-index). Publication does not register the namespace automatically. Until acceptance, use the existing GitHub installation address, or configure the namespace explicitly in `components.json` after publication:
 
 ```json
 {
   "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/registry/{name}.json"
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/deploy/shadcn-registry/public/r/{name}.json"
   }
 }
 ```

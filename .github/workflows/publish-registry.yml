@@ -31,24 +31,25 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm registry:check
       - run: pnpm test:install
-      - name: Publish flat JSON registry
+      - name: Publish source snapshot and registry JSON
         env:
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          output=$(mktemp -d)
-          cp public/r/*.json "$output/"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          if git ls-remote --exit-code --heads origin registry; then
-            git fetch origin registry
-            git switch -C registry FETCH_HEAD
-          else
-            git switch --orphan registry
+          git add --force -- public/r
+          tree=$(git write-tree)
+          parents=(-p "$SOURCE_SHA")
+          # Keep the previous deployment as a parent without merging generated files.
+          if git ls-remote --exit-code --heads origin deploy/shadcn-registry; then
+            git fetch origin deploy/shadcn-registry
+            previous=$(git rev-parse FETCH_HEAD)
+            if [ "$tree" = "$(git rev-parse "$previous^{tree}")" ]; then
+              exit 0
+            fi
+            if [ "$previous" != "$SOURCE_SHA" ]; then
+              parents=(-p "$previous" -p "$SOURCE_SHA")
+            fi
           fi
-          git rm -rf --ignore-unmatch .
-          cp "$output/"*.json .
-          git add -- ./*.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Publish registry from $SOURCE_SHA"
-            git push origin HEAD:refs/heads/registry
-          fi
+          commit=$(git commit-tree "$tree" "${parents[@]}" -m "Publish registry from $SOURCE_SHA")
+          git push origin "$commit:refs/heads/deploy/shadcn-registry"
