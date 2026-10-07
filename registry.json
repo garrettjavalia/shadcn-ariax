@@ -4,6 +4,252 @@
   "homepage": "https://github.com/garrettjavalia/shadcn_ariax",
   "items": [
     {
+      "name": "ariax-base",
+      "title": "Ariax shared styles",
+      "dependencies": [
+        "@stylexjs/stylex@0.19.1"
+      ],
+      "devDependencies": [
+        "@babel/core@7.29.7",
+        "@stylexjs/babel-plugin@0.19.1",
+        "@stylexjs/postcss-plugin@0.19.1",
+        "postcss@8.5.29"
+      ],
+      "files": [
+        {
+          "path": "registry/ariax/ui/animations.stylex.ts",
+          "type": "registry:file",
+          "target": "@ui/animations.stylex.ts"
+        },
+        {
+          "path": "registry/ariax/styles/accordion-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/accordion-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/alert-dialog.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/alert-dialog.css"
+        },
+        {
+          "path": "registry/ariax/styles/alert.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/alert.css"
+        },
+        {
+          "path": "registry/ariax/styles/animations-properties.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/animations-properties.css"
+        },
+        {
+          "path": "registry/ariax/styles/attachment.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/attachment.css"
+        },
+        {
+          "path": "registry/ariax/styles/avatar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/avatar.css"
+        },
+        {
+          "path": "registry/ariax/styles/badge.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/badge.css"
+        },
+        {
+          "path": "registry/ariax/styles/base.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/base.css"
+        },
+        {
+          "path": "registry/ariax/styles/breadcrumb.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/breadcrumb.css"
+        },
+        {
+          "path": "registry/ariax/styles/bubble.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/bubble.css"
+        },
+        {
+          "path": "registry/ariax/styles/button-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/button-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/button-group.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/button-group.css"
+        },
+        {
+          "path": "registry/ariax/styles/calendar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/calendar.css"
+        },
+        {
+          "path": "registry/ariax/styles/card.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/card.css"
+        },
+        {
+          "path": "registry/ariax/styles/chart.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/chart.css"
+        },
+        {
+          "path": "registry/ariax/styles/combobox.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/combobox.css"
+        },
+        {
+          "path": "registry/ariax/styles/command.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/command.css"
+        },
+        {
+          "path": "registry/ariax/styles/context-menu.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/context-menu.css"
+        },
+        {
+          "path": "registry/ariax/styles/dialog.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/dialog.css"
+        },
+        {
+          "path": "registry/ariax/styles/drawer.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/drawer.css"
+        },
+        {
+          "path": "registry/ariax/styles/dropdown-menu.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/dropdown-menu.css"
+        },
+        {
+          "path": "registry/ariax/styles/empty.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/empty.css"
+        },
+        {
+          "path": "registry/ariax/styles/entry.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/entry.css"
+        },
+        {
+          "path": "registry/ariax/styles/field-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/field-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/input-group-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/input-group-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/input-otp.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/input-otp.css"
+        },
+        {
+          "path": "registry/ariax/styles/item.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/item.css"
+        },
+        {
+          "path": "registry/ariax/styles/kbd-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/kbd-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/marker.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/marker.css"
+        },
+        {
+          "path": "registry/ariax/styles/message-scroller.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/message-scroller.css"
+        },
+        {
+          "path": "registry/ariax/styles/message.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/message.css"
+        },
+        {
+          "path": "registry/ariax/styles/reset.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/reset.css"
+        },
+        {
+          "path": "registry/ariax/styles/resizable.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/resizable.css"
+        },
+        {
+          "path": "registry/ariax/styles/select.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/select.css"
+        },
+        {
+          "path": "registry/ariax/styles/sidebar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/sidebar.css"
+        },
+        {
+          "path": "registry/ariax/styles/table.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/table.css"
+        },
+        {
+          "path": "registry/ariax/styles/tabs-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/tabs-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/theme.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/theme.css"
+        },
+        {
+          "path": "registry/ariax/styles/toggle-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/toggle-children.css"
+        },
+        {
+          "path": "registry/ariax/styles/tooltip.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "registry/ariax/styles/typography.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/typography.css"
+        },
+        {
+          "path": "licenses/STYLEX-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/setup/STYLEX-LICENSE"
+        },
+        {
+          "path": "licenses/SHADCN-LICENSE.md",
+          "type": "registry:file",
+          "target": "@ui/ariax/SHADCN-LICENSE.md"
+        },
+        {
+          "path": "licenses/TW-ANIMATE-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/TW-ANIMATE-LICENSE"
+        },
+        {
+          "path": "licenses/TAILWIND-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/TAILWIND-LICENSE"
+        }
+      ],
+      "type": "registry:item"
+    },
+    {
       "name": "accordion",
       "title": "Ariax Accordion",
       "description": "React Aria component: accordion, Nova style, Neutral light/dark tokens.",

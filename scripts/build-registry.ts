@@ -13,6 +13,13 @@ const sharedFiles = [
   { path: 'licenses/TW-ANIMATE-LICENSE', type: 'registry:file', target: '@ui/ariax/TW-ANIMATE-LICENSE' },
   { path: 'licenses/TAILWIND-LICENSE', type: 'registry:file', target: '@ui/ariax/TAILWIND-LICENSE' },
 ];
+const sharedItem = {
+  name: 'ariax-base', type: 'registry:item' as const,
+  title: 'Ariax shared styles',
+  dependencies: [`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`],
+  devDependencies: ['@babel/core', '@stylexjs/babel-plugin', '@stylexjs/postcss-plugin', 'postcss'].map(name => `${name}@${pkg.devDependencies[name]}`),
+  files: sharedFiles,
+};
 const items = await Promise.all([...componentNames.map(name => ({ name, type: 'registry:ui' as const, extension: '.tsx' })), ...recipeNames.map(name => ({ name, type: 'registry:file' as const, extension: '.recipe.stylex.ts' }))].map(async ({ name, type, extension }) => {
   const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies}, extension);
   return {
@@ -26,7 +33,7 @@ const items = await Promise.all([...componentNames.map(name => ({ name, type: 'r
   };
 }));
 assert.equal(new Set(items.map(item => item.name)).size, items.length, 'Duplicate component or recipe registry name');
-const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: 'https://github.com/garrettjavalia/shadcn_ariax', items });
+const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: 'https://github.com/garrettjavalia/shadcn_ariax', items: [sharedItem, ...items] });
 const catalogJSON = JSON.stringify(catalog, null, 2) + '\n';
 if (process.argv.includes('--check')) {
   assert.equal(await readFile('registry.json', 'utf8'), catalogJSON, 'registry.json is stale. Run pnpm registry:build and commit registry.json.');
@@ -35,7 +42,7 @@ if (process.argv.includes('--check')) {
 }
 await mkdir('public/r', { recursive: true });
 await writeFile('registry.json', catalogJSON);
-for (const item of items) {
+for (const item of catalog.items) {
   const built = registryItemSchema.parse({ ...item, $schema: 'https://ui.shadcn.com/schema/registry-item.json', files: await Promise.all(item.files.map(async f => ({ ...f, content: await readFile(f.path, 'utf8') }))) });
   await writeFile(`public/r/${item.name}.json`, JSON.stringify(built, null, 2) + '\n');
 }
