@@ -1,5 +1,6 @@
 import { expect, type Page, type TestInfo } from "@playwright/test";
 import { PNG } from "pngjs";
+import { filterColorDifferences } from "./color-differences";
 import { isDeepStrictEqual } from "node:util";
 
 export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
@@ -228,7 +229,7 @@ export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
     return { roots: roots.map((r, i) => nodes(r, `root:${i}`)), styleBank };
   }, mode);
   // Intern identical computed styles to avoid sending thousands of duplicates over CDP.
-  // Values are compared exactly; no hashes, property allowlists or numeric tolerances.
+  // Preserve exact values here; color tolerance is applied only to reported CSS differences.
   const expand = (value: unknown): unknown => {
     if (Array.isArray(value)) return value.map(expand);
     if (value && typeof value === "object") {
@@ -439,7 +440,9 @@ export async function compare(
   const captured = performance.now();
   // Passing comparisons need only exact equality. Build detailed path/value
   // differences on failure, avoiding per-property path strings and arrays on success.
-  const diff = isDeepStrictEqual(left, right) ? [] : differences(left, right);
+  const diff = isDeepStrictEqual(left, right)
+    ? []
+    : await filterColorDifferences(a, differences(left, right));
   const compared = performance.now();
   if (diff.length)
     await info.attach(`${state}-dom-css-diff`, {

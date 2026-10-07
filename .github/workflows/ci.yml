@@ -17,6 +17,9 @@ jobs:
           node-version: 22.19.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm registry:check
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:stylex
       - run: pnpm test:upstream
       - run: pnpm upstream:check
       - run: pnpm typecheck
