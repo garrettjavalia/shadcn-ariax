@@ -1,8 +1,8 @@
-# shadcn-ariax
+# AriaX
 
 shadcn React Aria components styled with StyleX.
 
-Ariax brings the Nova style and Neutral light/dark themes to a shadcn registry. Install component source into your project and customize it with StyleX.
+AriaX brings the Nova style and Neutral light/dark themes to a shadcn registry. Install component source into your project and customize it with StyleX.
 
 English · [한국어](docs/i18n/readme/ko.md)
 
@@ -101,7 +101,7 @@ Edit the installed component source directly. Components expose `xstyle` for Sty
 
 ## How we verify components
 
-Ariax compares components against a pinned upstream revision using separate upstream and StyleX Storybooks.
+AriaX compares components against a pinned upstream revision using separate upstream and StyleX Storybooks.
 
 The CI comparison checks DOM structure, text, attributes, computed CSS, and pseudo-elements at a 1000px viewport in light and dark themes. Standalone computed color values are compared in OKLab with a maximum ΔE of 0.002 to account for small color-conversion differences. Alpha and other compared values remain exact.
 
@@ -122,7 +122,7 @@ pnpm dev
 The first run downloads and prepares the pinned upstream sources. Generated references are managed automatically under `generated/`.
 
 - [Upstream Storybook](http://127.0.0.1:4100)
-- [Ariax Storybook](http://127.0.0.1:4200)
+- [AriaX Storybook](http://127.0.0.1:4200)
 
 See the [Development guide](docs/i18n/development/en.md) for project structure, modification guidelines, and repository checks.
 
