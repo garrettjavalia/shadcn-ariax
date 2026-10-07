@@ -56,3 +56,53 @@ test("full and CI comparators enforce their declared snapshot contracts", async 
         );
     });
 });
+
+test("color tolerance preserves alpha, geometry, DOM and perceptible differences", async ({
+  page,
+}) => {
+  const { filterColorDifferences } = await import("./color-differences");
+  const changes = [
+    {
+      path: "/0/css/color",
+      upstream: "oklch(0.282 0.091 267.935)",
+      stylex: "rgb(22, 36, 86)",
+    },
+    {
+      path: "/0/pseudos/::before/background-color",
+      upstream: "oklab(0.5 0 0)",
+      stylex: "oklab(0.5019 0 0)",
+    },
+    {
+      path: "/0/css/fill",
+      upstream: "oklab(0.5 0 0)",
+      stylex: "oklab(0.5021 0 0)",
+    },
+    {
+      path: "/0/css/color",
+      upstream: "oklab(0.5 0 0 / 0.5)",
+      stylex: "oklab(0.5 0 0 / 0.501)",
+    },
+    { path: "/0/css/width", upstream: "12px", stylex: "11.984375px" },
+    { path: "/0/attrs/color", upstream: "red", stylex: "rgb(255, 0, 0)" },
+    { path: "/0/css/stroke", upstream: "none", stylex: "rgb(0, 0, 0)" },
+    {
+      path: "/0/css/color",
+      upstream: "color(display-p3 1 0 0)",
+      stylex: "rgb(255, 0, 0)",
+    },
+  ];
+  expect(await filterColorDifferences(page, changes)).toEqual(changes.slice(2));
+});
+
+test("both comparators accept optimized color notation in elements and pseudos", async ({
+  context,
+}, info) => {
+  const a = await context.newPage(),
+    b = await context.newPage();
+  const markup = (color: string) =>
+    `<style>#parity-root { color:${color} } #parity-root::before {content:'test';color:${color}}</style><main id="parity-root">text</main>`;
+  await a.setContent(markup("oklch(0.282 0.091 267.935)"));
+  await b.setContent(markup("rgb(22, 36, 86)"));
+  await compareDOMCSS(a, b, info, "optimized-color-ci");
+  await compare(a, b, info, "optimized-color-full", false);
+});

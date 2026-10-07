@@ -4,7 +4,7 @@ import { basename, join, resolve } from 'node:path';
 import { registrySchema } from 'shadcn/schema';
 
 export async function collectInstallFixtures(root: string) {
-  const catalog = registrySchema.parse(JSON.parse(await readFile(resolve(root, 'public/registry.json'), 'utf8')));
+  const catalog = registrySchema.parse(JSON.parse(await readFile(resolve(root, 'registry.json'), 'utf8')));
   const items = catalog.items.filter(item => item.type === 'registry:ui' || item.type === 'registry:file');
   assert.ok(items.length, 'Registry has no installable UI items');
   assert.equal(new Set(items.map(item => item.name)).size, items.length, 'Duplicate registry UI item');

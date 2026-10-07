@@ -1,6 +1,15 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { resolve } from 'node:path';
-import stylex from '@stylexjs/unplugin';
+import react from '@vitejs/plugin-react';
+import { createRequire } from 'node:module';
+import type { TransformOptions } from '@babel/core';
+const require = createRequire(import.meta.url);
+const stylexPostcss = require('@stylexjs/postcss-plugin');
+const babel: TransformOptions = {
+  babelrc: false, configFile: false,
+  parserOpts: { plugins: ['typescript', 'jsx'] },
+  plugins: [['@stylexjs/babel-plugin', { dev: false, runtimeInjection: false, treeshakeCompensation: true, unstable_moduleResolution: { type: 'commonJS' } }]],
+};
 import tailwind from '@tailwindcss/vite';
 import { originalAliases } from './original-aliases';
 import { frameworkAliases } from './framework-aliases';
@@ -12,9 +21,7 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-docs'],
   staticDirs: ['../public', { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }, ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
-  async viteFinal(config, { configType }) {
-    // Preserve authored calculations and color notation in both parity builds.
-    config.build = {...config.build,cssMinify:false};
+  async viteFinal(config) {
     config.resolve ??= {};
     // Reference namespaces and shared stories must use the same primitive contexts.
     config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts'])];
@@ -71,9 +78,15 @@ const config: StorybookConfig = {
       { find: /^@([a-z][a-z0-9-]*)$/, replacement: resolve(upstream ? 'generated/reference/aria-nova/ui' : 'registry/ariax/ui') + '/$1.tsx' },
     ];
     config.plugins = [
-      ...(upstream ? [tailwind()] : [stylex.vite({ useCSSLayers: false, lightningcssOptions: false, runtimeInjection: configType === 'DEVELOPMENT', cssInjectionTarget: file => /(?:^|\/)iframe(?:-[^/]+)?\.css$/.test(file) })]),
+      ...(upstream ? [tailwind()] : [react({ babel })]),
       ...(config.plugins ?? []),
     ];
+    if (!upstream) {
+      config.css = { ...config.css, postcss: { plugins: [stylexPostcss({
+        include: ['registry/ariax/**/*.{ts,tsx}', 'stories/**/*.{ts,tsx}'],
+        babelConfig: babel, useCSSLayers: false,
+      })] } };
+    }
     config.server ??= {};
     config.server.watch = { ...config.server.watch, ignored: ['**/test-results/**', '**/playwright-report/**', '**/dist/**', '**/.consumer-test*/**'] };
     config.cacheDir = resolve('node_modules/.vite-' + (upstream ? 'upstream' : 'stylex'));

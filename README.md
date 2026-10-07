@@ -1,67 +1,151 @@
 # shadcn-ariax
 
-shadcn의 React Aria 컴포넌트를 StyleX로 제공하는 독립 shadcn 레지스트리다. Nova / Neutral light·dark를 기준으로 모든 컴포넌트 제공을 목표로 한다. 배포 컴포넌트는 Tailwind 없이 동작하며, 지원 현황은 [TODOLIST.md](TODOLIST.md)에서 확인한다.
+shadcn React Aria components styled with StyleX.
 
-## 개발 환경 구성
+Ariax brings the Nova style and Neutral light/dark themes to a shadcn registry. Install component source into your project and customize it with StyleX.
 
-Node 22.19+, pnpm 10.15.1이 필요하다.
+English · [한국어](docs/i18n/readme/ko.md)
+
+## Features
+
+- React Aria primitives for component behavior and accessibility.
+- StyleX styling without a Tailwind dependency.
+- Editable component source installed through the shadcn CLI.
+- Light and dark themes.
+
+See [Component status](docs/i18n/components/en.md) for available components, verification coverage, and remaining work.
+
+## Installation
+
+Start with a React and TypeScript project with shadcn's `components.json` and import aliases configured.
+
+The example below targets Vite 7 with `@vitejs/plugin-react` 5. Next.js, SSR, and other framework integrations have not yet been verified by this project.
+
+### 1. Add a component
 
 ```sh
+pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn_ariax/button
+```
+
+The CLI installs the component source, shared CSS, and required dependencies from GitHub. The selected Git revision must contain the root `registry.json` and its referenced source files. Append `#<tag-or-commit>` to the component address to select a revision.
+
+### 2. Configure StyleX
+
+Configure [StyleX's official Babel + PostCSS integration](https://stylexjs.com/docs/learn/installation/) once per application. Merge the following into your existing configuration if needed.
+
+```js
+// babel.config.cjs
+module.exports = {
+  parserOpts: {
+    plugins: ["typescript", "jsx"],
+  },
+  plugins: ["@stylexjs/babel-plugin"],
+};
+```
+
+The parser options let the PostCSS extraction step read TSX source. You can omit them if the Babel presets used by that step already handle TypeScript and JSX.
+
+```js
+// postcss.config.cjs
+module.exports = {
+  plugins: {
+    "@stylexjs/postcss-plugin": {
+      include: ["src/**/*.{js,jsx,ts,tsx}"],
+    },
+  },
+};
+```
+
+Include every directory containing your components and StyleX code.
+
+For Vite, enable loading the Babel configuration in your existing React plugin setup:
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react({ babel: { configFile: true } })],
+});
+```
+
+Merge this into your existing Vite configuration, including your import aliases.
+
+### 3. Import the styles
+
+Import the installed stylesheet once from your application entry:
+
+```tsx
+// src/main.tsx
+import "./components/ui/ariax/styles/entry.css";
+```
+
+Adjust the path to match your configured component directory. The stylesheet includes the `@stylex;` extraction directive.
+
+### 4. Use the component
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export default function App() {
+  return <Button>Continue</Button>;
+}
+```
+
+Add the `dark` class to `<html>` to enable dark mode. Additional components use the same CLI installation command and share the StyleX setup.
+
+## Customization
+
+Edit the installed component source directly. Components expose `xstyle` for StyleX customization and `style` for inline styles, rather than a public `className` prop.
+
+## How we verify components
+
+Ariax compares components against a pinned upstream revision using separate upstream and StyleX Storybooks.
+
+The CI comparison checks DOM structure, text, attributes, computed CSS, and pseudo-elements at a 1000px viewport in light and dark themes. Standalone computed color values are compared in OKLab with a maximum ΔE of 0.002 to account for small color-conversion differences. Alpha and other compared values remain exact.
+
+The full local suite also checks interactions, geometry, scrolling, focus, pixels, animation timing, installation, and builds. CI comparison results cover a smaller scope than the full suite; component-specific coverage is tracked in [Component status](docs/i18n/components/en.md).
+
+## Local development
+
+Requires Node.js 22.19+ and pnpm 10.15.1.
+
+```sh
+git clone https://github.com/garrettjavalia/shadcn_ariax.git
+cd shadcn_ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
 ```
 
-첫 실행에는 고정한 원본을 다운로드하므로 네트워크가 필요하다. 원본과 공식 shadcn CLI로 설치한 레퍼런스는 `generated/`에 자동 준비되며 정상 캐시는 이후 오프라인에서도 재사용한다. 이 폴더를 직접 준비하거나 Git에 추가할 필요는 없다.
+The first run downloads and prepares the pinned upstream sources. Generated references are managed automatically under `generated/`.
 
-- [원본 Storybook](http://127.0.0.1:4100/?path=/story/original-docs-button--original-button-demo)
-- [StyleX Storybook](http://127.0.0.1:4200/?path=/story/components-button--gallery)
+- [Upstream Storybook](http://127.0.0.1:4100)
+- [Ariax Storybook](http://127.0.0.1:4200)
 
-두 서버는 `.storybook/` 설정을 공유한다. 원본 문서 스토리는 `generated/original-stories/`에 자동 생성되고, StyleX 스토리는 `stories/`에서 개발한다.
+See [Upstream preparation](docs/upstream-structure.md) for details about pinned sources and generated references.
 
-## 검증과 개발 명령
+## Running checks
 
-```sh
-pnpm test:full      # 동작·화면·타입·CLI 설치·빌드까지 전체 검증
-pnpm test           # 전체 브라우저 검사만 실행
-pnpm test:ci        # 기본 1000px light/dark 스토리의 DOM·계산 CSS 비교
-pnpm typecheck      # 타입 검사
-pnpm test:upstream  # 다운로드·캐시 처리 테스트
-pnpm verify         # 전체 검증: 타입·레지스트리·브라우저·CLI 설치·빌드
-pnpm test:report    # 브라우저 테스트 보고서 열기
-pnpm format:tests   # 테스트 파일과 Playwright 설정 포맷
-pnpm test:benchmark # 실행 시간 및 비교 횟수 측정
-pnpm test:benchmark:ci # CI 검사 전체 실행·시간 측정 (로컬 10분 예산)
-```
-
-CI는 기본 스토리의 DOM·CSS를 비교한다. 동작·화면·실제 설치까지 확인하려면 로컬에서 `pnpm test:full`을 실행한다. `pnpm build`로 만든 Storybook을 검사하려면 `ARIAX_STATIC_STORYBOOK=1 pnpm test:ci`를 사용한다.
-
-브라우저 검사는 로컬 worker 4개·CI 2개로 실행한다. `pnpm test --workers=10`처럼 병렬 실행 수를 변경할 수 있고, 자원이 제한된 환경에서는 `--workers=1`을 사용한다. 독립 작업트리의 포트는 `ARIAX_UPSTREAM_PORT=4130 ARIAX_STYLEX_PORT=4230 pnpm dev`처럼 지정하며 테스트에도 같은 환경 변수를 전달한다.
-
-## 소비 앱에 설치
-
-Storybook을 실행한 상태에서 레지스트리를 생성하고 소비 앱에서 설치한다.
+Run these commands from this repository:
 
 ```sh
-# 이 저장소에서
-pnpm registry:build
+pnpm test:ci:light  # Lightweight DOM/CSS comparison: light only
+pnpm test:ci:dark   # Lightweight DOM/CSS comparison: dark only
+pnpm test:ci        # Both themes
 
-# 소비 앱에서
-pnpm exec shadcn add http://127.0.0.1:4200/r/button.json
+pnpm test:stylex    # StyleX extraction and integration checks
+pnpm test:install   # CLI installation and consumer build
+pnpm typecheck      # TypeScript checks
+pnpm test:full      # Full verification suite
 ```
 
-설치된 패치를 소비 앱의 `pnpm-workspace.yaml`에 추가하고 `pnpm install`을 실행한다. 아래 경로는 기본 `src/components/ui` 별칭 기준이며 앱의 실제 설치 경로에 맞춘다. 패치는 고정한 StyleX 0.19.1의 조건부 스타일 주입과 CSS 계산식·색상·RTL 선택자 보존에 필요하다.
+To compare production Storybook builds:
 
-```yaml
-patchedDependencies:
-  '@stylexjs/stylex@0.19.1': src/components/ui/ariax/setup/@stylexjs__stylex@0.19.1.patch
-  '@stylexjs/unplugin@0.19.1': src/components/ui/ariax/setup/@stylexjs__unplugin@0.19.1.patch
+```sh
+pnpm build
+ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
 ```
 
-소비 앱의 Vite에 `@stylexjs/unplugin`의 `stylex.vite({useCSSLayers:false, lightningcssOptions:false})`를 React 플러그인보다 먼저 등록하고 `build.cssMinify:false`를 설정한다. 추가 CSS 변환 없이 현대 브라우저용 StyleX CSS를 배출하는 설정이다. 설치된 `ui/ariax/styles/entry.css`를 한 번 import한다. `<html class="dark">`로 다크 모드를 적용한다. 실제 CLI 설치·소비 앱 빌드는 `pnpm test:install`로 확인할 수 있다.
-
-## 개발 문서
-
-- [컴포넌트 지원 현황](TODOLIST.md)
-- [구현·검증 규칙](convention.md)
-- [원본 고정 및 자동 준비 구조](docs/upstream-structure.md)
+Open browser test results with `pnpm test:report`.

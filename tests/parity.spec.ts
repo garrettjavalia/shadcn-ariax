@@ -17,8 +17,17 @@ const batchCount = process.env.PARITY_COMPONENT
   ? 1
   : Math.max(1, storyFileCount);
 const ciMode = process.env.ARIAX_TEST_MODE === "ci";
+const selectedTheme = ciMode ? process.env.ARIAX_TEST_THEME : undefined;
+if (selectedTheme !== undefined && !["light", "dark"].includes(selectedTheme)) {
+  throw new Error(
+    "ARIAX_TEST_THEME must be light or dark; omit it to test both.",
+  );
+}
 const selectedEnvironments = ciMode
-  ? environments.filter((environment) => environment.width === 1000)
+  ? environments.filter(
+      ({ width, theme }) =>
+        width === 1000 && (!selectedTheme || theme === selectedTheme),
+    )
   : environments;
 for (const { theme, width, requiredTag } of selectedEnvironments)
   for (let batch = 0; batch < batchCount; batch++)

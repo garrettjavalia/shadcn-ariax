@@ -18,7 +18,6 @@ test('cold/concurrent download, offline reuse, missing files and selection chang
     const parentLock = await readFile(resolve(root, 'pnpm-lock.yaml'), 'utf8');
     await writeFile(join(dir, 'pnpm-lock.yaml'), parentLock);
     await cp(resolve(root, 'pnpm-workspace.yaml'), join(dir, 'pnpm-workspace.yaml'));
-    await cp(resolve(root, 'patches'), join(dir, 'patches'), { recursive: true });
     await writeFile(join(dir, 'upstream/reference.json'), JSON.stringify({ components: ['button'], helperReferences: [{base:'base',style:'nova',components:['button']}] }));
     await symlink(resolve(root, 'node_modules'), join(dir, 'node_modules'), 'dir');
     const commit = 'a'.repeat(40);
