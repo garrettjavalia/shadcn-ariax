@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { compare, compareDOMCSS, snapshot, differences } from "./compare";
+import {
+  compare,
+  compareDOMCSS,
+  snapshot,
+  differences,
+  normalizeAnimationSnapshots,
+} from "./compare";
 
 test("full and CI comparators enforce their declared snapshot contracts", async ({
   context,
@@ -73,6 +79,11 @@ test("color tolerance preserves alpha, geometry, DOM and perceptible differences
       stylex: "oklab(0.5019 0 0)",
     },
     {
+      path: "/0/css/background-color",
+      upstream: "oklab(0 0 0 / 0.1)",
+      stylex: "rgba(0, 0, 0, 0.1)",
+    },
+    {
       path: "/0/css/fill",
       upstream: "oklab(0.5 0 0)",
       stylex: "oklab(0.5021 0 0)",
@@ -82,6 +93,16 @@ test("color tolerance preserves alpha, geometry, DOM and perceptible differences
       upstream: "oklab(0.5 0 0 / 0.5)",
       stylex: "oklab(0.5 0 0 / 0.501)",
     },
+    {
+      path: "/0/css/color",
+      upstream: "rgba(0, 0, 0, 0.5)",
+      stylex: "rgba(0, 0, 0, 0.501)",
+    },
+    {
+      path: "/0/css/color",
+      upstream: "rgb(0 0 0 / 0.5000001)",
+      stylex: "oklab(0 0 0 / 0.5000002)",
+    },
     { path: "/0/css/width", upstream: "12px", stylex: "11.984375px" },
     { path: "/0/attrs/color", upstream: "red", stylex: "rgb(255, 0, 0)" },
     { path: "/0/css/stroke", upstream: "none", stylex: "rgb(0, 0, 0)" },
@@ -90,8 +111,23 @@ test("color tolerance preserves alpha, geometry, DOM and perceptible differences
       upstream: "color(display-p3 1 0 0)",
       stylex: "rgb(255, 0, 0)",
     },
+    {
+      path: "/0/css/color",
+      upstream: "oklab(none 0 0)",
+      stylex: "oklab(0 0 0)",
+    },
+    {
+      path: "/0/css/color",
+      upstream: "rgb(0 0 0 / calc(.1 + .1))",
+      stylex: "rgb(0 0 0 / .2)",
+    },
+    {
+      path: "/0/css/color",
+      upstream: "color-mix(in srgb, black, black)",
+      stylex: "rgb(0 0 0)",
+    },
   ];
-  expect(await filterColorDifferences(page, changes)).toEqual(changes.slice(2));
+  expect(await filterColorDifferences(page, changes)).toEqual(changes.slice(3));
 });
 
 test("both comparators accept optimized color notation in elements and pseudos", async ({
@@ -101,8 +137,91 @@ test("both comparators accept optimized color notation in elements and pseudos",
     b = await context.newPage();
   const markup = (color: string) =>
     `<style>#parity-root { color:${color} } #parity-root::before {content:'test';color:${color}}</style><main id="parity-root">text</main>`;
-  await a.setContent(markup("oklch(0.282 0.091 267.935)"));
-  await b.setContent(markup("rgb(22, 36, 86)"));
+  await a.setContent(markup("oklch(0.282 0.091 267.935 / .1)"));
+  await b.setContent(markup("rgba(22, 36, 86, .1)"));
   await compareDOMCSS(a, b, info, "optimized-color-ci");
   await compare(a, b, info, "optimized-color-full", false);
+});
+
+test("animation names require equivalent transform paths and timing", async ({
+  context,
+}, info) => {
+  const pages = await Promise.all([context.newPage(), context.newPage()]);
+  const fixture = (name: string, middle: string, end: string) =>
+    `<style>@keyframes ${name}{from{transform:translate3d(0px,0px,5px) scale3d(1,1,1) rotate(0deg)}50%{transform:${middle}}to{transform:${end}}}#parity-root{width:100px;height:80px;animation:${name} 1s linear both}</style><main id="parity-root">motion</main>`;
+  await pages[0].setContent(
+    fixture(
+      "source",
+      "translateX(20px) scaleX(.8) rotate(90deg)",
+      "translate3d(0px,0px,12px) scale3d(.95,.95,.95) rotate(0deg)",
+    ),
+  );
+  await pages[1].setContent(
+    fixture(
+      "compiled",
+      "translate(20px,0px) scale(.8,1) rotate(90deg)",
+      "translateZ(12px) scale3d(.95,.95,.95) rotate(0deg)",
+    ),
+  );
+  for (const page of pages)
+    await page.locator("#parity-root").evaluate(async (element) => {
+      const animation = element.getAnimations()[0];
+      animation.pause();
+      await animation.ready;
+      animation.currentTime = 0;
+    });
+  const captures = await Promise.all(pages.map((page) => snapshot(page)));
+  expect(
+    differences(captures[0], captures[1]).some((diff) =>
+      diff.path.includes("/frames/"),
+    ),
+  ).toBe(true);
+  expect(
+    differences(...normalizeAnimationSnapshots(captures[0], captures[1])),
+  ).toEqual([]);
+  await compare(
+    pages[0],
+    pages[1],
+    info,
+    "equivalent-transform-path",
+    false,
+    false,
+  );
+  await compareDOMCSS(pages[0], pages[1], info, "equivalent-transform-ci");
+  for (const mutation of [
+    "translation",
+    "rotation",
+    "order",
+    "timing",
+  ] as const) {
+    await test.step(mutation, async () => {
+      await pages[1].locator("#parity-root").evaluate((element, mutation) => {
+        const effect = element.getAnimations()[0].effect as KeyframeEffect;
+        effect.updateTiming({ duration: mutation === "timing" ? 2000 : 1000 });
+        effect.setKeyframes([
+          { transform: "translate3d(0px,0px,5px) scale3d(1,1,1) rotate(0deg)" },
+          { transform: "translate(20px,0px) scale(.8,1) rotate(90deg)" },
+          {
+            transform:
+              mutation === "order"
+                ? "scale3d(.95,.95,.95) translateZ(12px) rotate(0deg)"
+                : `translateZ(${mutation === "translation" ? 13 : 12}px) scale3d(.95,.95,.95) rotate(${mutation === "rotation" ? 360 : 0}deg)`,
+          },
+        ]);
+      }, mutation);
+      await expect(
+        compare(
+          pages[0],
+          pages[1],
+          info,
+          `transform-${mutation}`,
+          false,
+          false,
+        ),
+      ).rejects.toThrow(`transform-${mutation}`);
+      await expect(
+        compareDOMCSS(pages[0], pages[1], info, `transform-ci-${mutation}`),
+      ).rejects.toThrow(`transform-ci-${mutation}`);
+    });
+  }
 });

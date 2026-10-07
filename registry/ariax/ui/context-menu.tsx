@@ -149,7 +149,7 @@ const styles = stylex.create({
   destructive: {
     backgroundColor: {
       default: null,
-      ":is(.ariax-context-content *)[data-focused]":
+      ':is(.ariax-context-content *)[data-focused]:not([data-variant="destructive"]:focus)':
         "color-mix(in oklab, var(--foreground) 10%, transparent)",
       ':is([data-variant="destructive"]):focus':
         "color-mix(in oklab, var(--destructive) 10%, transparent)",

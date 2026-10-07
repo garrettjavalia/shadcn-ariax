@@ -114,7 +114,7 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderColor: {
       default: "var(--input)",
-      ":focus-visible": "var(--ring)",
+      ':focus-visible:not([aria-invalid="true"])': "var(--ring)",
       ':is([aria-invalid="true"])': "var(--destructive)",
       ':is(.dark *)[aria-invalid="true"]':
         "color-mix(in oklab, var(--destructive) 50%, transparent)",

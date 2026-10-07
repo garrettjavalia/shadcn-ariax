@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton, useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVisibility } from '@message-scroller';
 import { messageScrollerDynamic, messageScrollerCustom as custom } from '@message-scroller-customizations';
+import { awaitStoryState } from './story-readiness';
 const meta = {
   title: 'Components/MessageScroller',
   component: MessageScroller,
@@ -10,6 +11,22 @@ const meta = {
 } satisfies Meta<typeof MessageScroller>;
 export default meta;
 type Story = StoryObj<typeof meta>;
+function initialPosition(position: 'start' | 'end') {
+  return awaitStoryState(() => {
+    const root = document.querySelector('#parity-root [data-slot="message-scroller"]');
+    const viewport = document.querySelector<HTMLElement>('#parity-root [data-slot="message-scroller-viewport"]');
+    const atStart = position === 'start';
+    const visible = document.querySelector('#parity-root output[aria-label="Visibility"]')?.textContent?.split(' / ')[1]?.split(',') ?? [];
+    const edgeId = atStart ? 'message-0' : 'message-4';
+    if (!viewport || viewport.clientHeight === 0) return false;
+    const end = viewport.scrollHeight - viewport.clientHeight;
+    return end > 0 && viewport.scrollTop === (atStart ? 0 : end) &&
+      root?.getAttribute('data-scrollable') === (atStart ? 'end' : 'start') &&
+      viewport?.getAttribute('data-scrollable') === (atStart ? 'end' : 'start') &&
+      document.querySelector('#parity-root output[aria-label="Scroll state"]')?.textContent === (atStart ? 'false / true' : 'true / false') &&
+      visible.includes(edgeId);
+  });
+}
 function Commands() {
   const commands = useMessageScroller();
   const scrollable = useMessageScrollerScrollable();
@@ -31,15 +48,19 @@ function State({
             }, (_, index) => <MessageScrollerItem key={index} messageId={`message-${index}`} scrollAnchor={index % 2 === 0} {...custom.item()}>Message {index}</MessageScrollerItem>)}</MessageScrollerContent></MessageScrollerViewport><MessageScrollerButton direction="start" /><MessageScrollerButton /></MessageScroller></MessageScrollerProvider></div>;
 }
 export const PrimitiveState: Story = {
+  decorators: [initialPosition('end')],
   render: () => <State />
 };
 export const OpeningStart: Story = {
+  decorators: [initialPosition('start')],
   render: () => <State position="start" />
 };
 export const LastAnchor: Story = {
+  decorators: [initialPosition('end')],
   render: () => <State position="last-anchor" />
 };
 export const Rtl: Story = {
+  decorators: [initialPosition('end')],
   render: () => <State rtl />
 };
 function Customized() {

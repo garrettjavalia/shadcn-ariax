@@ -141,7 +141,8 @@ const styles = stylex.create({
     borderColor: {
       default: "var(--input)",
       [comboboxContent]: "color-mix(in oklab, var(--input) 30%, transparent)",
-      [focus]: "var(--ring)",
+      ':has([data-slot="input-group-control"]:focus-visible):not(:has([data-slot][aria-invalid="true"]))':
+        "var(--ring)",
       [invalid]: "var(--destructive)",
       ':is([data-slot="combobox-content"] *):focus-within': "inherit",
     },
@@ -221,7 +222,8 @@ const styles = stylex.create({
   control: {
     "--ariax-control-ring": {
       default: "currentColor",
-      ":focus-visible": "color-mix(in oklab, var(--ring) 50%, transparent)",
+      ':focus-visible:not([aria-invalid="true"])':
+        "color-mix(in oklab, var(--ring) 50%, transparent)",
       ':is([aria-invalid="true"])':
         "color-mix(in oklab, var(--destructive) 20%, transparent)",
       ':is(.dark *)[aria-invalid="true"]':

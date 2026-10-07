@@ -413,23 +413,17 @@ const styles = stylex.create({
     },
     backgroundColor: {
       default: null,
-      ":hover": { default: null, "@media (hover: hover)": "var(--muted)" },
-      ':is([aria-expanded="true"])': "var(--muted)",
+      ":hover:not([data-pressed], .dark *)": {
+        default: null,
+        "@media (hover: hover)": "var(--muted)",
+      },
+      ':is([aria-expanded="true"]):not([data-pressed])': "var(--muted)",
       ":is(.dark *):hover": {
         default: null,
         "@media (hover: hover)":
           "color-mix(in oklab, var(--muted) 50%, transparent)",
       },
       ":is([data-pressed])": "transparent",
-      ":hover:is([data-pressed])": {
-        default: null,
-        "@media (hover: hover)": "transparent",
-      },
-      ":is(.dark *)[data-pressed]:hover": {
-        default: null,
-        "@media (hover: hover)":
-          "color-mix(in oklab, var(--muted) 50%, transparent)",
-      },
     },
   },
   triggerIcon: {

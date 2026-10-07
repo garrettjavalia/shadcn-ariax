@@ -2,6 +2,7 @@ import { expect, type Page, type TestInfo } from "@playwright/test";
 import { PNG } from "pngjs";
 import { filterColorDifferences } from "./color-differences";
 import { isDeepStrictEqual } from "node:util";
+import { normalizeKeyframeTransform } from "./animation-normalization";
 
 export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
   const captured = await page.evaluate((mode) => {
@@ -250,6 +251,30 @@ export function normalizeAnimationSnapshots(
   left: unknown,
   right: unknown,
 ): [unknown, unknown] {
+  const frames = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(frames);
+    if (!value || typeof value !== "object") return value;
+    const node = value as Record<string, unknown>;
+    return {
+      ...node,
+      ...(Array.isArray(node.animations)
+        ? {
+            animations: node.animations.map((effect) => ({
+              ...effect,
+              frames: effect.frames.map((frame: Record<string, unknown>) => ({
+                ...frame,
+                ...(typeof frame.transform === "string"
+                  ? { transform: normalizeKeyframeTransform(frame.transform) }
+                  : {}),
+              })),
+            })),
+          }
+        : {}),
+      ...(node.children ? { children: frames(node.children) } : {}),
+    };
+  };
+  left = frames(left);
+  right = frames(right);
   const collect = (value: unknown): unknown[] => {
     if (Array.isArray(value)) return value.flatMap(collect);
     if (!value || typeof value !== "object") return [];

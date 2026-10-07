@@ -196,7 +196,7 @@ export const styles = stylex.create({
       ':is(.ariax-sidebar[data-side="left"] *):dir(ltr)':
         "calc(var(--ariax-spacing, .25rem) * -4)",
       ':is(.ariax-sidebar[data-side="right"] *):dir(rtl)': 0,
-      ':is(.ariax-sidebar[data-side="left"][data-collapsible="offcanvas"] *)':
+      ':is(.ariax-sidebar[data-side="left"][data-state="collapsed"][data-collapsible="offcanvas"] *)':
         "calc(var(--ariax-spacing, .25rem) * -2)",
     },
     insetInlineStart: {
@@ -205,7 +205,7 @@ export const styles = stylex.create({
       ':is(.ariax-sidebar[data-side="left"] *):dir(rtl)':
         "calc(var(--ariax-spacing, .25rem) * -4)",
       ':is(.ariax-sidebar[data-side="right"] *):dir(ltr)': 0,
-      ':is(.ariax-sidebar[data-side="right"][data-collapsible="offcanvas"] *)':
+      ':is(.ariax-sidebar[data-side="right"][data-state="collapsed"][data-collapsible="offcanvas"] *)':
         "calc(var(--ariax-spacing, .25rem) * -2)",
     },
     translate: {
@@ -501,7 +501,7 @@ export const styles = stylex.create({
     },
     paddingInlineEnd: {
       default: null,
-      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *)':
+      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *):not(.ariax-sidebar[data-collapsible="icon"] *)':
         "calc(var(--ariax-spacing, .25rem) * 8)",
       ':is(.ariax-sidebar[data-collapsible="icon"] *)':
         "calc(var(--ariax-spacing, .25rem) * 2)",
@@ -583,7 +583,7 @@ export const styles = stylex.create({
     },
     paddingInlineEnd: {
       default: null,
-      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *)':
+      ':is(.ariax-sidebar-menu-item:has([data-sidebar="menu-action"]) *):not(.ariax-sidebar[data-collapsible="icon"] *)':
         "calc(var(--ariax-spacing, .25rem) * 8)",
       ':is(.ariax-sidebar[data-collapsible="icon"] *)': 0,
     },

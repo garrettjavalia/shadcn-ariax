@@ -3,6 +3,14 @@ import { expect, type Page } from "@playwright/test";
 // Shared story fixtures may expose completion of their initial JavaScript work.
 // Only initial navigation waits here; intermediate animation comparisons do not.
 export async function waitForStoryReadiness(page: Page) {
+  await page.evaluate(async () => {
+    const scope = window as Window & { parityReady?: Promise<void> };
+    for (;;) {
+      const ready = scope.parityReady;
+      await ready;
+      if (ready === scope.parityReady) break;
+    }
+  });
   // The SDK marks initial positioning as pending until its scroll work commits.
   await expect(page.locator("#parity-root [data-pending-scroll]")).toHaveCount(
     0,
@@ -29,10 +37,9 @@ export async function waitForStoryReadiness(page: Page) {
         .map((image) => image.decode().catch(() => {})),
     );
   });
-  const usesVazirmatn = await page.evaluate(async () => {
-    await (window as Window & { parityReady?: Promise<void> }).parityReady;
-    return document.querySelector(".example-vazirmatn") !== null;
-  });
+  const usesVazirmatn = await page.evaluate(
+    () => document.querySelector(".example-vazirmatn") !== null,
+  );
   if (usesVazirmatn) {
     await expect
       .poll(

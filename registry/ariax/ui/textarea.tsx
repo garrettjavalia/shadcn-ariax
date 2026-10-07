@@ -52,7 +52,7 @@ const styles = stylex.create({
     color: { default: null, "::placeholder": "var(--muted-foreground)" },
     borderColor: {
       default: "var(--input)",
-      ":focus-visible": "var(--ring)",
+      ':focus-visible:not([aria-invalid="true"])': "var(--ring)",
       ':is([aria-invalid="true"])': "var(--destructive)",
       ':is(.dark *)[aria-invalid="true"]':
         "color-mix(in oklab, var(--destructive) 50%, transparent)",
