@@ -17,7 +17,7 @@ const sharedFiles = [
 ];
 const sharedItem = {
   name: 'ariax-base', type: 'registry:item' as const,
-  title: 'Ariax shared styles',
+  title: 'AriaX shared styles',
   dependencies: [`@stylexjs/stylex@${pkg.dependencies['@stylexjs/stylex']}`],
   devDependencies: ['@babel/core', '@stylexjs/babel-plugin', '@stylexjs/postcss-plugin', 'postcss'].map(name => `${name}@${pkg.devDependencies[name]}`),
   files: sharedFiles,
@@ -29,11 +29,11 @@ const sharedHash = createHash('sha256').update(JSON.stringify(registryItemSchema
 for (const file of sharedFiles) sharedHash.update(await readFile(file.path));
 const sharedDigest = sharedHash.digest('hex');
 if (process.argv.includes('--publish-shared')) console.log(`Shared item digest: ${sharedDigest}`);
-else assert.equal(sharedDigest, '04f9c6504cb39a575f75a6449ee98752bfda7ea00561c10c734283b834813279', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
+else assert.equal(sharedDigest, 'f5c3007cc04551aed7698e62aa2e0728eccbb199d5811e41ea5b8fd07845c336', 'Shared files changed: publish with --publish-shared, then update sharedRevision and the digest.');
 const items = await Promise.all([...componentNames.map(name => ({ name, type: 'registry:ui' as const, extension: '.tsx' })), ...recipeNames.map(name => ({ name, type: 'registry:file' as const, extension: '.recipe.stylex.ts' }))].map(async ({ name, type, extension }) => {
   const source = await componentSources(process.cwd(), name, {...pkg.dependencies, ...pkg.devDependencies}, extension);
   return {
-  name, type, title: `Ariax ${name[0].toUpperCase()}${name.slice(1)}`,
+  name, type, title: `AriaX ${name[0].toUpperCase()}${name.slice(1)}`,
   description: `${type === 'registry:file' ? 'Intrinsic HTML StyleX recipes' : 'React Aria component'}: ${name}, Nova style, Neutral light/dark tokens.`,
   dependencies: source.dependencies.filter(dependency => !sharedItem.dependencies.includes(dependency)),
   registryDependencies: [sharedDependency],

@@ -5,7 +5,7 @@
   "items": [
     {
       "name": "ariax-base",
-      "title": "Ariax shared styles",
+      "title": "AriaX shared styles",
       "dependencies": [
         "@stylexjs/stylex@0.19.1"
       ],
@@ -256,7 +256,7 @@
     },
     {
       "name": "accordion",
-      "title": "Ariax Accordion",
+      "title": "AriaX Accordion",
       "description": "React Aria component: accordion, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -288,7 +288,7 @@
     },
     {
       "name": "alert",
-      "title": "Ariax Alert",
+      "title": "AriaX Alert",
       "description": "React Aria component: alert, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -318,7 +318,7 @@
     },
     {
       "name": "alert-dialog",
-      "title": "Ariax Alert-dialog",
+      "title": "AriaX Alert-dialog",
       "description": "React Aria component: alert-dialog, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -365,7 +365,7 @@
     },
     {
       "name": "aspect-ratio",
-      "title": "Ariax Aspect-ratio",
+      "title": "AriaX Aspect-ratio",
       "description": "React Aria component: aspect-ratio, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -395,7 +395,7 @@
     },
     {
       "name": "attachment",
-      "title": "Ariax Attachment",
+      "title": "AriaX Attachment",
       "description": "React Aria component: attachment, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -436,7 +436,7 @@
     },
     {
       "name": "avatar",
-      "title": "Ariax Avatar",
+      "title": "AriaX Avatar",
       "description": "React Aria component: avatar, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -471,7 +471,7 @@
     },
     {
       "name": "badge",
-      "title": "Ariax Badge",
+      "title": "AriaX Badge",
       "description": "React Aria component: badge, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -501,7 +501,7 @@
     },
     {
       "name": "breadcrumb",
-      "title": "Ariax Breadcrumb",
+      "title": "AriaX Breadcrumb",
       "description": "React Aria component: breadcrumb, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -533,7 +533,7 @@
     },
     {
       "name": "bubble",
-      "title": "Ariax Bubble",
+      "title": "AriaX Bubble",
       "description": "React Aria component: bubble, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -563,7 +563,7 @@
     },
     {
       "name": "button",
-      "title": "Ariax Button",
+      "title": "AriaX Button",
       "description": "React Aria component: button, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -599,7 +599,7 @@
     },
     {
       "name": "button-group",
-      "title": "Ariax Button-group",
+      "title": "AriaX Button-group",
       "description": "React Aria component: button-group, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -640,7 +640,7 @@
     },
     {
       "name": "calendar",
-      "title": "Ariax Calendar",
+      "title": "AriaX Calendar",
       "description": "React Aria component: calendar, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -702,7 +702,7 @@
     },
     {
       "name": "card",
-      "title": "Ariax Card",
+      "title": "AriaX Card",
       "description": "React Aria component: card, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -737,7 +737,7 @@
     },
     {
       "name": "carousel",
-      "title": "Ariax Carousel",
+      "title": "AriaX Carousel",
       "description": "React Aria component: carousel, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "embla-carousel-react@8.5.2",
@@ -780,7 +780,7 @@
     },
     {
       "name": "chart",
-      "title": "Ariax Chart",
+      "title": "AriaX Chart",
       "description": "React Aria component: chart, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-is@18.3.1",
@@ -817,7 +817,7 @@
     },
     {
       "name": "checkbox",
-      "title": "Ariax Checkbox",
+      "title": "AriaX Checkbox",
       "description": "React Aria component: checkbox, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -848,7 +848,7 @@
     },
     {
       "name": "collapsible",
-      "title": "Ariax Collapsible",
+      "title": "AriaX Collapsible",
       "description": "React Aria component: collapsible, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1"
@@ -878,7 +878,7 @@
     },
     {
       "name": "combobox",
-      "title": "Ariax Combobox",
+      "title": "AriaX Combobox",
       "description": "React Aria component: combobox, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -935,7 +935,7 @@
     },
     {
       "name": "command",
-      "title": "Ariax Command",
+      "title": "AriaX Command",
       "description": "React Aria component: command, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -997,7 +997,7 @@
     },
     {
       "name": "context-menu",
-      "title": "Ariax Context-menu",
+      "title": "AriaX Context-menu",
       "description": "React Aria component: context-menu, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -1034,7 +1034,7 @@
     },
     {
       "name": "dialog",
-      "title": "Ariax Dialog",
+      "title": "AriaX Dialog",
       "description": "React Aria component: dialog, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -1076,7 +1076,7 @@
     },
     {
       "name": "direction",
-      "title": "Ariax Direction",
+      "title": "AriaX Direction",
       "description": "React Aria component: direction, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1107,7 +1107,7 @@
     },
     {
       "name": "drawer",
-      "title": "Ariax Drawer",
+      "title": "AriaX Drawer",
       "description": "React Aria component: drawer, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "@base-ui/react@1.6.0",
@@ -1148,7 +1148,7 @@
     },
     {
       "name": "dropdown-menu",
-      "title": "Ariax Dropdown-menu",
+      "title": "AriaX Dropdown-menu",
       "description": "React Aria component: dropdown-menu, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -1185,7 +1185,7 @@
     },
     {
       "name": "empty",
-      "title": "Ariax Empty",
+      "title": "AriaX Empty",
       "description": "React Aria component: empty, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -1215,7 +1215,7 @@
     },
     {
       "name": "field",
-      "title": "Ariax Field",
+      "title": "AriaX Field",
       "description": "React Aria component: field, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1266,7 +1266,7 @@
     },
     {
       "name": "hover-card",
-      "title": "Ariax Hover-card",
+      "title": "AriaX Hover-card",
       "description": "React Aria component: hover-card, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1297,7 +1297,7 @@
     },
     {
       "name": "input",
-      "title": "Ariax Input",
+      "title": "AriaX Input",
       "description": "React Aria component: input, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1328,7 +1328,7 @@
     },
     {
       "name": "input-group",
-      "title": "Ariax Input-group",
+      "title": "AriaX Input-group",
       "description": "React Aria component: input-group, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1379,7 +1379,7 @@
     },
     {
       "name": "input-otp",
-      "title": "Ariax Input-otp",
+      "title": "AriaX Input-otp",
       "description": "React Aria component: input-otp, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "input-otp@1.4.2",
@@ -1411,7 +1411,7 @@
     },
     {
       "name": "item",
-      "title": "Ariax Item",
+      "title": "AriaX Item",
       "description": "React Aria component: item, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1447,7 +1447,7 @@
     },
     {
       "name": "kbd",
-      "title": "Ariax Kbd",
+      "title": "AriaX Kbd",
       "description": "React Aria component: kbd, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1478,7 +1478,7 @@
     },
     {
       "name": "label",
-      "title": "Ariax Label",
+      "title": "AriaX Label",
       "description": "React Aria component: label, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1514,7 +1514,7 @@
     },
     {
       "name": "marker",
-      "title": "Ariax Marker",
+      "title": "AriaX Marker",
       "description": "React Aria component: marker, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -1544,7 +1544,7 @@
     },
     {
       "name": "message",
-      "title": "Ariax Message",
+      "title": "AriaX Message",
       "description": "React Aria component: message, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -1574,7 +1574,7 @@
     },
     {
       "name": "message-scroller",
-      "title": "Ariax Message-scroller",
+      "title": "AriaX Message-scroller",
       "description": "React Aria component: message-scroller, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "@shadcn/react@0.3.1",
@@ -1617,7 +1617,7 @@
     },
     {
       "name": "native-select",
-      "title": "Ariax Native-select",
+      "title": "AriaX Native-select",
       "description": "React Aria component: native-select, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -1648,7 +1648,7 @@
     },
     {
       "name": "pagination",
-      "title": "Ariax Pagination",
+      "title": "AriaX Pagination",
       "description": "React Aria component: pagination, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -1690,7 +1690,7 @@
     },
     {
       "name": "popover",
-      "title": "Ariax Popover",
+      "title": "AriaX Popover",
       "description": "React Aria component: popover, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1721,7 +1721,7 @@
     },
     {
       "name": "progress",
-      "title": "Ariax Progress",
+      "title": "AriaX Progress",
       "description": "React Aria component: progress, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1752,7 +1752,7 @@
     },
     {
       "name": "questionnaire",
-      "title": "Ariax Questionnaire",
+      "title": "AriaX Questionnaire",
       "description": "React Aria component: questionnaire, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "@shadcn/react@0.3.1",
@@ -1800,7 +1800,7 @@
     },
     {
       "name": "radio-group",
-      "title": "Ariax Radio-group",
+      "title": "AriaX Radio-group",
       "description": "React Aria component: radio-group, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1"
@@ -1830,7 +1830,7 @@
     },
     {
       "name": "resizable",
-      "title": "Ariax Resizable",
+      "title": "AriaX Resizable",
       "description": "React Aria component: resizable, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-resizable-panels@4.5.8"
@@ -1860,7 +1860,7 @@
     },
     {
       "name": "scroll-area",
-      "title": "Ariax Scroll-area",
+      "title": "AriaX Scroll-area",
       "description": "React Aria component: scroll-area, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -1890,7 +1890,7 @@
     },
     {
       "name": "select",
-      "title": "Ariax Select",
+      "title": "AriaX Select",
       "description": "React Aria component: select, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -1947,7 +1947,7 @@
     },
     {
       "name": "separator",
-      "title": "Ariax Separator",
+      "title": "AriaX Separator",
       "description": "React Aria component: separator, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -1978,7 +1978,7 @@
     },
     {
       "name": "sheet",
-      "title": "Ariax Sheet",
+      "title": "AriaX Sheet",
       "description": "React Aria component: sheet, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -2020,7 +2020,7 @@
     },
     {
       "name": "sidebar",
-      "title": "Ariax Sidebar",
+      "title": "AriaX Sidebar",
       "description": "React Aria component: sidebar, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -2092,7 +2092,7 @@
     },
     {
       "name": "skeleton",
-      "title": "Ariax Skeleton",
+      "title": "AriaX Skeleton",
       "description": "React Aria component: skeleton, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"
@@ -2122,7 +2122,7 @@
     },
     {
       "name": "slider",
-      "title": "Ariax Slider",
+      "title": "AriaX Slider",
       "description": "React Aria component: slider, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1"
@@ -2152,7 +2152,7 @@
     },
     {
       "name": "sonner",
-      "title": "Ariax Sonner",
+      "title": "AriaX Sonner",
       "description": "React Aria component: sonner, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -2185,7 +2185,7 @@
     },
     {
       "name": "spinner",
-      "title": "Ariax Spinner",
+      "title": "AriaX Spinner",
       "description": "React Aria component: spinner, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "lucide-react@1.52.0",
@@ -2216,7 +2216,7 @@
     },
     {
       "name": "switch",
-      "title": "Ariax Switch",
+      "title": "AriaX Switch",
       "description": "React Aria component: switch, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1"
@@ -2246,7 +2246,7 @@
     },
     {
       "name": "table",
-      "title": "Ariax Table",
+      "title": "AriaX Table",
       "description": "React Aria component: table, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -2277,7 +2277,7 @@
     },
     {
       "name": "tabs",
-      "title": "Ariax Tabs",
+      "title": "AriaX Tabs",
       "description": "React Aria component: tabs, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -2308,7 +2308,7 @@
     },
     {
       "name": "textarea",
-      "title": "Ariax Textarea",
+      "title": "AriaX Textarea",
       "description": "React Aria component: textarea, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -2339,7 +2339,7 @@
     },
     {
       "name": "toggle",
-      "title": "Ariax Toggle",
+      "title": "AriaX Toggle",
       "description": "React Aria component: toggle, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1"
@@ -2369,7 +2369,7 @@
     },
     {
       "name": "toggle-group",
-      "title": "Ariax Toggle-group",
+      "title": "AriaX Toggle-group",
       "description": "React Aria component: toggle-group, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -2405,7 +2405,7 @@
     },
     {
       "name": "tooltip",
-      "title": "Ariax Tooltip",
+      "title": "AriaX Tooltip",
       "description": "React Aria component: tooltip, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react-aria-components@1.21.1",
@@ -2436,7 +2436,7 @@
     },
     {
       "name": "typography",
-      "title": "Ariax Typography",
+      "title": "AriaX Typography",
       "description": "Intrinsic HTML StyleX recipes: typography, Nova style, Neutral light/dark tokens.",
       "dependencies": [
         "react@19.3.0"

@@ -2,7 +2,7 @@
 
 [English](en.md) · 한국어
 
-Ariax를 수정하는 개발자를 위한 문서입니다. 앱에 컴포넌트를 설치하는 방법은 [README](../readme/ko.md)를 참고하세요.
+AriaX를 수정하는 개발자를 위한 문서입니다. 앱에 컴포넌트를 설치하는 방법은 [README](../readme/ko.md)를 참고하세요.
 
 ## 로컬 환경
 
@@ -14,7 +14,7 @@ pnpm exec playwright install chromium
 pnpm dev
 ```
 
-첫 실행은 `generated/`에 고정된 업스트림 소스를 준비합니다. Storybook은 [원본 :4100](http://127.0.0.1:4100)과 [Ariax :4200](http://127.0.0.1:4200)에서 실행됩니다. 포트를 바꾸려면 개발과 테스트에 `ARIAX_UPSTREAM_PORT`, `ARIAX_STYLEX_PORT`를 동일하게 지정합니다.
+첫 실행은 `generated/`에 고정된 업스트림 소스를 준비합니다. Storybook은 [원본 :4100](http://127.0.0.1:4100)과 [AriaX :4200](http://127.0.0.1:4200)에서 실행됩니다. 포트를 바꾸려면 개발과 테스트에 `ARIAX_UPSTREAM_PORT`, `ARIAX_STYLEX_PORT`를 동일하게 지정합니다.
 
 ## 저장소 구조
 
@@ -102,6 +102,6 @@ pnpm build
 ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
 ```
 
-`pnpm test:upstream`은 로컬 원본 아카이브와 실제 CLI로 변환·동시 준비·오프라인 재사용·캐시 복구를 검사합니다. `pnpm test:install`은 별도로 소비 앱에 Ariax 레지스트리를 설치합니다.
+`pnpm test:upstream`은 로컬 원본 아카이브와 실제 CLI로 변환·동시 준비·오프라인 재사용·캐시 복구를 검사합니다. `pnpm test:install`은 별도로 소비 앱에 AriaX 레지스트리를 설치합니다.
 
 `pnpm test`는 브라우저 검사를, `pnpm test:full`은 설치와 빌드를 포함한 전체 검증을 실행합니다. 결과는 `pnpm test:report`로 보고 테스트 포맷은 `pnpm format:tests`, 컴포넌트·배포 CSS는 `pnpm format:components`로 맞춥니다. `pnpm format:check`는 로컬 전체 검증과 CI에서 두 범위를 검사합니다. 구현·검증의 세부 규칙은 [convention.md](../../../convention.md)를 참고하세요.

@@ -1,8 +1,8 @@
-# shadcn-ariax
+# AriaX
 
 shadcn React Aria 컴포넌트를 StyleX로 제공합니다.
 
-Ariax는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
+AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
 
 [English](../../../README.md) · 한국어
 
@@ -101,7 +101,7 @@ export default function App() {
 
 ## 컴포넌트 검증 방식
 
-Ariax는 원본과 StyleX용 Storybook을 분리하고, 고정한 업스트림 리비전의 컴포넌트와 비교합니다.
+AriaX는 원본과 StyleX용 Storybook을 분리하고, 고정한 업스트림 리비전의 컴포넌트와 비교합니다.
 
 CI 비교는 1000px 뷰포트의 라이트·다크 테마에서 DOM 구조, 텍스트, 속성, 계산 CSS와 의사 요소를 검사합니다. 계산 CSS의 단일 색상 값은 작은 색상 변환 차이를 고려해 OKLab에서 최대 ΔE 0.002를 허용합니다. 투명도와 나머지 비교 값은 정확하게 비교합니다.
 
@@ -122,7 +122,7 @@ pnpm dev
 첫 실행은 고정된 업스트림 소스를 다운로드하고 준비합니다. 생성된 레퍼런스는 `generated/` 아래에서 자동으로 관리됩니다.
 
 - [원본 Storybook](http://127.0.0.1:4100)
-- [Ariax Storybook](http://127.0.0.1:4200)
+- [AriaX Storybook](http://127.0.0.1:4200)
 
 프로젝트 구조, 수정 방법과 저장소 검사는 [개발 가이드](../development/ko.md)를 참고하세요.
 

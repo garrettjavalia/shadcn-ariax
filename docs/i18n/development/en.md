@@ -2,7 +2,7 @@
 
 English · [한국어](ko.md)
 
-For developers working on Ariax. For application installation, see the [README](../../../README.md).
+For developers working on AriaX. For application installation, see the [README](../../../README.md).
 
 ## Local environment
 
@@ -14,7 +14,7 @@ pnpm exec playwright install chromium
 pnpm dev
 ```
 
-The first run prepares pinned upstream sources under `generated/`. Storybooks run at [upstream :4100](http://127.0.0.1:4100) and [Ariax :4200](http://127.0.0.1:4200). To change ports, use `ARIAX_UPSTREAM_PORT` and `ARIAX_STYLEX_PORT` consistently for development and tests.
+The first run prepares pinned upstream sources under `generated/`. Storybooks run at [upstream :4100](http://127.0.0.1:4100) and [AriaX :4200](http://127.0.0.1:4200). To change ports, use `ARIAX_UPSTREAM_PORT` and `ARIAX_STYLEX_PORT` consistently for development and tests.
 
 ## Repository structure
 
@@ -102,6 +102,6 @@ pnpm build
 ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
 ```
 
-`pnpm test:upstream` uses local source archives with the real CLI to check transforms, concurrent preparation, offline reuse, and cache recovery. `pnpm test:install` separately installs the Ariax registry into a consumer app.
+`pnpm test:upstream` uses local source archives with the real CLI to check transforms, concurrent preparation, offline reuse, and cache recovery. `pnpm test:install` separately installs the AriaX registry into a consumer app.
 
 `pnpm test` runs the browser suite; `pnpm test:full` runs full verification, including installation and builds. View results with `pnpm test:report`; format tests with `pnpm format:tests` and components/shipped CSS with `pnpm format:components`. `pnpm format:check` checks both scopes during full local verification and CI. Detailed implementation and verification rules are in [convention.md](../../../convention.md).
