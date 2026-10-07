@@ -6,7 +6,7 @@ import {
   AvatarBadge,
   AvatarGroup,
   AvatarGroupCount,
-} from "../../registry/ariax/ui/avatar";
+} from "../../src/ariax/ui/avatar";
 const styles = stylex.create({
   round: { borderRadius: 12 },
   dynamic: (size: number) => ({ width: size, height: size }),

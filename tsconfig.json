@@ -18,26 +18,26 @@
       "vite/client"
     ],
     "paths": {
-      "@*-recipes": ["./registry/ariax/ui/*.recipe.stylex.ts"],
+      "@*-recipes": ["./src/ariax/ui/*.recipe.stylex.ts"],
       "@*-customizations": ["./stories/*-customizations.ts"],
-      "@*": ["./registry/ariax/ui/*"],
+      "@*": ["./src/ariax/ui/*"],
       "@card-customizations": [
         "./stories/card-customizations.ts"
       ],
       "@card": [
-        "./registry/ariax/ui/card.tsx"
+        "./src/ariax/ui/card.tsx"
       ],
       "@button": [
-        "./registry/ariax/ui/button.tsx"
+        "./src/ariax/ui/button.tsx"
       ],
       "@customizations": [
         "./stories/customizations.ts"
       ],
       "@separator": [
-        "./registry/ariax/ui/separator.tsx"
+        "./src/ariax/ui/separator.tsx"
       ],
       "@skeleton": [
-        "./registry/ariax/ui/skeleton.tsx"
+        "./src/ariax/ui/skeleton.tsx"
       ],
       "@skeleton-customizations": [
         "./stories/skeleton-customizations.ts"
@@ -46,91 +46,91 @@
         "./generated/reference/aria-nova/*"
       ],
       "@badge": [
-        "./registry/ariax/ui/badge.tsx"
+        "./src/ariax/ui/badge.tsx"
       ],
       "@badge-customizations": [
         "./stories/badge-customizations.ts"
       ],
       "@alert": [
-        "./registry/ariax/ui/alert.tsx"
+        "./src/ariax/ui/alert.tsx"
       ],
       "@alert-customizations": [
         "./stories/alert-customizations.ts"
       ],
       "@aspect-ratio": [
-        "./registry/ariax/ui/aspect-ratio.tsx"
+        "./src/ariax/ui/aspect-ratio.tsx"
       ],
       "@aspect-customizations": [
         "./stories/aspect-customizations.ts"
       ],
       "@label": [
-        "./registry/ariax/ui/label.tsx"
+        "./src/ariax/ui/label.tsx"
       ],
       "@input": [
-        "./registry/ariax/ui/input.tsx"
+        "./src/ariax/ui/input.tsx"
       ],
       "@input-customizations": [
         "./stories/input-customizations.ts"
       ],
       "@checkbox": [
-        "./registry/ariax/ui/checkbox.tsx"
+        "./src/ariax/ui/checkbox.tsx"
       ],
       "@textarea": [
-        "./registry/ariax/ui/textarea.tsx"
+        "./src/ariax/ui/textarea.tsx"
       ],
       "@textarea-customizations": [
         "./stories/textarea-customizations.ts"
       ],
       "@field": [
-        "./registry/ariax/ui/field.tsx"
+        "./src/ariax/ui/field.tsx"
       ],
       "@input-group": [
-        "./registry/ariax/ui/input-group.tsx"
+        "./src/ariax/ui/input-group.tsx"
       ],
       "@input-group-customizations": [
         "./stories/input-group-customizations.ts"
       ],
       "@table": [
-        "./registry/ariax/ui/table.tsx"
+        "./src/ariax/ui/table.tsx"
       ],
       "@table-customizations": [
         "./stories/table-customizations.ts"
       ],
       "@kbd": [
-        "./registry/ariax/ui/kbd.tsx"
+        "./src/ariax/ui/kbd.tsx"
       ],
       "@kbd-customizations": [
         "./stories/kbd-customizations.ts"
       ],
       "@native-select": [
-        "./registry/ariax/ui/native-select.tsx"
+        "./src/ariax/ui/native-select.tsx"
       ],
       "@dropdown-menu": [
-        "./registry/ariax/ui/dropdown-menu.tsx"
+        "./src/ariax/ui/dropdown-menu.tsx"
       ],
       "@dropdown-menu-customizations": [
         "./stories/dropdown-menu-customizations.ts"
       ],
       "@tooltip": [
-        "./registry/ariax/ui/tooltip.tsx"
+        "./src/ariax/ui/tooltip.tsx"
       ],
       "@tooltip-customizations": [
         "./stories/tooltip-customizations.ts"
       ],
       "@switch": [
-        "./registry/ariax/ui/switch.tsx"
+        "./src/ariax/ui/switch.tsx"
       ],
       "@avatar": [
-        "./registry/ariax/ui/avatar.tsx"
+        "./src/ariax/ui/avatar.tsx"
       ],
       "@avatar-customizations": [
         "./stories/avatar-customizations.ts"
       ],
       "@radio-group": [
-        "./registry/ariax/ui/radio-group.tsx"
+        "./src/ariax/ui/radio-group.tsx"
       ],
       "@button-group": [
-        "./registry/ariax/ui/button-group.tsx"
+        "./src/ariax/ui/button-group.tsx"
       ],
       "@button-group-customizations": [
         "./stories/button-group-customizations.ts"
@@ -140,7 +140,7 @@
   "include": [
     ".storybook",
     "stories",
-    "registry",
+    "src",
     "tests",
     "playwright.config.ts",
     "scripts",

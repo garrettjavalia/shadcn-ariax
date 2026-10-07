@@ -6,7 +6,7 @@ import {
   ButtonGroupSeparator,
   buttonGroupProps,
   buttonGroupVariants,
-} from "../../registry/ariax/ui/button-group";
+} from "../../src/ariax/ui/button-group";
 const styles = stylex.create({ dynamic: (width: number) => ({ width }) });
 <ButtonGroup
   ref={createRef<HTMLDivElement>()}
@@ -41,7 +41,7 @@ const styles = stylex.create({ dynamic: (width: number) => ({ width }) });
 <ButtonGroupText className="flex" />;
 // @ts-expect-error External class names are unsupported.
 <ButtonGroupSeparator className="flex" />;
-import { Label } from "../../registry/ariax/ui/label";
+import { Label } from "../../src/ariax/ui/label";
 <ButtonGroupText
   render={(props) => <Label {...props} htmlFor="real-input" />}
   xstyle={styles.dynamic(180)}

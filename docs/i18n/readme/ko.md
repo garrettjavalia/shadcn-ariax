@@ -95,6 +95,8 @@ export default function App() {
 
 `<html>`에 `dark` 클래스를 추가하면 다크 모드가 적용됩니다. 추가 컴포넌트도 같은 CLI 명령으로 설치하며, StyleX 설정은 공유합니다.
 
+레지스트리 관리자는 [GitHub Raw 게시와 디렉터리 등록](../development/ko.md#레지스트리-디렉터리용-게시)을 참고하세요. 위 GitHub 설치 주소는 디렉터리 등록 없이 사용할 수 있습니다.
+
 ## 커스터마이징
 
 설치된 컴포넌트 소스를 직접 수정할 수 있습니다. 컴포넌트는 공개 `className` prop 대신 StyleX 커스터마이징용 `xstyle`과 인라인 스타일용 `style`을 제공합니다.

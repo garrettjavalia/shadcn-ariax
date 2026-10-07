@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import { Kbd, KbdGroup } from "../../registry/ariax/ui/kbd";
+import { Kbd, KbdGroup } from "../../src/ariax/ui/kbd";
 const styles = stylex.create({ width: (width: number) => ({ width }) });
 <Kbd xstyle={[styles.width(40), false]} style={{ fontSize: 20 }} id="key">
   Ctrl

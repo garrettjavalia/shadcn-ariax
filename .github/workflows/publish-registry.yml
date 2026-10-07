@@ -1,0 +1,55 @@
+name: Publish registry to GitHub Raw
+
+on:
+  push:
+    branches: [deploy-registry]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/deploy-registry'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.19.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm registry:check
+      - run: pnpm test:install
+      - name: Publish source snapshot and registry JSON
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --force -- registry
+          tree=$(git write-tree)
+          parents=(-p "$SOURCE_SHA")
+          # Keep the previous deployment as a parent without merging generated files.
+          if git ls-remote --exit-code --heads origin published-registry; then
+            git fetch origin published-registry
+            previous=$(git rev-parse FETCH_HEAD)
+            if [ "$tree" = "$(git rev-parse "$previous^{tree}")" ]; then
+              exit 0
+            fi
+            if [ "$previous" != "$SOURCE_SHA" ]; then
+              parents=(-p "$previous" -p "$SOURCE_SHA")
+            fi
+          fi
+          commit=$(git commit-tree "$tree" "${parents[@]}" -m "Publish registry from $SOURCE_SHA")
+          git push origin "$commit:refs/heads/published-registry"

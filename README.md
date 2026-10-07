@@ -95,6 +95,8 @@ export default function App() {
 
 Add the `dark` class to `<html>` to enable dark mode. Additional components use the same CLI installation command and share the StyleX setup.
 
+Registry maintainers: see [GitHub Raw publication and directory submission](docs/i18n/development/en.md#publishing-for-the-registry-directory). The GitHub installation address above works without directory registration.
+
 ## Customization
 
 Edit the installed component source directly. Components expose `xstyle` for StyleX customization and `style` for inline styles, rather than a public `className` prop.

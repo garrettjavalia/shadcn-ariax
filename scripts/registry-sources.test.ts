@@ -15,7 +15,7 @@ test('registry discovers primary components and follows imports, reexports, type
   };
   try {
     for (const [file, content] of Object.entries(sources)) {
-      const path = join(root, 'registry/ariax/ui', file);
+      const path = join(root, 'src/ariax/ui', file);
       await mkdir(dirname(path), { recursive: true });
       await writeFile(path, content);
     }
@@ -24,9 +24,9 @@ test('registry discovers primary components and follows imports, reexports, type
     assert.deepEqual(result.dependencies, ['@stylexjs/stylex@3.0.0', 'icons@2.0.0', 'react@1.0.0']);
     assert.deepEqual(result.files.map(file => file.target), ['@ui/child.tsx', '@ui/parent.tsx', '@ui/styles.stylex.ts']);
     await assert.rejects(componentSources(root, 'parent', { react: '1.0.0' }), /Pin imported package icons/);
-    await writeFile(join(root, 'registry/ariax/ui/parent.tsx'), 'import "./missing";');
+    await writeFile(join(root, 'src/ariax/ui/parent.tsx'), 'import "./missing";');
     await assert.rejects(componentSources(root, 'parent', {}), /Missing relative import/);
-    await writeFile(join(root, 'registry/ariax/ui/parent.tsx'), 'import "../../../outside.ts";');
+    await writeFile(join(root, 'src/ariax/ui/parent.tsx'), 'import "../../../outside.ts";');
     await writeFile(join(root, 'outside.ts'), 'export {};');
     await assert.rejects(componentSources(root, 'parent', {}), /escapes source directory/);
   } finally { await rm(root, { recursive: true, force: true }); }
@@ -34,7 +34,7 @@ test('registry discovers primary components and follows imports, reexports, type
 
 test('UI runtime dependency metadata preserves exact peer pins and rejects unmatched declarations', async () => {
   const root = await mkdtemp(join(tmpdir(), 'ariax-registry-peers-'));
-  const base = join(root, 'registry/ariax/ui');
+  const base = join(root, 'src/ariax/ui');
   try {
     await mkdir(base, { recursive: true });
     await writeFile(join(base, 'chart.tsx'), 'import "recharts"; export const Chart = () => null;');
@@ -50,6 +50,6 @@ test('UI runtime dependency metadata preserves exact peer pins and rejects unmat
 });
 
 test('standalone StyleX recipes reuse import discovery without discovering an upstream UI',async()=>{
- const root=await mkdtemp(join(tmpdir(),'ariax-recipes-'));const base=join(root,'registry/ariax/ui');
+ const root=await mkdtemp(join(tmpdir(),'ariax-recipes-'));const base=join(root,'src/ariax/ui');
  try{await mkdir(base,{recursive:true});await writeFile(join(base,'typography.recipe.stylex.ts'),'import * as stylex from "@stylexjs/stylex"; export const styles=stylex.create({p:{lineHeight:1.5}});');assert.deepEqual(await componentNames(root),[]);const source=await componentSources(root,'typography',{'@stylexjs/stylex':'0.19.1'},'.recipe.stylex.ts');assert.deepEqual(source.dependencies,['@stylexjs/stylex@0.19.1']);assert.equal(source.files[0].type,'registry:file');assert.equal(source.files[0].target,'@ui/typography.recipe.stylex.ts');}finally{await rm(root,{recursive:true,force:true});}
 });

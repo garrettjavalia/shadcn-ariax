@@ -3,7 +3,7 @@ import {
   NativeSelect,
   NativeSelectOption,
   NativeSelectOptGroup,
-} from "../../registry/ariax/ui/native-select";
+} from "../../src/ariax/ui/native-select";
 const styles = stylex.create({
   custom: { width: 200, lineHeight: 1.5 },
   dynamic: (width: number) => ({ width }),

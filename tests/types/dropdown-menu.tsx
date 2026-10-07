@@ -10,8 +10,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-} from "../../registry/ariax/ui/dropdown-menu";
-import { Button } from "../../registry/ariax/ui/button";
+} from "../../src/ariax/ui/dropdown-menu";
+import { Button } from "../../src/ariax/ui/button";
 const styles = stylex.create({
   wide: { minWidth: "12rem" },
   dynamic: (width: number) => ({ width }),

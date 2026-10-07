@@ -10,7 +10,7 @@ test('install fixtures reject missing, extra and duplicate component coverage', 
   try {
     await mkdir(join(root, 'public'));
     await mkdir(join(root, 'tests/install'), { recursive: true });
-    await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'ariax', homepage: 'https://example.com', items: [{ name: 'button', type: 'registry:ui', files: [{ path: 'registry/ariax/ui/button.tsx', type: 'registry:ui', target: '@ui/button.tsx' }] }] }));
+    await writeFile(join(root, 'registry.json'), JSON.stringify({ name: 'ariax', homepage: 'https://example.com', items: [{ name: 'button', type: 'registry:ui', files: [{ path: 'src/ariax/ui/button.tsx', type: 'registry:ui', target: '@ui/button.tsx' }] }] }));
     await assert.rejects(collectInstallFixtures(root), /Missing install fixture: button/);
     await writeFile(join(root, 'tests/install/button.tsx'), 'export default function Fixture() { return null; }');
     const result = await collectInstallFixtures(root);
@@ -31,7 +31,7 @@ test('composition fixture dependencies require matching exact repository pins an
   try {
     await mkdir(join(root,'public'));
     await mkdir(join(root,'tests/install'),{recursive:true});
-    await writeFile(join(root,'registry.json'),JSON.stringify({name:'ariax',homepage:'https://example.com',items:[{name:'table',type:'registry:ui',files:[{path:'registry/ariax/ui/table.tsx',type:'registry:ui',target:'@ui/table.tsx'}]}]}));
+    await writeFile(join(root,'registry.json'),JSON.stringify({name:'ariax',homepage:'https://example.com',items:[{name:'table',type:'registry:ui',files:[{path:'src/ariax/ui/table.tsx',type:'registry:ui',target:'@ui/table.tsx'}]}]}));
     await writeFile(join(root,'tests/install/table.tsx'),'export default function Fixture(){return null}');
     await writeFile(join(root,'package.json'),JSON.stringify({devDependencies:{'@tanstack/react-table':'9.0.0'}}));
     const sidecar=join(root,'tests/install/table.dependencies.json');
@@ -51,7 +51,7 @@ test('intrinsic recipe registry files install through recipe aliases without ups
  const root=await mkdtemp(join(tmpdir(),'ariax-recipe-fixtures-'));
  try{
   await mkdir(join(root,'public'));await mkdir(join(root,'tests/install'),{recursive:true});
-  await writeFile(join(root,'registry.json'),JSON.stringify({name:'ariax',homepage:'https://example.com',items:[{name:'typography',type:'registry:file',files:[{path:'registry/ariax/ui/typography.recipe.stylex.ts',type:'registry:file',target:'@ui/typography.recipe.stylex.ts'}]}]}));
+  await writeFile(join(root,'registry.json'),JSON.stringify({name:'ariax',homepage:'https://example.com',items:[{name:'typography',type:'registry:file',files:[{path:'src/ariax/ui/typography.recipe.stylex.ts',type:'registry:file',target:'@ui/typography.recipe.stylex.ts'}]}]}));
   await assert.rejects(collectInstallFixtures(root),/Missing install fixture: typography/);
   await writeFile(join(root,'tests/install/typography.tsx'),'export default function Fixture(){return null}');
   const[fixture]=await collectInstallFixtures(root);assert.equal(fixture.alias,'@typography-recipes');assert.equal(fixture.installedPath,'src/components/ui/typography.recipe.stylex.ts');

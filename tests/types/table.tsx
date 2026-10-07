@@ -8,7 +8,7 @@ import {
   TableCell,
   TableFooter,
   TableCaption,
-} from "../../registry/ariax/ui/table";
+} from "../../src/ariax/ui/table";
 const s = stylex.create({
   wide: { width: "100%" },
   dynamic: (height: number) => ({ height }),

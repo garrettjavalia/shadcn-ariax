@@ -4,8 +4,27 @@ import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
 import { collectInstallFixtures } from './install-fixtures';
 const root = process.cwd();
+const registryURL = process.env.ARIAX_REGISTRY_URL;
+if (registryURL) {
+  const url = new URL(registryURL);
+  assert.ok(['https:', 'http:'].includes(url.protocol), 'ARIAX_REGISTRY_URL must be an HTTP(S) directory URL');
+  assert.ok(url.pathname.endsWith('/') && !url.search && !url.hash, 'ARIAX_REGISTRY_URL must end with / and have no query or fragment');
+}
 // Fail before running the CLI when the catalog and fixtures disagree.
 const fixtures = await collectInstallFixtures(root);
+// Both transports must describe exactly the same installation, including shared files.
+const catalogJSON = await readFile('registry.json', 'utf8');
+assert.equal(await readFile('registry/registry.json', 'utf8'), catalogJSON);
+for (const item of JSON.parse(catalogJSON).items) {
+  const { $schema, files, ...metadata } = JSON.parse(await readFile(`registry/${item.name}.json`, 'utf8'));
+  assert.equal($schema, 'https://ui.shadcn.com/schema/registry-item.json');
+  const definitions = [];
+  for (const { content, ...file } of files) {
+    assert.equal(content, await readFile(file.path, 'utf8'), `Payload differs from source: ${file.path}`);
+    definitions.push(file);
+  }
+  assert.deepEqual({ ...metadata, files: definitions }, item, `Installation metadata differs: ${item.name}`);
+}
 const parentFiles = await Promise.all(['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'].map(async file => [file, await readFile(join(root, file), 'utf8')] as const));
 const dir = await mkdtemp(join(root, '.consumer-test-'));
 const run = (command: string, args: string[], cwd = dir) => {
@@ -22,7 +41,7 @@ try {
   await writeFile(join(dir, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', lib: ['ES2022','DOM'], module: 'ESNext', moduleResolution: 'Bundler', jsx: 'react-jsx', strict: true, skipLibCheck: true, types: ['vite/client'], paths: { '@/*': ['./src/*'], ...Object.fromEntries(fixtures.map(fixture => [fixture.alias, [`./${fixture.installedPath}`]])) } }, include: ['src', 'vite.config.ts'] }));
   await writeFile(join(dir, 'components.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema.json', style: 'aria-nova', rsc: false, tsx: true, tailwind: { config: '', css: 'src/index.css', baseColor: 'neutral', cssVariables: true }, aliases: { components: '@/components', ui: '@/components/ui', utils: '@/lib/utils', lib: '@/lib', hooks: '@/hooks' } }));
   // Actual published CLI, actual generated registry file, fresh consumer files and dependencies.
-  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => resolve(`public/r/${item.name}.json`)), '--yes', '--cwd', dir]);
+  run('node', [resolve('node_modules/shadcn/dist/index.js'), 'add', ...fixtures.map(({ item }) => registryURL ? new URL(`${item.name}.json`, registryURL).href : resolve(`registry/${item.name}.json`)), '--yes', '--cwd', dir]);
   // Use setup artifacts delivered by the CLI, as documented for consumers.
   const setupPath = 'src/components/ui/ariax/setup';
   assert.equal(await readFile(join(dir, setupPath, 'STYLEX-LICENSE'), 'utf8'), await readFile(join(root, 'licenses/STYLEX-LICENSE'), 'utf8'));
@@ -30,7 +49,7 @@ try {
   for (const fixture of fixtures) for (const [name, version] of Object.entries(fixture.dependencies)) assert.equal(installed.dependencies[name], version, `CLI changed composition fixture pin: ${name}`);
   for (const { item, installedPath } of fixtures) {
     const source = await readFile(join(dir, installedPath), 'utf8');
-    const original = await readFile(join(root, 'registry/ariax/ui', `${item.name}${item.type === 'registry:file' ? '.recipe.stylex.ts' : '.tsx'}`), 'utf8');
+    const original = await readFile(join(root, 'src/ariax/ui', `${item.name}${item.type === 'registry:file' ? '.recipe.stylex.ts' : '.tsx'}`), 'utf8');
     if (original.includes('@stylexjs/stylex')) {
       assert.match(source, /@stylexjs\/stylex/, `Installed ${item.name} must retain its StyleX import`);
     }

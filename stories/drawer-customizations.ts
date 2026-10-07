@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import type {ComponentProps} from 'react';
-import {animationStyles} from '../registry/ariax/ui/animations.stylex';
+import {animationStyles} from '../src/ariax/ui/animations.stylex';
 function dom(...styles:stylex.StyleXStyles[]){const{className,style}=stylex.props(...styles);return{className,style};}
 const s=stylex.create({
 custom0:{flex:'1',overflowY:'auto',padding:'calc(var(--spacing, .25rem) * 4)'},

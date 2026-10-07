@@ -1,4 +1,4 @@
-import { Switch } from "../../registry/ariax/ui/switch";
+import { Switch } from "../../src/ariax/ui/switch";
 import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ dynamic: (width: number) => ({ width }) });
 <Switch

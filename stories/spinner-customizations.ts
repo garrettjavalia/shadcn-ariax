@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { animationStyles } from '../registry/ariax/ui/animations.stylex';
+import { animationStyles } from '../src/ariax/ui/animations.stylex';
 const styles = stylex.create({
   size: (size: number) => ({ width: size, height: size }),
   base: { width: '1rem', height: '1rem', animationDuration: '1s', animationTimingFunction: 'linear', animationIterationCount: 'infinite' },

@@ -1,8 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "../../registry/ariax/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "../../src/ariax/ui/radio-group";
 const styles = stylex.create({
   custom: { width: 32 },
   dynamic: (width: number) => ({ width }),

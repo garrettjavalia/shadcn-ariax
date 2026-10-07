@@ -9,7 +9,7 @@ test("distributed reset applies font defaults and CSS variable overrides without
     "<!doctype html><html><body><button>Button</button><code>Code</code></body></html>",
   );
   await page.addStyleTag({
-    content: await readFile("registry/ariax/styles/reset.css", "utf8"),
+    content: await readFile("src/ariax/styles/reset.css", "utf8"),
   });
   const fonts = () =>
     page.evaluate(() =>

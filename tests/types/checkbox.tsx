@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import { Checkbox } from "../../registry/ariax/ui/checkbox";
+import { Checkbox } from "../../src/ariax/ui/checkbox";
 const styles = stylex.create({
   custom: { width: 24 },
   dynamic: (height: number) => ({ height }),

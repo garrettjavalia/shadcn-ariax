@@ -3,7 +3,7 @@ import {
   AlertTitle,
   AlertDescription,
   AlertAction,
-} from "../../registry/ariax/ui/alert";
+} from "../../src/ariax/ui/alert";
 import * as stylex from "@stylexjs/stylex";
 const styles = stylex.create({ dynamic: (width: number) => ({ width }) });
 <Alert

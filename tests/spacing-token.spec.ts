@@ -10,13 +10,11 @@ import type { StoryEntry } from "./catalog";
 
 // Derive the coverage floor from installed production sources, including recipes
 // and internal components. Components without spacing still run in normal parity.
-const components = readdirSync("registry/ariax/ui")
+const components = readdirSync("src/ariax/ui")
   .filter(
     (file) =>
       /(?:\.tsx|\.recipe\.stylex\.ts)$/.test(file) &&
-      readFileSync(`registry/ariax/ui/${file}`, "utf8").includes(
-        "--ariax-spacing",
-      ),
+      readFileSync(`src/ariax/ui/${file}`, "utf8").includes("--ariax-spacing"),
   )
   .map((file) =>
     file.replace(/(?:\.internal|\.recipe\.stylex)?\.(tsx|ts)$/, ""),

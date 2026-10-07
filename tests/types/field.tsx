@@ -4,7 +4,7 @@ import {
   FieldLabel,
   FieldError,
   FieldLegend,
-} from "../../registry/ariax/ui/field";
+} from "../../src/ariax/ui/field";
 const styles = stylex.create({
   wide: { width: "20rem" },
   dynamic: (gap: number) => ({ gap }),
