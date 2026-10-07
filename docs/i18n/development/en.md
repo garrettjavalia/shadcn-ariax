@@ -117,6 +117,8 @@ The CI comparison covers DOM, text, attributes, computed CSS, and pseudo-element
 
 ## Choosing checks
 
+Run the following commands from a clone of this repository when developing Ariax.
+
 Start with the changed component or subsystem, then expand to the affected shared behavior.
 
 | Change | Checks |

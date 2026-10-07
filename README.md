@@ -126,26 +126,4 @@ The first run downloads and prepares the pinned upstream sources. Generated refe
 
 See [Upstream preparation](docs/upstream-structure.md) for details about pinned sources and generated references.
 
-## Running checks
-
-Run these commands from this repository:
-
-```sh
-pnpm test:ci:light  # Lightweight DOM/CSS comparison: light only
-pnpm test:ci:dark   # Lightweight DOM/CSS comparison: dark only
-pnpm test:ci        # Both themes
-
-pnpm test:stylex    # StyleX extraction and integration checks
-pnpm test:install   # CLI installation and consumer build
-pnpm typecheck      # TypeScript checks
-pnpm test:full      # Full verification suite
-```
-
-To compare production Storybook builds:
-
-```sh
-pnpm build
-ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
-```
-
-Open browser test results with `pnpm test:report`.
+See the [Development guide](docs/i18n/development/en.md) for project structure, modification guidelines, and repository checks.

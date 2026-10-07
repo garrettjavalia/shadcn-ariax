@@ -126,26 +126,4 @@ pnpm dev
 
 원본 고정과 레퍼런스 생성 과정은 [업스트림 준비 구조](../../upstream-structure.md)를 참고하세요.
 
-## 검사 실행
-
-이 저장소에서 다음 명령을 실행합니다.
-
-```sh
-pnpm test:ci:light  # CI 경량 DOM·CSS 비교: 라이트만
-pnpm test:ci:dark   # CI 경량 DOM·CSS 비교: 다크만
-pnpm test:ci        # 두 테마 모두
-
-pnpm test:stylex    # StyleX 추출·통합 검사
-pnpm test:install   # CLI 설치·소비 앱 빌드 검사
-pnpm typecheck      # TypeScript 검사
-pnpm test:full      # 전체 검증
-```
-
-프로덕션 Storybook 빌드를 비교하려면 다음과 같이 실행합니다.
-
-```sh
-pnpm build
-ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
-```
-
-브라우저 테스트 결과는 `pnpm test:report`로 엽니다.
+프로젝트 구조, 수정 방법과 저장소 검사는 [개발 가이드](../development/ko.md)를 참고하세요.
