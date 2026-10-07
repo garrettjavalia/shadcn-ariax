@@ -20,7 +20,7 @@
 
 # 검증
 
-- 테스트 파일과 Playwright 설정은 `pnpm format:tests`로 Prettier 포맷을 유지한다.
+- 컴포넌트·배포 CSS는 `pnpm format:components`, 테스트·Playwright 설정은 `pnpm format:tests`로 Prettier 포맷을 유지한다. `pnpm format:check`를 로컬 전체 검증과 CI에서 실행한다.
 - Storybook + Vite에서 원본과 StyleX의 CSS를 격리한다. 공식 원본 예제는 고정 소스에서 JSX·클래스 수정 없이 스토리로 자동 등록하고, 대응하는 StyleX 스토리와 같은 메타데이터·props로 비교한다. 별도 상태·사용자 스타일 검사는 양쪽에 같은 조작과 조건을 적용한다.
 - 원본의 테마·기본 CSS는 고정한 원본에서 독립적으로 준비한다. 배포 CSS를 원본에 공유하지 않으며 기본 요소의 계산 CSS와 의미 토큰 적용도 검증한다.
 - `parity` 스토리를 자동 수집한다. 렌더링 영역은 `#parity-root`, 포털은 `data-parity-portal`로 지정한다. 컴포넌트 추가 시 예제·상태·고유 조작만 선언하고 비교 코드를 복제하지 않는다.

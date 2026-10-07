@@ -1,21 +1,52 @@
 /* Structural bridge for opaque consumer children. Values are owned by StyleX. */
 .ariax-field[data-orientation="vertical"] > *,
-.ariax-field[data-orientation="responsive"] > * { width: var(--ariax-field-full); }
-.ariax-field[data-orientation="vertical"] > .sr-only,
-.ariax-field[data-orientation="responsive"] > .sr-only { width: var(--ariax-field-auto); }
-.ariax-field[data-orientation="horizontal"] > [data-slot="field-label"] { flex: var(--ariax-field-label-flex); }
-.ariax-field[data-orientation="horizontal"]:has(>[data-slot="field-content"]) > [role="checkbox"],
-.ariax-field[data-orientation="horizontal"]:has(>[data-slot="field-content"]) [role="radio"] { margin-top: var(--ariax-field-check-offset); }
-@container field-group (min-width: 28rem) {
-  .ariax-field[data-orientation="responsive"] { --ariax-field-responsive-align: var(--ariax-field-center); }
-  .ariax-field[data-orientation="responsive"]:has(>[data-slot="field-content"]) { --ariax-field-responsive-align: var(--ariax-field-start); }
-  .ariax-field[data-orientation="responsive"] > * { width: var(--ariax-field-auto); }
-  .ariax-field[data-orientation="responsive"] > [data-slot="field-label"] { flex: var(--ariax-field-label-flex); }
-  .ariax-field[data-orientation="responsive"]:has(>[data-slot="field-content"]) > [role="checkbox"],
-  .ariax-field[data-orientation="responsive"]:has(>[data-slot="field-content"]) [role="radio"] { margin-top: var(--ariax-field-check-offset); }
+.ariax-field[data-orientation="responsive"] > * {
+  width: var(--ariax-field-full);
 }
-[data-slot="field-label"] > [data-slot="field"] { padding: var(--ariax-field-padding); }
-.ariax-field-description > a { text-decoration-line: underline; text-underline-offset: var(--ariax-field-link-offset); }
+.ariax-field[data-orientation="vertical"] > .sr-only,
+.ariax-field[data-orientation="responsive"] > .sr-only {
+  width: var(--ariax-field-auto);
+}
+.ariax-field[data-orientation="horizontal"] > [data-slot="field-label"] {
+  flex: var(--ariax-field-label-flex);
+}
+.ariax-field[data-orientation="horizontal"]:has(> [data-slot="field-content"])
+  > [role="checkbox"],
+.ariax-field[data-orientation="horizontal"]:has(> [data-slot="field-content"])
+  [role="radio"] {
+  margin-top: var(--ariax-field-check-offset);
+}
+@container field-group (min-width: 28rem) {
+  .ariax-field[data-orientation="responsive"] {
+    --ariax-field-responsive-align: var(--ariax-field-center);
+  }
+  .ariax-field[data-orientation="responsive"]:has(
+      > [data-slot="field-content"]
+    ) {
+    --ariax-field-responsive-align: var(--ariax-field-start);
+  }
+  .ariax-field[data-orientation="responsive"] > * {
+    width: var(--ariax-field-auto);
+  }
+  .ariax-field[data-orientation="responsive"] > [data-slot="field-label"] {
+    flex: var(--ariax-field-label-flex);
+  }
+  .ariax-field[data-orientation="responsive"]:has(> [data-slot="field-content"])
+    > [role="checkbox"],
+  .ariax-field[data-orientation="responsive"]:has(> [data-slot="field-content"])
+    [role="radio"] {
+    margin-top: var(--ariax-field-check-offset);
+  }
+}
+[data-slot="field-label"] > [data-slot="field"] {
+  padding: var(--ariax-field-padding);
+}
+.ariax-field-description > a {
+  text-decoration-line: underline;
+  text-underline-offset: var(--ariax-field-link-offset);
+}
 @media (hover: hover) {
-  .ariax-field-description > a:hover { color: var(--ariax-field-link-hover); }
+  .ariax-field-description > a:hover {
+    color: var(--ariax-field-link-hover);
+  }
 }

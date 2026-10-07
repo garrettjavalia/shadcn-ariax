@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -6,12 +7,9 @@ for (const theme of ["light", "dark"])
     test(`Dialog ChatSettings real tabs, selects and controls / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       try {
         await Promise.all(
           pages.map(async (p, i) => {

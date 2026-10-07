@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -6,12 +7,9 @@ for (const theme of ["light", "dark"])
   test(`Dialog official examples, dismissal and focus restoration / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
     try {
       for (const name of [
         "demo",
@@ -107,10 +105,7 @@ for (const theme of ["light", "dark"])
   test(`Dialog enter/exit animation effects at 0/50/100ms / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < 2; i++) {
@@ -220,12 +215,9 @@ for (const theme of ["light", "dark"])
   test(`Dialog responsive RTL outside dismissal and focus return / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 390, height: 900 },
     });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
     try {
       for (let i = 0; i < 2; i++) {
         const p = pages[i];

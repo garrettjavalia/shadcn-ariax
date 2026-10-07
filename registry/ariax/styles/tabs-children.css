@@ -1,4 +1,14 @@
-.ariax-tabs-trigger svg {pointer-events:none;flex-shrink:0;}
-.ariax-tabs-trigger svg:not([class*="size-"]) {width:calc(var(--ariax-spacing, .25rem) * 4);height:calc(var(--ariax-spacing, .25rem) * 4);}
-.ariax-tabs-trigger:has([data-icon="inline-start"]) {padding-inline-start:calc(var(--ariax-spacing, .25rem) * 1);}
-.ariax-tabs-trigger:has([data-icon="inline-end"]) {padding-inline-end:calc(var(--ariax-spacing, .25rem) * 1);}
+.ariax-tabs-trigger svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.ariax-tabs-trigger svg:not([class*="size-"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}
+.ariax-tabs-trigger:has([data-icon="inline-start"]) {
+  padding-inline-start: calc(var(--ariax-spacing, 0.25rem) * 1);
+}
+.ariax-tabs-trigger:has([data-icon="inline-end"]) {
+  padding-inline-end: calc(var(--ariax-spacing, 0.25rem) * 1);
+}

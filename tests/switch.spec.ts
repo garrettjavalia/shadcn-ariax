@@ -1,3 +1,7 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -34,14 +38,9 @@ for (const theme of ["light", "dark"])
   test(`Switch pointer and keyboard, disabled, RTL, render props / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-      colorScheme: "light",
-    });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map((url) => ctx.newPage()),
+    const { context: ctx, pages } = await createStoryPair(
+      browser,
+      deterministicStoryContextOptions(1000, { colorScheme: "light" }),
     );
     try {
       for (const story of [
@@ -109,15 +108,14 @@ for (const theme of ["light", "dark"])
 test("Switch thumb transition preserves duration, intermediate movement and endpoints", async ({
   browser,
 }) => {
-  const ctx = await browser.newContext();
-  const pages = await Promise.all(
-    [upstreamURL, stylexURL].map(async (url) => {
-      const p = await ctx.newPage();
+  const { context: ctx, pages } = await createStoryPair(
+    browser,
+    undefined,
+    async (p, url) => {
       await p.goto(
         `${url}/iframe.html?id=components-switch--sizes&viewMode=story`,
       );
-      return p;
-    }),
+    },
   );
   try {
     for (let i = 0; i < 2; i++) {

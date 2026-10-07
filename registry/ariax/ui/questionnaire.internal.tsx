@@ -1,22 +1,294 @@
-import * as stylex from '@stylexjs/stylex';
-export const styles=stylex.create({
- root:{display:'flex',width:'100%',minWidth:0,flexDirection:'column',gap:'calc(var(--ariax-spacing, .25rem) * 4)'},
- progress:{minHeight:'1lh',width:'fit-content',minWidth:'14ch',fontWeight:500,color:'var(--muted-foreground)',fontVariantNumeric:'tabular-nums',fontSize:'.75rem',lineHeight:'calc(1 / .75)'},
- item:{minWidth:0,borderWidth:0,padding:0,outlineStyle:'none',display:'flex',flexDirection:'column',gap:'calc(var(--ariax-spacing, .25rem) * 4)'},
- title:{textWrap:'pretty',fontSize:'1rem',lineHeight:1.375,fontWeight:500,marginBottom:{default:null,':not(:has(~ [data-slot="questionnaire-description"]))':'calc(var(--ariax-spacing, .25rem) * 4)'}},
- description:{textWrap:'pretty',color:'var(--muted-foreground)',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)'},
- choices:{display:'grid',minWidth:0,gap:'calc(var(--ariax-spacing, .25rem) * 2)'},
- choice:{position:'relative',display:'flex',minHeight:'calc(var(--ariax-spacing, .25rem) * 11)',cursor:{default:'pointer',':is([data-disabled])':'not-allowed'},alignItems:'flex-start',textAlign:'start',transitionProperty:'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to',transitionDuration:'150ms',transitionTimingFunction:'cubic-bezier(.4,0,.2,1)',outlineStyle:'none',userSelect:'none',pointerEvents:{default:null,':is([data-disabled])':'none'},opacity:{default:null,':is([data-disabled])':.5},borderWidth:1,borderStyle:'solid',borderColor:{default:'var(--input)',':is([data-checked])':'color-mix(in oklab, var(--primary) 40%, transparent)',':is([data-invalid])':'var(--destructive)',':has(>input:focus-visible)':'var(--ring)'},backgroundColor:{default:'transparent',':is(.dark *)':'color-mix(in oklab, var(--input) 20%, transparent)',':hover':{default:null,'@media (hover: hover)':'color-mix(in oklab, var(--muted) 50%, transparent)'},':is([data-checked])':'var(--muted)',':is(.dark *)[data-checked]':'var(--muted)',':is(.dark *)[data-checked]:hover':'var(--muted)',':is(.dark *):hover:not([data-checked])':'color-mix(in oklab, var(--input) 20%, transparent)'},gap:'calc(var(--ariax-spacing, .25rem) * 2.5)',borderRadius:'var(--radius)',paddingInline:'calc(var(--ariax-spacing, .25rem) * 3)',paddingBlock:'calc(var(--ariax-spacing, .25rem) * 2.5)',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)',boxShadow:{default:null,':has(>input:focus-visible)':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000'}},
- choiceInput:{position:'absolute',inset:0,zIndex:10,width:'100%',height:'100%',cursor:'pointer',opacity:0},
- indicator:{pointerEvents:'none',position:'relative',display:'flex',flexShrink:0,alignItems:'center',justifyContent:'center',borderWidth:1,borderStyle:'solid',borderColor:{default:'var(--input)',':is([data-slot="questionnaire-choice"][data-checked] *)':'var(--primary)'},backgroundColor:{default:null,':is(.dark *)':'color-mix(in oklab, var(--input) 30%, transparent)',':is([data-slot="questionnaire-choice"][data-checked] *)':'var(--primary)',':is(.dark [data-slot="questionnaire-choice"][data-checked] *)':'var(--primary)'},color:{default:null,':is([data-slot="questionnaire-choice"][data-checked] *)':'var(--primary-foreground)'},width:'calc(var(--ariax-spacing, .25rem) * 4)',height:'calc(var(--ariax-spacing, .25rem) * 4)',translate:{default:'0 calc(calc(var(--ariax-spacing, .25rem) * 1) * .45)',':is([data-slot="questionnaire-choice"]:has([data-slot="questionnaire-choice-description"]) *)':'0 calc(var(--ariax-spacing, .25rem) * 0.5)'},borderRadius:{default:4,':is([data-slot="questionnaire-choice"][data-type="radio"] *)':'calc(infinity * 1px)'}},
- dot:{display:{default:'none',':is([data-slot="questionnaire-choice"][data-checked] *)':'block',':is([data-slot="questionnaire-choice"][data-type="checkbox"] *)':'none'},borderRadius:'calc(infinity * 1px)',backgroundColor:'var(--primary-foreground)',width:'calc(var(--ariax-spacing, .25rem) * 2)',height:'calc(var(--ariax-spacing, .25rem) * 2)'},
- check:{display:{default:'none',':is([data-slot="questionnaire-choice"][data-checked] *)':'block',':is([data-slot="questionnaire-choice"][data-type="radio"] *)':'none'},width:'calc(var(--ariax-spacing, .25rem) * 3.5)',height:'calc(var(--ariax-spacing, .25rem) * 3.5)'},
- label:{display:'flex',minWidth:0,flex:1,flexDirection:'column',lineHeight:1.375,gap:'calc(var(--ariax-spacing, .25rem) * 0.5)'},
- choiceDescription:{color:'var(--muted-foreground)'},
- shortcut:{pointerEvents:'none',marginInlineStart:'auto',display:{default:'none',':is([data-slot="questionnaire-choice"][data-shortcut] *)':'inline-flex'},flexShrink:0,borderColor:'var(--input)',backgroundColor:'var(--background)',color:'var(--muted-foreground)',width:'calc(var(--ariax-spacing, .25rem) * 5)',height:'calc(var(--ariax-spacing, .25rem) * 5)',translate:{default:'0 calc(calc(var(--ariax-spacing, .25rem) * 1) * .45)',':is([data-slot="questionnaire-choice"]:has([data-slot="questionnaire-choice-description"]) *)':'0 calc(var(--ariax-spacing, .25rem) * 0.5)'},alignItems:'center',justifyContent:'center',borderRadius:'calc(var(--radius) * .8)',borderWidth:1,borderStyle:'solid',fontFamily:'var(--font-mono)',fontSize:'.625rem',fontWeight:500,lineHeight:1},
- inputWrapper:{position:'relative',minWidth:0,width:'100%'},
- input:{minHeight:{default:'calc(var(--ariax-spacing, .25rem) * 11)','@media (min-width: 640px)':0},width:'100%',minWidth:0,transitionProperty:'color, box-shadow, background-color',transitionDuration:'150ms',transitionTimingFunction:'cubic-bezier(.4,0,.2,1)',outlineStyle:'none',pointerEvents:{default:null,':disabled':'none'},cursor:{default:null,':disabled':'not-allowed'},opacity:{default:null,':disabled':.5},backgroundColor:{default:'transparent','::selection':'var(--primary)',':is(.dark *)':'color-mix(in oklab, var(--input) 30%, transparent)',':disabled':'color-mix(in oklab, var(--input) 50%, transparent)',':is(.dark *):disabled':'color-mix(in oklab, var(--input) 80%, transparent)'},color:{default:null,'::selection':'var(--primary-foreground)','::placeholder':'var(--muted-foreground)'},borderColor:{default:'var(--input)',':focus-visible':'var(--ring)',':is([aria-invalid="true"])':'var(--destructive)',':is(.dark *)[aria-invalid="true"]':'color-mix(in oklab, var(--destructive) 50%, transparent)'},height:'calc(var(--ariax-spacing, .25rem) * 8)',borderRadius:'var(--radius)',borderWidth:1,borderStyle:'solid',paddingInline:'calc(var(--ariax-spacing, .25rem) * 2.5)',paddingBlock:'calc(var(--ariax-spacing, .25rem) * 1)',fontSize:{default:'1rem','@media (min-width: 768px)':'.875rem'},lineHeight:{default:1.5,'@media (min-width: 768px)':'calc(1.25 / .875)'},'--ariax-questionnaire-ring':{default:'color-mix(in oklab, var(--ring) 50%, transparent)',':is([aria-invalid="true"])':'color-mix(in oklab, var(--destructive) 20%, transparent)',':is(.dark *)[aria-invalid="true"]':'color-mix(in oklab, var(--destructive) 40%, transparent)'},boxShadow:{default:null,':is(:focus-visible,[aria-invalid="true"])':'0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-questionnaire-ring), 0 0 0 0 #0000'}},
- error:{color:'var(--destructive)',marginTop:'calc(var(--ariax-spacing, .25rem) * 2)',fontSize:'.875rem',lineHeight:'calc(1.25 / .875)'},
- actions:{display:'grid',minHeight:{default:'calc(var(--ariax-spacing, .25rem) * 11)','@media (min-width: 640px)':'calc(var(--ariax-spacing, .25rem) * 8)'},width:'100%',gridTemplateColumns:'minmax(0,1fr) auto auto',alignItems:'center',gap:'calc(var(--ariax-spacing, .25rem) * 2)'},
- navigation:{gridRowStart:'1',minHeight:{default:'calc(var(--ariax-spacing, .25rem) * 11)','@media (min-width: 640px)':0},justifySelf:'flex-end'},previous:{gridColumnStart:'1',justifySelf:'flex-start'},skip:{gridColumnStart:'2'},next:{gridColumnStart:'3'},
+import * as stylex from "@stylexjs/stylex";
+export const styles = stylex.create({
+  root: {
+    display: "flex",
+    width: "100%",
+    minWidth: 0,
+    flexDirection: "column",
+    gap: "calc(var(--ariax-spacing, .25rem) * 4)",
+  },
+  progress: {
+    minHeight: "1lh",
+    width: "fit-content",
+    minWidth: "14ch",
+    fontWeight: 500,
+    color: "var(--muted-foreground)",
+    fontVariantNumeric: "tabular-nums",
+    fontSize: ".75rem",
+    lineHeight: "calc(1 / .75)",
+  },
+  item: {
+    minWidth: 0,
+    borderWidth: 0,
+    padding: 0,
+    outlineStyle: "none",
+    display: "flex",
+    flexDirection: "column",
+    gap: "calc(var(--ariax-spacing, .25rem) * 4)",
+  },
+  title: {
+    textWrap: "pretty",
+    fontSize: "1rem",
+    lineHeight: 1.375,
+    fontWeight: 500,
+    marginBottom: {
+      default: null,
+      ':not(:has(~ [data-slot="questionnaire-description"]))':
+        "calc(var(--ariax-spacing, .25rem) * 4)",
+    },
+  },
+  description: {
+    textWrap: "pretty",
+    color: "var(--muted-foreground)",
+    fontSize: ".875rem",
+    lineHeight: "calc(1.25 / .875)",
+  },
+  choices: {
+    display: "grid",
+    minWidth: 0,
+    gap: "calc(var(--ariax-spacing, .25rem) * 2)",
+  },
+  choice: {
+    position: "relative",
+    display: "flex",
+    minHeight: "calc(var(--ariax-spacing, .25rem) * 11)",
+    cursor: { default: "pointer", ":is([data-disabled])": "not-allowed" },
+    alignItems: "flex-start",
+    textAlign: "start",
+    transitionProperty:
+      "color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to",
+    transitionDuration: "150ms",
+    transitionTimingFunction: "cubic-bezier(.4,0,.2,1)",
+    outlineStyle: "none",
+    userSelect: "none",
+    pointerEvents: { default: null, ":is([data-disabled])": "none" },
+    opacity: { default: null, ":is([data-disabled])": 0.5 },
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: {
+      default: "var(--input)",
+      ":is([data-checked])":
+        "color-mix(in oklab, var(--primary) 40%, transparent)",
+      ":is([data-invalid])": "var(--destructive)",
+      ":has(>input:focus-visible)": "var(--ring)",
+    },
+    backgroundColor: {
+      default: "transparent",
+      ":is(.dark *)": "color-mix(in oklab, var(--input) 20%, transparent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)":
+          "color-mix(in oklab, var(--muted) 50%, transparent)",
+      },
+      ":is([data-checked])": "var(--muted)",
+      ":is(.dark *)[data-checked]": "var(--muted)",
+      ":is(.dark *)[data-checked]:hover": "var(--muted)",
+      ":is(.dark *):hover:not([data-checked])":
+        "color-mix(in oklab, var(--input) 20%, transparent)",
+    },
+    gap: "calc(var(--ariax-spacing, .25rem) * 2.5)",
+    borderRadius: "var(--radius)",
+    paddingInline: "calc(var(--ariax-spacing, .25rem) * 3)",
+    paddingBlock: "calc(var(--ariax-spacing, .25rem) * 2.5)",
+    fontSize: ".875rem",
+    lineHeight: "calc(1.25 / .875)",
+    boxShadow: {
+      default: null,
+      ":has(>input:focus-visible)":
+        "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent), 0 0 0 0 #0000",
+    },
+  },
+  choiceInput: {
+    position: "absolute",
+    inset: 0,
+    zIndex: 10,
+    width: "100%",
+    height: "100%",
+    cursor: "pointer",
+    opacity: 0,
+  },
+  indicator: {
+    pointerEvents: "none",
+    position: "relative",
+    display: "flex",
+    flexShrink: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: {
+      default: "var(--input)",
+      ':is([data-slot="questionnaire-choice"][data-checked] *)':
+        "var(--primary)",
+    },
+    backgroundColor: {
+      default: null,
+      ":is(.dark *)": "color-mix(in oklab, var(--input) 30%, transparent)",
+      ':is([data-slot="questionnaire-choice"][data-checked] *)':
+        "var(--primary)",
+      ':is(.dark [data-slot="questionnaire-choice"][data-checked] *)':
+        "var(--primary)",
+    },
+    color: {
+      default: null,
+      ':is([data-slot="questionnaire-choice"][data-checked] *)':
+        "var(--primary-foreground)",
+    },
+    width: "calc(var(--ariax-spacing, .25rem) * 4)",
+    height: "calc(var(--ariax-spacing, .25rem) * 4)",
+    translate: {
+      default: "0 calc(calc(var(--ariax-spacing, .25rem) * 1) * .45)",
+      ':is([data-slot="questionnaire-choice"]:has([data-slot="questionnaire-choice-description"]) *)':
+        "0 calc(var(--ariax-spacing, .25rem) * 0.5)",
+    },
+    borderRadius: {
+      default: 4,
+      ':is([data-slot="questionnaire-choice"][data-type="radio"] *)':
+        "calc(infinity * 1px)",
+    },
+  },
+  dot: {
+    display: {
+      default: "none",
+      ':is([data-slot="questionnaire-choice"][data-checked] *)': "block",
+      ':is([data-slot="questionnaire-choice"][data-type="checkbox"] *)': "none",
+    },
+    borderRadius: "calc(infinity * 1px)",
+    backgroundColor: "var(--primary-foreground)",
+    width: "calc(var(--ariax-spacing, .25rem) * 2)",
+    height: "calc(var(--ariax-spacing, .25rem) * 2)",
+  },
+  check: {
+    display: {
+      default: "none",
+      ':is([data-slot="questionnaire-choice"][data-checked] *)': "block",
+      ':is([data-slot="questionnaire-choice"][data-type="radio"] *)': "none",
+    },
+    width: "calc(var(--ariax-spacing, .25rem) * 3.5)",
+    height: "calc(var(--ariax-spacing, .25rem) * 3.5)",
+  },
+  label: {
+    display: "flex",
+    minWidth: 0,
+    flex: 1,
+    flexDirection: "column",
+    lineHeight: 1.375,
+    gap: "calc(var(--ariax-spacing, .25rem) * 0.5)",
+  },
+  choiceDescription: { color: "var(--muted-foreground)" },
+  shortcut: {
+    pointerEvents: "none",
+    marginInlineStart: "auto",
+    display: {
+      default: "none",
+      ':is([data-slot="questionnaire-choice"][data-shortcut] *)': "inline-flex",
+    },
+    flexShrink: 0,
+    borderColor: "var(--input)",
+    backgroundColor: "var(--background)",
+    color: "var(--muted-foreground)",
+    width: "calc(var(--ariax-spacing, .25rem) * 5)",
+    height: "calc(var(--ariax-spacing, .25rem) * 5)",
+    translate: {
+      default: "0 calc(calc(var(--ariax-spacing, .25rem) * 1) * .45)",
+      ':is([data-slot="questionnaire-choice"]:has([data-slot="questionnaire-choice-description"]) *)':
+        "0 calc(var(--ariax-spacing, .25rem) * 0.5)",
+    },
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "calc(var(--radius) * .8)",
+    borderWidth: 1,
+    borderStyle: "solid",
+    fontFamily: "var(--font-mono)",
+    fontSize: ".625rem",
+    fontWeight: 500,
+    lineHeight: 1,
+  },
+  inputWrapper: { position: "relative", minWidth: 0, width: "100%" },
+  input: {
+    minHeight: {
+      default: "calc(var(--ariax-spacing, .25rem) * 11)",
+      "@media (min-width: 640px)": 0,
+    },
+    width: "100%",
+    minWidth: 0,
+    transitionProperty: "color, box-shadow, background-color",
+    transitionDuration: "150ms",
+    transitionTimingFunction: "cubic-bezier(.4,0,.2,1)",
+    outlineStyle: "none",
+    pointerEvents: { default: null, ":disabled": "none" },
+    cursor: { default: null, ":disabled": "not-allowed" },
+    opacity: { default: null, ":disabled": 0.5 },
+    backgroundColor: {
+      default: "transparent",
+      "::selection": "var(--primary)",
+      ":is(.dark *)": "color-mix(in oklab, var(--input) 30%, transparent)",
+      ":disabled": "color-mix(in oklab, var(--input) 50%, transparent)",
+      ":is(.dark *):disabled":
+        "color-mix(in oklab, var(--input) 80%, transparent)",
+    },
+    color: {
+      default: null,
+      "::selection": "var(--primary-foreground)",
+      "::placeholder": "var(--muted-foreground)",
+    },
+    borderColor: {
+      default: "var(--input)",
+      ":focus-visible": "var(--ring)",
+      ':is([aria-invalid="true"])': "var(--destructive)",
+      ':is(.dark *)[aria-invalid="true"]':
+        "color-mix(in oklab, var(--destructive) 50%, transparent)",
+    },
+    height: "calc(var(--ariax-spacing, .25rem) * 8)",
+    borderRadius: "var(--radius)",
+    borderWidth: 1,
+    borderStyle: "solid",
+    paddingInline: "calc(var(--ariax-spacing, .25rem) * 2.5)",
+    paddingBlock: "calc(var(--ariax-spacing, .25rem) * 1)",
+    fontSize: { default: "1rem", "@media (min-width: 768px)": ".875rem" },
+    lineHeight: {
+      default: 1.5,
+      "@media (min-width: 768px)": "calc(1.25 / .875)",
+    },
+    "--ariax-questionnaire-ring": {
+      default: "color-mix(in oklab, var(--ring) 50%, transparent)",
+      ':is([aria-invalid="true"])':
+        "color-mix(in oklab, var(--destructive) 20%, transparent)",
+      ':is(.dark *)[aria-invalid="true"]':
+        "color-mix(in oklab, var(--destructive) 40%, transparent)",
+    },
+    boxShadow: {
+      default: null,
+      ':is(:focus-visible,[aria-invalid="true"])':
+        "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 3px var(--ariax-questionnaire-ring), 0 0 0 0 #0000",
+    },
+  },
+  error: {
+    color: "var(--destructive)",
+    marginTop: "calc(var(--ariax-spacing, .25rem) * 2)",
+    fontSize: ".875rem",
+    lineHeight: "calc(1.25 / .875)",
+  },
+  actions: {
+    display: "grid",
+    minHeight: {
+      default: "calc(var(--ariax-spacing, .25rem) * 11)",
+      "@media (min-width: 640px)": "calc(var(--ariax-spacing, .25rem) * 8)",
+    },
+    width: "100%",
+    gridTemplateColumns: "minmax(0,1fr) auto auto",
+    alignItems: "center",
+    gap: "calc(var(--ariax-spacing, .25rem) * 2)",
+  },
+  navigation: {
+    gridRowStart: "1",
+    minHeight: {
+      default: "calc(var(--ariax-spacing, .25rem) * 11)",
+      "@media (min-width: 640px)": 0,
+    },
+    justifySelf: "flex-end",
+  },
+  previous: { gridColumnStart: "1", justifySelf: "flex-start" },
+  skip: { gridColumnStart: "2" },
+  next: { gridColumnStart: "3" },
 });

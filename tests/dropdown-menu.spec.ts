@@ -1,5 +1,6 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -25,11 +26,9 @@ for (const theme of ["light", "dark"])
     test(`DropdownMenu open portal / ${story} / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-        locale: "en-US",
-        timezoneId: "UTC",
-      });
+      const context = await browser.newContext(
+        deterministicStoryContextOptions(),
+      );
       await controlAvatarAssets(context);
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
@@ -84,11 +83,9 @@ for (const theme of ["light", "dark"])
   test(`DropdownMenu pointer, keyboard, multiple/single selection, nested portal and dynamic width / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     await controlAvatarAssets(context);
     const a = await context.newPage();
     const b = await context.newPage();
@@ -215,11 +212,9 @@ for (const theme of ["light", "dark"])
   test(`DropdownMenu enter/exit animation phases and finite completion / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     await controlAvatarAssets(context);
     await context.addInitScript(() => {
       const sampled = new WeakSet<Animation>();
@@ -335,12 +330,9 @@ for (const theme of ["light", "dark"])
   test(`DropdownMenu forced colors retains native outline and portal geometry / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      forcedColors: "active",
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(1000, { forcedColors: "active" }),
+    );
     await controlAvatarAssets(context);
     const a = await context.newPage();
     const b = await context.newPage();
@@ -370,11 +362,9 @@ for (const theme of ["light", "dark"])
   test(`official TableActions each row opens its real menu and preserves keyboard focus behavior / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(),
+    );
     await controlAvatarAssets(context);
     const a = await context.newPage();
     const b = await context.newPage();

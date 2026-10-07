@@ -264,7 +264,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -294,7 +294,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -326,7 +326,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -371,7 +371,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -402,7 +402,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -442,13 +442,18 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
           "path": "registry/ariax/ui/avatar.tsx",
           "type": "registry:ui",
           "target": "@ui/avatar.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -472,7 +477,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -504,7 +509,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -534,7 +539,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -565,7 +570,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -601,7 +606,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -643,7 +648,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -703,7 +708,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -741,7 +746,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -783,13 +788,18 @@
         "recharts@3.8.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
           "path": "registry/ariax/ui/chart.tsx",
           "type": "registry:ui",
           "target": "@ui/chart.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -814,7 +824,7 @@
         "react-aria-components@1.21.1"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -844,7 +854,7 @@
         "react-aria-components@1.21.1"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -876,7 +886,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -933,7 +943,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -995,13 +1005,18 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
           "path": "registry/ariax/ui/context-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/context-menu.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1027,7 +1042,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1068,7 +1083,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1099,7 +1114,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1111,6 +1126,11 @@
           "path": "registry/ariax/ui/render-styles.internal.tsx",
           "type": "registry:ui",
           "target": "@ui/render-styles.internal.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1136,13 +1156,18 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
           "path": "registry/ariax/ui/dropdown-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/dropdown-menu.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1166,7 +1191,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1197,7 +1222,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1219,6 +1244,11 @@
           "path": "registry/ariax/ui/separator.tsx",
           "type": "registry:ui",
           "target": "@ui/separator.tsx"
+        },
+        {
+          "path": "registry/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
         }
       ],
       "meta": {
@@ -1243,7 +1273,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1274,7 +1304,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1305,7 +1335,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1357,7 +1387,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1388,7 +1418,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1424,7 +1454,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1455,7 +1485,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1490,7 +1520,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1520,7 +1550,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1553,7 +1583,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1594,7 +1624,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1626,7 +1656,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1667,7 +1697,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1698,7 +1728,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1731,7 +1761,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1776,7 +1806,7 @@
         "react-aria-components@1.21.1"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1806,7 +1836,7 @@
         "react-resizable-panels@4.5.8"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1836,7 +1866,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1868,7 +1898,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1924,7 +1954,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1956,7 +1986,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -1998,7 +2028,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2068,7 +2098,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2098,7 +2128,7 @@
         "react-aria-components@1.21.1"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2131,7 +2161,7 @@
         "sonner@2.0.7"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2162,7 +2192,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2192,7 +2222,7 @@
         "react-aria-components@1.21.1"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2223,7 +2253,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2254,7 +2284,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2285,7 +2315,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2315,7 +2345,7 @@
         "react-aria-components@1.21.1"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2346,7 +2376,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2382,7 +2412,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {
@@ -2412,7 +2442,7 @@
         "react@19.3.0"
       ],
       "registryDependencies": [
-        "garrettjavalia/shadcn_ariax/ariax-base#5268b02f63424eb5515f679869647593dd210c00"
+        "garrettjavalia/shadcn_ariax/ariax-base#efd6a81c356547f0862261dabe89f4081189963c"
       ],
       "files": [
         {

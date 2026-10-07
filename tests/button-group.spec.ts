@@ -1,3 +1,7 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -41,12 +45,9 @@ for (const theme of ["light", "dark"])
   test(`ButtonGroup focus, input editing and voice toggle / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-      colorScheme: "light",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+    );
     const a = await context.newPage(),
       b = await context.newPage();
     const load = async (story: string) =>
@@ -157,12 +158,9 @@ for (const theme of ["light", "dark"])
     test(`ButtonGroup real dependencies and RTL portal / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       const load = async (story: string) =>
         Promise.all(
           pages.map(async (p, i) => {

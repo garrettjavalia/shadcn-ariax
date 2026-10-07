@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect, type Locator } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -65,10 +66,9 @@ for (const theme of ["light", "dark"])
     test(`Input OTP typing, caret, editing and validation / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
+      const { context, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all([context.newPage(), context.newPage()]);
       try {
         for (const story of width === 390
           ? ["form", "registry-form", "rtl"]
@@ -173,10 +173,9 @@ for (const theme of ["light", "dark"])
   test(`Input OTP dynamic container StyleX, ref and transformed paste / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       await Promise.all(
         pages.map((page, i) =>
@@ -244,10 +243,9 @@ for (const theme of ["light", "dark"])
   test(`Input OTP caret animation at 0/250/625/875/1250ms / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       await Promise.all(
         pages.map((page, i) =>

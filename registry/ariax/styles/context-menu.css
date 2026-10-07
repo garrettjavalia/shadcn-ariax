@@ -1,5 +1,17 @@
 /* Descendant utilities also govern caller-provided icon nodes. */
-.ariax-context-item svg, .ariax-context-sub-trigger svg { pointer-events: none; flex-shrink: 0; }
-.ariax-context-item svg:not([class*="size-"]), .ariax-context-sub-trigger svg:not([class*="size-"]) { width: calc(var(--ariax-spacing, .25rem) * 4); height: calc(var(--ariax-spacing, .25rem) * 4); }
-.ariax-context-item-none:not([data-variant="destructive"]):focus > svg { color: var(--accent-foreground); }
-.ariax-context-item-none[data-variant="destructive"] > svg { color: var(--destructive); }
+.ariax-context-item svg,
+.ariax-context-sub-trigger svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.ariax-context-item svg:not([class*="size-"]),
+.ariax-context-sub-trigger svg:not([class*="size-"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}
+.ariax-context-item-none:not([data-variant="destructive"]):focus > svg {
+  color: var(--accent-foreground);
+}
+.ariax-context-item-none[data-variant="destructive"] > svg {
+  color: var(--destructive);
+}

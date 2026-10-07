@@ -1,15 +1,9 @@
+import { createStoryPair, loadStoryPair } from "./story-pair";
 import { test, expect, type Page } from "@playwright/test";
 import { compare, settle } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
-async function load(pages: Page[], name: string, theme: string) {
-  await Promise.all(
-    pages.map(async (p, i) => {
-      await p.goto(
-        `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-sonner--${name}&viewMode=story&globals=theme:${theme}`,
-      );
-      await expect(p.locator("#parity-root")).toBeVisible();
-    }),
-  );
+
+async function load(pages: [Page, Page], name: string, theme: string) {
+  await loadStoryPair(pages, `components-sonner--${name}`, theme);
 }
 async function mark(pages: Page[]) {
   await Promise.all(
@@ -27,8 +21,7 @@ for (const theme of ["light", "dark"])
   test(`Sonner update action cancel dismiss and theme context / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await load(pages, "controls", theme);
       await Promise.all(
@@ -122,8 +115,7 @@ for (const theme of ["light", "dark"])
   test(`Sonner actual auto-close deadline and callback / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await load(pages, "lifecycle", theme);
       for (const p of pages) {
@@ -155,8 +147,7 @@ for (const theme of ["light", "dark"])
   test(`Sonner entrance transition time samples / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await ctx.addInitScript(() =>
         document.addEventListener(
@@ -233,8 +224,7 @@ for (const theme of ["light", "dark"])
   test(`Sonner StyleX loading rotation time samples / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await load(pages, "loading", theme);
       await Promise.all(
@@ -284,10 +274,9 @@ for (const theme of ["light", "dark"])
   test(`Sonner actual hotkey keyboard close and mobile pointer swipe / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 390, height: 900 },
     });
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
     try {
       await load(pages, "rtl", theme);
       await Promise.all(

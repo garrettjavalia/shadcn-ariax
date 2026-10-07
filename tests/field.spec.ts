@@ -1,8 +1,12 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { assertSourceComponents } from "./source-components";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 const fieldDocumentation: Record<string, string> = {
   "field-demo": "components-field--document-demo",
   "field-input": "components-field--document-input",
@@ -71,21 +75,18 @@ for (const theme of ["light", "dark"])
   test(`Field choice focus, hover, disabled, checked / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-      colorScheme: "light",
-    });
-    const [a, b] = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const p = await ctx.newPage();
+    const {
+      context: ctx,
+      pages: [a, b],
+    } = await createStoryPair(
+      browser,
+      deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+      async (p, url) => {
         await p.goto(
           `${url}/iframe.html?id=components-field--choice-selectors&viewMode=story&globals=theme:${theme}`,
         );
         await expect(p.locator("#parity-root")).toBeVisible();
-        return p;
-      }),
+      },
     );
     try {
       for (let i = 0; i < 4; i++) {

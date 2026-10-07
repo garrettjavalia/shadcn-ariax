@@ -1,6 +1,7 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 import { compare } from "./compare";
 test("Badge official documentation coverage", async ({ request }) => {
   const doc = await readFile(
@@ -22,18 +23,17 @@ for (const theme of ["light", "dark"])
     test(`Badge hover and keyboard focus / ${story} / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-      });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
+      const { context, pages } = await createStoryPair(
+        browser,
+        {
+          viewport: { width: 1000, height: 900 },
+        },
+        async (page, url) => {
           await page.goto(
             `${url}/iframe.html?id=components-badge--${story}&viewMode=story&globals=theme:${theme}`,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
-          return page;
-        }),
+        },
       );
       try {
         for (let i = 0; i < 6; i++) {

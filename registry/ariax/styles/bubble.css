@@ -1,21 +1,127 @@
 /* The variant belongs to the parent and styles only direct content children. */
-:where([data-slot="bubble-content"]) { --ariax-bubble-border: transparent; --ariax-bubble-radius: calc(var(--radius) * 1.4); --ariax-bubble-padding-x: calc(var(--ariax-spacing, .25rem) * 3); --ariax-bubble-padding-y: calc(var(--ariax-spacing, .25rem) * 2); }
-:where([data-slot="bubble"][data-variant="default"] > [data-slot="bubble-content"]) { background-color: var(--primary); color: var(--primary-foreground); }
-:where([data-slot="bubble"][data-variant="secondary"] > [data-slot="bubble-content"]) { background-color: var(--secondary); color: var(--secondary-foreground); }
-:where([data-slot="bubble"][data-variant="muted"] > [data-slot="bubble-content"]) { background-color: var(--muted); }
-:where([data-slot="bubble"][data-variant="tinted"] > [data-slot="bubble-content"]) { background-color: oklch(from var(--primary) .93 calc(c * .4) h); color: var(--foreground); }
-:where([data-slot="bubble"][data-variant="outline"] > [data-slot="bubble-content"]) { background-color: var(--background); border-color: var(--border); --ariax-bubble-border: var(--border); }
-:where([data-slot="bubble"][data-variant="ghost"] > [data-slot="bubble-content"]) { border-radius: 0; background-color: transparent; padding: 0; --ariax-bubble-radius: 0px; --ariax-bubble-padding-x: 0px; --ariax-bubble-padding-y: 0px; }
-:where([data-slot="bubble"][data-variant="destructive"] > [data-slot="bubble-content"]) { background-color: color-mix(in oklab, var(--destructive) 10%, transparent); color: var(--destructive); }
-:where(:is(.dark *)[data-slot="bubble"][data-variant="tinted"] > [data-slot="bubble-content"]) { background-color: oklch(from var(--primary) .3 calc(c * .4) h); }
-:where(:is(.dark *)[data-slot="bubble"][data-variant="destructive"] > [data-slot="bubble-content"]) { background-color: color-mix(in oklab, var(--destructive) 20%, transparent); }
-:where([data-slot="bubble"][data-variant="default"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklab, var(--primary) 80%, transparent); }
-:where([data-slot="bubble"][data-variant="secondary"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklch, var(--secondary), var(--foreground) 5%); }
-:where([data-slot="bubble"][data-variant="muted"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklch, var(--muted), var(--foreground) 5%); }
-:where([data-slot="bubble"][data-variant="tinted"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: oklch(from var(--primary) .88 calc(c * .5) h); }
-:where(:is(.dark *)[data-slot="bubble"][data-variant="tinted"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: oklch(from var(--primary) .35 calc(c * .5) h); }
-:where([data-slot="bubble"]:is([data-variant="outline"],[data-variant="ghost"]) > [data-slot="bubble-content"]:is(button,a):hover) { background-color: var(--muted); color: var(--foreground); }
-:where(:is(.dark *)[data-slot="bubble"][data-variant="outline"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklab, var(--input) 30%, transparent); }
-:where(:is(.dark *)[data-slot="bubble"][data-variant="ghost"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklab, var(--muted) 50%, transparent); }
-:where([data-slot="bubble"][data-variant="destructive"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklab, var(--destructive) 20%, transparent); }
-:where(:is(.dark *)[data-slot="bubble"][data-variant="destructive"] > [data-slot="bubble-content"]:is(button,a):hover) { background-color: color-mix(in oklab, var(--destructive) 30%, transparent); }
+:where([data-slot="bubble-content"]) {
+  --ariax-bubble-border: transparent;
+  --ariax-bubble-radius: calc(var(--radius) * 1.4);
+  --ariax-bubble-padding-x: calc(var(--ariax-spacing, 0.25rem) * 3);
+  --ariax-bubble-padding-y: calc(var(--ariax-spacing, 0.25rem) * 2);
+}
+:where(
+  [data-slot="bubble"][data-variant="default"] > [data-slot="bubble-content"]
+) {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+:where(
+  [data-slot="bubble"][data-variant="secondary"] > [data-slot="bubble-content"]
+) {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+:where(
+  [data-slot="bubble"][data-variant="muted"] > [data-slot="bubble-content"]
+) {
+  background-color: var(--muted);
+}
+:where(
+  [data-slot="bubble"][data-variant="tinted"] > [data-slot="bubble-content"]
+) {
+  background-color: oklch(from var(--primary) 0.93 calc(c * 0.4) h);
+  color: var(--foreground);
+}
+:where(
+  [data-slot="bubble"][data-variant="outline"] > [data-slot="bubble-content"]
+) {
+  background-color: var(--background);
+  border-color: var(--border);
+  --ariax-bubble-border: var(--border);
+}
+:where(
+  [data-slot="bubble"][data-variant="ghost"] > [data-slot="bubble-content"]
+) {
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
+  --ariax-bubble-radius: 0px;
+  --ariax-bubble-padding-x: 0px;
+  --ariax-bubble-padding-y: 0px;
+}
+:where(
+  [data-slot="bubble"][data-variant="destructive"]
+    > [data-slot="bubble-content"]
+) {
+  background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+  color: var(--destructive);
+}
+:where(
+  :is(.dark *)[data-slot="bubble"][data-variant="tinted"]
+    > [data-slot="bubble-content"]
+) {
+  background-color: oklch(from var(--primary) 0.3 calc(c * 0.4) h);
+}
+:where(
+  :is(.dark *)[data-slot="bubble"][data-variant="destructive"]
+    > [data-slot="bubble-content"]
+) {
+  background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+}
+:where(
+  [data-slot="bubble"][data-variant="default"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklab, var(--primary) 80%, transparent);
+}
+:where(
+  [data-slot="bubble"][data-variant="secondary"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklch, var(--secondary), var(--foreground) 5%);
+}
+:where(
+  [data-slot="bubble"][data-variant="muted"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklch, var(--muted), var(--foreground) 5%);
+}
+:where(
+  [data-slot="bubble"][data-variant="tinted"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: oklch(from var(--primary) 0.88 calc(c * 0.5) h);
+}
+:where(
+  :is(.dark *)[data-slot="bubble"][data-variant="tinted"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: oklch(from var(--primary) 0.35 calc(c * 0.5) h);
+}
+:where(
+  [data-slot="bubble"]:is([data-variant="outline"], [data-variant="ghost"])
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+:where(
+  :is(.dark *)[data-slot="bubble"][data-variant="outline"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklab, var(--input) 30%, transparent);
+}
+:where(
+  :is(.dark *)[data-slot="bubble"][data-variant="ghost"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+}
+:where(
+  [data-slot="bubble"][data-variant="destructive"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+}
+:where(
+  :is(.dark *)[data-slot="bubble"][data-variant="destructive"]
+    > [data-slot="bubble-content"]:is(button, a):hover
+) {
+  background-color: color-mix(in oklab, var(--destructive) 30%, transparent);
+}

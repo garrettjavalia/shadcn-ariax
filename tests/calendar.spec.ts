@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { upstreamURL, stylexURL } from "./servers";
@@ -135,12 +136,9 @@ for (const theme of ["light", "dark"])
   test(`Calendar responsive range and custom cells / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 390, height: 900 },
     });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => context.newPage()),
-    );
     try {
       for (const story of ["range", "custom-days", "rtl-range"]) {
         for (const page of pages)

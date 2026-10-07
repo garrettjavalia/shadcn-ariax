@@ -1,2 +1,9 @@
-.ariax-dialog-description > a { text-decoration-line: underline; text-underline-offset: 3px; }
-@media (hover: hover) { .ariax-dialog-description > a:hover { color: var(--foreground); } }
+.ariax-dialog-description > a {
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+@media (hover: hover) {
+  .ariax-dialog-description > a:hover {
+    color: var(--foreground);
+  }
+}

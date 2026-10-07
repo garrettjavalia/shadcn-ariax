@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare, settle } from "./compare";
@@ -35,18 +36,17 @@ for (const theme of ["light", "dark"])
     test(`Slider ${story} actual states / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext();
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
+      const { context, pages } = await createStoryPair(
+        browser,
+        undefined,
+        async (page, url) => {
           await page.goto(
             `${url}/iframe.html?id=components-slider--${story}&globals=theme:${theme}`,
           );
           await expect(
             page.locator('[data-slot="slider"]').first(),
           ).toBeVisible();
-          return page;
-        }),
+        },
       );
       try {
         await compare(pages[0], pages[1], info, "initial");

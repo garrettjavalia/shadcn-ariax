@@ -1,3 +1,13 @@
-.ariax-alert-dialog-media > svg:not([class*='size-']) { width: calc(var(--ariax-spacing, .25rem) * 6); height: calc(var(--ariax-spacing, .25rem) * 6); }
-.ariax-alert-dialog-description > a { text-decoration-line: underline; text-underline-offset: 3px; }
-@media (hover: hover) { .ariax-alert-dialog-description > a:hover { color: var(--foreground); } }
+.ariax-alert-dialog-media > svg:not([class*="size-"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 6);
+  height: calc(var(--ariax-spacing, 0.25rem) * 6);
+}
+.ariax-alert-dialog-description > a {
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+@media (hover: hover) {
+  .ariax-alert-dialog-description > a:hover {
+    color: var(--foreground);
+  }
+}

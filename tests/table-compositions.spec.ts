@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -6,11 +7,9 @@ for (const theme of ["light", "dark"])
     test(`Table official ${kind} composition / ${theme}`, async ({
       browser,
     }, info) => {
-      const context = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-        locale: "en-US",
-        timezoneId: "UTC",
-      });
+      const context = await browser.newContext(
+        deterministicStoryContextOptions(),
+      );
       try {
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {

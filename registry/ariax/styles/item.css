@@ -1,7 +1,30 @@
-.ariax-item-media svg { pointer-events: none; }
-.ariax-item-media-icon svg:not([class*="size-"]) { width: calc(var(--ariax-spacing, .25rem) * 4); height: calc(var(--ariax-spacing, .25rem) * 4); }
-.ariax-item-media-image img { width: 100%; height: 100%; object-fit: cover; }
-@property --ariax-item-content-flex { syntax: "*"; inherits: false; initial-value: 1 1 0%; }
-.ariax-item-content + [data-slot="item-content"] { flex: none; --ariax-item-content-flex: none; }
-.ariax-item-description > a { text-decoration-line: underline; text-underline-offset: 4px; }
-@media (hover: hover) { .ariax-item-description > a:hover { color: var(--primary); } }
+.ariax-item-media svg {
+  pointer-events: none;
+}
+.ariax-item-media-icon svg:not([class*="size-"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}
+.ariax-item-media-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@property --ariax-item-content-flex {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1 1 0%;
+}
+.ariax-item-content + [data-slot="item-content"] {
+  flex: none;
+  --ariax-item-content-flex: none;
+}
+.ariax-item-description > a {
+  text-decoration-line: underline;
+  text-underline-offset: 4px;
+}
+@media (hover: hover) {
+  .ariax-item-description > a:hover {
+    color: var(--primary);
+  }
+}

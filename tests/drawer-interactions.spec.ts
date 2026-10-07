@@ -1,6 +1,7 @@
+import { createStoryPair, loadStoryPair } from "./story-pair";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
+
 async function mark(pages: Page[]) {
   await Promise.all(
     pages.map((p) =>
@@ -13,25 +14,17 @@ async function mark(pages: Page[]) {
     ),
   );
 }
-async function load(pages: Page[], name: string, theme: string) {
-  await Promise.all(
-    pages.map(async (p, i) => {
-      await p.goto(
-        `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-drawer--${name}&viewMode=story&globals=theme:${theme}`,
-      );
-      await expect(p.locator("#parity-root")).toBeVisible();
-    }),
-  );
+async function load(pages: [Page, Page], name: string, theme: string) {
+  await loadStoryPair(pages, `components-drawer--${name}`, theme);
 }
 for (const theme of ["light", "dark"])
   for (const name of ["demo-example", "rtl", "dialog", "snap-points"])
     test(`Drawer representative mobile ${name} / ${theme}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width: 390, height: 900 },
       });
-      const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
       try {
         await load(pages, name, theme);
         await Promise.all(
@@ -70,8 +63,7 @@ for (const theme of ["light", "dark"])
   test(`Drawer four real nested levels and focus restoration / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await load(pages, "nested", theme);
       for (const [index, label] of [
@@ -127,8 +119,7 @@ for (const theme of ["light", "dark"])
   test(`Drawer scroll fade positions preserve actual mask animation / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await load(pages, "registry-scrollable", theme);
       await Promise.all(
@@ -158,8 +149,7 @@ for (const theme of ["light", "dark"])
   test(`Drawer nonmodal outside pointer and keyboard close / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => ctx.newPage()));
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       await load(pages, "non-modal", theme);
       await Promise.all(

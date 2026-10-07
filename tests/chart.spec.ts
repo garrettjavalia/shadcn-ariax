@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -174,8 +175,7 @@ for (const theme of ["light", "dark"])
   test(`Chart tooltip and legend API branches / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       await Promise.all(
         pages.map((page, i) =>
@@ -274,8 +274,7 @@ for (const theme of ["light", "dark"])
 test("Chart normal SDK animation readiness waits for actual queue completion", async ({
   browser,
 }, info) => {
-  const context = await browser.newContext();
-  const pages = await Promise.all([context.newPage(), context.newPage()]);
+  const { context, pages } = await createStoryPair(browser, undefined);
   try {
     await Promise.all(
       pages.map((page, i) =>

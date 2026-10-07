@@ -1,8 +1,39 @@
-.ariax-attachment-media svg { pointer-events: none; }
-.ariax-attachment-media svg:not([class*='size-']):not([data-slot='spinner']) { width:calc(var(--ariax-spacing, .25rem) * 4); height:calc(var(--ariax-spacing, .25rem) * 4); }
-.ariax-attachment[data-size='xs'] .ariax-attachment-media svg:not([class*='size-']):not([data-slot='spinner']) {width:calc(var(--ariax-spacing, .25rem) * 3.5);height:calc(var(--ariax-spacing, .25rem) * 3.5);}
-.ariax-attachment[data-orientation='vertical'] .ariax-attachment-media svg:not([class*='size-']):not([data-slot='spinner']):not(.ariax-attachment[data-size='xs'] *) {width:calc(var(--ariax-spacing, .25rem) * 6);height:calc(var(--ariax-spacing, .25rem) * 6);}
-.ariax-attachment[data-orientation='vertical'] .ariax-attachment-media > [data-slot='spinner'] {width:calc(var(--ariax-spacing, .25rem) * 6)!important;height:calc(var(--ariax-spacing, .25rem) * 6)!important;}
-.ariax-attachment-media[data-variant='image'] > img {aspect-ratio:1/1;width:100%;object-fit:cover;}
-.ariax-attachment-group > [data-slot='attachment'] {flex:none;scroll-snap-align:start;}
-.ariax-attachment-group::-webkit-scrollbar {display:none;}
+.ariax-attachment-media svg {
+  pointer-events: none;
+}
+.ariax-attachment-media svg:not([class*="size-"]):not([data-slot="spinner"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}
+.ariax-attachment[data-size="xs"]
+  .ariax-attachment-media
+  svg:not([class*="size-"]):not([data-slot="spinner"]) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 3.5);
+  height: calc(var(--ariax-spacing, 0.25rem) * 3.5);
+}
+.ariax-attachment[data-orientation="vertical"]
+  .ariax-attachment-media
+  svg:not([class*="size-"]):not([data-slot="spinner"]):not(
+    .ariax-attachment[data-size="xs"] *
+  ) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 6);
+  height: calc(var(--ariax-spacing, 0.25rem) * 6);
+}
+.ariax-attachment[data-orientation="vertical"]
+  .ariax-attachment-media
+  > [data-slot="spinner"] {
+  width: calc(var(--ariax-spacing, 0.25rem) * 6) !important;
+  height: calc(var(--ariax-spacing, 0.25rem) * 6) !important;
+}
+.ariax-attachment-media[data-variant="image"] > img {
+  aspect-ratio: 1/1;
+  width: 100%;
+  object-fit: cover;
+}
+.ariax-attachment-group > [data-slot="attachment"] {
+  flex: none;
+  scroll-snap-align: start;
+}
+.ariax-attachment-group::-webkit-scrollbar {
+  display: none;
+}

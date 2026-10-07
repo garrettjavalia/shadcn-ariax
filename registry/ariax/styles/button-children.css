@@ -1,4 +1,10 @@
 /* Structural bridge for arbitrary descendant SVGs. Values are owned by StyleX.
    StyleX cannot attach classes to opaque consumer children; do not clone them. */
-.ariax-button svg { pointer-events: none; flex-shrink: 0; }
-.ariax-button svg:not([class*="size-"]) { width: var(--ariax-icon-size, calc(var(--ariax-spacing, .25rem) * 4)); height: var(--ariax-icon-size, calc(var(--ariax-spacing, .25rem) * 4)); }
+.ariax-button svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.ariax-button svg:not([class*="size-"]) {
+  width: var(--ariax-icon-size, calc(var(--ariax-spacing, 0.25rem) * 4));
+  height: var(--ariax-icon-size, calc(var(--ariax-spacing, 0.25rem) * 4));
+}

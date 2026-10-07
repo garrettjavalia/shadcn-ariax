@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -9,12 +10,9 @@ for (const theme of ["light", "dark"])
     test.setTimeout(120_000);
     const contexts = await Promise.all(
       [0, 1].map(() =>
-        browser.newContext({
-          viewport: { width: 1000, height: 900 },
-          locale: "en-US",
-          timezoneId: "UTC",
-          colorScheme: "light",
-        }),
+        browser.newContext(
+          deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+        ),
       ),
     );
     const a = await contexts[0].newPage(),
@@ -192,12 +190,9 @@ for (const theme of ["light", "dark"])
   test(`Tooltip real enter and exit animation frames / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-      locale: "en-US",
-      timezoneId: "UTC",
-      colorScheme: "light",
-    });
+    const context = await browser.newContext(
+      deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+    );
     await context.addInitScript(() => {
       const sampled = new WeakSet<Animation>();
       const handles = new WeakMap<Element, Animation>();

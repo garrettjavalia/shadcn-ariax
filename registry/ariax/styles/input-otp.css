@@ -1,1 +1,4 @@
-.ariax-input-otp-separator svg:not([class*="size-"]) { width: var(--ariax-otp-icon-size); height: var(--ariax-otp-icon-size); }
+.ariax-input-otp-separator svg:not([class*="size-"]) {
+  width: var(--ariax-otp-icon-size);
+  height: var(--ariax-otp-icon-size);
+}

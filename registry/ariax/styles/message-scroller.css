@@ -1,1 +1,3 @@
-[data-slot="message-scroller-button"][data-direction="start"] svg { rotate: 180deg; }
+[data-slot="message-scroller-button"][data-direction="start"] svg {
+  rotate: 180deg;
+}

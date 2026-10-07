@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -70,8 +71,7 @@ for (const theme of ["light", "dark"])
   test(`HoverCard RTL enter and exit effects0/50/100ms / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => context.newPage()));
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       for (const n of [0, 1, 2, 3, 4, 5])
         for (const phase of ["enter", "exit"]) {
@@ -170,8 +170,7 @@ for (const theme of ["light", "dark"])
   test(`HoverCard interactive safe area, focus and disabled state / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all([0, 1].map(() => context.newPage()));
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       await Promise.all(
         pages.map(async (p, i) => {

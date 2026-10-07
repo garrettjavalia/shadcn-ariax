@@ -1,1 +1,9 @@
-.ariax-resizable-handle::after { content: ''; position: absolute; inset-block: 0; inset-inline-start: var(--ariax-resizable-after-start); width: var(--ariax-resizable-after-width); height: var(--ariax-resizable-after-height); translate: var(--ariax-resizable-after-translate); }
+.ariax-resizable-handle::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--ariax-resizable-after-start);
+  width: var(--ariax-resizable-after-width);
+  height: var(--ariax-resizable-after-height);
+  translate: var(--ariax-resizable-after-translate);
+}

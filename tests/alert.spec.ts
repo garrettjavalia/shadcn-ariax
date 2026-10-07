@@ -1,16 +1,17 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
-import { upstreamURL, stylexURL } from "./servers";
+
 import { compare } from "./compare";
 for (const theme of ["light", "dark"])
   test(`Alert links preserve hover and focus styles / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-    });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const page = await context.newPage();
+    const { context, pages } = await createStoryPair(
+      browser,
+      {
+        viewport: { width: 1000, height: 900 },
+      },
+      async (page, url) => {
         await page.goto(
           `${url}/iframe.html?id=components-alert--content&viewMode=story&globals=theme:${theme}`,
         );
@@ -18,8 +19,7 @@ for (const theme of ["light", "dark"])
           "role",
           "alert",
         );
-        return page;
-      }),
+      },
     );
     try {
       for (const index of [0, 1]) {
@@ -54,14 +54,14 @@ for (const theme of ["light", "dark"])
 test("Alert links preserve the upstream hover capability condition on touch devices", async ({
   browser,
 }, info) => {
-  const context = await browser.newContext({
-    viewport: { width: 390, height: 900 },
-    hasTouch: true,
-    isMobile: true,
-  });
-  const pages = await Promise.all(
-    [upstreamURL, stylexURL].map(async (url) => {
-      const page = await context.newPage();
+  const { context, pages } = await createStoryPair(
+    browser,
+    {
+      viewport: { width: 390, height: 900 },
+      hasTouch: true,
+      isMobile: true,
+    },
+    async (page, url) => {
       await page.goto(
         `${url}/iframe.html?id=components-alert--content&viewMode=story`,
       );
@@ -70,8 +70,7 @@ test("Alert links preserve the upstream hover capability condition on touch devi
         await page.evaluate(() => matchMedia("(hover: hover)").matches),
       ).toBe(false);
       await page.locator("#content-alert a").nth(1).tap();
-      return page;
-    }),
+    },
   );
   try {
     await compare(pages[0], pages[1], info, "alert-touch-link");
@@ -84,18 +83,17 @@ for (const theme of ["light", "dark"])
   test(`Alert official RTL alignment and action direction / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
-    });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(async (url) => {
-        const page = await context.newPage();
+    const { context, pages } = await createStoryPair(
+      browser,
+      {
+        viewport: { width: 1000, height: 900 },
+      },
+      async (page, url) => {
         await page.goto(
           `${url}/iframe.html?id=components-alert--rtl-action&viewMode=story&globals=theme:${theme}`,
         );
         await expect(page.locator('[data-slot="alert"]')).toBeVisible();
-        return page;
-      }),
+      },
     );
     try {
       for (const page of pages) {

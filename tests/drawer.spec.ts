@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { readFile } from "node:fs/promises";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
@@ -25,12 +26,9 @@ const cases = [
 for (const theme of ["light", "dark"])
   for (const name of cases)
     test(`Drawer official ${name} / ${theme}`, async ({ browser }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width: 1000, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       try {
         await Promise.all(
           pages.map(async (p, i) => {

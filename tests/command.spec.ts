@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -201,10 +202,9 @@ for (const theme of ["light", "dark"])
   test(`Command dialog animation at 0/50/100ms / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext({
+    const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
-    const pages = await Promise.all([context.newPage(), context.newPage()]);
     try {
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < pages.length; i++) {

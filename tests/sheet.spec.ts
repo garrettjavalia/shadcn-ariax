@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -7,12 +8,9 @@ for (const theme of ["light", "dark"])
     test(`Sheet official cases, sides, dismissal and focus / ${theme} / ${width}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
+      const { context: ctx, pages } = await createStoryPair(browser, {
         viewport: { width, height: 900 },
       });
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => ctx.newPage()),
-      );
       try {
         for (const name of [
           "demo-example",
@@ -110,10 +108,7 @@ for (const theme of ["light", "dark"])
   test(`Sheet opacity/translate transition at 25/75/125ms / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
+    const { context: ctx, pages } = await createStoryPair(browser, undefined);
     try {
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < 2; i++) {
@@ -218,12 +213,9 @@ for (const theme of ["light", "dark"])
   test(`Sheet no-close outside dismissal / ${theme}`, async ({
     browser,
   }, info) => {
-    const ctx = await browser.newContext({
+    const { context: ctx, pages } = await createStoryPair(browser, {
       viewport: { width: 390, height: 900 },
     });
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => ctx.newPage()),
-    );
     try {
       await Promise.all(
         pages.map(async (p, i) => {

@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { upstreamURL, stylexURL } from "./servers";
@@ -33,10 +34,7 @@ for (const theme of ["light", "dark"])
   test(`Select official open portals, search, keyboard, scrolling and RTL / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map((url) => context.newPage()),
-    );
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       for (const story of [...official, "usage"]) {
         await Promise.all(
@@ -288,13 +286,11 @@ for (const theme of ["light", "dark"])
     browser,
   }, info) => {
     for (const forced of [true, false]) {
-      const context = await browser.newContext(
+      const { context, pages } = await createStoryPair(
+        browser,
         forced
           ? { forcedColors: "active" }
           : { viewport: { width: 390, height: 900 } },
-      );
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(() => context.newPage()),
       );
       try {
         await Promise.all(

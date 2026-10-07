@@ -1,3 +1,4 @@
+import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -27,13 +28,10 @@ for (const theme of ["light", "dark"])
       test(`Data Table official interactions / ${story} / ${theme} / ${width}`, async ({
         browser,
       }, info) => {
-        const context = await browser.newContext({
+        const { context, pages } = await createStoryPair(browser, {
           viewport: { width, height: 1000 },
           permissions: ["clipboard-read", "clipboard-write"],
         });
-        const pages = await Promise.all(
-          [upstreamURL, stylexURL].map(() => context.newPage()),
-        );
         try {
           await Promise.all(
             pages.map((page, i) =>
@@ -146,10 +144,7 @@ for (const theme of ["light", "dark"])
   test(`Data Table actual pagination and filtered page / ${theme}`, async ({
     browser,
   }, info) => {
-    const context = await browser.newContext();
-    const pages = await Promise.all(
-      [upstreamURL, stylexURL].map(() => context.newPage()),
-    );
+    const { context, pages } = await createStoryPair(browser, undefined);
     try {
       await Promise.all(
         pages.map((page, i) =>

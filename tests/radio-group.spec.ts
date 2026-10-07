@@ -1,7 +1,11 @@
+import {
+  deterministicStoryContextOptions,
+  createStoryPair,
+} from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
-import { upstreamURL, stylexURL } from "./servers";
+import { stylexURL } from "./servers";
 test("every official Radio Group example has a parity story", async ({
   request,
 }) => {
@@ -37,21 +41,18 @@ for (const theme of ["light", "dark"])
     test(`Radio Group ${story} keyboard and pointer / ${theme}`, async ({
       browser,
     }, info) => {
-      const ctx = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-        locale: "en-US",
-        timezoneId: "UTC",
-        colorScheme: "light",
-      });
-      const [a, b] = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const p = await ctx.newPage();
+      const {
+        context: ctx,
+        pages: [a, b],
+      } = await createStoryPair(
+        browser,
+        deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+        async (p, url) => {
           await p.goto(
             `${url}/iframe.html?id=components-radio-group--${story}&viewMode=story&globals=theme:${theme}`,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
-          return p;
-        }),
+        },
       );
       try {
         if (story === "customized") {

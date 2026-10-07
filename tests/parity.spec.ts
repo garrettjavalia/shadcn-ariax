@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
 import { upstreamPort, stylexPort, upstreamURL, stylexURL } from "./servers";
 import { test, expect } from "@playwright/test";
@@ -90,12 +91,9 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
         );
         const ids = partitionStories(selected, batchCount)[batch];
         test.skip(ids.length === 0, "No selected stories in this batch.");
-        const context = await browser.newContext({
-          viewport: { width, height: 900 },
-          locale: "en-US",
-          timezoneId: "UTC",
-          colorScheme: "light",
-        });
+        const context = await browser.newContext(
+          deterministicStoryContextOptions(width, { colorScheme: "light" }),
+        );
         await controlAvatarAssets(context);
         const a = await context.newPage();
         const b = await context.newPage();

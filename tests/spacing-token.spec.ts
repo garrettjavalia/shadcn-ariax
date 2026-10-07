@@ -1,3 +1,4 @@
+import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFileSync, readdirSync } from "node:fs";
 import { compare } from "./compare";
@@ -92,12 +93,9 @@ for (const scenario of scenarios)
         );
       const selected = partitionStories(ids, batchCount)[batch];
       test.skip(selected.length === 0, "No spacing stories in this batch.");
-      const context = await browser.newContext({
-        viewport: { width: 1000, height: 900 },
-        locale: "en-US",
-        timezoneId: "UTC",
-        colorScheme: "light",
-      });
+      const context = await browser.newContext(
+        deterministicStoryContextOptions(1000, { colorScheme: "light" }),
+      );
       // Initialize tokens before React creates animated SVGs. Resizing an already
       // composited SVG can retain Chromium's previous transformed scroll overflow.
       await context.addInitScript(({ spacing, fontSize }) => {
