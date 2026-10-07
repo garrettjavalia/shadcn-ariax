@@ -2,7 +2,7 @@ name: Publish registry to GitHub Raw
 
 on:
   push:
-    branches: [main]
+    branches: [deploy/registry]
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/deploy/registry'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -41,8 +41,8 @@ jobs:
           tree=$(git write-tree)
           parents=(-p "$SOURCE_SHA")
           # Keep the previous deployment as a parent without merging generated files.
-          if git ls-remote --exit-code --heads origin deploy/shadcn-registry; then
-            git fetch origin deploy/shadcn-registry
+          if git ls-remote --exit-code --heads origin published/registry; then
+            git fetch origin published/registry
             previous=$(git rev-parse FETCH_HEAD)
             if [ "$tree" = "$(git rev-parse "$previous^{tree}")" ]; then
               exit 0
@@ -52,4 +52,4 @@ jobs:
             fi
           fi
           commit=$(git commit-tree "$tree" "${parents[@]}" -m "Publish registry from $SOURCE_SHA")
-          git push origin "$commit:refs/heads/deploy/shadcn-registry"
+          git push origin "$commit:refs/heads/published/registry"
