@@ -1,0 +1,55 @@
+name: Publish Storybook to GitHub Pages
+
+on:
+  push:
+    branches: [deploy-github-pages]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/deploy-github-pages'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.19.0
+          cache: pnpm
+      - uses: actions/configure-pages@v5
+        id: pages
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm registry:check
+      - name: Build public AriaX Storybook
+        env:
+          ARIAX_STORYBOOK_BASE: ${{ steps.pages.outputs.base_path }}/
+        run: |
+          pnpm build:stylex
+          node --import tsx scripts/prepare-pages.ts
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/stylex
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

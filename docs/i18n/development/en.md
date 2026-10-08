@@ -79,6 +79,23 @@ Submit `@ariax`, the repository homepage, this URL template, a description, and 
 }
 ```
 
+## Publishing Storybook to GitHub Pages
+
+The `Publish Storybook to GitHub Pages` workflow runs on pushes to `deploy-github-pages`, or manually from that branch. Keep this branch as a complete source branch: merge release revisions from `main` into it. The workflow builds the AriaX Storybook, uploads the contents of `dist/stylex/` as a Pages artifact, and deploys that artifact. Build output is not committed or pushed to another branch.
+
+Before the first run, select **Settings → Pages → Build and deployment → Source → GitHub Actions**. Allow `deploy-github-pages` in the `github-pages` environment's deployment branch rules. No personal access token is needed. The workflow obtains the site's base path from GitHub Pages and adjusts literal example image/font URLs for that path.
+
+The contents of `dist/stylex/` become the site root, so `index.html` is served at the site URL without a `/dist/stylex/` suffix. Only the build output is published on the website. The public site contains AriaX stories with light/dark controls; the upstream comparison Storybook remains local. Deployment success is not a claim that the full parity suite passed.
+
+To check a project-site build locally:
+
+```sh
+ARIAX_STORYBOOK_BASE=/shadcn-ariax/ pnpm build:stylex
+ARIAX_STORYBOOK_BASE=/shadcn-ariax/ node --import tsx scripts/prepare-pages.ts
+```
+
+Serve `dist/stylex/` under `/shadcn-ariax/` to verify navigation, images, and fonts. Rebuild without `ARIAX_STORYBOOK_BASE` before running the normal root-path parity tests.
+
 ## Upstream preparation
 
 ```text

@@ -17,6 +17,8 @@ See [Component status](docs/i18n/components/en.md) for available components, ver
 
 ## Try the components
 
+Browse examples and try component interactions in the [live AriaX Storybook](https://garrettjavalia.github.io/shadcn-ariax/).
+
 Run the AriaX Storybook locally to browse examples and try component interactions. Requires Node.js 22.19+ and pnpm 10.15.1.
 
 ```sh

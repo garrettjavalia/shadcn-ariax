@@ -17,6 +17,8 @@ AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn/ui �
 
 ## 컴포넌트 둘러보기
 
+[공개 AriaX Storybook](https://garrettjavalia.github.io/shadcn-ariax/)에서 예제를 보고 컴포넌트 동작을 직접 체험할 수 있습니다.
+
 AriaX Storybook을 로컬에서 실행해 예제와 컴포넌트 동작을 살펴볼 수 있습니다. Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
 
 ```sh

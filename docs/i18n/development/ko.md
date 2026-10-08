@@ -79,6 +79,23 @@ ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax
 }
 ```
 
+## GitHub Pages에 Storybook 게시
+
+`Publish Storybook to GitHub Pages` 워크플로는 `deploy-github-pages` 푸시 또는 해당 브랜치의 수동 실행으로 동작합니다. 이 브랜치는 전체 소스를 유지하며 `main`의 릴리스 리비전을 머지합니다. 워크플로는 AriaX Storybook을 빌드하고 `dist/stylex/` 내부 내용을 Pages artifact로 업로드한 뒤 해당 artifact를 배포합니다. 빌드 결과를 커밋하거나 다른 브랜치에 푸시하지 않습니다.
+
+최초 실행 전에 **Settings → Pages → Build and deployment → Source → GitHub Actions**를 선택합니다. `github-pages` 환경의 배포 브랜치 규칙에서 `deploy-github-pages`를 허용해야 합니다. 개인 액세스 토큰은 필요하지 않습니다. 워크플로는 GitHub Pages에서 사이트 기본 경로를 읽어 예제의 이미지·폰트 절대 경로를 조정합니다.
+
+`dist/stylex/` 내부 내용이 사이트 루트가 되므로 사이트 주소에 `/dist/stylex/`를 붙이지 않고 `index.html`에 접근합니다. 웹사이트에는 빌드 결과만 공개됩니다. 공개 사이트에서는 AriaX 스토리와 light/dark 전환을 제공하고, 원본 비교 Storybook은 로컬로 유지합니다. 배포 성공은 전체 동등성 검사 통과를 뜻하지 않습니다.
+
+저장소 하위 경로의 빌드를 로컬에서 확인하려면:
+
+```sh
+ARIAX_STORYBOOK_BASE=/shadcn-ariax/ pnpm build:stylex
+ARIAX_STORYBOOK_BASE=/shadcn-ariax/ node --import tsx scripts/prepare-pages.ts
+```
+
+`dist/stylex/`를 `/shadcn-ariax/` 아래에서 제공하여 탐색·이미지·폰트를 확인합니다. 일반 루트 경로의 동등성 검사를 실행하기 전에는 `ARIAX_STORYBOOK_BASE` 없이 다시 빌드합니다.
+
 ## 업스트림 준비
 
 ```text

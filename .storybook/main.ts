@@ -26,6 +26,7 @@ const config: StorybookConfig = {
   staticDirs: ['../public', { from: '../licenses', to: '/licenses' }, { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }, ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config) {
+    config.base = process.env.ARIAX_STORYBOOK_BASE ?? config.base;
     config.resolve ??= {};
     // Reference namespaces and shared stories must use the same primitive contexts and singleton stores.
     config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts', 'sonner', 'next-themes'])];
