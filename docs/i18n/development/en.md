@@ -58,13 +58,13 @@ The `Publish registry to GitHub Raw` workflow runs on pushes to `deploy-registry
 After the first successful publication, the URL template is:
 
 ```text
-https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/{name}.json
+https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json
 ```
 
 The catalog is at the same URL with `registry` substituted for `{name}`. Verify the published endpoint against the matching source revision:
 
 ```sh
-ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/ pnpm test:install
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/ pnpm test:install
 ```
 
 For reproducible checks, replace the entire `refs/heads/published-registry` segment with its publication commit SHA. `ARIAX_REGISTRY_URL` must be an HTTP(S) directory URL ending in `/`. This installs all component fixtures from the endpoint and checks dependencies, TypeScript, and a production Vite build without Tailwind.
@@ -74,7 +74,7 @@ Submit `@ariax`, the repository homepage, this URL template, a description, and 
 ```json
 {
   "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/{name}.json"
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json"
   }
 }
 ```

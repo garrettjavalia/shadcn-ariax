@@ -16,7 +16,7 @@ import { chromium, expect } from "@playwright/test";
 const registry = process.argv[2];
 assert.ok(
   registry,
-  "Provide a GitHub item, e.g. garrettjavalia/shadcn_ariax/button#<revision>",
+  "Provide a GitHub item, e.g. garrettjavalia/shadcn-ariax/button#<revision>",
 );
 const app = await mkdtemp(join(tmpdir(), "ariax-button-"));
 const output = resolve("generated/install-button");

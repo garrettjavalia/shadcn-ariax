@@ -24,7 +24,7 @@ The example below targets Vite 7 with `@vitejs/plugin-react` 5. Next.js, SSR, an
 ### 1. Add a component
 
 ```sh
-pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn_ariax/button
+pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn-ariax/button
 ```
 
 The CLI installs the component source, shared CSS, and required dependencies from GitHub. The selected Git revision must contain the root `registry.json` and its referenced source files. Append `#<tag-or-commit>` to the component address to select a revision.
@@ -114,8 +114,8 @@ The full local suite also checks interactions, geometry, scrolling, focus, pixel
 Requires Node.js 22.19+ and pnpm 10.15.1.
 
 ```sh
-git clone https://github.com/garrettjavalia/shadcn_ariax.git
-cd shadcn_ariax
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
