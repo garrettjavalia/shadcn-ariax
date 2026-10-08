@@ -26,7 +26,7 @@ pnpm install --frozen-lockfile
 pnpm storybook
 ```
 
-Open the local URL printed in the terminal. The first run downloads and prepares the required upstream sources and builds the registry, so it may take longer; an internet connection is required. Later runs reuse the prepared sources. Stop the server with Ctrl+C.
+Open the local URL printed in the terminal. The first run downloads and prepares the required upstream sources and builds the registry, so it may take longer. Later runs reuse the prepared sources. Stop the server with Ctrl+C.
 
 ## Installation
 
