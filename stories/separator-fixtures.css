@@ -3,8 +3,8 @@
 .separator-vertical {display:flex;height:1.25rem;align-items:center;gap:1rem;font-size:.875rem;line-height:calc(1.25 / .875)}
 .separator-menu {display:flex;align-items:center;gap:.5rem;font-size:.875rem;line-height:calc(1.25 / .875)}
 .separator-menu > div:not([data-slot]) {display:flex;flex-direction:column;gap:.25rem}
-.separator-menu span {font-weight:500}
-.separator-menu small {font-size:.75rem;line-height:calc(1 / .75);color:var(--muted-foreground)}
+.separator-menu span:first-child {font-weight:500}
+.separator-menu span + span {font-size:.75rem;line-height:calc(1 / .75);color:var(--muted-foreground)}
 .separator-menu > .separator-help {display:none!important}
 @media (width >= 48rem) {.separator-menu {gap:1rem}.separator-menu > .separator-help {display:flex!important}}
 .separator-list {width:100%;max-width:24rem;font-size:.875rem;line-height:calc(1.25 / .875)}

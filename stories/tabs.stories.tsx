@@ -38,7 +38,7 @@ export const Icons: Story = {
   render: () => <TabsIcons />
 };
 export const Rtl: Story = {
-  render: () => <DirectionProvider direction="rtl"><div dir="rtl"><TabsRtl /></div></DirectionProvider>
+  decorators: [Story => <DirectionProvider direction="rtl"><div dir="rtl"><Story /></div></DirectionProvider>], parameters: { originalExample: "tabs-rtl" }, render: () => <TabsRtl />
 };
 export const Usage: Story = {
   render: () => <Tabs {...width} defaultSelectedKey="account"><TabsList><TabsTrigger id="account">Account</TabsTrigger><TabsTrigger id="password">Password</TabsTrigger></TabsList><TabsContent id="account">Make changes to your account here.</TabsContent><TabsContent id="password">Change your password here.</TabsContent></Tabs>

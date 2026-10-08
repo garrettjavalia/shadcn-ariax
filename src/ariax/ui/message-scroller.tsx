@@ -239,6 +239,7 @@ const styles = stylex.create({
     },
   },
   content: {
+    gap: "calc(var(--ariax-spacing, .25rem) * 6)",
     display: "flex",
     height: "max-content",
     minHeight: "100%",

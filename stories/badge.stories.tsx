@@ -1,3 +1,4 @@
+import { BadgeRtl as OfficialRtl } from './official-examples/badge-rtl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Badge, type BadgeVariant } from '@badge';
 import { colors, dynamic } from '@badge-customizations';
@@ -8,13 +9,13 @@ const meta = {title:'Components/Badge',component:Badge,tags:['parity'],decorator
 export default meta;
 type Story = StoryObj<typeof meta>;
 const variants: BadgeVariant[] = ['default','secondary','destructive','outline','ghost','link'];
-export const Demo: Story = {render:()=> <div className="badge-row centered">{variants.slice(0,4).map((variant,i)=><Badge key={variant} variant={variant}>{['Badge','Secondary','Destructive','Outline'][i]}</Badge>)}</div>};
+export const Demo: Story = { parameters: { originalExample: "badge-demo" },render:()=> <div className="badge-row centered">{variants.slice(0,4).map((variant,i)=><Badge key={variant} variant={variant}>{['Badge','Secondary','Destructive','Outline'][i]}</Badge>)}</div>};
 export const Variants: Story = {render:()=> <div className="badge-row">{variants.map(variant=><Badge key={variant} variant={variant}>{variant[0].toUpperCase()+variant.slice(1)}</Badge>)}<Badge variant={null}>None</Badge></div>};
-export const Icon: Story = {render:()=> <div className="badge-row"><Badge variant="secondary"><BadgeCheck data-icon="inline-start"/>Verified</Badge><Badge variant="outline">Bookmark<BookmarkIcon data-icon="inline-end"/></Badge></div>};
-export const Spinner: Story = {render:()=> <div className="badge-row"><Badge variant="destructive"><LoadingSpinner data-icon="inline-start"/>Deleting</Badge><Badge variant="secondary">Generating<LoadingSpinner data-icon="inline-end"/></Badge></div>};
+export const Icon: Story = { parameters: { originalExample: "badge-icon" },render:()=> <div className="badge-row"><Badge variant="secondary"><BadgeCheck data-icon="inline-start"/>Verified</Badge><Badge variant="outline">Bookmark<BookmarkIcon data-icon="inline-end"/></Badge></div>};
+export const Spinner: Story = { parameters: { originalExample: "badge-spinner" },render:()=> <div className="badge-row"><Badge variant="destructive"><LoadingSpinner data-icon="inline-start"/>Deleting</Badge><Badge variant="secondary">Generating<LoadingSpinner data-icon="inline-end"/></Badge></div>};
 export const Link: Story = {render:()=> <Badge render={props=><a {...props} href="#link"/>}>Open Link<ArrowUpRightIcon data-icon="inline-end"/></Badge>};
-export const Colors: Story = {render:()=> <div className="badge-row">{colors.map((props,i)=><Badge {...props} key={i}>{['Blue','Green','Sky','Purple','Red'][i]}</Badge>)}</div>};
-export const Rtl: Story = {render:()=> <div dir="rtl" className="badge-row centered">{variants.slice(0,4).map((variant,i)=><Badge key={variant} variant={variant}>{['شارة','ثانوي','مدمر','مخطط'][i]}</Badge>)}<Badge variant="secondary"><BadgeCheck data-icon="inline-start"/>متحقق</Badge><Badge variant="outline">إشارة مرجعية<BookmarkIcon data-icon="inline-end"/></Badge></div>};
+export const Colors: Story = { parameters: { originalExample: "badge-colors" },render:()=> <div className="badge-row">{colors.map((props,i)=><Badge {...props} key={i}>{['Blue','Green','Sky','Purple','Red'][i]}</Badge>)}</div>};
+export const Rtl: Story = { parameters: { originalExample: 'badge-rtl' }, render: () => <OfficialRtl /> };
 export const States: Story = {render:()=> <div className="badge-row">{variants.map(variant=><Badge key={variant} variant={variant} aria-invalid="true" tabIndex={0} render={props=><a {...props} href="#state"/>}>{variant}</Badge>)}</div>};
 export const Inline: Story = {render:()=> <Badge {...dynamic} style={{height:32,opacity:0.7}}>Inline</Badge>};
 

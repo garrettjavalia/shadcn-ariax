@@ -14,8 +14,11 @@ const storyFileCount = readdirSync("stories", {
   recursive: true,
   withFileTypes: true,
 }).filter((file) => file.isFile() && file.name.endsWith(".stories.tsx")).length;
-const batchCount = process.env.PARITY_COMPONENT
-  ? 1
+const componentPrefixes = process.env.PARITY_COMPONENT?.split(",")
+  .map((value) => value.trim())
+  .filter(Boolean);
+const batchCount = componentPrefixes?.length
+  ? componentPrefixes.length
   : Math.max(1, storyFileCount);
 const ciMode = process.env.ARIAX_TEST_MODE === "ci";
 const selectedTheme = ciMode ? process.env.ARIAX_TEST_THEME : undefined;
@@ -50,8 +53,8 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                 s.type === "story" &&
                 s.tags?.includes("parity") &&
                 (!requiredTag || s.tags.includes(requiredTag)) &&
-                (!process.env.PARITY_COMPONENT ||
-                  s.id.startsWith(process.env.PARITY_COMPONENT)),
+                (!componentPrefixes?.length ||
+                  componentPrefixes.some((prefix) => s.id.startsWith(prefix))),
             )
             .map((s) => s.id)
             .sort();
@@ -64,6 +67,20 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
           "The official original story manifest must be published",
         ).toBe(true);
         const manifest: OriginalStoriesManifest = await manifestResponse.json();
+        for (const preview of manifest.previews) {
+          if (preview.status === "excluded") {
+            expect(preview.exclusionReason?.trim(), preview.name).toBeTruthy();
+            expect(preview.counterparts, preview.name).toHaveLength(0);
+          } else {
+            expect(preview.status, preview.name).toBe("mapped");
+            expect(
+              preview.counterparts.some(({ stylexStoryId }) =>
+                rightIndex.entries[stylexStoryId]?.tags?.includes("parity"),
+              ),
+              "Official example has no active comparison: " + preview.name,
+            ).toBe(true);
+          }
+        }
         const originals = new Map<string, string>();
         for (const preview of manifest.previews)
           for (const counterpart of preview.counterparts) {

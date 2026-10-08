@@ -28,7 +28,7 @@ export const Lead:Story={render:()=> <TypographyLead/>};
 export const List:Story={render:()=> <TypographyList/>};
 export const Muted:Story={render:()=> <TypographyMuted/>};
 export const P:Story={render:()=> <TypographyP/>};
-export const Rtl:Story={render:()=> <I18nProvider locale="ar"><TypographyRtl/></I18nProvider>};
+export const Rtl:Story={decorators: [Story => <I18nProvider locale="ar"><Story /></I18nProvider>], parameters: { originalExample: "typography-rtl" }, render: () => <TypographyRtl/>};
 export const Small:Story={render:()=> <TypographySmall/>};
 export const Table:Story={render:()=> <TypographyTable/>};
 import{TypographyConditions}from'./typography-conditions';

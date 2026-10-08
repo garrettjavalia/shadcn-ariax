@@ -37,7 +37,8 @@ export type OriginalPreview = {
   exportName: string;
   storyId: string;
   stylexStoryIds: string[];
-  status: 'mapped' | 'unmapped';
+  status: 'mapped' | 'unmapped' | 'excluded';
+  exclusionReason?: string;
   counterparts: { stylexStoryId: string; storyId: string; metaSource: string; exportName: string }[];
 };
 export type OriginalStoriesManifest = { version: 1; previews: OriginalPreview[] };
@@ -94,7 +95,16 @@ async function fixtureMappings(repo: string, names: Set<string>) {
     const sourceComponent = [...names].map(name => name.slice(0, name.lastIndexOf('-'))).find(component => component.replaceAll('-', '') === titleComponent);
     if (sourceComponent) metas.set(sourceComponent, file);
     for (const [exportName, value] of exports) {
-      const render = properties(value).get('render');
+      const storyFields = properties(value);
+      const explicit = properties(storyFields.get('parameters')).get('originalExample')?.value;
+      if (explicit !== undefined) {
+        assert.ok(typeof explicit === 'string' && names.has(explicit), `Unknown official example ${String(explicit)} in ${file}#${exportName}`);
+        const matches = mapping.get(explicit) ?? [];
+        matches.push({ stylexStoryId: toId(typeof id === 'string' ? id : title, storyNameFromExport(exportName)), metaSource: relative(repo, file), exportName });
+        mapping.set(explicit, matches);
+        continue;
+      }
+      const render = storyFields.get('render');
       if (!render || !['ArrowFunctionExpression', 'FunctionExpression'].includes(String(render.type))) continue;
       const body = unwrap(render.body);
       const opening = node(body?.openingElement);
@@ -130,10 +140,24 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
   assert.ok(previews.length, 'No official documentation previews found');
   const { mapping, metas } = await fixtureMappings(repo, new Set(previews.map(preview => preview.name)));
   for (const preview of previews) {
-    preview.counterparts = (mapping.get(preview.name) ?? []).map(match => ({ ...match, storyId: toId('original-parity-' + match.stylexStoryId, 'Original') }));
+    preview.counterparts = (mapping.get(preview.name) ?? []).map(match => ({ ...match, storyId: match.stylexStoryId }));
     preview.stylexStoryIds = preview.counterparts.map(match => match.stylexStoryId).sort();
     preview.status = preview.counterparts.length ? 'mapped' : 'unmapped';
+    if (preview.counterparts.length) preview.storyId = preview.counterparts[0].storyId;
   }
+  const exclusions: Record<string, string> = JSON.parse(await readFile(resolve(repo, 'upstream/original-exceptions.json'), 'utf8'));
+  for (const [name, reason] of Object.entries(exclusions)) {
+    assert.ok(typeof reason === 'string' && reason.trim(), `Missing exclusion reason for ${name}`);
+    const entries = previews.filter(preview => preview.name === name);
+    assert.ok(entries.length, `Stale official example exclusion: ${name}`);
+    for (const preview of entries) {
+      assert.equal(preview.status, 'unmapped', `Remove the exclusion for connected example ${name}`);
+      preview.status = 'excluded';
+      preview.exclusionReason = reason;
+    }
+  }
+  const missing = previews.filter(preview => preview.status === 'unmapped');
+  assert.equal(missing.length, 0, `Official examples need a counterpart or a documented exception: ${missing.map(preview => preview.name).join(', ')}`);
   const output = resolve(repo, 'generated/original-stories');
   await mkdir(resolve(output, 'public'), { recursive: true });
   const generated = new Set<string>();
@@ -154,7 +178,8 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     }
   };
   for (const component of new Set(previews.map(preview => preview.component))) {
-    const entries = [...new Map(previews.filter(preview => preview.component === component).map(preview => [preview.name, preview])).values()];
+    const entries = [...new Map(previews.filter(preview => preview.component === component && preview.status !== 'mapped').map(preview => [preview.name, preview])).values()];
+    if (!entries.length) continue;
     const file = resolve(output, component + '.stories.tsx');
     const meta = metas.get(component);
     const imports = entries.map((preview, index) => `import ${preview.exportName === 'default' ? `Original${index}` : `{ ${preview.exportName} as Original${index} }`} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};`).join('\n');
@@ -167,12 +192,51 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     for (const preview of entries) for (const occurrence of previews.filter(item => item.component === component && item.name === preview.name)) occurrence.storyId = toId(`original-docs-${component}`, storyNameFromExport(identifier(preview.name)));
     await writeGenerated(file, `${imports}\n${harness}export default { id: ${JSON.stringify(`original-docs-${component}`)}, title: ${JSON.stringify(`Original documentation/${component}`)}, tags: ['original-documentation'], decorators: ${decorators} };\n${stories}\n`);
   }
-  // Each counterpart inherits the actual target CSF metadata and story decorators.
-  // Canonical documentation previews remain separately registered for unmapped sources.
-  for (const preview of new Map(previews.map(preview => [preview.name, preview])).values()) for (const match of preview.counterparts) {
-    const file = resolve(output, 'parity-' + match.stylexStoryId + '.stories.tsx');
-    const imported = preview.exportName === 'default' ? 'OfficialExample' : `{ ${preview.exportName} as OfficialExample }`;
-    await writeGenerated(file, `import ${imported} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};\nimport fixtureMeta, { ${match.exportName} as fixtureStory } from ${JSON.stringify(modulePath(file, resolve(repo, match.metaSource)))};\nexport default { ...fixtureMeta, id: ${JSON.stringify('original-parity-' + match.stylexStoryId)}, title: ${JSON.stringify('Original counterparts/' + match.stylexStoryId)}, tags: ['original-parity'] };\nexport const Original = { ...fixtureStory, tags: ['original-parity'], name: ${JSON.stringify(preview.name)}, render: () => <OfficialExample /> };\n`);
+  // Replace the upstream registration of a mapped fixture module with one proxy.
+  // Keep its public IDs/decorators; render the untouched official example exactly once.
+  const modules = new Map<string, Map<string, OriginalPreview>>();
+  for (const preview of previews) for (const counterpart of preview.counterparts) {
+    const entries = modules.get(counterpart.metaSource) ?? new Map();
+    const previous = entries.get(counterpart.exportName);
+    assert.ok(!previous || previous.name === preview.name, `Ambiguous original for ${counterpart.stylexStoryId}`);
+    entries.set(counterpart.exportName, preview);
+    modules.set(counterpart.metaSource, entries);
+  }
+  for (const [source, matches] of modules) {
+    const fixtureSource = await readFile(resolve(repo, source), 'utf8');
+    const ast = parse(fixtureSource, { sourceType: 'module', plugins: ['typescript', 'jsx'] });
+    const exports = ast.program.body.flatMap(statement => {
+      if (statement.type !== 'ExportNamedDeclaration') return [];
+      const declaration = statement.declaration;
+      if (declaration?.type === 'VariableDeclaration') return declaration.declarations.flatMap(binding => binding.id.type === 'Identifier' ? [binding.id.name] : []);
+      if (declaration?.type === 'FunctionDeclaration' && declaration.id) return [declaration.id.name];
+      return [];
+    });
+    const file = resolve(output, 'linked-' + source.replaceAll(/[/.]/g, '-') + '.stories.tsx');
+    const lines = [`import fixtureMeta, * as fixtures from ${JSON.stringify(modulePath(file, resolve(repo, source)))};`];
+    for (const [name, preview] of matches) lines.push(`import ${preview.exportName === 'default' ? '__Official' + name : `{ ${preview.exportName} as __Official${name} }`} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};`);
+    // CSF needs literal title/id metadata, even though the rest comes from the fixture.
+    const fixtureAst = ast.program.body;
+    const declarations = new Map<string, Node>();
+    let meta: Node | undefined;
+    for (const statement of fixtureAst) {
+      const declaration = statement.type === 'ExportNamedDeclaration' ? statement.declaration : statement;
+      if (declaration?.type === 'VariableDeclaration') for (const binding of declaration.declarations) if (binding.id.type === 'Identifier') declarations.set(binding.id.name, unwrap(binding.init)!);
+      if (statement.type === 'ExportDefaultDeclaration') meta = statement.declaration.type === 'Identifier' ? declarations.get(statement.declaration.name) : unwrap(statement.declaration);
+    }
+    const fields = properties(meta);
+    const title = fields.get('title')?.value;
+    const id = fields.get('id')?.value;
+    const staticMeta = ['tags', 'includeStories', 'excludeStories'].flatMap(key => { const field = fields.get(key); return field ? [`${key}: ${fixtureSource.slice(Number(field.start), Number(field.end))}`] : []; }).join(', ');
+    lines.push(`export default { ...fixtureMeta, ${staticMeta}, title: ${JSON.stringify(title)}, id: ${JSON.stringify(typeof id === 'string' ? id : toId(String(title)))} };`);
+    for (const name of exports) {
+      const field = properties(declarations.get(name)).get('tags');
+      const tags = field?.type === 'ArrayExpression' ? (field.elements as unknown[]).map(value => node(value)?.value) : [];
+      if (matches.has(name)) tags.push('original-parity');
+      if (!matches.has(name) && !declarations.has(name)) { lines.push(`export const ${name} = fixtures.${name};`); continue; }
+      lines.push(`export const ${name} = { ...fixtures.${name}, tags: ${JSON.stringify(tags)}${matches.has(name) ? `, render: () => <__Official${name} />` : ''} };`);
+    }
+    await writeGenerated(file, lines.join('\n') + '\n');
   }
   const manifest: OriginalStoriesManifest = { version: 1, previews };
   await writeGenerated(resolve(output, 'public/manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
@@ -180,7 +244,7 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
     const path = resolve(output, file);
     if (file.endsWith('.stories.tsx') && !generated.has(path)) await rm(path);
   }
-  console.log(`Generated ${new Set(previews.map(preview => preview.storyId)).size} original stories for ${previews.length} official documentation previews.`);
+  console.log(`Generated ${new Set(previews.map(preview => preview.name)).size} original stories for ${previews.length} official documentation previews.`);
   return manifest;
 }
 
