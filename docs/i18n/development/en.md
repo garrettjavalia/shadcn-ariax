@@ -2,153 +2,183 @@
 
 English · [한국어](ko.md)
 
-For developers working on AriaX. For application installation, see the [README](../../../README.md).
+How to edit and test AriaX components. To install them in your own app, see the [README](../../../README.md).
 
-## Local environment
+## Run the project
 
-Use Node.js 22.19+ and pnpm 10.15.1. Run commands from the cloned repository root.
+You need Node.js 22.19+ and pnpm 10.15.1.
 
 ```sh
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
 ```
 
-The first run prepares pinned upstream sources under `generated/`. Storybooks run at [upstream :4100](http://127.0.0.1:4100) and [AriaX :4200](http://127.0.0.1:4200). To change ports, use `ARIAX_UPSTREAM_PORT` and `ARIAX_STYLEX_PORT` consistently for development and tests.
+`pnpm dev` starts two Storybooks, where you can browse component examples.
 
-## Repository structure
-
-| Path | Role |
+| Address | Contents |
 | --- | --- |
-| `src/ariax/ui/` | Components, `.internal.tsx` helpers, and `.recipe.stylex.ts` recipes |
-| `src/ariax/styles/` | Shared CSS and theme tokens, imported by `entry.css` |
-| `stories/`, `tests/` | Examples, browser comparisons, and installation fixtures |
-| `.storybook/`, `reference/` | Build configuration and reference-side adapters |
-| `scripts/generate-registry-catalog.ts`, `scripts/registry-sources.ts` | Catalog generation and source/dependency discovery |
-| `upstream/`, `scripts/upstream/` | Pinned source metadata and reference preparation |
-| `licenses/` | Distributed third-party licenses |
+| [localhost:4100](http://127.0.0.1:4100) | Original shadcn/ui components used for comparison |
+| [localhost:4200](http://127.0.0.1:4200) | AriaX components implemented with StyleX |
 
-Commit sources, configuration, lockfiles, upstream metadata, and the generated root `registry.json`. `generated/`, `registry/`, `dist/`, and test reports are local outputs.
+Open the same example in both to compare appearance and behavior. The first run takes longer because it downloads the original source. Press Ctrl+C in the terminal to stop. Run the remaining commands from the repository root too.
 
-## Modifying components and the registry
+## Where to make changes
 
-1. Edit `src/ariax/ui/`; keep local dependencies in the same directory and use relative imports. Preserve React Aria behavior and accessibility. Apply internal styles before `xstyle` and `style`, preserving dynamic CSS variables.
-2. Update the relevant stories and tests. New installable items need a matching fixture in `tests/install/`; additional fixture packages go in `<name>.dependencies.json` with exact versions.
-3. Regenerate the catalog and validate it:
+| Path | Contents |
+| --- | --- |
+| `src/ariax/ui/` | AriaX components and styling helpers |
+| `src/ariax/styles/` | Shared CSS and themes |
+| `stories/` | Storybook examples. A story defines how to display and configure one example. |
+| `tests/` | Behavior and style comparisons. `tests/install/` contains small test app examples used to check installed components. |
+| `.storybook/` | Storybook development and build settings |
+| `upstream/` | The original version and components selected for comparison |
+
+`generated/` contains automatically prepared original code. Do not edit it directly.
+
+## Edit a component
+
+1. Read the [project rules](../../../convention.md), then edit a component in `src/ariax/ui/` or shared styles in `src/ariax/styles/`.
+2. Check the result using the relevant examples in `stories/`, and update examples and tests as needed. Add an installation example in `tests/install/` for each new component.
+3. Format the code and rebuild the installation catalog. The registry lists the components and files that the shadcn CLI installs.
 
    ```sh
+   pnpm format:components
+   pnpm format:tests
    pnpm registry:build
-   pnpm registry:check
    ```
 
-4. Run checks for the affected behavior and update both translations of [Component status](../components/en.md) if coverage or availability changes.
+4. Run the checks below for your change. Update both translations of [Component status](../components/en.md) when component availability or verification coverage changes.
 
-The generator discovers `ui/<name>.tsx` and recipes, follows relative imports, and uses exact package versions from `package.json`. Root `registry.json` contains file paths for GitHub installation; `registry/<item>.json` contains self-contained HTTP/local payloads.
+Commit changes to the root `registry.json` alongside your source and tests. Do not commit generated `registry/`, `generated/`, `dist/`, or test reports.
 
-Both catalogs are identical and generated from one item definition. Each item includes its shared CSS, animations, licenses, and StyleX dependencies. The official `shadcn build registry.json --output registry` command produces the public catalog and individual installation JSON, adding the item schema and actual file contents. `pnpm registry:build` runs catalog generation and this official build together. GitHub installation reads all files from the selected source revision; no separately pinned shared item is required. After any source or dependency change, run `pnpm registry:build` and commit the root `registry.json` with the source.
+## Checks
 
-StyleX's Babel plugin compiles JavaScript references; its PostCSS plugin replaces `@stylex;` in `entry.css` with extracted CSS. `.storybook/main.ts` configures the two implementations. `pnpm build:upstream` and `pnpm build:stylex` write to `dist/upstream/` and `dist/stylex/`; the latter also checks CSS for lazy-loaded stories.
+For example, after changing Button:
 
-## Publishing for the registry directory
+```sh
+pnpm typecheck
+pnpm format:check
+pnpm registry:check
+pnpm test tests/button.spec.ts
+PARITY_COMPONENT=components-button-- pnpm test:ci
+```
 
-The `Publish registry to GitHub Raw` workflow runs on pushes to `deploy-registry`, or manually from that branch. Create `deploy-registry` from a source revision containing this workflow for the first release; merge subsequent release revisions into it. Pushes to `main` and `published-registry` do not trigger publication. It validates the source catalog, installs all component fixtures with the real CLI, and builds the consumer app before publishing. It publishes the complete tracked `deploy-registry` snapshot plus generated `registry/` JSON to the `published-registry` branch using the repository's `GITHUB_TOKEN` (`contents: write`). Branch rules must allow that workflow to update `published-registry`. The workflow creates this branch on first publication. Each deployment descends from its source commit and, after the first publication, the previous deployment. Its file tree is the source snapshot plus generated JSON, so removed files do not survive from previous deployments. Identical snapshots do not create another commit. Make source edits through `main`; do not merge `published-registry` back into `main` or `deploy-registry`. GitHub Pages and a separate server are not required.
+The first three commands check types, formatting, and the installation catalog. The fourth tests Button behavior. The last compares Button stories with the originals in light and dark themes. `PARITY_COMPONENT` selects story ID prefixes; separate multiple prefixes with commas.
 
-`registry/registry.json` is the HTTP catalog: it matches the self-contained item payloads, but omits file contents. Builds clear `registry/` so removed items are not published. Generated JSON stays out of the source branch; publication commits preserve history on the separate `published-registry` branch.
+| Additional check | Command |
+| --- | --- |
+| Real CLI installation and a build of the app using the installed components | `pnpm test:install` |
+| StyleX CSS extraction | `pnpm test:stylex` |
+| Original source preparation and example generation | `pnpm test:upstream` and `pnpm upstream:check` |
+| Both Storybook builds | `pnpm build` |
+| Browser test report | `pnpm test:report` |
 
-After the first successful publication, the URL template is:
+PR CI checks types, builds, and static DOM/CSS comparisons with the originals. Run the relevant browser tests to check interactions, pixels, and animations too. Normally, test the parts you changed. Use `pnpm test:full` only when full verification is needed; it also includes installation and builds and takes substantially longer.
+
+## Connect stories to official examples
+
+The generator creates **Storybook registration code for the original examples**. You write the StyleX examples used by AriaX. The existing Avatar example below shows the connection process used for other components too.
+
+### Connect automatically by filename
+
+[avatar-examples/avatar-demo.tsx](../../../stories/avatar-examples/avatar-demo.tsx) contains the example displayed by AriaX. [avatar.stories.tsx](../../../stories/avatar.stories.tsx) imports and registers it like this:
+
+```tsx
+import AvatarDemo from './avatar-examples/avatar-demo';
+
+export const Demo = {
+  tags: ['viewport-390'],
+  render: () => <AvatarDemo />,
+};
+```
+
+The generator finds the imported filename `avatar-demo` in the official example list and connects it. This automatic detection supports directly returning an imported component without props or children. Use `render: () => <AvatarDemo />` as above. Wrapping it in `<div><AvatarDemo /></div>` prevents this form of detection.
+
+### Specify the original name explicitly
+
+If the filename differs or the render function is more complex, set `parameters.originalExample`. **Replace** the `Demo` definition above with:
+
+```tsx
+export const Demo = {
+  tags: ['viewport-390'],
+  parameters: { originalExample: 'avatar-demo' },
+  render: () => <AvatarDemo />,
+};
+```
+
+`avatar-demo` is the official example name in the pinned shadcn/ui documentation, not the story export name `Demo`. This setting takes priority over automatic detection. Connecting examples does not translate styles: the AriaX example must still match the original content, structure, and styling.
+
+Both snippets use the imports and default metadata in the existing Avatar file. For a new story file, also include `tags: ['parity']` to enable comparisons and a decorator that wraps examples in `#parity-root`. Refer to the existing Avatar file for these settings.
+
+### Generate and check the comparison
+
+`pnpm dev` includes original story generation. To run just the preparation and generation steps:
+
+```sh
+pnpm upstream:prepare
+pnpm originals:generate
+```
+
+`scripts/upstream/original-stories.ts` recursively reads every `*.stories.tsx` under `stories/` and parses the code into an AST (syntax tree). It inspects imports, default metadata such as `title` and `id`, and exported stories' `originalExample` settings and simple render functions. It does not execute these files or evaluate function calls or dynamically calculated settings, so use static definitions as shown above.
+
+Connections are recorded in `generated/original-stories/public/manifest.json`, and original stories are written to `generated/original-stories/`. You do not need to edit generated files or import them from `stories/`.
+
+`Components/Avatar → Demo` uses the same story ID in both Storybooks. AriaX renders your example; the original Storybook renders the official example. The generator preserves the existing settings and decorators and replaces the original side's render function. Compare their actual DOM and CSS with:
+
+```sh
+PARITY_COMPONENT=components-avatar--demo pnpm test:ci
+```
+
+If `originalExample` names an example that is not in the official list, the generation script fails its assertion. For example, the typo `avatar-demoo` produces an error like:
+
+```text
+AssertionError [ERR_ASSERTION]: Unknown official example avatar-demoo in .../stories/avatar.stories.tsx#Demo
+```
+
+This happens **while the generation script runs**, rather than during typechecking or browser rendering. It is also detected by the generation step in `pnpm dev`, tests, and the original Storybook build. Use the file path and export name in the error to find and correct `originalExample`.
+
+## Upstream preparation
+
+In this project, upstream means the original shadcn/ui source used for comparison. Development and test commands prepare it automatically, so you usually do not need a separate preparation step.
+
+- `upstream/source.json`: the original repository and commit to use
+- `upstream/reference.json`: components and supporting code to install
+- `upstream/original-exceptions.json`: official examples excluded from comparison, with reasons
+
+If the prepared original files are damaged, run `pnpm upstream:sync` to download and prepare them again. This uses the configured commit; it does not upgrade to the latest version.
+
+## Deploy — for maintainers
+
+Merge release changes into `main`, then merge them into the appropriate deployment branch and push. Check the result in the repository's Actions tab.
+
+### Publishing for the registry directory
+
+Pushing to `deploy-registry` runs installation checks, then publishes the complete source and generated `registry/` JSON to `published-registry`. That branch contains generated publication output; do not edit it directly or merge it into a source branch. Repository branch rules must allow the workflow to push to the publication branch.
+
+Component installation URLs use this template. Replace `{name}` with a component name such as `button`.
 
 ```text
 https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json
 ```
 
-The catalog is at the same URL with `registry` substituted for `{name}`. Verify the published endpoint against the matching source revision:
+From the source revision you published, check installation from the public endpoint:
 
 ```sh
 ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/ pnpm test:install
 ```
 
-For reproducible checks, replace the entire `refs/heads/published-registry` segment with its publication commit SHA. `ARIAX_REGISTRY_URL` must be an HTTP(S) directory URL ending in `/`. This installs all component fixtures from the endpoint and checks dependencies, TypeScript, and a production Vite build without Tailwind.
+Listing the registry in shadcn/ui's official directory is a separate step. See the [submission guide](https://ui.shadcn.com/docs/registry/registry-index).
 
-Submit `@ariax`, the repository homepage, this URL template, a description, and an SVG logo in `apps/v4/registry/directory.json` of `shadcn-ui/ui`. Run its `pnpm validate:registries` before opening the submission PR; see the [official requirements](https://ui.shadcn.com/docs/registry/registry-index). Publication does not register the namespace automatically. Until acceptance, use the existing GitHub installation address, or configure the namespace explicitly in `components.json` after publication:
+### Publishing Storybook to GitHub Pages
 
-```json
-{
-  "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json"
-  }
-}
-```
+Pushing to `deploy-github-pages` builds AriaX Storybook and deploys it to the [public Storybook](https://garrettjavalia.github.io/shadcn-ariax/). The contents of `dist/stylex/` are uploaded; build output is not stored on a separate branch.
 
-## Publishing Storybook to GitHub Pages
+For initial setup, check these two GitHub settings:
 
-The `Publish Storybook to GitHub Pages` workflow runs on pushes to `deploy-github-pages`, or manually from that branch. Keep this branch as a complete source branch: merge release revisions from `main` into it. The workflow builds the AriaX Storybook, uploads the contents of `dist/stylex/` as a Pages artifact, and deploys that artifact. Build output is not committed or pushed to another branch.
+1. Set **Settings → Pages → Source** to **GitHub Actions**.
+2. Allow `deploy-github-pages` in the deployment branch rules under **Settings → Environments → github-pages**.
 
-Before the first run, select **Settings → Pages → Build and deployment → Source → GitHub Actions**. Allow `deploy-github-pages` in the `github-pages` environment's deployment branch rules. No personal access token is needed. The workflow obtains the site's base path from GitHub Pages and adjusts literal example image/font URLs for that path.
-
-The contents of `dist/stylex/` become the site root, so `index.html` is served at the site URL without a `/dist/stylex/` suffix. Only the build output is published on the website. The public site contains AriaX stories with light/dark controls; the upstream comparison Storybook remains local. Deployment success is not a claim that the full parity suite passed.
-
-To check a project-site build locally:
-
-```sh
-ARIAX_STORYBOOK_BASE=/shadcn-ariax/ pnpm build:stylex
-ARIAX_STORYBOOK_BASE=/shadcn-ariax/ node --import tsx scripts/prepare-pages.ts
-```
-
-Serve `dist/stylex/` under `/shadcn-ariax/` to verify navigation, images, and fonts. Rebuild without `ARIAX_STORYBOOK_BASE` before running the normal root-path parity tests.
-
-## Upstream preparation
-
-```text
-upstream/source.json + upstream/reference.json
-  → upstream:prepare → generated/upstream/shadcn/ + generated/reference/
-  → originals:generate → generated/original-stories/
-```
-
-`source.json` pins the repository, commit, selected paths, and required files. `reference.json` selects components and helper references. To add a reference, update its `components` or `helperReferences` and declare any required npm packages at exact versions in this project.
-
-Preparation reads upstream `*/_registry.ts`, applies the official `createStyleMap` and `transformStyle` APIs, and runs shadcn CLI `build` and `add` in isolated projects. Neutral colors come from the same commit through a local registry. The reference is determined by that commit and the locked CLI/packages. `rtl: true` enables official logical-direction transforms for both LTR and RTL comparisons.
-
-`generated/reference/aria-nova/` holds the primary installed UI; `base-nova/` and `radix-rhea/` supply example helpers. `@reference/*` resolves to the primary installation. CLI-owned `cli.css` is separate from the comparison harness's `tailwind.css`.
-
-`originals:generate` reads `ComponentPreview` entries in the pinned MDX and imports each official TSX without rewriting JSX or classes. It pairs those originals with StyleX fixtures in `stories/`, using direct fixture imports or an explicit `parameters.originalExample` name. The generated upstream module preserves the fixture's story ID, arguments and decorators and replaces only its demo render with the official component. Storybook loads this module instead of the handwritten upstream registration, so connected demos are not duplicated. `generated/original-stories/public/manifest.json` records the pairs; unconnected examples require a reason in `upstream/original-exceptions.json` or generation fails. Exceptions remain browsable as original documentation stories.
-
-`pnpm dev` starts two separate Storybook/Vite processes. `ARIAX_IMPLEMENTATION=upstream` resolves component aliases to `generated/reference/aria-nova` and loads the official Tailwind CSS; `stylex` resolves them to `src/ariax` and extracts StyleX CSS. Both use the same story IDs and harness. A StyleX fixture is still needed when the official demo customizes components or layout with Tailwind classes; generating the Storybook wrapper does not translate those styles. Next Image/Link and example fonts use the React adapters in `reference/`.
-
-Tests, typechecks, and Storybook commands prepare references automatically. `scripts/upstream/ensure.ts` handles downloads, `reference.ts` builds installations, and `prepare.ts` manages the installation cache. Completion records, source settings, and required files determine reuse; valid caches work offline. Shared locks and temporary directories protect concurrent preparation and preserve the old cache on failure. Missing installation files are rebuilt; suspected manual damage requires `pnpm upstream:sync`. Normal checks do not update the pinned source revision.
-
-## Checks
-
-These are repository development checks. Choose the affected scope; the full verification pipeline can take about an hour.
-
-| Change | Checks |
-| --- | --- |
-| Documentation | Links, command names, and matching translations |
-| Components | `pnpm typecheck`, affected browser tests and CI comparisons |
-| Registry or dependencies | `pnpm registry:check`, `pnpm test:install` |
-| StyleX integration | `pnpm test:stylex`, installation test, StyleX build |
-| Upstream preparation | `pnpm test:upstream`, `pnpm upstream:check` |
-| Comparator | Comparator contract tests and affected comparisons |
-
-Start with an individual test or component comparison:
-
-```sh
-pnpm test tests/button.spec.ts
-PARITY_COMPONENT=components-button-- pnpm test:ci:light
-```
-
-`PARITY_COMPONENT` accepts comma-separated story ID prefixes to check several affected groups together.
-
-`test:ci:light` and `test:ci:dark` select one theme; `test:ci` runs both. CI comparisons cover DOM, text, attributes, computed CSS, and pseudo-elements at 1000px. Standalone colors allow OKLab ΔE ≤ 0.002; alpha and other values remain exact. Interaction, geometry, pixels, focus, scrolling, and animation checks belong to the broader suite.
-
-Comparison stories use `parity`, render inside `#parity-root`, and mark portals with `data-parity-portal`; `viewport-390` adds mobile coverage. Shared comparison logic is in `tests/parity.spec.ts`, `tests/compare.ts`, and `tests/color-differences.ts`.
-
-For production comparisons, rebuild after source changes:
-
-```sh
-pnpm build
-ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
-```
-
-`pnpm test:upstream` uses local source archives with the real CLI to check transforms, concurrent preparation, offline reuse, and cache recovery. `pnpm test:install` separately installs the AriaX registry into a consumer app.
-
-`pnpm test` runs the browser suite; `pnpm test:full` runs full verification, including installation and builds. View results with `pnpm test:report`; format tests with `pnpm format:tests` and components/shipped CSS with `pnpm format:components`. `pnpm format:check` checks both scopes during full local verification and CI. Detailed implementation and verification rules are in [convention.md](../../../convention.md).
+The workflow reads the site's `/shadcn-ariax/` path and applies it to the build. Both deployment workflows can also be run manually from Actions by selecting their deployment branch.
