@@ -1,8 +1,8 @@
 # AriaX
 
-shadcn React Aria 컴포넌트를 StyleX로 제공합니다.
+shadcn/ui React Aria 컴포넌트를 StyleX로 제공합니다.
 
-AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
+AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn/ui 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
 
 [English](../../../README.md) · 한국어
 
@@ -30,7 +30,7 @@ pnpm storybook
 
 ## 설치
 
-shadcn의 `components.json`과 import 경로 별칭이 준비된 React·TypeScript 프로젝트에서 시작합니다.
+shadcn/ui의 `components.json`과 import 경로 별칭이 준비된 React·TypeScript 프로젝트에서 시작합니다.
 
 아래 예시는 Vite 7과 `@vitejs/plugin-react` 5 기준입니다. Next.js, SSR 및 다른 프레임워크 통합은 아직 이 프로젝트에서 검증하지 않았습니다.
 
