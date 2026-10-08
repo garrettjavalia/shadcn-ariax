@@ -78,6 +78,68 @@ The first three commands check types, formatting, and the installation catalog. 
 
 PR CI checks types, builds, and static DOM/CSS comparisons with the originals. Run the relevant browser tests to check interactions, pixels, and animations too. Normally, test the parts you changed. Use `pnpm test:full` only when full verification is needed; it also includes installation and builds and takes substantially longer.
 
+## Connect stories to official examples
+
+The generator creates **Storybook registration code for the original examples**. You write the StyleX examples used by AriaX. The existing Avatar example below shows the connection process used for other components too.
+
+### Connect automatically by filename
+
+[avatar-examples/avatar-demo.tsx](../../../stories/avatar-examples/avatar-demo.tsx) contains the example displayed by AriaX. [avatar.stories.tsx](../../../stories/avatar.stories.tsx) imports and registers it like this:
+
+```tsx
+import AvatarDemo from './avatar-examples/avatar-demo';
+
+export const Demo = {
+  tags: ['viewport-390'],
+  render: () => <AvatarDemo />,
+};
+```
+
+The generator finds the imported filename `avatar-demo` in the official example list and connects it. This automatic detection supports directly returning an imported component without props or children. Use `render: () => <AvatarDemo />` as above. Wrapping it in `<div><AvatarDemo /></div>` prevents this form of detection.
+
+### Specify the original name explicitly
+
+If the filename differs or the render function is more complex, set `parameters.originalExample`. **Replace** the `Demo` definition above with:
+
+```tsx
+export const Demo = {
+  tags: ['viewport-390'],
+  parameters: { originalExample: 'avatar-demo' },
+  render: () => <AvatarDemo />,
+};
+```
+
+`avatar-demo` is the official example name in the pinned shadcn/ui documentation, not the story export name `Demo`. This setting takes priority over automatic detection. Connecting examples does not translate styles: the AriaX example must still match the original content, structure, and styling.
+
+Both snippets use the imports and default metadata in the existing Avatar file. For a new story file, also include `tags: ['parity']` to enable comparisons and a decorator that wraps examples in `#parity-root`. Refer to the existing Avatar file for these settings.
+
+### Generate and check the comparison
+
+`pnpm dev` includes original story generation. To run just the preparation and generation steps:
+
+```sh
+pnpm upstream:prepare
+pnpm originals:generate
+```
+
+`scripts/upstream/original-stories.ts` recursively reads every `*.stories.tsx` under `stories/` and parses the code into an AST (syntax tree). It inspects imports, default metadata such as `title` and `id`, and exported stories' `originalExample` settings and simple render functions. It does not execute these files or evaluate function calls or dynamically calculated settings, so use static definitions as shown above.
+
+Connections are recorded in `generated/original-stories/public/manifest.json`, and original stories are written to `generated/original-stories/`. You do not need to edit generated files or import them from `stories/`.
+
+`Components/Avatar → Demo` uses the same story ID in both Storybooks. AriaX renders your example; the original Storybook renders the official example. The generator preserves the existing settings and decorators and replaces the original side's render function. Compare their actual DOM and CSS with:
+
+```sh
+PARITY_COMPONENT=components-avatar--demo pnpm test:ci
+```
+
+If `originalExample` names an example that is not in the official list, the generation script fails its assertion. For example, the typo `avatar-demoo` produces an error like:
+
+```text
+AssertionError [ERR_ASSERTION]: Unknown official example avatar-demoo in .../stories/avatar.stories.tsx#Demo
+```
+
+This happens **while the generation script runs**, rather than during typechecking or browser rendering. It is also detected by the generation step in `pnpm dev`, tests, and the original Storybook build. Use the file path and export name in the error to find and correct `originalExample`.
+
 ## Upstream preparation
 
 In this project, upstream means the original shadcn/ui source used for comparison. Development and test commands prepare it automatically, so you usually do not need a separate preparation step.
@@ -85,8 +147,6 @@ In this project, upstream means the original shadcn/ui source used for compariso
 - `upstream/source.json`: the original repository and commit to use
 - `upstream/reference.json`: components and supporting code to install
 - `upstream/original-exceptions.json`: official examples excluded from comparison, with reasons
-
-Official examples are registered automatically in the original Storybook. Each needs a corresponding StyleX implementation on the AriaX side. See `scripts/upstream/original-stories.ts` and existing `stories/` for how examples are connected.
 
 If the prepared original files are damaged, run `pnpm upstream:sync` to download and prepare them again. This uses the configured commit; it does not upgrade to the latest version.
 

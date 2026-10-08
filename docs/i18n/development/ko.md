@@ -78,6 +78,68 @@ PARITY_COMPONENT=components-button-- pnpm test:ci
 
 PR의 CI는 타입·빌드와 원본 대비 정적 DOM·CSS 등을 검사합니다. 조작·픽셀·애니메이션까지 확인하려면 관련 브라우저 테스트도 실행해야 합니다. 평소에는 수정한 부분을 검사하고, 전체 검증이 필요할 때만 `pnpm test:full`을 실행합니다. 전체 검증에는 설치와 빌드도 포함되어 시간이 오래 걸립니다.
 
+## 공식 예제와 스토리 연결하기
+
+자동 생성되는 것은 **원본 예제를 표시하는 Storybook 등록 코드**입니다. AriaX용 StyleX 예제는 직접 작성합니다. 아래는 기존 Avatar 예제를 연결하는 방법이며, 다른 컴포넌트에도 같은 방식을 사용합니다.
+
+### 파일 이름으로 자동 연결
+
+[avatar-examples/avatar-demo.tsx](../../../stories/avatar-examples/avatar-demo.tsx)는 AriaX에서 표시할 예제입니다. [avatar.stories.tsx](../../../stories/avatar.stories.tsx)는 이를 가져와 다음처럼 등록합니다.
+
+```tsx
+import AvatarDemo from './avatar-examples/avatar-demo';
+
+export const Demo = {
+  tags: ['viewport-390'],
+  render: () => <AvatarDemo />,
+};
+```
+
+생성기는 가져온 파일 이름 `avatar-demo`를 공식 예제 목록에서 찾아 연결합니다. 이 자동 인식은 import한 컴포넌트를 props나 자식 없이 직접 반환하는 형태를 지원합니다. 위 예제처럼 `render: () => <AvatarDemo />`를 사용하세요. `<div><AvatarDemo /></div>`처럼 감싸면 이 방식으로는 연결되지 않습니다.
+
+### 원본 이름을 직접 지정
+
+파일 이름이 다르거나 `render`가 복잡하다면 `parameters.originalExample`을 지정합니다. 위 `Demo`를 다음 정의로 **대체**하면 됩니다.
+
+```tsx
+export const Demo = {
+  tags: ['viewport-390'],
+  parameters: { originalExample: 'avatar-demo' },
+  render: () => <AvatarDemo />,
+};
+```
+
+`avatar-demo`는 고정된 shadcn/ui 문서에서 사용하는 공식 예제 이름입니다. 스토리의 export 이름인 `Demo`와는 다릅니다. 이 설정이 있으면 자동 추정보다 우선합니다. 연결만 지정한다고 스타일이 변환되지는 않으므로 AriaX 예제의 내용·구조·스타일도 원본에 맞춰야 합니다.
+
+두 코드 조각은 기존 Avatar 파일의 import와 기본 메타 설정을 사용합니다. 새 스토리 파일을 만들 때는 비교 대상 표시인 `tags: ['parity']`와 예제를 `#parity-root`로 감싸는 decorator도 필요합니다. 기존 Avatar 파일의 설정을 참고하세요.
+
+### 생성과 비교 확인
+
+`pnpm dev`가 원본 스토리 생성까지 실행합니다. 생성 과정만 실행하려면 다음 명령을 사용합니다.
+
+```sh
+pnpm upstream:prepare
+pnpm originals:generate
+```
+
+`scripts/upstream/original-stories.ts`는 `stories/` 아래의 모든 `*.stories.tsx`를 재귀적으로 읽고, 코드를 AST(문법 구조)로 분석합니다. import, 기본 메타 정보의 `title`·`id`, export된 스토리의 `originalExample`과 단순한 `render`를 확인합니다. 파일을 실행하거나 함수 호출·동적으로 계산한 설정을 평가하지 않으므로, 위와 같이 정적인 정의를 사용하세요.
+
+연결 결과는 `generated/original-stories/public/manifest.json`에 기록되고, 원본 스토리는 `generated/original-stories/`에 생성됩니다. 생성된 파일을 직접 수정하거나 `stories/`에서 import할 필요는 없습니다.
+
+양쪽 Storybook의 `Components/Avatar → Demo`는 같은 스토리 ID를 사용합니다. AriaX 쪽은 직접 작성한 예제를, 원본 쪽은 공식 예제를 렌더링합니다. 생성기는 기존 설정과 decorator를 유지하고 원본 쪽 `render`를 교체합니다. 다음 명령으로 실제 DOM·CSS를 비교합니다.
+
+```sh
+PARITY_COMPONENT=components-avatar--demo pnpm test:ci
+```
+
+공식 목록에 없는 이름을 `originalExample`에 지정하면 생성 스크립트의 검사가 실패합니다. 예를 들어 `avatar-demoo`라는 오타는 다음 형태로 표시됩니다.
+
+```text
+AssertionError [ERR_ASSERTION]: Unknown official example avatar-demoo in .../stories/avatar.stories.tsx#Demo
+```
+
+이 오류는 타입 검사나 브라우저 렌더링 때가 아니라 **생성 스크립트 실행 중** 발생합니다. `pnpm dev`·테스트·원본 Storybook 빌드에서도 생성 단계를 거치므로 발견됩니다. 오류의 파일 경로와 export 이름을 보고 `originalExample` 값을 수정하세요.
+
 ## 업스트림 준비
 
 이 프로젝트에서 업스트림은 비교 기준인 shadcn/ui 원본을 뜻합니다. 실행과 검사 명령이 필요한 원본을 자동으로 준비하므로 보통 별도 작업은 필요 없습니다.
@@ -85,8 +147,6 @@ PR의 CI는 타입·빌드와 원본 대비 정적 DOM·CSS 등을 검사합니�
 - `upstream/source.json`: 사용할 원본 저장소와 커밋
 - `upstream/reference.json`: 가져올 컴포넌트와 보조 코드
 - `upstream/original-exceptions.json`: 비교에서 제외한 공식 예제와 그 이유
-
-공식 예제는 원본 Storybook에 자동 등록됩니다. AriaX 쪽에는 그 예제에 대응하는 StyleX 구현이 필요합니다. 새 예제를 연결하는 코드는 `scripts/upstream/original-stories.ts`와 기존 `stories/`를 참고하세요.
 
 원본 준비 파일이 손상되었다면 `pnpm upstream:sync`로 다시 받습니다. 이 명령은 설정된 커밋을 다시 준비하며 최신 버전으로 바꾸지는 않습니다.
 
