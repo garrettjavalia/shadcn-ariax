@@ -2,153 +2,123 @@
 
 [English](en.md) · 한국어
 
-AriaX를 수정하는 개발자를 위한 문서입니다. 앱에 컴포넌트를 설치하는 방법은 [README](../readme/ko.md)를 참고하세요.
+AriaX 컴포넌트를 수정하고 검사하는 방법입니다. 앱에 설치해서 사용하려면 [README](../readme/ko.md)를 참고하세요.
 
-## 로컬 환경
+## 처음 실행하기
 
-Node.js 22.19+와 pnpm 10.15.1을 사용합니다. 명령은 클론한 저장소 루트에서 실행합니다.
+Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
 
 ```sh
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
 ```
 
-첫 실행은 `generated/`에 고정된 업스트림 소스를 준비합니다. Storybook은 [원본 :4100](http://127.0.0.1:4100)과 [AriaX :4200](http://127.0.0.1:4200)에서 실행됩니다. 포트를 바꾸려면 개발과 테스트에 `ARIAX_UPSTREAM_PORT`, `ARIAX_STYLEX_PORT`를 동일하게 지정합니다.
+`pnpm dev`는 컴포넌트 예제를 볼 수 있는 Storybook 두 개를 실행합니다.
 
-## 저장소 구조
-
-| 경로 | 역할 |
+| 주소 | 내용 |
 | --- | --- |
-| `src/ariax/ui/` | 컴포넌트, `.internal.tsx` 헬퍼, `.recipe.stylex.ts` 레시피 |
-| `src/ariax/styles/` | `entry.css`에서 가져오는 공통 CSS와 테마 토큰 |
-| `stories/`, `tests/` | 예제, 브라우저 비교, 설치 픽스처 |
-| `.storybook/`, `reference/` | 빌드 설정과 원본 쪽 어댑터 |
-| `scripts/generate-registry-catalog.ts`, `scripts/registry-sources.ts` | 카탈로그 생성과 소스·의존성 탐색 |
-| `upstream/`, `scripts/upstream/` | 고정 소스 메타데이터와 레퍼런스 준비 |
-| `licenses/` | 배포하는 외부 코드 라이선스 |
+| [localhost:4100](http://127.0.0.1:4100) | 비교 기준인 shadcn/ui 원본 |
+| [localhost:4200](http://127.0.0.1:4200) | StyleX로 구현한 AriaX |
 
-소스, 설정, 잠금 파일, 업스트림 메타데이터와 생성된 루트 `registry.json`을 커밋합니다. `generated/`, `registry/`, `dist/`, 테스트 보고서는 로컬 출력물입니다.
+두 화면에서 같은 예제를 열어 모양과 동작을 비교하세요. 처음에는 원본 소스를 다운로드하므로 시간이 더 걸립니다. 종료하려면 터미널에서 Ctrl+C를 누릅니다. 이후 명령도 저장소 루트에서 실행합니다.
 
-## 컴포넌트와 레지스트리 수정
+## 어디를 수정하나요?
 
-1. `src/ariax/ui/`를 수정합니다. 로컬 의존 파일은 같은 디렉터리에 두고 상대 import를 사용합니다. React Aria의 동작·접근성을 유지하고, 내부 스타일 뒤에 `xstyle`과 `style`을 적용하며 동적 CSS 변수를 보존합니다.
-2. 관련 스토리와 테스트를 수정합니다. 새 설치 항목에는 `tests/install/`에 같은 이름의 픽스처를 추가하고, 추가 패키지는 `<name>.dependencies.json`에 정확한 버전으로 선언합니다.
-3. 카탈로그를 재생성하고 검사합니다.
+| 경로 | 내용 |
+| --- | --- |
+| `src/ariax/ui/` | AriaX 컴포넌트와 스타일 헬퍼 |
+| `src/ariax/styles/` | 공통 CSS와 테마 |
+| `stories/` | Storybook에 표시할 예제. 스토리는 예제 하나의 표시 방법과 설정입니다. |
+| `tests/` | 동작·스타일 비교 검사. `tests/install/`은 설치 후 동작을 확인할 작은 테스트 앱 코드입니다. |
+| `.storybook/` | Storybook 실행·빌드 설정 |
+| `upstream/` | 비교에 사용할 원본 버전과 컴포넌트 목록 |
+
+`generated/`는 자동으로 준비한 원본 코드입니다. 여기를 직접 수정하지 마세요.
+
+## 컴포넌트 수정하기
+
+1. [작업 규칙](../../../convention.md)을 읽고 `src/ariax/ui/`의 컴포넌트나 `src/ariax/styles/`의 공통 스타일을 수정합니다.
+2. `stories/`의 관련 예제로 변경 결과를 확인하고 필요한 예제·테스트를 보완합니다. 새 컴포넌트에는 `tests/install/`의 설치 예제도 추가합니다.
+3. 다음 명령으로 포맷을 맞추고 설치 목록을 갱신합니다. 레지스트리는 shadcn CLI가 설치할 컴포넌트와 파일의 목록입니다.
 
    ```sh
+   pnpm format:components
+   pnpm format:tests
    pnpm registry:build
-   pnpm registry:check
    ```
 
-4. 영향받는 동작을 검사하고, 제공 여부나 검증 범위가 바뀌면 [컴포넌트 지원 현황](../components/ko.md)의 두 언어판을 수정합니다.
+4. 아래에서 변경에 맞는 검사를 실행합니다. 제공하는 컴포넌트나 검증 범위가 바뀌면 [컴포넌트 지원 현황](../components/ko.md)도 두 언어로 갱신합니다.
 
-생성기는 `ui/<name>.tsx`와 레시피를 탐색하고 상대 import를 따라 파일을 수집하며, `package.json`의 정확한 패키지 버전을 사용합니다. 루트 `registry.json`은 GitHub 설치용 파일 경로를 담고, `registry/<item>.json`은 HTTP·로컬 설치에 필요한 내용을 직접 포함합니다.
+소스·테스트와 함께 루트의 `registry.json` 변경을 커밋합니다. 자동 생성되는 `registry/`, `generated/`, `dist/`와 테스트 보고서는 커밋하지 않습니다.
 
-두 카탈로그는 하나의 항목 정의에서 동일하게 생성합니다. 각 항목에는 공통 CSS·애니메이션·라이선스·StyleX 의존성을 포함합니다. 공식 `shadcn build registry.json --output registry` 명령이 공개 카탈로그와 개별 설치 JSON을 만들고 항목 스키마와 실제 파일 내용을 추가합니다. `pnpm registry:build`는 카탈로그 생성과 이 공식 빌드를 함께 실행합니다. GitHub 설치는 선택한 소스 리비전에서 모든 파일을 읽으므로 별도로 고정한 공통 항목이 필요하지 않습니다. 소스나 의존성을 변경하면 `pnpm registry:build`를 실행하고 루트 `registry.json`을 소스와 함께 커밋합니다.
+## 검사
 
-StyleX Babel 플러그인은 JavaScript의 스타일 참조를 컴파일하고, PostCSS 플러그인은 `entry.css`의 `@stylex;`를 추출한 CSS로 교체합니다. `.storybook/main.ts`가 두 구현을 설정합니다. `pnpm build:upstream`과 `pnpm build:stylex`는 `dist/upstream/`과 `dist/stylex/`에 출력하며, 후자는 지연 로딩 스토리의 CSS도 검사합니다.
+예를 들어 Button을 수정했다면 다음과 같이 검사합니다.
 
-## 레지스트리 디렉터리용 게시
+```sh
+pnpm typecheck
+pnpm format:check
+pnpm registry:check
+pnpm test tests/button.spec.ts
+PARITY_COMPONENT=components-button-- pnpm test:ci
+```
 
-`Publish registry to GitHub Raw` 워크플로는 `deploy-registry` 푸시 또는 해당 브랜치에서 수동 실행합니다. 첫 배포에는 이 워크플로를 포함한 소스 리비전에서 `deploy-registry`를 만들고, 이후 배포할 리비전을 이 브랜치에 머지합니다. `main`과 `published-registry` 푸시는 게시를 실행하지 않습니다. 소스 카탈로그를 검사하고 실제 CLI로 전체 컴포넌트 픽스처를 설치해 소비 앱을 빌드한 뒤 게시합니다. 저장소의 `GITHUB_TOKEN`(`contents: write`)으로 `published-registry` 브랜치에 `deploy-registry`의 추적 파일 전체와 생성된 `registry/` JSON을 함께 게시합니다. 브랜치 규칙은 해당 워크플로의 `published-registry` 갱신을 허용해야 합니다. 워크플로가 첫 게시 때 브랜치를 생성합니다. 각 배포 커밋은 원본 소스 커밋과 이전 배포 커밋(첫 게시 이후)을 부모로 가집니다. 파일 트리는 해당 소스 스냅샷과 생성된 JSON으로 구성하므로 이전 배포에서 삭제된 파일이 남지 않습니다. 같은 스냅샷이면 새 커밋을 만들지 않습니다. 소스 수정은 `main`을 통해 반영하고 `published-registry`를 `main`이나 `deploy-registry`로 다시 병합하지 않습니다. GitHub Pages나 별도 서버는 필요하지 않습니다.
+첫 세 명령은 타입·포맷·설치 목록을 검사합니다. 네 번째는 Button의 동작을 검사하고, 마지막은 Button 스토리를 원본과 라이트·다크 테마에서 비교합니다. `PARITY_COMPONENT`에는 검사할 스토리 ID의 앞부분을 지정하며, 여러 개는 쉼표로 구분합니다.
 
-`registry/registry.json`은 HTTP 카탈로그로, 자체 완결적인 개별 항목과 메타데이터가 같지만 파일 내용은 제외합니다. 빌드는 `registry/`를 비워 삭제된 항목이 게시되지 않게 합니다. 생성된 JSON은 소스 브랜치에서 제외하고, 별도 `published-registry` 브랜치의 게시 커밋은 이력을 보존합니다.
+| 추가로 확인할 내용 | 명령 |
+| --- | --- |
+| 실제 CLI 설치와 설치 후 앱 빌드 | `pnpm test:install` |
+| StyleX CSS 추출 | `pnpm test:stylex` |
+| 원본 준비·예제 생성 | `pnpm test:upstream` 및 `pnpm upstream:check` |
+| 양쪽 Storybook 빌드 | `pnpm build` |
+| 브라우저 검사 결과 보기 | `pnpm test:report` |
 
-첫 게시가 성공하면 다음 URL 템플릿을 사용합니다.
+PR의 CI는 타입·빌드와 원본 대비 정적 DOM·CSS 등을 검사합니다. 조작·픽셀·애니메이션까지 확인하려면 관련 브라우저 테스트도 실행해야 합니다. 평소에는 수정한 부분을 검사하고, 전체 검증이 필요할 때만 `pnpm test:full`을 실행합니다. 전체 검증에는 설치와 빌드도 포함되어 시간이 오래 걸립니다.
+
+## 업스트림 준비
+
+이 프로젝트에서 업스트림은 비교 기준인 shadcn/ui 원본을 뜻합니다. 실행과 검사 명령이 필요한 원본을 자동으로 준비하므로 보통 별도 작업은 필요 없습니다.
+
+- `upstream/source.json`: 사용할 원본 저장소와 커밋
+- `upstream/reference.json`: 가져올 컴포넌트와 보조 코드
+- `upstream/original-exceptions.json`: 비교에서 제외한 공식 예제와 그 이유
+
+공식 예제는 원본 Storybook에 자동 등록됩니다. AriaX 쪽에는 그 예제에 대응하는 StyleX 구현이 필요합니다. 새 예제를 연결하는 코드는 `scripts/upstream/original-stories.ts`와 기존 `stories/`를 참고하세요.
+
+원본 준비 파일이 손상되었다면 `pnpm upstream:sync`로 다시 받습니다. 이 명령은 설정된 커밋을 다시 준비하며 최신 버전으로 바꾸지는 않습니다.
+
+## 배포하기 — 관리자용
+
+배포할 변경을 `main`에 반영한 뒤 해당 배포 브랜치에 머지하고 푸시합니다. GitHub의 Actions 탭에서 실행 결과를 확인하세요.
+
+### 레지스트리 디렉터리용 게시
+
+`deploy-registry`에 푸시하면 설치 검사 후 전체 소스와 생성한 `registry/` JSON을 `published-registry`에 게시합니다. `published-registry`는 자동 생성되는 결과 브랜치이므로 직접 수정하거나 소스 브랜치로 머지하지 않습니다. 저장소의 브랜치 규칙에서 워크플로의 게시 브랜치 푸시를 허용해야 합니다.
+
+컴포넌트 설치 주소는 다음과 같습니다. `{name}`에는 `button` 같은 컴포넌트 이름을 넣습니다.
 
 ```text
 https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json
 ```
 
-`{name}`을 `registry`로 바꾼 주소가 카탈로그입니다. 게시에 사용한 소스 리비전에서 공개 주소를 검증합니다.
+게시한 소스 버전에서 다음 명령으로 실제 공개 주소의 설치를 확인할 수 있습니다.
 
 ```sh
 ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/ pnpm test:install
 ```
 
-재현 가능한 검사에는 URL의 `refs/heads/published-registry` 전체 부분을 게시 커밋 SHA로 바꿉니다. `ARIAX_REGISTRY_URL`은 `/`로 끝나는 HTTP(S) 디렉터리 주소여야 합니다. 해당 주소에서 전체 컴포넌트 픽스처를 설치하고 의존성, TypeScript, Tailwind 없는 Vite 프로덕션 빌드를 검사합니다.
+shadcn/ui의 공식 레지스트리 목록 등록은 별도 절차입니다. [등록 안내](https://ui.shadcn.com/docs/registry/registry-index)를 참고하세요.
 
-`shadcn-ui/ui`의 `apps/v4/registry/directory.json`에 `@ariax`, 저장소 홈페이지, 위 URL 템플릿, 소개 문구와 SVG 로고를 제출합니다. 등록 PR 전에 해당 저장소의 `pnpm validate:registries`를 실행합니다. [공식 요건](https://ui.shadcn.com/docs/registry/registry-index)을 참고하세요. JSON 게시만으로 네임스페이스가 자동 등록되지는 않습니다. 승인 전에는 기존 GitHub 설치 주소를 사용하거나, 게시 후 `components.json`에 네임스페이스를 직접 설정합니다.
+### GitHub Pages에 Storybook 게시
 
-```json
-{
-  "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json"
-  }
-}
-```
+`deploy-github-pages`에 푸시하면 AriaX Storybook을 빌드해 [공개 Storybook](https://garrettjavalia.github.io/shadcn-ariax/)에 배포합니다. `dist/stylex/` 내부 파일을 업로드하며, 빌드 결과를 별도 브랜치에 저장하지 않습니다.
 
-## GitHub Pages에 Storybook 게시
+처음 설정할 때는 GitHub에서 다음 두 항목을 확인합니다.
 
-`Publish Storybook to GitHub Pages` 워크플로는 `deploy-github-pages` 푸시 또는 해당 브랜치의 수동 실행으로 동작합니다. 이 브랜치는 전체 소스를 유지하며 `main`의 릴리스 리비전을 머지합니다. 워크플로는 AriaX Storybook을 빌드하고 `dist/stylex/` 내부 내용을 Pages artifact로 업로드한 뒤 해당 artifact를 배포합니다. 빌드 결과를 커밋하거나 다른 브랜치에 푸시하지 않습니다.
+1. **Settings → Pages → Source**를 **GitHub Actions**로 선택합니다.
+2. **Settings → Environments → github-pages**의 배포 브랜치 규칙에 `deploy-github-pages`를 허용합니다.
 
-최초 실행 전에 **Settings → Pages → Build and deployment → Source → GitHub Actions**를 선택합니다. `github-pages` 환경의 배포 브랜치 규칙에서 `deploy-github-pages`를 허용해야 합니다. 개인 액세스 토큰은 필요하지 않습니다. 워크플로는 GitHub Pages에서 사이트 기본 경로를 읽어 예제의 이미지·폰트 절대 경로를 조정합니다.
-
-`dist/stylex/` 내부 내용이 사이트 루트가 되므로 사이트 주소에 `/dist/stylex/`를 붙이지 않고 `index.html`에 접근합니다. 웹사이트에는 빌드 결과만 공개됩니다. 공개 사이트에서는 AriaX 스토리와 light/dark 전환을 제공하고, 원본 비교 Storybook은 로컬로 유지합니다. 배포 성공은 전체 동등성 검사 통과를 뜻하지 않습니다.
-
-저장소 하위 경로의 빌드를 로컬에서 확인하려면:
-
-```sh
-ARIAX_STORYBOOK_BASE=/shadcn-ariax/ pnpm build:stylex
-ARIAX_STORYBOOK_BASE=/shadcn-ariax/ node --import tsx scripts/prepare-pages.ts
-```
-
-`dist/stylex/`를 `/shadcn-ariax/` 아래에서 제공하여 탐색·이미지·폰트를 확인합니다. 일반 루트 경로의 동등성 검사를 실행하기 전에는 `ARIAX_STORYBOOK_BASE` 없이 다시 빌드합니다.
-
-## 업스트림 준비
-
-```text
-upstream/source.json + upstream/reference.json
-  → upstream:prepare → generated/upstream/shadcn/ + generated/reference/
-  → originals:generate → generated/original-stories/
-```
-
-`source.json`은 저장소·커밋·선택 경로·필수 파일을 고정하고, `reference.json`은 컴포넌트와 보조 레퍼런스를 선택합니다. 레퍼런스를 추가하려면 `components`나 `helperReferences`를 수정하고 필요한 npm 패키지를 이 프로젝트에 정확한 버전으로 선언합니다.
-
-준비 과정은 원본 `*/_registry.ts`를 읽고 공식 `createStyleMap`·`transformStyle` API를 적용한 뒤 격리된 프로젝트에서 shadcn CLI `build`와 `add`를 실행합니다. Neutral 색상도 같은 커밋에서 가져와 로컬 레지스트리로 제공합니다. 해당 커밋과 고정된 CLI·패키지가 재현 기준입니다. `rtl: true`로 공식 논리 방향 변환을 적용해 LTR·RTL을 비교합니다.
-
-`generated/reference/aria-nova/`에는 기본 설치 결과를, `base-nova/`와 `radix-rhea/`에는 예제용 헬퍼를 둡니다. `@reference/*`는 기본 설치를 가리킵니다. CLI 소유 `cli.css`와 비교 환경의 `tailwind.css`는 분리합니다.
-
-`originals:generate`는 고정한 MDX의 `ComponentPreview`를 읽고 공식 TSX를 JSX·클래스 수정 없이 import합니다. `stories/`의 직접적인 픽스처 import 또는 `parameters.originalExample`에 명시한 원본 이름으로 StyleX 대응 예제와 짝을 정합니다. 생성된 upstream 모듈은 기존 스토리의 ID·인자·decorator를 유지하고 데모 렌더링만 공식 컴포넌트로 바꿉니다. Storybook은 기존 수동 upstream 등록 대신 이 모듈을 읽으므로 연결된 데모가 중복 표시되지 않습니다. `generated/original-stories/public/manifest.json`에 대응을 기록하며, 미연결 예제는 `upstream/original-exceptions.json`에 이유가 없으면 생성이 실패합니다. 제외된 원본도 문서 스토리로 둘러볼 수 있습니다.
-
-`pnpm dev`는 별개의 Storybook/Vite 프로세스 두 개를 실행합니다. `ARIAX_IMPLEMENTATION=upstream`은 컴포넌트 별칭을 `generated/reference/aria-nova`로 연결하고 공식 Tailwind CSS를 읽습니다. `stylex`는 별칭을 `src/ariax`로 연결하고 StyleX CSS를 추출합니다. 양쪽의 스토리 ID와 비교 환경은 같습니다. 공식 데모가 Tailwind로 컴포넌트나 배치를 꾸미면 StyleX 대응 예제는 여전히 필요하며, Storybook 래퍼 생성이 스타일 변환까지 하는 것은 아닙니다. Next Image·Link와 예제 폰트는 `reference/`의 React 어댑터로 연결합니다.
-
-테스트·타입 검사·Storybook 명령은 레퍼런스를 자동 준비합니다. `scripts/upstream/ensure.ts`는 다운로드, `reference.ts`는 설치 생성, `prepare.ts`는 설치 캐시를 담당합니다. 완료 기록·소스 설정·필수 파일로 재사용 여부를 판단하며 유효한 캐시는 오프라인에서도 동작합니다. 공유 잠금과 임시 디렉터리로 동시 실행을 보호하고 실패 시 기존 캐시를 보존합니다. 설치 파일 누락은 재생성하며, 수동 변경이나 손상이 의심되면 `pnpm upstream:sync`를 실행합니다. 일반 검사는 고정한 소스 리비전을 갱신하지 않습니다.
-
-## 검사
-
-저장소 개발용 검사입니다. 변경 범위에 맞게 선택하세요. 전체 검증은 약 1시간 걸릴 수 있습니다.
-
-| 변경 | 검사 |
-| --- | --- |
-| 문서 | 링크, 명령 이름, 번역 일치 |
-| 컴포넌트 | `pnpm typecheck`, 관련 브라우저 테스트와 CI 비교 |
-| 레지스트리·의존성 | `pnpm registry:check`, `pnpm test:install` |
-| StyleX 통합 | `pnpm test:stylex`, 설치 검사, StyleX 빌드 |
-| 업스트림 준비 | `pnpm test:upstream`, `pnpm upstream:check` |
-| 비교기 | 비교기 계약 테스트와 영향받는 비교 |
-
-개별 테스트나 컴포넌트 비교부터 실행합니다.
-
-```sh
-pnpm test tests/button.spec.ts
-PARITY_COMPONENT=components-button-- pnpm test:ci:light
-```
-
-`PARITY_COMPONENT`에 스토리 ID 접두사를 쉼표로 구분하면 여러 변경 그룹을 함께 검사할 수 있습니다.
-
-`test:ci:light`와 `test:ci:dark`는 한 테마를, `test:ci`는 두 테마를 검사합니다. CI 비교는 1000px에서 DOM·텍스트·속성·계산 CSS·의사 요소를 검사합니다. 단일 색상은 OKLab ΔE ≤ 0.002를 허용하고 투명도와 나머지 값은 정확하게 비교합니다. 조작·위치·크기·픽셀·포커스·스크롤·애니메이션은 더 넓은 검사 범위에 포함됩니다.
-
-비교 스토리는 `parity`를 사용하고 `#parity-root` 안에 렌더링하며, 포털에는 `data-parity-portal`을 표시합니다. `viewport-390`은 모바일 비교를 추가합니다. 공통 비교 코드는 `tests/parity.spec.ts`, `tests/compare.ts`, `tests/color-differences.ts`에 있습니다.
-
-프로덕션 비교는 소스 수정 후 다시 빌드합니다.
-
-```sh
-pnpm build
-ARIAX_STATIC_STORYBOOK=1 pnpm test:ci:light
-```
-
-`pnpm test:upstream`은 로컬 원본 아카이브와 실제 CLI로 변환·동시 준비·오프라인 재사용·캐시 복구를 검사합니다. `pnpm test:install`은 별도로 소비 앱에 AriaX 레지스트리를 설치합니다.
-
-`pnpm test`는 브라우저 검사를, `pnpm test:full`은 설치와 빌드를 포함한 전체 검증을 실행합니다. 결과는 `pnpm test:report`로 보고 테스트 포맷은 `pnpm format:tests`, 컴포넌트·배포 CSS는 `pnpm format:components`로 맞춥니다. `pnpm format:check`는 로컬 전체 검증과 CI에서 두 범위를 검사합니다. 구현·검증의 세부 규칙은 [convention.md](../../../convention.md)를 참고하세요.
+사이트의 `/shadcn-ariax/` 경로는 워크플로가 읽어 빌드에 적용합니다. 두 배포 워크플로 모두 Actions에서 해당 배포 브랜치를 선택해 수동 실행할 수도 있습니다.
