@@ -123,8 +123,7 @@ pnpm dev
 
 The first run downloads and prepares the pinned upstream sources. Generated references are managed automatically under `generated/`.
 
-- [Upstream Storybook](http://127.0.0.1:4100)
-- [AriaX Storybook](http://127.0.0.1:4200)
+After startup, open the local URLs printed in the terminal to view the Upstream and AriaX Storybooks.
 
 See the [Development guide](docs/i18n/development/en.md) for project structure, modification guidelines, and repository checks.
 
