@@ -23,7 +23,7 @@
     "upstream:check": "node --import tsx scripts/upstream/check.ts",
     "upstream:prepare": "node --import tsx scripts/upstream/prepare.ts",
     "upstream:sync": "node --import tsx scripts/upstream/sync.ts && pnpm upstream:prepare",
-    "test:upstream": "node --import tsx --test scripts/upstream/cache.test.ts",
+    "test:upstream": "node --import tsx --test scripts/upstream/cache.test.ts scripts/upstream/original-stories.test.ts",
     "test:benchmark": "node --import tsx scripts/benchmark-tests.ts",
     "test:full": "pnpm verify",
     "test:ci": "pnpm upstream:prepare && pnpm originals:generate && cross-env ARIAX_TEST_MODE=ci playwright test tests/parity.spec.ts --grep @static-parity",

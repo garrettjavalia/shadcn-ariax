@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react-vite';
 import '@implementation-css';
 import './preview.css';
+import '../stories/official-examples/fixtures.css';
 import {installParityAnimationObserver} from './animation-observer';
 
 installParityAnimationObserver();

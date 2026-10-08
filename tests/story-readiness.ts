@@ -67,4 +67,9 @@ export async function waitForStoryReadiness(page: Page) {
         throw new Error("The official Vazirmatn web font files failed to load");
     });
   }
+  // Initial transcript positioning can continue after the pending marker clears.
+  // Compare after the SDK's finite auto-scroll has settled on both sides.
+  await expect(page.locator("#parity-root [data-autoscrolling]")).toHaveCount(
+    0,
+  );
 }

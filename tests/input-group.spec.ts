@@ -65,35 +65,6 @@ for (const theme of ["light", "dark"])
       await context.close();
     }
   });
-test("Input Group official document examples have an explicit supported or pending entry", async () => {
-  const { readFile } = await import("node:fs/promises");
-  const mdx = await readFile(
-    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/input-group.mdx",
-    "utf8",
-  );
-  const names = [
-    ...mdx.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
-  ].map((m) => m[1]);
-  const supported = [
-    "input-group-demo",
-    "input-group-icon",
-    "input-group-text",
-    "input-group-textarea",
-    "input-group-custom",
-  ];
-  const pending = [
-    "input-group-inline-start",
-    "input-group-inline-end",
-    "input-group-block-start",
-    "input-group-block-end",
-    "input-group-button",
-    "input-group-kbd",
-    "input-group-dropdown",
-    "input-group-spinner",
-    "input-group-rtl",
-  ];
-  expect(names.sort()).toEqual([...supported, ...pending].sort());
-});
 
 test("Input Group native style overrides retain dynamic StyleX variables", async ({
   page,

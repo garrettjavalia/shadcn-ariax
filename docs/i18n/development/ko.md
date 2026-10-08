@@ -93,7 +93,9 @@ upstream/source.json + upstream/reference.json
 
 `generated/reference/aria-nova/`에는 기본 설치 결과를, `base-nova/`와 `radix-rhea/`에는 예제용 헬퍼를 둡니다. `@reference/*`는 기본 설치를 가리킵니다. CLI 소유 `cli.css`와 비교 환경의 `tailwind.css`는 분리합니다.
 
-`originals:generate`는 MDX의 `ComponentPreview`에서 공식 TSX 예제를 찾아 JSX·클래스를 바꾸지 않고 스토리를 생성합니다. `/original-stories/manifest.json`에 대응 관계를 기록하며, 미대응 예제도 표시합니다. Next Image·Link와 예제 폰트는 `reference/`의 React 어댑터로 연결합니다.
+`originals:generate`는 고정한 MDX의 `ComponentPreview`를 읽고 공식 TSX를 JSX·클래스 수정 없이 import합니다. `stories/`의 직접적인 픽스처 import 또는 `parameters.originalExample`에 명시한 원본 이름으로 StyleX 대응 예제와 짝을 정합니다. 생성된 upstream 모듈은 기존 스토리의 ID·인자·decorator를 유지하고 데모 렌더링만 공식 컴포넌트로 바꿉니다. Storybook은 기존 수동 upstream 등록 대신 이 모듈을 읽으므로 연결된 데모가 중복 표시되지 않습니다. `generated/original-stories/public/manifest.json`에 대응을 기록하며, 미연결 예제는 `upstream/original-exceptions.json`에 이유가 없으면 생성이 실패합니다. 제외된 원본도 문서 스토리로 둘러볼 수 있습니다.
+
+`pnpm dev`는 별개의 Storybook/Vite 프로세스 두 개를 실행합니다. `ARIAX_IMPLEMENTATION=upstream`은 컴포넌트 별칭을 `generated/reference/aria-nova`로 연결하고 공식 Tailwind CSS를 읽습니다. `stylex`는 별칭을 `src/ariax`로 연결하고 StyleX CSS를 추출합니다. 양쪽의 스토리 ID와 비교 환경은 같습니다. 공식 데모가 Tailwind로 컴포넌트나 배치를 꾸미면 StyleX 대응 예제는 여전히 필요하며, Storybook 래퍼 생성이 스타일 변환까지 하는 것은 아닙니다. Next Image·Link와 예제 폰트는 `reference/`의 React 어댑터로 연결합니다.
 
 테스트·타입 검사·Storybook 명령은 레퍼런스를 자동 준비합니다. `scripts/upstream/ensure.ts`는 다운로드, `reference.ts`는 설치 생성, `prepare.ts`는 설치 캐시를 담당합니다. 완료 기록·소스 설정·필수 파일로 재사용 여부를 판단하며 유효한 캐시는 오프라인에서도 동작합니다. 공유 잠금과 임시 디렉터리로 동시 실행을 보호하고 실패 시 기존 캐시를 보존합니다. 설치 파일 누락은 재생성하며, 수동 변경이나 손상이 의심되면 `pnpm upstream:sync`를 실행합니다. 일반 검사는 고정한 소스 리비전을 갱신하지 않습니다.
 
@@ -116,6 +118,8 @@ upstream/source.json + upstream/reference.json
 pnpm test tests/button.spec.ts
 PARITY_COMPONENT=components-button-- pnpm test:ci:light
 ```
+
+`PARITY_COMPONENT`에 스토리 ID 접두사를 쉼표로 구분하면 여러 변경 그룹을 함께 검사할 수 있습니다.
 
 `test:ci:light`와 `test:ci:dark`는 한 테마를, `test:ci`는 두 테마를 검사합니다. CI 비교는 1000px에서 DOM·텍스트·속성·계산 CSS·의사 요소를 검사합니다. 단일 색상은 OKLab ΔE ≤ 0.002를 허용하고 투명도와 나머지 값은 정확하게 비교합니다. 조작·위치·크기·픽셀·포커스·스크롤·애니메이션은 더 넓은 검사 범위에 포함됩니다.
 

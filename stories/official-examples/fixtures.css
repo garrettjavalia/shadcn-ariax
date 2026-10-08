@@ -1,0 +1,1 @@
+.official-skeleton-lines > :not(:last-child) { margin-block-start: 0; margin-block-end: 8px; }

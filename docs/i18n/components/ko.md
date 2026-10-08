@@ -73,17 +73,10 @@ Nova / Neutral 라이트·다크 테마의 레지스트리 항목 60개(UI 컴�
 
 - 60개 항목 모두 설치 픽스처가 있으며, 공개 HTTP 주소에서 실제 shadcn CLI 설치·타입 검사·Tailwind 없는 Vite 프로덕션 빌드를 통과했습니다.
 - 기존 상세 검사 94개 파일·999개 케이스의 통과 기록은 [PR #115](https://github.com/garrettjavalia/shadcn-ariax/pull/115)에 있습니다. 이는 당시 코드와 검사 범위의 결과이며, 현재 모든 사용 조건의 검증 완료를 뜻하지 않습니다. CI는 등록된 스토리의 1000px 라이트·다크 정적 비교를 수행하며, 상세 동작·픽셀·애니메이션 검사는 별도입니다.
-- 공식 문서 예제 전체의 대응은 아직 완료되지 않았습니다. 현재 자동 생성한 대응표에서 452개 예제 중 139개는 StyleX 스토리와 자동 연결되지 않습니다. 수동 스토리나 개별 검사가 있을 수 있으므로 이 수치는 미구현 컴포넌트 수가 아닙니다.
+- 공식 문서의 452개 예제 등장 위치 중 445개는 비교에 연결했고 7개는 명시적으로 제외합니다. 연결된 데모는 upstream에서 수정하지 않은 공식 TSX를, AriaX에서 StyleX로 옮긴 대응 예제를 같은 스토리 ID로 실행합니다. 연결 자체가 통과를 뜻하지 않으며 실제 DOM·CSS 일치는 브라우저 검사로 확인합니다.
+- `upstream/original-exceptions.json`에 예외를 기록합니다. 가공 전 CVA를 쓰는 `button-render`는 최종 Button 스타일을 제공하는 `buttonProps` 계약 밖이고, MessageScroller 데모 6개는 Radix/Rhea의 `MessageAnimated` 렌더러에 의존합니다. 이 원본들은 계속 둘러볼 수 있습니다. 미연결 예제, 이유 없는 제외, 더 이상 유효하지 않은 예외는 생성 단계에서 실패하며, 연결된 예제는 실제 Storybook 인덱스에 활성 `parity` 스토리가 있어야 합니다.
 
-완전한 공식 조합 예제로 보완할 항목이 테스트에 명시되어 있습니다.
-
-| 컴포넌트 | 남은 공식 예제 | 범위 |
-| --- | --- | --- |
-| Input | 14개 | Field·Input Group·Button Group 조합, 폼·상태·RTL 등 |
-| Input Group | 9개 | addon 배치, Button·Kbd·Dropdown·Spinner 조합, RTL |
-| Textarea | 4개 | Field 조합, disabled·invalid·RTL |
-
-단일 컴포넌트의 상태·동작 검사 통과와 공식 조합 예제 전체의 대응 완료는 구분합니다. 설치 환경은 Vite + React + TypeScript를 확인했으며, Next.js·SSR 및 다른 프레임워크 통합은 아직 검증하지 않았습니다. 검사 방법은 [개발 가이드](../development/ko.md#검사)를 참고하세요.
+설치 환경은 Vite + React + TypeScript를 확인했으며, Next.js·SSR 및 다른 프레임워크 통합은 아직 검증하지 않았습니다. 검사 방법은 [개발 가이드](../development/ko.md#검사)를 참고하세요.
 
 ## 참고 사항
 - Native Select: OS 네이티브 팝업은 검증 범위에서 제외합니다.

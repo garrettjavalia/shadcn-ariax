@@ -1,3 +1,4 @@
+import { SwitchRtl as OfficialRtl } from './official-examples/switch-rtl';
 import type {Meta,StoryObj} from '@storybook/react-vite';
 import {Switch} from '@switch';
 import {Label} from '@label';
@@ -8,16 +9,16 @@ import {SwitchContext} from 'react-aria-components';
 const meta={title:'Components/Switch',component:Switch,tags:['parity'],decorators:[Story=><main id="parity-root"><Story/></main>]} satisfies Meta<typeof Switch>;
 export default meta;
 type Story=StoryObj<typeof meta>;
-export function SwitchDemo() {
+function SwitchDemo() {
   return (
-    <div style={{display:"flex",alignItems:"center",gap:"0.5rem"}}>
-      <Switch id="airplane-mode" />
+    <div style={{display:"flex",alignItems:"center"}}>
+      <Switch id="airplane-mode" style={{marginInlineEnd:8}} />
       <Label htmlFor="airplane-mode">Airplane Mode</Label>
     </div>
   )
 }
 
-export function SwitchSizes() {
+function SwitchSizes() {
   return (
     <FieldGroup style={{width:"100%",maxWidth:"10rem"}}>
       <Field orientation="horizontal">
@@ -32,7 +33,7 @@ export function SwitchSizes() {
   )
 }
 
-export function SwitchDescription() {
+function SwitchDescription() {
   return (
     <Field orientation="horizontal" style={{maxWidth:"24rem"}}>
       <FieldContent>
@@ -48,7 +49,7 @@ export function SwitchDescription() {
   )
 }
 
-export function SwitchDisabled() {
+function SwitchDisabled() {
   return (
     <Field orientation="horizontal" data-disabled style={{width:"fit-content"}}>
       <Switch id="switch-disabled-unchecked" isDisabled />
@@ -57,7 +58,7 @@ export function SwitchDisabled() {
   )
 }
 
-export function SwitchInvalid() {
+function SwitchInvalid() {
   return (
     <Field orientation="horizontal" style={{maxWidth:"24rem"}} data-invalid>
       <FieldContent>
@@ -73,7 +74,7 @@ export function SwitchInvalid() {
   )
 }
 
-export function SwitchChoiceCard() {
+function SwitchChoiceCard() {
   return (
     <FieldGroup style={{width:"100%",maxWidth:"24rem"}}>
       <FieldLabel htmlFor="switch-share">
@@ -102,13 +103,13 @@ export function SwitchChoiceCard() {
     </FieldGroup>
   )
 }
-export const Demo: Story={render:()=> <SwitchDemo/>};
-export const Sizes: Story={render:()=> <SwitchSizes/>};
-export const Description: Story={render:()=> <SwitchDescription/>};
-export const Disabled: Story={render:()=> <SwitchDisabled/>};
-export const Invalid: Story={render:()=> <SwitchInvalid/>};
-export const ChoiceCard: Story={render:()=> <SwitchChoiceCard/>};
-export const Rtl:Story={render:()=> <Field orientation="horizontal" style={{maxWidth:'24rem'}} dir="rtl"><FieldContent><FieldLabel htmlFor="rtl" dir="rtl">المشاركة عبر الأجهزة</FieldLabel><FieldDescription dir="rtl">يتم مشاركة التركيز عبر الأجهزة، ويتم إيقاف تشغيله عند مغادرة التطبيق.</FieldDescription></FieldContent><Switch id="rtl" dir="rtl"/></Field>};
+export const Demo: Story={ parameters: { originalExample: "switch-demo" },render:()=> <SwitchDemo/>};
+export const Sizes: Story={ parameters: { originalExample: "switch-sizes" },render:()=> <SwitchSizes/>};
+export const Description: Story={ parameters: { originalExample: "switch-description" },render:()=> <SwitchDescription/>};
+export const Disabled: Story={ parameters: { originalExample: "switch-disabled" },render:()=> <SwitchDisabled/>};
+export const Invalid: Story={ parameters: { originalExample: "switch-invalid" },render:()=> <SwitchInvalid/>};
+export const ChoiceCard: Story={ parameters: { originalExample: "switch-choice-card" },render:()=> <SwitchChoiceCard/>};
+export const Rtl:Story={ parameters: { originalExample: 'switch-rtl' }, render: () => <OfficialRtl /> };
 export const Usage:Story={render:()=> <Switch aria-label="Switch"/>};
 export const FieldSwitch:Story={render:()=> <Field orientation="horizontal" style={{width:'fit-content'}}><FieldLabel htmlFor="2fa">Multi-factor authentication</FieldLabel><Switch id="2fa"/></Field>};
 export const States:Story={render:()=> <div style={{display:'grid',gap:'1rem'}}>{(['default','sm'] as const).map(size=><div key={size} style={{display:'flex',gap:'2rem'}}><Switch size={size} aria-label={size+' normal'}/><Switch size={size} defaultSelected aria-label={size+' selected'}/><Switch size={size} defaultSelected isDisabled aria-label={size+' disabled'}/><Switch size={size} data-invalid aria-label={size+' invalid'}/></div>)}</div>};
