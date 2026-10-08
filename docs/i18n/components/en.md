@@ -2,7 +2,7 @@
 
 English · [한국어](ko.md)
 
-60 registry items for Nova / Neutral light and dark themes. See [Installation](../../../README.md#installation) for usage. Availability does not imply complete verification.
+60 registry items (59 UI components and one Typography recipe) for Nova / Neutral light and dark themes. See [Installation](../../../README.md#installation) for usage. Availability does not imply complete verification.
 
 | Component | Install name |
 | --- | --- |
@@ -69,10 +69,24 @@ English · [한국어](ko.md)
 
 **Composition examples:** Data Table, Date Picker (assembled from registry items).
 
-## Notes
+## Verification scope and remaining work
 
-- Follow-up integration or behavior checks remain for Checkbox, Dropdown Menu, Input, Input Group, Kbd, Label, Message Scroller, Table, Textarea, and Tooltip.
+- All 60 items have installation fixtures and passed actual shadcn CLI installation from the public HTTP endpoint, TypeScript checks, and a production Vite build without Tailwind.
+- [PR #115](https://github.com/garrettjavalia/shadcn-ariax/pull/115) records 999 passing detailed cases across 94 test files. These results apply to that revision and scope, not every current usage condition. CI runs static comparisons of registered stories at 1000px in light and dark themes; detailed behavior, pixel, and animation checks are separate.
+- Coverage of all official documentation examples remains incomplete. The current generated mapping has 139 of 452 previews without an automatic StyleX story counterpart. Manual stories or individual checks may still exist, so this is not a count of unimplemented components.
+
+Tests explicitly track examples that still need complete official compositions.
+
+| Component | Pending official examples | Scope |
+| --- | --- | --- |
+| Input | 14 | Field, Input Group and Button Group compositions; forms, states and RTL |
+| Input Group | 9 | Addon alignment; Button, Kbd, Dropdown and Spinner compositions; RTL |
+| Textarea | 4 | Field composition; disabled, invalid and RTL |
+
+Passing individual component state or behavior checks does not establish complete coverage of official compositions. Installation has been verified with Vite, React and TypeScript; Next.js, SSR and other framework integrations remain unverified. See the [Development guide](../development/en.md#checks) for checks.
+
+## Notes
 - Native Select: OS-native popups are outside the verification scope.
-- Attachment: the native trigger preserves the upstream behavior and is not connected to Dialog.
+- Attachment: the official example’s native trigger does not automatically open Dialog, matching upstream. An explicitly controlled Dialog composition and open/close checks are also provided.
 - Typography provides StyleX recipes for HTML elements.
 - Toast is deprecated upstream; use Sonner.

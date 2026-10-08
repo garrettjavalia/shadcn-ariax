@@ -15,6 +15,19 @@ English · [한국어](docs/i18n/readme/ko.md)
 
 See [Component status](docs/i18n/components/en.md) for available components, verification coverage, and remaining work.
 
+## Try the components
+
+Run the AriaX Storybook locally to browse examples and try component interactions. Requires Node.js 22.19+ and pnpm 10.15.1.
+
+```sh
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
+pnpm install --frozen-lockfile
+pnpm storybook
+```
+
+Open the local URL printed in the terminal. The first run downloads and prepares the required upstream sources and builds the registry, so it may take longer. Later runs reuse the prepared sources. Stop the server with Ctrl+C.
+
 ## Installation
 
 Start with a React and TypeScript project with shadcn's `components.json` and import aliases configured.
@@ -111,7 +124,7 @@ The full local suite also checks interactions, geometry, scrolling, focus, pixel
 
 ## Local development
 
-Requires Node.js 22.19+ and pnpm 10.15.1.
+For development and comparison with the upstream implementation, start both Storybooks. Requires Node.js 22.19+ and pnpm 10.15.1.
 
 ```sh
 git clone https://github.com/garrettjavalia/shadcn-ariax.git

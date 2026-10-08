@@ -15,6 +15,19 @@ AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn 레�
 
 제공하는 컴포넌트, 검증 범위와 남은 작업은 [컴포넌트 지원 현황](../components/ko.md)을 참고하세요.
 
+## 컴포넌트 둘러보기
+
+AriaX Storybook을 로컬에서 실행해 예제와 컴포넌트 동작을 살펴볼 수 있습니다. Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
+
+```sh
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
+pnpm install --frozen-lockfile
+pnpm storybook
+```
+
+터미널에 표시되는 로컬 주소를 브라우저에서 여세요. 첫 실행은 필요한 업스트림 소스를 다운로드·준비하고 레지스트리를 빌드하므로 시간이 더 걸릴 수 있습니다. 이후에는 준비된 소스를 재사용합니다. 서버는 Ctrl+C로 종료합니다.
+
 ## 설치
 
 shadcn의 `components.json`과 import 경로 별칭이 준비된 React·TypeScript 프로젝트에서 시작합니다.
@@ -111,7 +124,7 @@ CI 비교는 1000px 뷰포트의 라이트·다크 테마에서 DOM 구조, 텍�
 
 ## 로컬 개발
 
-Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
+개발하거나 원본 구현과 비교하려면 두 Storybook을 함께 실행합니다. Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
 
 ```sh
 git clone https://github.com/garrettjavalia/shadcn-ariax.git
