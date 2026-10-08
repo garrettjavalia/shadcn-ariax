@@ -1,8 +1,8 @@
 # AriaX
 
-shadcn React Aria components styled with StyleX.
+shadcn/ui React Aria components styled with StyleX.
 
-AriaX brings the Nova style and Neutral light/dark themes to a shadcn registry. Install component source into your project and customize it with StyleX.
+AriaX brings the Nova style and Neutral light/dark themes to a shadcn/ui registry. Install component source into your project and customize it with StyleX.
 
 English · [한국어](docs/i18n/readme/ko.md)
 
@@ -30,7 +30,7 @@ Open the local URL printed in the terminal. The first run downloads and prepares
 
 ## Installation
 
-Start with a React and TypeScript project with shadcn's `components.json` and import aliases configured.
+Start with a React and TypeScript project with shadcn/ui’s `components.json` and import aliases configured.
 
 The example below targets Vite 7 with `@vitejs/plugin-react` 5. Next.js, SSR, and other framework integrations have not yet been verified by this project.
 
