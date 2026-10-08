@@ -72,7 +72,7 @@ English · [한국어](ko.md)
 ## Verification scope and remaining work
 
 - All 60 items have installation fixtures and passed actual shadcn CLI installation from the public HTTP endpoint, TypeScript checks, and a production Vite build without Tailwind.
-- [PR #115](https://github.com/garrettjavalia/shadcn-ariax/pull/115) records 999 passing detailed cases across 94 test files. These results apply to that revision and scope, not every current usage condition. CI runs static comparisons of registered stories at 1000px in light and dark themes; detailed behavior, pixel, and animation checks are separate.
+- CI runs static comparisons of registered stories at 1000px in light and dark themes; detailed behavior, pixel, and animation checks are separate.
 - The 452 official documentation preview occurrences have 445 connected comparisons and 7 explicit exceptions. Connected demos use the untouched official TSX on the upstream side and the StyleX adaptation on the AriaX side, under the same story ID. Their actual DOM/CSS equivalence is checked by the browser suite; a mapping alone is not a passing result.
 - `upstream/original-exceptions.json` records the exceptions: the raw CVA `button-render` example is outside the resolved `buttonProps` contract, and six MessageScroller demos depend on the Radix/Rhea `MessageAnimated` renderer. These originals remain available for browsing. Missing mappings, unexplained exclusions and stale exceptions fail generation; connected examples must have an active `parity` story in the live index.
 
