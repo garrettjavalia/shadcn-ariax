@@ -13,12 +13,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish:
+  build:
     if: github.ref == 'refs/heads/deploy-github-pages'
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -38,35 +36,12 @@ jobs:
         run: |
           pnpm build:stylex
           node --import tsx scripts/prepare-pages.ts
-      - name: Publish complete source snapshot and Storybook build
-        env:
-          SOURCE_SHA: ${{ github.sha }}
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          # Only generated Storybook files are added to the exact source snapshot.
-          git diff --exit-code
-          git add --force -- dist/stylex
-          tree=$(git write-tree)
-          parents=(-p "$SOURCE_SHA")
-          if git ls-remote --exit-code --heads origin published-github-pages; then
-            git fetch origin published-github-pages
-            previous=$(git rev-parse FETCH_HEAD)
-            if [ "$tree" = "$(git rev-parse "$previous^{tree}")" ]; then
-              exit 0
-            fi
-            if [ "$previous" != "$SOURCE_SHA" ]; then
-              parents=(-p "$previous" -p "$SOURCE_SHA")
-            fi
-          fi
-          commit=$(git commit-tree "$tree" "${parents[@]}" -m "Publish Storybook from $SOURCE_SHA")
-          git push origin "$commit:refs/heads/published-github-pages"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/stylex
 
   deploy:
-    needs: publish
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
