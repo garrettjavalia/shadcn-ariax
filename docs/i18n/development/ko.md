@@ -58,13 +58,13 @@ StyleX Babel 플러그인은 JavaScript의 스타일 참조를 컴파일하고, 
 첫 게시가 성공하면 다음 URL 템플릿을 사용합니다.
 
 ```text
-https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/{name}.json
+https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json
 ```
 
 `{name}`을 `registry`로 바꾼 주소가 카탈로그입니다. 게시에 사용한 소스 리비전에서 공개 주소를 검증합니다.
 
 ```sh
-ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/ pnpm test:install
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/ pnpm test:install
 ```
 
 재현 가능한 검사에는 URL의 `refs/heads/published-registry` 전체 부분을 게시 커밋 SHA로 바꿉니다. `ARIAX_REGISTRY_URL`은 `/`로 끝나는 HTTP(S) 디렉터리 주소여야 합니다. 해당 주소에서 전체 컴포넌트 픽스처를 설치하고 의존성, TypeScript, Tailwind 없는 Vite 프로덕션 빌드를 검사합니다.
@@ -74,7 +74,7 @@ ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax
 ```json
 {
   "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/{name}.json"
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json"
   }
 }
 ```

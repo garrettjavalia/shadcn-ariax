@@ -24,7 +24,7 @@ shadcn의 `components.json`과 import 경로 별칭이 준비된 React·TypeScri
 ### 1. 컴포넌트 추가
 
 ```sh
-pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn_ariax/button
+pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn-ariax/button
 ```
 
 CLI가 GitHub에서 컴포넌트 소스, 공통 CSS와 필요한 의존성을 설치합니다. 설치할 Git 리비전에는 루트 `registry.json`과 참조하는 소스 파일이 포함되어 있어야 합니다. 특정 리비전을 선택하려면 컴포넌트 주소 뒤에 `#<태그 또는 커밋>`을 붙입니다.
@@ -114,8 +114,8 @@ CI 비교는 1000px 뷰포트의 라이트·다크 테마에서 DOM 구조, 텍�
 Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
 
 ```sh
-git clone https://github.com/garrettjavalia/shadcn_ariax.git
-cd shadcn_ariax
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
