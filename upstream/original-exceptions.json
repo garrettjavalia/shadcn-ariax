@@ -1,0 +1,9 @@
+{
+  "message-scroller-demo": "Uses MessageAnimated, which imports Radix/Rhea Message, Bubble and MessageScrollerItem. This crosses the React Aria/Nova implementation boundary; retain it for browsing until an independent matching renderer exists.",
+  "message-scroller-anchoring": "Uses MessageAnimated, which imports Radix/Rhea Message, Bubble and MessageScrollerItem. This crosses the React Aria/Nova implementation boundary; retain it for browsing until an independent matching renderer exists.",
+  "message-scroller-previous-context": "Uses MessageAnimated, which imports Radix/Rhea Message, Bubble and MessageScrollerItem. This crosses the React Aria/Nova implementation boundary; retain it for browsing until an independent matching renderer exists.",
+  "message-scroller-streaming": "Uses MessageAnimated, which imports Radix/Rhea Message, Bubble and MessageScrollerItem. This crosses the React Aria/Nova implementation boundary; retain it for browsing until an independent matching renderer exists.",
+  "message-scroller-animation": "Uses MessageAnimated, which imports Radix/Rhea Message, Bubble and MessageScrollerItem. This crosses the React Aria/Nova implementation boundary; retain it for browsing until an independent matching renderer exists.",
+  "message-scroller-scrollable": "Uses MessageAnimated, which imports Radix/Rhea Message, Bubble and MessageScrollerItem. This crosses the React Aria/Nova implementation boundary; retain it for browsing until an independent matching renderer exists.",
+  "button-render": "Calls raw buttonVariants (CVA before cn), whose conflicting utility precedence is not the buttonProps contract. buttonProps intentionally exposes the resolved Button/LinkButton styles; helper behavior is covered by the dedicated button stories."
+}

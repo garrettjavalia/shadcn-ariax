@@ -6,6 +6,6 @@ const meta={title:'Components/DataTable',id:'components-data-table',tags:['parit
 export default meta;
 type Story=StoryObj<typeof meta>;
 export const Demo:Story={render:()=> <DataTableDemo/>};
-export const Rtl:Story={render:()=> <I18nProvider locale="ar"><div dir="rtl"><DataTableRtl/></div></I18nProvider>};
+export const Rtl:Story={decorators: [Story => <I18nProvider locale="ar"><div dir="rtl"><Story /></div></I18nProvider>], parameters: { originalExample: "data-table-rtl" }, render: () => <DataTableRtl/>};
 
 export const SmallPages:Story={render:()=> <DataTableDemo pageSize={2}/>};

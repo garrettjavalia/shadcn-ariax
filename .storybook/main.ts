@@ -1,3 +1,4 @@
+import { readFileSync, readdirSync } from 'node:fs';
 import type { StorybookConfig } from '@storybook/react-vite';
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
@@ -15,13 +16,17 @@ import { originalAliases } from './original-aliases';
 import { frameworkAliases } from './framework-aliases';
 
 const upstream = process.env.ARIAX_IMPLEMENTATION === 'upstream';
+const linkedSources = upstream ? new Set<string>(JSON.parse(readFileSync(resolve('generated/original-stories/public/manifest.json'), 'utf8')).previews.flatMap((preview: { counterparts: { metaSource: string }[] }) => preview.counterparts.map(match => match.metaSource))) : new Set<string>();
+const sharedStories = readdirSync(resolve('stories'), { recursive: true }).filter((file): file is string => typeof file === 'string' && file.endsWith('.stories.tsx')).map(file => 'stories/' + file).filter(file => !linkedSources.has(file)).map(file => '../' + file);
+
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
-  stories: ['../stories/**/*.stories.tsx', ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
+  stories: [...sharedStories, ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
   addons: ['@storybook/addon-docs'],
   staticDirs: ['../public', { from: '../licenses', to: '/licenses' }, { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }, ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
   async viteFinal(config) {
+    config.base = process.env.ARIAX_STORYBOOK_BASE ?? config.base;
     config.resolve ??= {};
     // Reference namespaces and shared stories must use the same primitive contexts and singleton stores.
     config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts', 'sonner', 'next-themes'])];

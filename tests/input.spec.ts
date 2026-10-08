@@ -41,36 +41,6 @@ for (const theme of ["light", "dark"])
     }
   });
 
-test("Input documentation coverage explicitly tracks pending component compositions", async () => {
-  const { readFile } = await import("node:fs/promises");
-  const doc = await readFile(
-    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/input.mdx",
-    "utf8",
-  );
-  const names = [
-    ...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
-  ].map((m) => m[1]);
-  const covered = ["input-basic"];
-  // These are pending complete official compositions, not aliases to partial examples.
-  const pending = [
-    "input-demo",
-    "input-field",
-    "input-fieldgroup",
-    "input-disabled",
-    "input-invalid",
-    "input-file",
-    "input-inline",
-    "input-grid",
-    "input-required",
-    "input-badge",
-    "input-input-group",
-    "input-button-group",
-    "input-form",
-    "input-rtl",
-  ];
-  expect(names.sort()).toEqual([...covered, ...pending].sort());
-});
-
 test("Input pseudo-element CSS mutations are detected", async ({ page }) => {
   for (const [story, pseudo, property, value] of [
     ["basic", "::placeholder", "color", "rgb(1, 2, 3)"],

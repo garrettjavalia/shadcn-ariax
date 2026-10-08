@@ -38,24 +38,7 @@ for (const theme of ["light", "dark"])
       await context.close();
     }
   });
-test("Textarea documentation coverage explicitly tracks pending Field compositions", async () => {
-  const { readFile } = await import("node:fs/promises");
-  const doc = await readFile(
-    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/textarea.mdx",
-    "utf8",
-  );
-  const names = [
-    ...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
-  ].map((m) => m[1]);
-  const covered = ["textarea-demo", "textarea-button"];
-  const pending = [
-    "textarea-field",
-    "textarea-disabled",
-    "textarea-invalid",
-    "textarea-rtl",
-  ];
-  expect(names.sort()).toEqual([...covered, ...pending].sort());
-});
+
 test("Textarea inline style wins while retaining dynamic StyleX variables", async ({
   page,
 }) => {

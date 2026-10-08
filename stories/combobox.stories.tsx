@@ -17,7 +17,7 @@ import {comboboxCustom,comboboxItemCustom,comboboxPopoverCustom} from '@combobox
 const meta={title:'Components/Combobox',component:Combobox,tags:['parity'],decorators:[Story=><main id="parity-root"><Story/></main>]} satisfies Meta<typeof Combobox>;
 export default meta;type Story=StoryObj<typeof meta>;
 export const Custom:Story={render:()=> <ComboboxWithCustomItems/>};
-export const Demo:Story={render:()=> <ComboboxBasic/>};
+export const Demo:Story={ parameters: { originalExample: "combobox-demo" },render:()=> <ComboboxBasic/>};
 export const Basic:Story={render:()=> <ComboboxBasic/>};
 export const Multiple:Story={render:()=> <ComboboxMultiple/>};
 export const Clear:Story={render:()=> <ComboboxWithClear/>};

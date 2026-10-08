@@ -1,8 +1,8 @@
 # AriaX
 
-shadcn React Aria 컴포넌트를 StyleX로 제공합니다.
+shadcn/ui React Aria 컴포넌트를 StyleX로 제공합니다.
 
-AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
+AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn/ui 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
 
 [English](../../../README.md) · 한국어
 
@@ -15,16 +15,31 @@ AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn 레�
 
 제공하는 컴포넌트, 검증 범위와 남은 작업은 [컴포넌트 지원 현황](../components/ko.md)을 참고하세요.
 
+## 컴포넌트 둘러보기
+
+[공개 AriaX Storybook](https://garrettjavalia.github.io/shadcn-ariax/)에서 예제를 보고 컴포넌트 동작을 직접 체험할 수 있습니다.
+
+AriaX Storybook을 로컬에서 실행해 예제와 컴포넌트 동작을 살펴볼 수 있습니다. Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
+
+```sh
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
+pnpm install --frozen-lockfile
+pnpm storybook
+```
+
+터미널에 표시되는 로컬 주소를 브라우저에서 여세요. 첫 실행은 필요한 업스트림 소스를 다운로드·준비하고 레지스트리를 빌드하므로 시간이 더 걸릴 수 있습니다. 이후에는 준비된 소스를 재사용합니다. 서버는 Ctrl+C로 종료합니다.
+
 ## 설치
 
-shadcn의 `components.json`과 import 경로 별칭이 준비된 React·TypeScript 프로젝트에서 시작합니다.
+shadcn/ui의 `components.json`과 import 경로 별칭이 준비된 React·TypeScript 프로젝트에서 시작합니다.
 
 아래 예시는 Vite 7과 `@vitejs/plugin-react` 5 기준입니다. Next.js, SSR 및 다른 프레임워크 통합은 아직 이 프로젝트에서 검증하지 않았습니다.
 
 ### 1. 컴포넌트 추가
 
 ```sh
-pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn_ariax/button
+pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn-ariax/button
 ```
 
 CLI가 GitHub에서 컴포넌트 소스, 공통 CSS와 필요한 의존성을 설치합니다. 설치할 Git 리비전에는 루트 `registry.json`과 참조하는 소스 파일이 포함되어 있어야 합니다. 특정 리비전을 선택하려면 컴포넌트 주소 뒤에 `#<태그 또는 커밋>`을 붙입니다.
@@ -111,11 +126,11 @@ CI 비교는 1000px 뷰포트의 라이트·다크 테마에서 DOM 구조, 텍�
 
 ## 로컬 개발
 
-Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
+개발하거나 원본 구현과 비교하려면 두 Storybook을 함께 실행합니다. Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
 
 ```sh
-git clone https://github.com/garrettjavalia/shadcn_ariax.git
-cd shadcn_ariax
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
@@ -123,8 +138,7 @@ pnpm dev
 
 첫 실행은 고정된 업스트림 소스를 다운로드하고 준비합니다. 생성된 레퍼런스는 `generated/` 아래에서 자동으로 관리됩니다.
 
-- [원본 Storybook](http://127.0.0.1:4100)
-- [AriaX Storybook](http://127.0.0.1:4200)
+실행이 완료되면 터미널에 표시되는 로컬 주소를 열어 원본과 AriaX Storybook을 확인하세요.
 
 프로젝트 구조, 수정 방법과 저장소 검사는 [개발 가이드](../development/ko.md)를 참고하세요.
 

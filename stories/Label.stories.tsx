@@ -1,3 +1,4 @@
+import { LabelRtl as OfficialRtl } from './official-examples/label-rtl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LabelContext, TextField, Input as AriaInput } from 'react-aria-components';
 import { labelCustomized } from '@customizations';
@@ -8,8 +9,8 @@ const meta = { title: 'Components/Label', component: Label, tags: ['parity'], de
 export default meta;
 type Story = StoryObj<typeof meta>;
 function Example({ rtl = false }: { rtl?: boolean }) { return <div style={{ display: 'flex', gap: '0.5rem' }} dir={rtl ? 'rtl' : undefined}><Checkbox id={rtl ? 'terms-rtl' : 'terms'} /><Label htmlFor={rtl ? 'terms-rtl' : 'terms'}>{rtl ? 'قبول الشروط والأحكام' : 'Accept terms and conditions'}</Label></div>; }
-export const Demo: Story = { render: () => <Example /> };
-export const Rtl: Story = { render: () => <Example rtl /> };
+export const Demo: Story = { parameters: { originalExample: "label-demo" }, render: () => <Example /> };
+export const Rtl: Story = { parameters: { originalExample: 'label-rtl' }, render: () => <OfficialRtl /> };
 export const Usage: Story = { render: () => <><Label htmlFor="email">Your email address</Label><Input id="email" /></> };
 export const Disabled: Story = { render: () => <div style={{ display:'grid', gap:'1rem' }}><div className="group" data-disabled="true"><Label>Disabled group</Label></div><div><input className="peer" disabled /><Label>Disabled peer</Label></div><div><span className="peer" data-disabled="" /><Label>Data disabled peer</Label></div><div className="group" data-disabled="false"><Label>Enabled group</Label></div></div> };
 export const Context: Story = { render: () => <><TextField><Label>Context field</Label><AriaInput /></TextField><LabelContext.Provider value={{ id:'context-label', htmlFor:'context-input', style:{color:'red'} }}><Label htmlFor="explicit-input">Explicit clears context</Label><Label slot="label" htmlFor="slotted-input">Slot retains context</Label></LabelContext.Provider><input id="explicit-input" /><input id="slotted-input" /></> };

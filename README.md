@@ -1,8 +1,8 @@
 # AriaX
 
-shadcn React Aria components styled with StyleX.
+shadcn/ui React Aria components styled with StyleX.
 
-AriaX brings the Nova style and Neutral light/dark themes to a shadcn registry. Install component source into your project and customize it with StyleX.
+AriaX brings the Nova style and Neutral light/dark themes to a shadcn/ui registry. Install component source into your project and customize it with StyleX.
 
 English · [한국어](docs/i18n/readme/ko.md)
 
@@ -15,16 +15,31 @@ English · [한국어](docs/i18n/readme/ko.md)
 
 See [Component status](docs/i18n/components/en.md) for available components, verification coverage, and remaining work.
 
+## Try the components
+
+Browse examples and try component interactions in the [live AriaX Storybook](https://garrettjavalia.github.io/shadcn-ariax/).
+
+Run the AriaX Storybook locally to browse examples and try component interactions. Requires Node.js 22.19+ and pnpm 10.15.1.
+
+```sh
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
+pnpm install --frozen-lockfile
+pnpm storybook
+```
+
+Open the local URL printed in the terminal. The first run downloads and prepares the required upstream sources and builds the registry, so it may take longer. Later runs reuse the prepared sources. Stop the server with Ctrl+C.
+
 ## Installation
 
-Start with a React and TypeScript project with shadcn's `components.json` and import aliases configured.
+Start with a React and TypeScript project with shadcn/ui’s `components.json` and import aliases configured.
 
 The example below targets Vite 7 with `@vitejs/plugin-react` 5. Next.js, SSR, and other framework integrations have not yet been verified by this project.
 
 ### 1. Add a component
 
 ```sh
-pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn_ariax/button
+pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn-ariax/button
 ```
 
 The CLI installs the component source, shared CSS, and required dependencies from GitHub. The selected Git revision must contain the root `registry.json` and its referenced source files. Append `#<tag-or-commit>` to the component address to select a revision.
@@ -111,11 +126,11 @@ The full local suite also checks interactions, geometry, scrolling, focus, pixel
 
 ## Local development
 
-Requires Node.js 22.19+ and pnpm 10.15.1.
+For development and comparison with the upstream implementation, start both Storybooks. Requires Node.js 22.19+ and pnpm 10.15.1.
 
 ```sh
-git clone https://github.com/garrettjavalia/shadcn_ariax.git
-cd shadcn_ariax
+git clone https://github.com/garrettjavalia/shadcn-ariax.git
+cd shadcn-ariax
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm dev
@@ -123,8 +138,7 @@ pnpm dev
 
 The first run downloads and prepares the pinned upstream sources. Generated references are managed automatically under `generated/`.
 
-- [Upstream Storybook](http://127.0.0.1:4100)
-- [AriaX Storybook](http://127.0.0.1:4200)
+After startup, open the local URLs printed in the terminal to view the Upstream and AriaX Storybooks.
 
 See the [Development guide](docs/i18n/development/en.md) for project structure, modification guidelines, and repository checks.
 

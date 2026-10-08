@@ -29,7 +29,7 @@ const items = await Promise.all([...componentNames.map(name => ({ name, type: 'r
   };
 }));
 assert.equal(new Set(items.map(item => item.name)).size, items.length, 'Duplicate component or recipe registry name');
-const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: 'https://github.com/garrettjavalia/shadcn_ariax', items });
+const catalog = registrySchema.parse({ $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'ariax', homepage: 'https://github.com/garrettjavalia/shadcn-ariax', items });
 const catalogJSON = JSON.stringify(catalog, null, 2) + '\n';
 if (process.argv.includes('--check')) {
   assert.equal(await readFile('registry.json', 'utf8'), catalogJSON, 'registry.json is stale. Run pnpm registry:build and commit registry.json.');

@@ -10,7 +10,7 @@ import{ChartBarDemoLegend}from'./chart-examples/chart-example-legend';
 import{ChartTooltipDemo}from'./chart-examples/chart-tooltip';
 import{ChartRtl}from'./chart-examples/chart-rtl';
 const meta={title:'Components/Chart',tags:['parity','viewport-390'],decorators:[Story=><ChartAnimationControl><main id="parity-root"><Story/></main></ChartAnimationControl>]}satisfies Meta;export default meta;type Story=StoryObj<typeof meta>;
-export const Demo:Story={render:()=> <ChartDemo/>};export const Example:Story={render:()=> <ChartExample/>};export const Grid:Story={render:()=> <ChartBarDemoGrid/>};export const Axis:Story={render:()=> <ChartBarDemoAxis/>};export const Tooltip:Story={render:()=> <ChartBarDemoTooltip/>};export const Legend:Story={render:()=> <ChartBarDemoLegend/>};export const TooltipAnatomy:Story={render:()=> <ChartTooltipDemo/>};export const Rtl:Story={render:()=> <I18nProvider locale="ar"><div dir="rtl"><ChartRtl/></div></I18nProvider>};
+export const Demo:Story={render:()=> <ChartDemo/>};export const Example:Story={render:()=> <ChartExample/>};export const Grid:Story={render:()=> <ChartBarDemoGrid/>};export const Axis:Story={render:()=> <ChartBarDemoAxis/>};export const Tooltip:Story={render:()=> <ChartBarDemoTooltip/>};export const Legend:Story={render:()=> <ChartBarDemoLegend/>};export const TooltipAnatomy:Story={render:()=> <ChartTooltipDemo/>};export const Rtl:Story={decorators: [Story => <I18nProvider locale="ar"><div dir="rtl"><Story /></div></I18nProvider>], parameters: { originalExample: "chart-rtl" }, render: () => <ChartRtl/>};
 import{ChartApi}from'./chart-api';
 export const Api:Story={render:()=> <ChartApi/>};
 import{ChartNativeOverrides}from'./chart-api';

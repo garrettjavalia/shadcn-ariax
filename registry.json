@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "ariax",
-  "homepage": "https://github.com/garrettjavalia/shadcn_ariax",
+  "homepage": "https://github.com/garrettjavalia/shadcn-ariax",
   "items": [
     {
       "name": "accordion",

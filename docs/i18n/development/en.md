@@ -58,13 +58,13 @@ The `Publish registry to GitHub Raw` workflow runs on pushes to `deploy-registry
 After the first successful publication, the URL template is:
 
 ```text
-https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/{name}.json
+https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json
 ```
 
 The catalog is at the same URL with `registry` substituted for `{name}`. Verify the published endpoint against the matching source revision:
 
 ```sh
-ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/ pnpm test:install
+ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/ pnpm test:install
 ```
 
 For reproducible checks, replace the entire `refs/heads/published-registry` segment with its publication commit SHA. `ARIAX_REGISTRY_URL` must be an HTTP(S) directory URL ending in `/`. This installs all component fixtures from the endpoint and checks dependencies, TypeScript, and a production Vite build without Tailwind.
@@ -74,10 +74,27 @@ Submit `@ariax`, the repository homepage, this URL template, a description, and 
 ```json
 {
   "registries": {
-    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn_ariax/refs/heads/published-registry/registry/{name}.json"
+    "@ariax": "https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax/refs/heads/published-registry/registry/{name}.json"
   }
 }
 ```
+
+## Publishing Storybook to GitHub Pages
+
+The `Publish Storybook to GitHub Pages` workflow runs on pushes to `deploy-github-pages`, or manually from that branch. Keep this branch as a complete source branch: merge release revisions from `main` into it. The workflow builds the AriaX Storybook, uploads the contents of `dist/stylex/` as a Pages artifact, and deploys that artifact. Build output is not committed or pushed to another branch.
+
+Before the first run, select **Settings → Pages → Build and deployment → Source → GitHub Actions**. Allow `deploy-github-pages` in the `github-pages` environment's deployment branch rules. No personal access token is needed. The workflow obtains the site's base path from GitHub Pages and adjusts literal example image/font URLs for that path.
+
+The contents of `dist/stylex/` become the site root, so `index.html` is served at the site URL without a `/dist/stylex/` suffix. Only the build output is published on the website. The public site contains AriaX stories with light/dark controls; the upstream comparison Storybook remains local. Deployment success is not a claim that the full parity suite passed.
+
+To check a project-site build locally:
+
+```sh
+ARIAX_STORYBOOK_BASE=/shadcn-ariax/ pnpm build:stylex
+ARIAX_STORYBOOK_BASE=/shadcn-ariax/ node --import tsx scripts/prepare-pages.ts
+```
+
+Serve `dist/stylex/` under `/shadcn-ariax/` to verify navigation, images, and fonts. Rebuild without `ARIAX_STORYBOOK_BASE` before running the normal root-path parity tests.
 
 ## Upstream preparation
 
@@ -93,7 +110,9 @@ Preparation reads upstream `*/_registry.ts`, applies the official `createStyleMa
 
 `generated/reference/aria-nova/` holds the primary installed UI; `base-nova/` and `radix-rhea/` supply example helpers. `@reference/*` resolves to the primary installation. CLI-owned `cli.css` is separate from the comparison harness's `tailwind.css`.
 
-`originals:generate` finds official TSX examples through MDX `ComponentPreview` entries and creates stories without changing their JSX or classes. `/original-stories/manifest.json` records matches; unmatched examples remain visible. `reference/` supplies React adapters for Next Image/Link and example fonts.
+`originals:generate` reads `ComponentPreview` entries in the pinned MDX and imports each official TSX without rewriting JSX or classes. It pairs those originals with StyleX fixtures in `stories/`, using direct fixture imports or an explicit `parameters.originalExample` name. The generated upstream module preserves the fixture's story ID, arguments and decorators and replaces only its demo render with the official component. Storybook loads this module instead of the handwritten upstream registration, so connected demos are not duplicated. `generated/original-stories/public/manifest.json` records the pairs; unconnected examples require a reason in `upstream/original-exceptions.json` or generation fails. Exceptions remain browsable as original documentation stories.
+
+`pnpm dev` starts two separate Storybook/Vite processes. `ARIAX_IMPLEMENTATION=upstream` resolves component aliases to `generated/reference/aria-nova` and loads the official Tailwind CSS; `stylex` resolves them to `src/ariax` and extracts StyleX CSS. Both use the same story IDs and harness. A StyleX fixture is still needed when the official demo customizes components or layout with Tailwind classes; generating the Storybook wrapper does not translate those styles. Next Image/Link and example fonts use the React adapters in `reference/`.
 
 Tests, typechecks, and Storybook commands prepare references automatically. `scripts/upstream/ensure.ts` handles downloads, `reference.ts` builds installations, and `prepare.ts` manages the installation cache. Completion records, source settings, and required files determine reuse; valid caches work offline. Shared locks and temporary directories protect concurrent preparation and preserve the old cache on failure. Missing installation files are rebuilt; suspected manual damage requires `pnpm upstream:sync`. Normal checks do not update the pinned source revision.
 
@@ -116,6 +135,8 @@ Start with an individual test or component comparison:
 pnpm test tests/button.spec.ts
 PARITY_COMPONENT=components-button-- pnpm test:ci:light
 ```
+
+`PARITY_COMPONENT` accepts comma-separated story ID prefixes to check several affected groups together.
 
 `test:ci:light` and `test:ci:dark` select one theme; `test:ci` runs both. CI comparisons cover DOM, text, attributes, computed CSS, and pseudo-elements at 1000px. Standalone colors allow OKLab ΔE ≤ 0.002; alpha and other values remain exact. Interaction, geometry, pixels, focus, scrolling, and animation checks belong to the broader suite.
 
