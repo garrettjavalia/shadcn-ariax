@@ -4,7 +4,7 @@ import{defaultPieProps}from'recharts/es6/polar/Pie';
 import{defaultLineProps}from'recharts/es6/cartesian/Line';
 import{defaultAreaProps}from'recharts/es6/cartesian/Area';
 import{defaultBarProps}from'recharts/es6/cartesian/Bar';
-import{useEffect,type ReactNode}from'react';
+import{useLayoutEffect,type ReactNode}from'react';
 import{AnimationManagerContext}from'recharts/es6/animation/useAnimationManager';
 import{createAnimateManager}from'recharts/es6/animation/AnimationManager';
 import{createDefaultAnimationManager}from'recharts/es6/animation/createDefaultAnimationManager';
@@ -17,8 +17,6 @@ function createClock(){let time=0;let sequence=0;const queue=new Map<number,{tim
 const controlled=typeof window!=='undefined'&&window.__enableChartClock?createClock():undefined;
 if(controlled)window.__chartClock=controlled.clock;
 let pending=0;
-let resolveReady:()=>void=()=>{};
-if(typeof window!=='undefined'&&!controlled)window.parityReady=new Promise<void>(resolve=>{resolveReady=resolve;});
 const factory=()=>{
  const base=controlled?.controller??createDefaultAnimationManager().getTimeoutController();
  let queued=0;
@@ -41,8 +39,11 @@ const factory=()=>{
  return manager;
 };
 export function ChartAnimationControl({children}:{children:ReactNode}){
- useEffect(()=>{
+ useLayoutEffect(()=>{
   if(controlled)return;
+  let resolveReady!:()=>void;
+  const ready=new Promise<void>(resolve=>{resolveReady=resolve;});
+  window.parityReady=ready;
   let cancelled=false;
   const observed=new Set<Element>();
   let resizeRevision=0;
@@ -66,7 +67,7 @@ export function ChartAnimationControl({children}:{children:ReactNode}){
     if(stable>=2){resolveReady();break;}
    }
   })();
-  return()=>{cancelled=true;observer.disconnect();};
+  return()=>{cancelled=true;observer.disconnect();resolveReady();if(window.parityReady===ready)delete window.parityReady;};
  },[]);
  return <AnimationManagerContext.Provider value={factory}>{children}</AnimationManagerContext.Provider>;}
 // Older shared fixtures spread this binding; readiness now observes the SDK itself.

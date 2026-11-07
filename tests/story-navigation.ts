@@ -28,7 +28,25 @@ export async function navigateStory(
       if (document.activeElement instanceof HTMLElement)
         document.activeElement.blur();
       await new Promise<void>((resolve, reject) => {
+        // Storybook 10.6 waits on scroll-driven Animation.finished until its
+        // five-second timeout. Only its completing phase needs a time-based
+        // inventory. Keep effects untouched and restore the native inventory
+        // before afterEach, storyFinished and the strict comparator.
+        const original = Object.getOwnPropertyDescriptor(
+          document,
+          "getAnimations",
+        );
+        const getAnimations = document.getAnimations;
+        let filtered = false;
+        const restore = () => {
+          if (!filtered) return;
+          if (original)
+            Object.defineProperty(document, "getAnimations", original);
+          else delete (document as Partial<Document>).getAnimations;
+          filtered = false;
+        };
         const cleanup = () => {
+          restore();
           clearTimeout(timeout);
           for (const [event, listener] of Object.entries(listeners))
             channel.off(event, listener);
@@ -38,6 +56,25 @@ export async function navigateStory(
           reject(new Error(JSON.stringify(payload)));
         };
         const listeners: Record<string, (payload: unknown) => void> = {
+          storyRenderPhaseChanged: (payload) => {
+            const phase = payload as { storyId?: string; newPhase?: string };
+            if (phase.storyId !== storyId) return;
+            if (phase.newPhase === "completing") {
+              Object.defineProperty(document, "getAnimations", {
+                configurable: true,
+                value: function () {
+                  return getAnimations
+                    .call(document)
+                    .filter(
+                      (animation) =>
+                        !animation.timeline ||
+                        animation.timeline instanceof DocumentTimeline,
+                    );
+                },
+              });
+              filtered = true;
+            } else restore();
+          },
           storyFinished: (payload) => {
             const result = payload as { storyId?: string; status?: string };
             if (result.storyId !== storyId) return;

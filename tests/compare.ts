@@ -1,3 +1,4 @@
+import { waitForBrowserWork } from "./browser-wait";
 import { expect, type Page, type TestInfo } from "@playwright/test";
 import { PNG } from "pngjs";
 import { filterColorDifferences } from "./color-differences";
@@ -370,41 +371,60 @@ export function differences(
 }
 
 export async function settle(page: Page) {
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-    const frames = () =>
-      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-    // Let React effects and focus restoration start their transitions before sampling.
-    await frames();
-    let quiet = false;
-    for (;;) {
-      // Scroll/view timelines reflect the current scroll position, not elapsed
-      // wall time. Preserve their effects for the snapshot instead of waiting
-      // for a scroll that the test has not requested or changing their phase.
-      const animations = document
-        .getAnimations()
-        .filter((animation) => animation.timeline instanceof DocumentTimeline);
-      // Infinite spinners are sampled at a fixed phase, not disabled.
-      for (const animation of animations)
-        if (animation.effect?.getComputedTiming().iterations === Infinity) {
-          animation.pause();
-          animation.currentTime = 250;
+  await waitForBrowserWork(
+    page,
+    () => "fonts and finite animation completion",
+    () =>
+      page.evaluate(async () => {
+        await document.fonts.ready;
+        const frames = () =>
+          new Promise((r) =>
+            requestAnimationFrame(() => requestAnimationFrame(r)),
+          );
+        // Let React effects and focus restoration start their transitions before sampling.
+        await frames();
+        let quiet = false;
+        for (;;) {
+          // Scroll/view timelines reflect the current scroll position, not elapsed
+          // wall time. Preserve their effects for the snapshot instead of waiting
+          // for a scroll that the test has not requested or changing their phase.
+          const animations = document
+            .getAnimations()
+            .filter(
+              (animation) => animation.timeline instanceof DocumentTimeline,
+            );
+          // Infinite spinners are sampled at a fixed phase, not disabled.
+          for (const animation of animations)
+            if (animation.effect?.getComputedTiming().iterations === Infinity) {
+              animation.pause();
+              animation.currentTime = 250;
+            }
+          const finite = animations.filter(
+            (a) =>
+              a.effect?.getComputedTiming().iterations !== Infinity &&
+              (a.playState === "running" || a.pending),
+          );
+          // Complete time-based effects through the native API; preserve
+          // callbacks and then observe any follow-up transitions. Frame tests
+          // bypass settle entirely and scroll timelines remain untouched.
+          for (const animation of finite) {
+            if (
+              animation.playbackRate > 0 &&
+              Number.isFinite(animation.effect?.getComputedTiming().endTime)
+            )
+              animation.finish();
+          }
+          if (!finite.length && quiet) break;
+          // Completion handlers can restore focus or mount content on a later frame,
+          // starting another transition after the first empty animation inventory.
+          quiet = !finite.length;
+          // Chromium may defer finished-promise delivery in content-visibility:
+          // hidden subtrees. Observe actual play states across frames instead;
+          // this also sees transitions started by React effects during completion.
+          await frames();
         }
-      const finite = animations.filter(
-        (a) =>
-          a.effect?.getComputedTiming().iterations !== Infinity &&
-          (a.playState === "running" || a.pending),
-      );
-      if (!finite.length && quiet) break;
-      // Completion handlers can restore focus or mount content on a later frame,
-      // starting another transition after the first empty animation inventory.
-      quiet = !finite.length;
-      // Chromium may defer finished-promise delivery in content-visibility:
-      // hidden subtrees. Observe actual play states across frames instead;
-      // this also sees transitions started by React effects during completion.
-      await frames();
-    }
-  });
+      }),
+  );
 }
 
 export function pixelsMatch(a: PNG, b: PNG): boolean {

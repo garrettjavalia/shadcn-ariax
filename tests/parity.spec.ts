@@ -1,5 +1,6 @@
+import { BrowserWaitTimeout } from "./browser-wait";
 import { deterministicStoryContextOptions } from "./story-pair";
-import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
+import { controlAvatarAssets } from "./avatar-assets";
 import { upstreamPort, stylexPort, upstreamURL, stylexURL } from "./servers";
 import { test, expect } from "@playwright/test";
 import { readdirSync } from "node:fs";
@@ -128,6 +129,13 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                     [b, stylexPort],
                   ] as const
                 ).map(async ([page, port]) => {
+                  const phases: Record<string, number> = {};
+                  let phaseStarted = performance.now();
+                  const phase = (name: string) => {
+                    const now = performance.now();
+                    phases[name] = now - phaseStarted;
+                    phaseStarted = now;
+                  };
                   const storyId =
                     port === upstreamPort ? (originals.get(id) ?? id) : id;
                   await navigateStory(
@@ -135,13 +143,22 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                     `http://127.0.0.1:${port}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`,
                     true,
                   );
+                  phase("navigate");
                   await expect(page.locator("#parity-root")).toBeVisible();
-                  await waitAvatarAssets(page);
+                  phase("root");
                   await waitForStoryReadiness(page);
+                  phase("readiness");
                   await expect(page.locator("html")).toHaveClass(
                     theme === "dark" ? /\bdark\b/ : /^(?!.*\bdark\b).*$/,
                   );
+                  phase("theme");
                   await page.mouse.move(0, 0);
+                  phase("pointer");
+                  if (process.env.PARITY_PROFILE === "1")
+                    info.annotations.push({
+                      type: "parity-navigation-phases",
+                      description: JSON.stringify({ id, port, phases }),
+                    });
                 }),
               );
               if (process.env.PARITY_PROFILE === "1")
@@ -160,6 +177,7 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                   `${id}-rest`,
                 );
               } catch (error) {
+                if (error instanceof BrowserWaitTimeout) throw error;
                 expect.soft(false, String(error)).toBe(true);
               }
             });
