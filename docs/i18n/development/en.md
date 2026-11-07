@@ -89,9 +89,9 @@ pnpm test tests/message-scroller.spec.ts --repeat-each=5
 
 ### Browser readiness and timeouts
 
-Detailed E2E reuses Preview between different stories in the same environment. Repeating a story or changing theme, args or address starts a new document. Transition deadlines are independent of the page clock; failures restore listeners and animation inventory. Context isolation and detailed comparison coverage remain unchanged.
+Detailed E2E reuses Preview between different stories in the same environment within one test. Repeating a story or changing theme, args or address starts a new document. Transition deadlines are independent of the page clock; failures restore listeners and animation inventory. Each test uses an isolated context.
 
-Budgets live in [tests/timeouts.ts](../../../tests/timeouts.ts): ordinary tests 45s; assertions, actions and browser readiness 5s; document navigation 15s; Preview transitions 10s; common batches 90s; spacing batches 60s; official preview groups 45–120s. Streaming completion assertions retain 20s and server startup retains 120s. Shorter deadlines do not guarantee faster passing tests.
+Budgets live in [tests/timeouts.ts](../../../tests/timeouts.ts): ordinary tests 45s; assertions, actions and browser readiness 5s; document navigation 15s; Preview transitions 10s; common batches 90s; spacing batches 60s; official preview groups 45–120s. Streaming completion assertions use 20s and server startup uses 120s.
 
 ## Connect stories to official examples
 
