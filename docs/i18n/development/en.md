@@ -71,12 +71,14 @@ The first three commands check types, formatting, and the installation catalog. 
 | Additional check | Command |
 | --- | --- |
 | Real CLI installation and a build of the app using the installed components | `pnpm test:install` |
+| Installation limited to changed items | `ARIAX_INSTALL_COMPONENTS=trace,code-block pnpm test:install` |
 | StyleX CSS extraction | `pnpm test:stylex` |
 | Original source preparation and example generation | `pnpm test:upstream` and `pnpm upstream:check` |
 | Both Storybook builds | `pnpm build` |
 | Browser test report | `pnpm test:report` |
 
 PR CI checks types, builds, and static DOM/CSS comparisons with the originals. Run the relevant browser tests to check interactions, pixels, and animations too. Normally, test the parts you changed. Use `pnpm test:full` only when full verification is needed; it also includes installation and builds and takes substantially longer.
+
 
 ## Connect stories to official examples
 

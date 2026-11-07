@@ -111,6 +111,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -234,6 +239,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -380,6 +390,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -503,6 +518,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -666,6 +686,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -789,6 +814,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -935,6 +965,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -1058,6 +1093,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -1215,6 +1255,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -1338,6 +1383,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -1489,6 +1539,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -1612,6 +1667,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -1758,6 +1818,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -1881,6 +1946,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -2029,6 +2099,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -2152,6 +2227,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -2298,6 +2378,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -2421,6 +2506,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -2573,6 +2663,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -2696,6 +2791,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -2853,6 +2953,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -2976,6 +3081,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -3154,6 +3264,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -3277,6 +3392,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -3428,6 +3548,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -3551,6 +3676,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -3710,6 +3840,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -3833,6 +3968,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -3986,6 +4126,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -4109,6 +4254,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -4256,6 +4406,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -4379,6 +4534,318 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
+        },
+        {
+          "path": "src/ariax/styles/typography.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/typography.css"
+        },
+        {
+          "path": "licenses/STYLEX-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/setup/STYLEX-LICENSE"
+        },
+        {
+          "path": "licenses/SHADCN-LICENSE.md",
+          "type": "registry:file",
+          "target": "@ui/ariax/SHADCN-LICENSE.md"
+        },
+        {
+          "path": "licenses/TW-ANIMATE-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/TW-ANIMATE-LICENSE"
+        },
+        {
+          "path": "licenses/TAILWIND-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/TAILWIND-LICENSE"
+        }
+      ],
+      "meta": {
+        "base": "aria",
+        "style": "nova",
+        "styling": "stylex",
+        "theme": "neutral",
+        "modes": [
+          "light",
+          "dark"
+        ]
+      },
+      "docs": "Configure the official StyleX Babel and PostCSS plugins as described in the README, then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.",
+      "type": "registry:ui"
+    },
+    {
+      "name": "code-block",
+      "title": "AriaX Code-block",
+      "description": "React Aria component: code-block, Nova style, Neutral light/dark tokens.",
+      "dependencies": [
+        "@stylexjs/stylex@0.19.1",
+        "lucide-react@1.52.0",
+        "react-aria-components@1.21.1",
+        "react@19.3.0",
+        "shiki@4.6.0"
+      ],
+      "devDependencies": [
+        "@babel/core@7.29.7",
+        "@stylexjs/babel-plugin@0.19.1",
+        "@stylexjs/postcss-plugin@0.19.1",
+        "postcss@8.5.29"
+      ],
+      "files": [
+        {
+          "path": "src/ariax/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button.tsx"
+        },
+        {
+          "path": "src/ariax/ui/code-block-highlight.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/code-block-highlight.internal.ts"
+        },
+        {
+          "path": "src/ariax/ui/code-block-highlighter.internal.tsx",
+          "type": "registry:ui",
+          "target": "@ui/code-block-highlighter.internal.tsx"
+        },
+        {
+          "path": "src/ariax/ui/code-block.tsx",
+          "type": "registry:ui",
+          "target": "@ui/code-block.tsx"
+        },
+        {
+          "path": "src/ariax/ui/render-styles.internal.tsx",
+          "type": "registry:ui",
+          "target": "@ui/render-styles.internal.tsx"
+        },
+        {
+          "path": "src/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
+        },
+        {
+          "path": "LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/LICENSE"
+        },
+        {
+          "path": "src/ariax/ui/animations.stylex.ts",
+          "type": "registry:file",
+          "target": "@ui/animations.stylex.ts"
+        },
+        {
+          "path": "src/ariax/styles/accordion-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/accordion-children.css"
+        },
+        {
+          "path": "src/ariax/styles/alert-dialog.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/alert-dialog.css"
+        },
+        {
+          "path": "src/ariax/styles/alert.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/alert.css"
+        },
+        {
+          "path": "src/ariax/styles/animations-properties.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/animations-properties.css"
+        },
+        {
+          "path": "src/ariax/styles/attachment.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/attachment.css"
+        },
+        {
+          "path": "src/ariax/styles/avatar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/avatar.css"
+        },
+        {
+          "path": "src/ariax/styles/badge.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/badge.css"
+        },
+        {
+          "path": "src/ariax/styles/base.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/base.css"
+        },
+        {
+          "path": "src/ariax/styles/breadcrumb.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/breadcrumb.css"
+        },
+        {
+          "path": "src/ariax/styles/bubble.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/bubble.css"
+        },
+        {
+          "path": "src/ariax/styles/button-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/button-children.css"
+        },
+        {
+          "path": "src/ariax/styles/button-group.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/button-group.css"
+        },
+        {
+          "path": "src/ariax/styles/calendar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/calendar.css"
+        },
+        {
+          "path": "src/ariax/styles/card.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/card.css"
+        },
+        {
+          "path": "src/ariax/styles/chart.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/chart.css"
+        },
+        {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
+          "path": "src/ariax/styles/combobox.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/combobox.css"
+        },
+        {
+          "path": "src/ariax/styles/command.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/command.css"
+        },
+        {
+          "path": "src/ariax/styles/context-menu.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/context-menu.css"
+        },
+        {
+          "path": "src/ariax/styles/dialog.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/dialog.css"
+        },
+        {
+          "path": "src/ariax/styles/drawer.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/drawer.css"
+        },
+        {
+          "path": "src/ariax/styles/dropdown-menu.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/dropdown-menu.css"
+        },
+        {
+          "path": "src/ariax/styles/empty.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/empty.css"
+        },
+        {
+          "path": "src/ariax/styles/entry.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/entry.css"
+        },
+        {
+          "path": "src/ariax/styles/field-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/field-children.css"
+        },
+        {
+          "path": "src/ariax/styles/input-group-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/input-group-children.css"
+        },
+        {
+          "path": "src/ariax/styles/input-otp.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/input-otp.css"
+        },
+        {
+          "path": "src/ariax/styles/item.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/item.css"
+        },
+        {
+          "path": "src/ariax/styles/kbd-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/kbd-children.css"
+        },
+        {
+          "path": "src/ariax/styles/marker.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/marker.css"
+        },
+        {
+          "path": "src/ariax/styles/message-scroller.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/message-scroller.css"
+        },
+        {
+          "path": "src/ariax/styles/message.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/message.css"
+        },
+        {
+          "path": "src/ariax/styles/reset.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/reset.css"
+        },
+        {
+          "path": "src/ariax/styles/resizable.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/resizable.css"
+        },
+        {
+          "path": "src/ariax/styles/select.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/select.css"
+        },
+        {
+          "path": "src/ariax/styles/sidebar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/sidebar.css"
+        },
+        {
+          "path": "src/ariax/styles/table.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/table.css"
+        },
+        {
+          "path": "src/ariax/styles/tabs-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/tabs-children.css"
+        },
+        {
+          "path": "src/ariax/styles/theme.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/theme.css"
+        },
+        {
+          "path": "src/ariax/styles/toggle-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/toggle-children.css"
+        },
+        {
+          "path": "src/ariax/styles/tooltip.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -4525,6 +4992,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -4648,6 +5120,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -4821,6 +5298,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -4944,6 +5426,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -5122,6 +5609,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -5245,6 +5737,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -5398,6 +5895,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -5521,6 +6023,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -5679,6 +6186,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -5802,6 +6314,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -5949,6 +6466,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -6072,6 +6594,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -6229,6 +6756,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -6352,6 +6884,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -6505,6 +7042,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -6628,6 +7170,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -6774,6 +7321,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -6897,6 +7449,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -7064,6 +7621,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -7187,6 +7749,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -7334,6 +7901,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -7457,6 +8029,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -7604,6 +8181,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -7727,6 +8309,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -7894,6 +8481,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -8017,6 +8609,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -8165,6 +8762,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -8288,6 +8890,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -8440,6 +9047,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -8563,6 +9175,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -8710,6 +9327,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -8833,6 +9455,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -8985,6 +9612,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -9108,6 +9740,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -9254,6 +9891,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -9377,6 +10019,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -9523,6 +10170,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -9646,6 +10298,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -9805,6 +10462,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -9928,6 +10590,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -10075,6 +10742,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -10198,6 +10870,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -10356,6 +11033,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -10479,6 +11161,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -10626,6 +11313,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -10749,6 +11441,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -10896,6 +11593,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -11019,6 +11721,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -11183,6 +11890,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -11306,6 +12018,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -11452,6 +12169,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -11575,6 +12297,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -11721,6 +12448,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -11844,6 +12576,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -11990,6 +12727,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -12113,6 +12855,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -12286,6 +13033,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -12409,6 +13161,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -12556,6 +13313,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -12679,6 +13441,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -12837,6 +13604,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -12960,6 +13732,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -13148,6 +13925,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -13271,6 +14053,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -13417,6 +14204,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -13540,6 +14332,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -13686,6 +14483,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -13809,6 +14611,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -13958,6 +14765,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -14081,6 +14893,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -14228,6 +15045,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -14351,6 +15173,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -14497,6 +15324,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -14620,6 +15452,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -14767,6 +15604,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -14890,6 +15732,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -15037,6 +15884,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -15160,6 +16012,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -15307,6 +16164,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -15430,6 +16292,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -15576,6 +16443,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -15699,6 +16571,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -15851,6 +16728,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -15974,6 +16856,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -16121,6 +17008,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -16244,6 +17136,302 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
+        },
+        {
+          "path": "src/ariax/styles/typography.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/typography.css"
+        },
+        {
+          "path": "licenses/STYLEX-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/setup/STYLEX-LICENSE"
+        },
+        {
+          "path": "licenses/SHADCN-LICENSE.md",
+          "type": "registry:file",
+          "target": "@ui/ariax/SHADCN-LICENSE.md"
+        },
+        {
+          "path": "licenses/TW-ANIMATE-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/TW-ANIMATE-LICENSE"
+        },
+        {
+          "path": "licenses/TAILWIND-LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/TAILWIND-LICENSE"
+        }
+      ],
+      "meta": {
+        "base": "aria",
+        "style": "nova",
+        "styling": "stylex",
+        "theme": "neutral",
+        "modes": [
+          "light",
+          "dark"
+        ]
+      },
+      "docs": "Configure the official StyleX Babel and PostCSS plugins as described in the README, then import your ui/ariax/styles/entry.css once. Set .dark on <html> for dark mode. No Tailwind dependency is needed.",
+      "type": "registry:ui"
+    },
+    {
+      "name": "trace",
+      "title": "AriaX Trace",
+      "description": "React Aria component: trace, Nova style, Neutral light/dark tokens.",
+      "dependencies": [
+        "@stylexjs/stylex@0.19.1",
+        "lucide-react@1.52.0",
+        "react-aria-components@1.21.1",
+        "react@19.3.0"
+      ],
+      "devDependencies": [
+        "@babel/core@7.29.7",
+        "@stylexjs/babel-plugin@0.19.1",
+        "@stylexjs/postcss-plugin@0.19.1",
+        "postcss@8.5.29"
+      ],
+      "files": [
+        {
+          "path": "src/ariax/ui/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "@ui/collapsible.tsx"
+        },
+        {
+          "path": "src/ariax/ui/style-props.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/style-props.internal.ts"
+        },
+        {
+          "path": "src/ariax/ui/trace.tsx",
+          "type": "registry:ui",
+          "target": "@ui/trace.tsx"
+        },
+        {
+          "path": "LICENSE",
+          "type": "registry:file",
+          "target": "@ui/ariax/LICENSE"
+        },
+        {
+          "path": "src/ariax/ui/animations.stylex.ts",
+          "type": "registry:file",
+          "target": "@ui/animations.stylex.ts"
+        },
+        {
+          "path": "src/ariax/styles/accordion-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/accordion-children.css"
+        },
+        {
+          "path": "src/ariax/styles/alert-dialog.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/alert-dialog.css"
+        },
+        {
+          "path": "src/ariax/styles/alert.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/alert.css"
+        },
+        {
+          "path": "src/ariax/styles/animations-properties.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/animations-properties.css"
+        },
+        {
+          "path": "src/ariax/styles/attachment.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/attachment.css"
+        },
+        {
+          "path": "src/ariax/styles/avatar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/avatar.css"
+        },
+        {
+          "path": "src/ariax/styles/badge.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/badge.css"
+        },
+        {
+          "path": "src/ariax/styles/base.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/base.css"
+        },
+        {
+          "path": "src/ariax/styles/breadcrumb.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/breadcrumb.css"
+        },
+        {
+          "path": "src/ariax/styles/bubble.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/bubble.css"
+        },
+        {
+          "path": "src/ariax/styles/button-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/button-children.css"
+        },
+        {
+          "path": "src/ariax/styles/button-group.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/button-group.css"
+        },
+        {
+          "path": "src/ariax/styles/calendar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/calendar.css"
+        },
+        {
+          "path": "src/ariax/styles/card.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/card.css"
+        },
+        {
+          "path": "src/ariax/styles/chart.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/chart.css"
+        },
+        {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
+          "path": "src/ariax/styles/combobox.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/combobox.css"
+        },
+        {
+          "path": "src/ariax/styles/command.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/command.css"
+        },
+        {
+          "path": "src/ariax/styles/context-menu.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/context-menu.css"
+        },
+        {
+          "path": "src/ariax/styles/dialog.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/dialog.css"
+        },
+        {
+          "path": "src/ariax/styles/drawer.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/drawer.css"
+        },
+        {
+          "path": "src/ariax/styles/dropdown-menu.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/dropdown-menu.css"
+        },
+        {
+          "path": "src/ariax/styles/empty.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/empty.css"
+        },
+        {
+          "path": "src/ariax/styles/entry.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/entry.css"
+        },
+        {
+          "path": "src/ariax/styles/field-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/field-children.css"
+        },
+        {
+          "path": "src/ariax/styles/input-group-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/input-group-children.css"
+        },
+        {
+          "path": "src/ariax/styles/input-otp.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/input-otp.css"
+        },
+        {
+          "path": "src/ariax/styles/item.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/item.css"
+        },
+        {
+          "path": "src/ariax/styles/kbd-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/kbd-children.css"
+        },
+        {
+          "path": "src/ariax/styles/marker.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/marker.css"
+        },
+        {
+          "path": "src/ariax/styles/message-scroller.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/message-scroller.css"
+        },
+        {
+          "path": "src/ariax/styles/message.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/message.css"
+        },
+        {
+          "path": "src/ariax/styles/reset.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/reset.css"
+        },
+        {
+          "path": "src/ariax/styles/resizable.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/resizable.css"
+        },
+        {
+          "path": "src/ariax/styles/select.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/select.css"
+        },
+        {
+          "path": "src/ariax/styles/sidebar.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/sidebar.css"
+        },
+        {
+          "path": "src/ariax/styles/table.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/table.css"
+        },
+        {
+          "path": "src/ariax/styles/tabs-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/tabs-children.css"
+        },
+        {
+          "path": "src/ariax/styles/theme.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/theme.css"
+        },
+        {
+          "path": "src/ariax/styles/toggle-children.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/toggle-children.css"
+        },
+        {
+          "path": "src/ariax/styles/tooltip.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",
@@ -16390,6 +17578,11 @@
           "target": "@ui/ariax/styles/chart.css"
         },
         {
+          "path": "src/ariax/styles/code-block.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/code-block.css"
+        },
+        {
           "path": "src/ariax/styles/combobox.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/combobox.css"
@@ -16513,6 +17706,11 @@
           "path": "src/ariax/styles/tooltip.css",
           "type": "registry:file",
           "target": "@ui/ariax/styles/tooltip.css"
+        },
+        {
+          "path": "src/ariax/styles/trace.css",
+          "type": "registry:file",
+          "target": "@ui/ariax/styles/trace.css"
         },
         {
           "path": "src/ariax/styles/typography.css",

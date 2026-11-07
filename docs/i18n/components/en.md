@@ -2,7 +2,7 @@
 
 English · [한국어](ko.md)
 
-60 registry items (59 UI components and one Typography recipe) for Nova / Neutral light and dark themes. See [Installation](../../../README.md#installation) for usage. Availability does not imply complete verification.
+62 registry items (61 UI components and one Typography recipe) for Nova / Neutral light and dark themes. See [Installation](../../../README.md#installation) for usage. Availability does not imply complete verification.
 
 | Component | Install name |
 | --- | --- |
@@ -22,6 +22,7 @@ English · [한국어](ko.md)
 | Carousel | `carousel` |
 | Chart | `chart` |
 | Checkbox | `checkbox` |
+| Code Block | `code-block` |
 | Collapsible | `collapsible` |
 | Combobox | `combobox` |
 | Command | `command` |
@@ -65,15 +66,17 @@ English · [한국어](ko.md)
 | Toggle | `toggle` |
 | Toggle Group | `toggle-group` |
 | Tooltip | `tooltip` |
+| Trace | `trace` |
 | Typography | `typography` |
 
 **Composition examples:** Data Table, Date Picker (assembled from registry items).
 
 ## Verification scope and remaining work
 
-- All 60 items have installation fixtures and passed actual shadcn CLI installation from the public HTTP endpoint, TypeScript checks, and a production Vite build without Tailwind.
+- All 62 items have installation fixtures. Trace and Code Block passed actual CLI installation over HTTP, TypeScript checks and a production Vite build without Tailwind with the updated tools; the other 60 retain their previously verified installation coverage.
+- In this upstream refresh, Trace and Code Block received full browser comparisons and interaction, keyboard, clipboard, streaming, animation and accessibility checks. Existing components received the common static E2E comparison only. AI Elements composition patterns were not added.
 - CI runs static comparisons of registered stories at 1000px in light and dark themes; detailed behavior, pixel, and animation checks are separate.
-- The 452 official documentation preview occurrences have 445 connected comparisons and 7 explicit exceptions. Connected demos use the untouched official TSX on the upstream side and the StyleX adaptation on the AriaX side, under the same story ID. Their actual DOM/CSS equivalence is checked by the browser suite; a mapping alone is not a passing result.
+- The 493 official documentation preview occurrences have 486 connected comparisons and 7 explicit exceptions. Connected demos use the untouched official TSX on the upstream side and the StyleX adaptation on the AriaX side, under the same story ID. Their actual DOM/CSS equivalence is checked by the browser suite; a mapping alone is not a passing result.
 - `upstream/original-exceptions.json` records the exceptions: the raw CVA `button-render` example is outside the resolved `buttonProps` contract, and six MessageScroller demos depend on the Radix/Rhea `MessageAnimated` renderer. These originals remain available for browsing. Missing mappings, unexplained exclusions and stale exceptions fail generation; connected examples must have an active `parity` story in the live index.
 
 Installation has been verified with Vite, React and TypeScript; Next.js, SSR and other framework integrations remain unverified. See the [Development guide](../development/en.md#checks) for checks.
@@ -81,5 +84,6 @@ Installation has been verified with Vite, React and TypeScript; Next.js, SSR and
 ## Notes
 - Native Select: OS-native popups are outside the verification scope.
 - Attachment: the official example’s native trigger does not automatically open Dialog, matching upstream. An explicitly controlled Dialog composition and open/close checks are also provided.
+- Trace: the official description color falls below WCAG AA text contrast in both themes. The implementation preserves the source color, and accessibility comparisons track this limitation.
 - Typography provides StyleX recipes for HTML elements.
 - Toast is deprecated upstream; use Sonner.

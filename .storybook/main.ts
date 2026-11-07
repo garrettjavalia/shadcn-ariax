@@ -32,6 +32,7 @@ const config: StorybookConfig = {
     config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts', 'sonner', 'next-themes'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
+      '@code-block': resolve(upstream ? 'reference/code-block.ts' : 'src/ariax/ui/code-block.tsx'),
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'src/ariax/ui/avatar.tsx'),
       '@avatar-customizations': resolve(upstream ? 'reference/avatar-customizations.ts' : 'stories/avatar-customizations.ts'),
       '@dropdown-menu': resolve(upstream ? 'generated/reference/aria-nova/ui/dropdown-menu.tsx' : 'src/ariax/ui/dropdown-menu.tsx'),
@@ -75,6 +76,14 @@ const config: StorybookConfig = {
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'src/ariax/styles/entry.css'),
     };
     config.resolve.alias = [
+      {
+        find: /^@reference\/(.+)$/,
+        replacement: '$1',
+        customResolver(source, importer, options) {
+          const namespace = importer?.match(/generated\/reference\/([^/]+)\//)?.[1] ?? 'aria-nova';
+          return this.resolve(resolve('generated/reference', namespace, source), importer, { ...options, skipSelf: true });
+        },
+      },
       ...frameworkAliases,
       ...originalAliases,
       ...Object.entries(aliases).map(([find, replacement]) => ({ find, replacement })),
