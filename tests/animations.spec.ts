@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
@@ -16,8 +17,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-skeleton--usage&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator('[data-slot="skeleton"]')).toBeVisible();
       },
@@ -46,7 +49,11 @@ test("effect comparison rejects keyframe and timing mutations even at an unchang
   const pages = await Promise.all(
     [upstreamURL, stylexURL].map(async (url) => {
       const page = await browser.newPage();
-      await page.goto(`${url}/iframe.html?id=components-skeleton--usage`);
+      await navigateStory(
+        page,
+        `${url}/iframe.html?id=components-skeleton--usage`,
+        true,
+      );
       await expect(page.locator('[data-slot="skeleton"]')).toBeVisible();
       await page.locator('[data-slot="skeleton"]').evaluate((element) => {
         const animation = element.getAnimations()[0];
@@ -116,7 +123,11 @@ test("effect comparison rejects keyframe and timing mutations even at an unchang
 test("observed animation handles clear when names change or elements leave the DOM", async ({
   page,
 }) => {
-  await page.goto(stylexURL + "/iframe.html?id=components-skeleton--usage");
+  await navigateStory(
+    page,
+    stylexURL + "/iframe.html?id=components-skeleton--usage",
+    true,
+  );
   const skeleton = page.locator('[data-slot="skeleton"]');
   await expect(skeleton).toBeVisible();
   const effects = (value: unknown): unknown[] =>

@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -15,8 +16,10 @@ for (const theme of ["light", "dark"])
           [a, upstreamURL],
           [b, stylexURL],
         ].map(async ([page, url]) => {
-          await (page as typeof a).goto(
+          await navigateStory(
+            page as typeof a,
             `${url}/iframe.html?id=components-checkbox--demo&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(
             (page as typeof a).locator("#parity-root"),

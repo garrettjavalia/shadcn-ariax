@@ -12,7 +12,7 @@ type Story=StoryObj<typeof meta>;
 function SwitchDemo() {
   return (
     <div style={{display:"flex",alignItems:"center"}}>
-      <Switch id="airplane-mode" style={{marginInlineEnd:8}} />
+      <Switch id="airplane-mode" style={{marginInlineEnd:'calc(var(--ariax-spacing, .25rem) * 2)'}} />
       <Label htmlFor="airplane-mode">Airplane Mode</Label>
     </div>
   )

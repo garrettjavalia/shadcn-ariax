@@ -7,3 +7,6 @@ export const bookmarkIcon = {
 export const customToggle = (width: number) => ({
   className: `[width:${width}px]`
 });
+
+import {toggleVariants} from '@toggle';
+export const helperToggle = {className:toggleVariants({variant:'outline',size:'default'})};

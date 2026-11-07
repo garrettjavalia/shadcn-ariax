@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
@@ -14,8 +15,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         [a, b].map(async (page, i) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-kbd--in-button&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await page.getByRole("button").click();
           await expect(page.getByRole("button")).toBeFocused();
@@ -24,8 +27,10 @@ for (const theme of ["light", "dark"])
       await compare(a, b, info, "kbd-button-focused");
       await Promise.all(
         [a, b].map(async (page, i) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-kbd--in-input-group&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await page.locator('[data-slot="input-group-addon"]').last().click();
           await expect(page.getByRole("textbox")).toBeFocused();
@@ -40,8 +45,10 @@ for (const theme of ["light", "dark"])
 test("Kbd style retains dynamic variables and renders both primitives as kbd", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-kbd--overrides&viewMode=story`,
+    true,
   );
   const key = page.locator('[data-slot="kbd"]').first();
   await expect(key).toHaveCSS("width", "72px");
@@ -67,8 +74,10 @@ test("Kbd sans and Input Group mono preserve missing-token inheritance and defin
       [a, upstreamURL],
       [b, stylexURL],
     ] as const) {
-      await page.goto(
+      await navigateStory(
+        page,
         `${url}/iframe.html?id=components-kbd--font-tokens&viewMode=story`,
+        true,
       );
       await expect(page.getByTestId("sans-missing")).toHaveCSS(
         "font-family",

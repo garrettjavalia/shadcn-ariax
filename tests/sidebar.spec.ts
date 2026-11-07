@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { compare, settle } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -15,7 +16,11 @@ for (const story of ["group", "group-collapsible"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(`${url}/iframe.html?id=components-sidebar--${story}`);
+          await navigateStory(
+            page,
+            `${url}/iframe.html?id=components-sidebar--${story}`,
+            true,
+          );
           await expect(
             page.locator("[data-slot=sidebar-container]"),
           ).toBeVisible();
@@ -72,8 +77,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-sidebar--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(
               page.locator('[data-slot="sidebar-container"]'),
@@ -192,8 +199,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-sidebar--states&globals=theme:${theme}`,
+            true,
           );
           await expect(
             page.locator("[data-slot=sidebar-container]"),
@@ -245,7 +254,11 @@ for (const story of ["demo", "registry-inset", "registry-floating", "rtl"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(`${url}/iframe.html?id=components-sidebar--${story}`);
+          await navigateStory(
+            page,
+            `${url}/iframe.html?id=components-sidebar--${story}`,
+            true,
+          );
           await expect(page.locator("#parity-root")).toBeVisible();
           await expect(
             page.locator("[data-slot=sidebar-container]"),
@@ -282,11 +295,22 @@ for (const story of ["skeletons", "rsc"])
       },
       story === "skeletons" ? 0.2 : 0.8,
     );
+    if (story === "rsc")
+      await context.addInitScript(() => {
+        window.__sidebarProjectsReady = () =>
+          new Promise<void>((resolve) => {
+            window.__resolveSidebarProjects = resolve;
+          });
+      });
     try {
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(`${url}/iframe.html?id=components-sidebar--${story}`);
+          await navigateStory(
+            page,
+            `${url}/iframe.html?id=components-sidebar--${story}`,
+            true,
+          );
           await expect(
             page.locator("#parity-root [data-slot=sidebar]").first(),
           ).toBeVisible();
@@ -294,14 +318,26 @@ for (const story of ["skeletons", "rsc"])
         }),
       );
       if (story === "rsc") {
-        for (const page of pages) await page.reload();
         for (const page of pages)
           await expect(
             page.locator("[data-slot=sidebar-menu-skeleton]").first(),
           ).toBeVisible();
         await compare(pages[0], pages[1], info, "suspense-loading");
+        await Promise.all(
+          pages.map((page) =>
+            page.evaluate(() => {
+              if (!window.__resolveSidebarProjects)
+                throw new Error("Missing pending sidebar request");
+              window.__resolveSidebarProjects();
+            }),
+          ),
+        );
         for (const page of pages)
           await expect(page.getByText("Design Engineering")).toBeVisible();
+        for (const page of pages)
+          await expect(
+            page.locator("[data-slot=sidebar-menu-skeleton]"),
+          ).toHaveCount(0);
         await compare(pages[0], pages[1], info, "suspense-resolved");
       } else await compare(pages[0], pages[1], info, "seeded-skeletons");
     } finally {
@@ -325,7 +361,11 @@ for (const story of [
             height: 900,
           },
         });
-        await page.goto(`${url}/iframe.html?id=components-sidebar--${story}`);
+        await navigateStory(
+          page,
+          `${url}/iframe.html?id=components-sidebar--${story}`,
+          true,
+        );
         await expect(
           page.locator("[data-slot=sidebar-container]"),
         ).toBeVisible();
@@ -422,8 +462,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-sidebar--customization&globals=theme:${theme}`,
+            true,
           );
           await expect(
             page.locator("[data-slot=sidebar-container]"),
@@ -502,7 +544,11 @@ test("Sidebar actual Collapsible Tooltip DropdownMenu and language switching", a
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(`${url}/iframe.html?id=components-sidebar--demo`);
+        await navigateStory(
+          page,
+          `${url}/iframe.html?id=components-sidebar--demo`,
+          true,
+        );
         await expect(
           page.locator("[data-slot=sidebar-container]"),
         ).toBeVisible();
@@ -537,7 +583,7 @@ test("Sidebar actual Collapsible Tooltip DropdownMenu and language switching", a
       await expect(page.getByRole("tooltip")).toBeVisible();
     await compare(pages[0], pages[1], info, "actual-tooltip");
     for (const page of pages)
-      await page.goto(page.url().replace("--demo", "--rtl"));
+      await navigateStory(page, page.url().replace("--demo", "--rtl"), true);
     for (const page of pages)
       await expect(page.locator("[data-name=language-selector]")).toBeVisible();
     for (const language of ["English", "Hebrew (עברית)"]) {
@@ -576,8 +622,10 @@ test("Sidebar responsive 767/768 boundary and mobile trigger", async ({
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-sidebar--registry-inset`,
+          true,
         );
         await expect(
           page.locator("[data-slot=sidebar-container]"),

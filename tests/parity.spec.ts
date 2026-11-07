@@ -1,3 +1,4 @@
+import { e2eTimeouts } from "./timeouts";
 import { BrowserWaitTimeout } from "./browser-wait";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { controlAvatarAssets } from "./avatar-assets";
@@ -40,7 +41,7 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
       `registered stories / ${theme} / ${width} / batch ${batch + 1}`,
       { tag: "@static-parity" },
       async ({ browser, request }, info) => {
-        test.setTimeout(240_000);
+        test.setTimeout(e2eTimeouts.parityBatch);
         const leftIndex = await (
           await request.get(`${upstreamURL}/index.json`)
         ).json();

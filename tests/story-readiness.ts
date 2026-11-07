@@ -1,9 +1,13 @@
+import { e2eTimeouts } from "./timeouts";
 import { waitForBrowserWork } from "./browser-wait";
 import { expect, type Page } from "@playwright/test";
 
 // Shared story fixtures may expose completion of their initial JavaScript work.
 // Only initial navigation waits here; intermediate animation comparisons do not.
-export async function waitForStoryReadiness(page: Page, timeout = 15_000) {
+export async function waitForStoryReadiness(
+  page: Page,
+  timeout: number = e2eTimeouts.browserWork,
+) {
   let phase = "fixture readiness signal";
   return waitForBrowserWork(
     page,

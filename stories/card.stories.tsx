@@ -27,8 +27,8 @@ function CardDemo({spacing}:{spacing?:string}={}) {
       </CardHeader>
       <CardContent>
         <form>
-          <div style={{"display":"flex","flexDirection":"column","gap":"1.5rem"}}>
-            <div style={{"display":"grid","gap":".5rem"}}>
+          <div style={{"display":"flex","flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 6)"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -37,7 +37,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
                 required
               />
             </div>
-            <div style={{"display":"grid","gap":".5rem"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <div style={{"display":"flex","alignItems":"center"}}>
                 <Label htmlFor="password">Password</Label>
                 <a
@@ -52,7 +52,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
           </div>
         </form>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button type="submit" {...fullWidthButton}>
           Login
         </Button>
@@ -76,22 +76,22 @@ function CardSmall() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ul style={{"display":"grid","gap":".5rem","paddingBlock":".5rem","fontSize":".875rem"}}>
-          <li style={{"display":"flex","gap":".5rem"}}>
+        <ul style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)","paddingBlock":".5rem","fontSize":".875rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Choose a schedule (daily, or weekly).</span>
           </li>
-          <li style={{"display":"flex","gap":".5rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Send to channels or specific teammates.</span>
           </li>
-          <li style={{"display":"flex","gap":".5rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Include charts, tables, and key metrics.</span>
           </li>
         </ul>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button size="sm" {...fullWidthButton}>
           Set up scheduled reports
         </Button>
@@ -133,7 +133,7 @@ function CardEdgeToEdge() {
           </p>
         </div>
       </CardContent>
-      <CardFooter style={{"justifyContent":"flex-end","gap":".5rem"}}>
+      <CardFooter style={{"justifyContent":"flex-end","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button variant="outline">Decline</Button>
         <Button>Accept</Button>
       </CardFooter>
@@ -193,8 +193,8 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
       </CardHeader>
       <CardContent>
         <form>
-          <div style={{"display":"flex","flexDirection":"column","gap":"1.5rem"}}>
-            <div style={{"display":"grid","gap":".5rem"}}>
+          <div style={{"display":"flex","flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 6)"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <Label htmlFor="email-rtl">البريد الإلكتروني</Label>
               <Input
                 id="email-rtl"
@@ -203,7 +203,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
                 required
               />
             </div>
-            <div style={{"display":"grid","gap":".5rem"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <div style={{"display":"flex","alignItems":"center"}}>
                 <Label htmlFor="password-rtl">كلمة المرور</Label>
                 <a
@@ -218,7 +218,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
           </div>
         </form>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button type="submit" {...fullWidthButton}>
           تسجيل الدخول
         </Button>

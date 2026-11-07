@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   deterministicStoryContextOptions,
   createStoryPair,
@@ -56,8 +57,10 @@ for (const theme of ["light", "dark"])
           [a, upstreamURL],
           [b, stylexURL],
         ].map(async ([page, url]) => {
-          await (page as typeof a).goto(
+          await navigateStory(
+            page as typeof a,
             `${url}/iframe.html?id=components-buttongroup--${story}&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(
             (page as typeof a).locator("#parity-root"),
@@ -164,8 +167,10 @@ for (const theme of ["light", "dark"])
       const load = async (story: string) =>
         Promise.all(
           pages.map(async (p, i) => {
-            await p.goto(
+            await navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-buttongroup--${story}&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(p.locator("#parity-root")).toBeVisible();
           }),

@@ -12,7 +12,7 @@ export default function ResizableDemo() {
       {...resizableDemo}
     >
       <ResizablePanel defaultSize="50%">
-        <div style={{display:'flex',height:200,alignItems:'center',justifyContent:'center',padding:24}}>
+        <div style={{display:'flex',height:200,alignItems:'center',justifyContent:'center',padding:'calc(var(--ariax-spacing, .25rem) * 6)'}}>
           <span style={{fontWeight:600}}>One</span>
         </div>
       </ResizablePanel>
@@ -20,13 +20,13 @@ export default function ResizableDemo() {
       <ResizablePanel defaultSize="50%">
         <ResizablePanelGroup orientation="vertical">
           <ResizablePanel defaultSize="25%">
-            <div style={{display:'flex',height:'100%',alignItems:'center',justifyContent:'center',padding:24}}>
+            <div style={{display:'flex',height:'100%',alignItems:'center',justifyContent:'center',padding:'calc(var(--ariax-spacing, .25rem) * 6)'}}>
               <span style={{fontWeight:600}}>Two</span>
             </div>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize="75%">
-            <div style={{display:'flex',height:'100%',alignItems:'center',justifyContent:'center',padding:24}}>
+            <div style={{display:'flex',height:'100%',alignItems:'center',justifyContent:'center',padding:'calc(var(--ariax-spacing, .25rem) * 6)'}}>
               <span style={{fontWeight:600}}>Three</span>
             </div>
           </ResizablePanel>

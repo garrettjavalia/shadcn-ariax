@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { upstreamURL } from "./servers";
 
@@ -29,8 +30,10 @@ test("reference imports real enter/exit animation utilities and official state v
       true,
     );
   });
-  await page.goto(
+  await navigateStory(
+    page,
     `${upstreamURL}/iframe.html?id=harness-reference-utilities--animations&viewMode=story`,
+    true,
   );
   await expect(page.locator("#parity-root")).toBeVisible();
   for (const [probe, name] of [

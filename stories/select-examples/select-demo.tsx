@@ -18,7 +18,7 @@ const items = [
 
 export function SelectDemo() {
   return (
-    <Select placeholder="Select a fruit" style={{ width: "100%", maxWidth: "12rem" }}>
+    <Select placeholder="Select a fruit" style={{ width: "100%", maxWidth: "calc(var(--ariax-spacing, .25rem) * 48)" }}>
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>

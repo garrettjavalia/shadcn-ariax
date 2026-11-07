@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -28,8 +29,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-questionnaire--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(active(page)).toBeVisible();
             return page;
@@ -159,56 +162,63 @@ for (const theme of ["light", "dark"])
     });
   }
 for (const theme of ["light", "dark"])
-  test(`Questionnaire styles, render composition, refs and submit / ${theme}`, async ({
-    browser,
-  }, info) => {
-    const context = await browser.newContext({
-      viewport: { width: 1000, height: 900 },
+  for (const story of [
+    "customization",
+    "callback-customization",
+    "native-customization",
+  ])
+    test(`Questionnaire styles, render composition, refs and submit / ${story} / ${theme}`, async ({
+      browser,
+    }, info) => {
+      const context = await browser.newContext({
+        viewport: { width: 1000, height: 900 },
+      });
+      try {
+        const pages = await Promise.all(
+          [upstreamURL, stylexURL].map(async (url) => {
+            const page = await context.newPage();
+            await navigateStory(
+              page,
+              `${url}/iframe.html?id=components-questionnaire--${story}&globals=theme:${theme}`,
+              true,
+            );
+            await expect(page.locator("#custom-questionnaire")).toHaveAttribute(
+              "data-ref",
+              "attached",
+            );
+            return page;
+          }),
+        );
+        for (const page of pages) {
+          await expect(page.locator("#custom-questionnaire")).toHaveCSS(
+            "width",
+            "320px",
+          );
+          await expect(page.locator("#custom-questionnaire")).toHaveCSS(
+            "gap",
+            "12px",
+          );
+          await expect(
+            page.locator('[data-slot="questionnaire-title"]'),
+          ).toHaveCSS("font-size", "22px");
+        }
+        await compare(pages[0], pages[1], info, "custom-styles");
+        for (const page of pages) {
+          await page.getByRole("button", { name: "Change width" }).click();
+          await expect(page.locator("#custom-questionnaire")).toHaveCSS(
+            "width",
+            "380px",
+          );
+          await page
+            .getByRole("textbox", { name: "Custom note" })
+            .fill("Keep public props");
+          await page.getByRole("button", { name: "Submit 0" }).click();
+          await expect(
+            page.getByRole("button", { name: "Submit 1" }),
+          ).toBeVisible();
+        }
+        await compare(pages[0], pages[1], info, "dynamic-width-and-submit");
+      } finally {
+        await context.close();
+      }
     });
-    try {
-      const pages = await Promise.all(
-        [upstreamURL, stylexURL].map(async (url) => {
-          const page = await context.newPage();
-          await page.goto(
-            `${url}/iframe.html?id=components-questionnaire--customization&globals=theme:${theme}`,
-          );
-          await expect(page.locator("#custom-questionnaire")).toHaveAttribute(
-            "data-ref",
-            "attached",
-          );
-          return page;
-        }),
-      );
-      for (const page of pages) {
-        await expect(page.locator("#custom-questionnaire")).toHaveCSS(
-          "width",
-          "320px",
-        );
-        await expect(page.locator("#custom-questionnaire")).toHaveCSS(
-          "gap",
-          "12px",
-        );
-        await expect(
-          page.locator('[data-slot="questionnaire-title"]'),
-        ).toHaveCSS("font-size", "22px");
-      }
-      await compare(pages[0], pages[1], info, "custom-styles");
-      for (const page of pages) {
-        await page.getByRole("button", { name: "Change width" }).click();
-        await expect(page.locator("#custom-questionnaire")).toHaveCSS(
-          "width",
-          "380px",
-        );
-        await page
-          .getByRole("textbox", { name: "Custom note" })
-          .fill("Keep public props");
-        await page.getByRole("button", { name: "Submit 0" }).click();
-        await expect(
-          page.getByRole("button", { name: "Submit 1" }),
-        ).toBeVisible();
-      }
-      await compare(pages[0], pages[1], info, "dynamic-width-and-submit");
-    } finally {
-      await context.close();
-    }
-  });

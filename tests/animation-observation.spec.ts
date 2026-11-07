@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect, type Page } from "@playwright/test";
 import {
   compare,
@@ -15,7 +16,11 @@ async function finishedFixture(
   mutation: "none" | "keyframes" | "timing" = "none",
   url = stylexURL,
 ) {
-  await page.goto(url + "/iframe.html?id=components-skeleton--usage");
+  await navigateStory(
+    page,
+    url + "/iframe.html?id=components-skeleton--usage",
+    true,
+  );
   await expect(page.locator('[data-slot="skeleton"]')).toBeVisible();
   await page.evaluate(
     async ({ name, mutation }) => {

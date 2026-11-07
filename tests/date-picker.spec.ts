@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -51,8 +52,10 @@ for (const theme of ["light", "dark"])
           await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
         await Promise.all(
           pages.map((page, i) =>
-            page.goto(
+            navigateStory(
+              page,
               `${i ? stylexURL : upstreamURL}/iframe.html?id=components-date-picker--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -122,8 +125,10 @@ for (const theme of ["light", "dark"])
         await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-date-picker--demo&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -184,8 +189,10 @@ for (const theme of ["light", "dark"])
         await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-date-picker--range&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -224,8 +231,10 @@ for (const theme of ["light", "dark"])
           await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
         await Promise.all(
           pages.map((page, i) =>
-            page.goto(
+            navigateStory(
+              page,
               `${i ? stylexURL : upstreamURL}/iframe.html?id=components-date-picker--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -273,8 +282,10 @@ for (const theme of ["light", "dark"])
         await page.clock.setFixedTime(new Date("2026-02-12T12:00:00Z"));
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-date-picker--dob&globals=theme:${theme}`,
+            true,
           ),
         ),
       );

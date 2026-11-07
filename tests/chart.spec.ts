@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -58,8 +59,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-chart--legend&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -141,8 +144,10 @@ for (const theme of ["light", "dark"])
         for (const story of Object.values(previews)) {
           await Promise.all(
             pages.map((page, i) =>
-              page.goto(
+              navigateStory(
+                page,
                 `${i ? stylexURL : upstreamURL}/iframe.html?id=components-chart--${story}&globals=theme:${theme}`,
+                true,
               ),
             ),
           );
@@ -179,8 +184,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-chart--api&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -217,8 +224,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-chart--demo&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -278,8 +287,10 @@ test("Chart normal SDK animation readiness waits for actual queue completion", a
   try {
     await Promise.all(
       pages.map((page, i) =>
-        page.goto(
+        navigateStory(
+          page,
           `${i ? stylexURL : upstreamURL}/iframe.html?id=components-chart--legend`,
+          true,
         ),
       ),
     );
@@ -299,8 +310,10 @@ test("Chart normal SDK animation readiness waits for actual queue completion", a
 test("Chart native style wins over dynamic xstyle and retains custom variables", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-chart--native-overrides`,
+    true,
   );
   await expect(page.locator("[data-slot=chart]")).toBeVisible();
   expect(
@@ -336,7 +349,6 @@ for (const theme of ["light", "dark"])
   test(`Chart official registry six chart families / ${theme}`, async ({
     browser,
   }, info) => {
-    test.setTimeout(120000);
     const context = await browser.newContext({
       viewport: { width: 1000, height: 900 },
     });
@@ -355,8 +367,10 @@ for (const theme of ["light", "dark"])
       ] as const) {
         await Promise.all(
           pages.map((page, i) =>
-            page.goto(
+            navigateStory(
+              page,
               `${i ? stylexURL : upstreamURL}/iframe.html?id=components-chart--registry-${family}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

@@ -189,3 +189,137 @@ test("Chart readiness is released when a preview unmounts and renewed on remount
     ).toBe(id.includes("chart"));
   }
 });
+
+test("preview reuse reloads for repeated stories, environment changes and external navigation", async ({
+  page,
+}) => {
+  const documents: string[] = [];
+  await page.route(
+    /^http:\/\/(?:navigation|alternate)\.test\//,
+    async (route) => {
+      if (route.request().isNavigationRequest())
+        documents.push(route.request().url());
+      await route.fulfill({
+        contentType: "text/html",
+        body: '<main id="parity-root"></main>',
+      });
+    },
+  );
+  await page.addInitScript(() => {
+    const listeners = new Map<string, Set<(payload: unknown) => void>>();
+    (
+      window as Window & { __STORYBOOK_ADDONS_CHANNEL__?: unknown }
+    ).__STORYBOOK_ADDONS_CHANNEL__ = {
+      on(name: string, listener: (payload: unknown) => void) {
+        if (!listeners.has(name)) listeners.set(name, new Set());
+        listeners.get(name)!.add(listener);
+      },
+      off(name: string, listener: (payload: unknown) => void) {
+        listeners.get(name)?.delete(listener);
+      },
+      emit(_name: string, { storyId }: { storyId: string }) {
+        document.getElementById("parity-root")!.textContent = storyId;
+        for (const listener of listeners.get("storyFinished") ?? [])
+          listener({ storyId, status: "success" });
+      },
+    };
+  });
+  await navigateStory(
+    page,
+    "http://navigation.test/iframe.html?id=first&globals=theme:light",
+    true,
+  );
+  await navigateStory(
+    page,
+    "http://navigation.test/iframe.html?globals=theme:light&id=second",
+    true,
+  );
+  expect(documents).toHaveLength(1);
+  await expect(page.locator("#parity-root")).toHaveText("second");
+  await page
+    .locator("#parity-root")
+    .evaluate((root) => root.setAttribute("data-transient", "true"));
+  await navigateStory(
+    page,
+    "http://navigation.test/iframe.html?id=second&globals=theme:light",
+    true,
+  );
+  expect(documents).toHaveLength(2);
+  await expect(page.locator("#parity-root")).not.toHaveAttribute(
+    "data-transient",
+  );
+  for (const url of [
+    "http://navigation.test/iframe.html?id=third&globals=theme:dark",
+    "http://navigation.test/iframe.html?id=fourth&globals=theme:dark&args=disabled:true",
+    "http://navigation.test/iframe.html?id=fifth&globals=theme:dark&args=disabled:true#other",
+    "http://alternate.test/iframe.html?id=sixth&globals=theme:dark&args=disabled:true#other",
+  ]) {
+    const count = documents.length;
+    await navigateStory(page, url, true);
+    expect(documents).toHaveLength(count + 1);
+    expect(page.url()).toBe(url);
+  }
+  await page.reload();
+  const afterReload = documents.length;
+  await navigateStory(
+    page,
+    "http://alternate.test/iframe.html?id=seventh&globals=theme:dark&args=disabled:true#other",
+    true,
+  );
+  expect(documents).toHaveLength(afterReload + 1);
+});
+
+test("a paused page clock cannot prevent transition timeout or lifecycle cleanup", async ({
+  page,
+}) => {
+  await page.route("http://navigation.test/**", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: '<main id="parity-root">Initial</main>',
+    }),
+  );
+  await navigateStory(page, "http://navigation.test/?id=initial", true);
+  await page.clock.install({ time: new Date("2026-01-01T00:00:00Z") });
+  await page.clock.pauseAt(new Date("2026-01-01T00:00:01Z"));
+  await page.evaluate(() => {
+    const listeners = new Map<string, Set<(payload: unknown) => void>>();
+    const scope = window as Window & {
+      __STORYBOOK_ADDONS_CHANNEL__?: unknown;
+      nativeInventory?: typeof document.getAnimations;
+      listenerCount?: () => number;
+    };
+    scope.nativeInventory = document.getAnimations;
+    scope.listenerCount = () =>
+      [...listeners.values()].reduce((sum, set) => sum + set.size, 0);
+    scope.__STORYBOOK_ADDONS_CHANNEL__ = {
+      on(name: string, listener: (payload: unknown) => void) {
+        if (!listeners.has(name)) listeners.set(name, new Set());
+        listeners.get(name)!.add(listener);
+      },
+      off(name: string, listener: (payload: unknown) => void) {
+        listeners.get(name)?.delete(listener);
+      },
+      emit(_name: string, { storyId }: { storyId: string }) {
+        for (const listener of listeners.get("storyRenderPhaseChanged") ?? [])
+          listener({ storyId, newPhase: "completing" });
+      },
+    };
+  });
+  await expect(
+    navigateStory(page, "http://navigation.test/?id=stalled", true, 100),
+  ).rejects.toThrow("Storybook transition to stalled");
+  expect(
+    await page.evaluate(() => {
+      const scope = window as Window & {
+        nativeInventory?: typeof document.getAnimations;
+        listenerCount?: () => number;
+        parityNavigation?: unknown;
+      };
+      return {
+        restored: document.getAnimations === scope.nativeInventory,
+        listeners: scope.listenerCount!(),
+        pending: !!scope.parityNavigation,
+      };
+    }),
+  ).toEqual({ restored: true, listeners: 0, pending: false });
+});
