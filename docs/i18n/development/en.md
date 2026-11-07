@@ -79,6 +79,7 @@ The first three commands check types, formatting, and the installation catalog. 
 
 PR CI checks types, builds, and static DOM/CSS comparisons with the originals. Run the relevant browser tests to check interactions, pixels, and animations too. Normally, test the parts you changed. Use `pnpm test:full` only when full verification is needed; it also includes installation and builds and takes substantially longer.
 
+Use `pnpm test:benchmark:ci` to measure only common CI E2E. Set `ARIAX_STATIC_STORYBOOK=1` to use prepared static builds. `test-results/benchmark.json` records wall time, the 600-second budget result, comparison count, navigation/readiness/comparison phase timings, and the slowest navigations. Test failures or exceeding the budget produce a nonzero exit; meeting the runtime target does not imply passing tests. This command does not run the full detailed E2E suite.
 
 ## Connect stories to official examples
 
