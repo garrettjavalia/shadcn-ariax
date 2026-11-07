@@ -79,7 +79,9 @@ CI compares registered stories at 1000px in light and dark themes. Detailed brow
 
 ### Verification status
 
-The latest detailed full light-theme run (2026-11-07, revision `d62f42a`, four workers, static Storybooks) completed 771 tests: **768 passed, three failed, none skipped**. Command wall time was 14m 32.59s. This is not a passing full suite or a full dark-theme result.
+The latest detailed full light-theme run (2026-11-07, revision `d62f42a`, four workers, static Storybooks) completed 771 tests: **768 passed, three failed, none skipped**. This is not a passing full suite or a full dark-theme result.
+
+For reference, command wall time on the developer’s local computer was 14m 32.59s. Runtime varies with hardware, system load and execution settings; this measurement is not a performance guarantee or an expected CI runtime.
 
 ### Known limitations
 
