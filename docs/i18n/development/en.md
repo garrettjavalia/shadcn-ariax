@@ -77,9 +77,21 @@ The first three commands check types, formatting, and the installation catalog. 
 | Both Storybook builds | `pnpm build` |
 | Browser test report | `pnpm test:report` |
 
-PR CI checks types, builds, and static DOM/CSS comparisons with the originals. Run the relevant browser tests to check interactions, pixels, and animations too. Normally, test the parts you changed. Use `pnpm test:full` only when full verification is needed; it also includes installation and builds and takes substantially longer.
+PR CI checks types, builds, and static DOM/CSS comparisons with the originals. Run the relevant browser tests to check interactions, pixels, and animations too. After a fix, rerun failed and affected cases. Run the full local suite only when explicitly requested. `pnpm test` runs detailed browser tests; `pnpm test:full` additionally includes installation, builds and other checks. Documentation-only changes do not require browser reruns.
 
 Use `pnpm test:benchmark:ci` to measure only common CI E2E. Set `ARIAX_STATIC_STORYBOOK=1` to use prepared static builds. `test-results/benchmark.json` records wall time, the 600-second budget result, comparison count, navigation/readiness/comparison phase timings, and the slowest navigations. Test failures or exceeding the budget produce a nonzero exit; meeting the runtime target does not imply passing tests. This command does not run the full detailed E2E suite.
+
+Rebuild both Storybooks with `pnpm build` after source or story changes before using static mode. The benchmark evaluates its 600-second budget after execution; it does not forcibly stop at ten minutes. To repeat only MessageScroller behavior checks:
+
+```sh
+pnpm test tests/message-scroller.spec.ts --repeat-each=5
+```
+
+### Browser readiness and timeouts
+
+Detailed E2E reuses Preview between different stories in the same environment. Repeating a story or changing theme, args or address starts a new document. Transition deadlines are independent of the page clock; failures restore listeners and animation inventory. Context isolation and detailed comparison coverage remain unchanged.
+
+Budgets live in [tests/timeouts.ts](../../../tests/timeouts.ts): ordinary tests 45s; assertions, actions and browser readiness 5s; document navigation 15s; Preview transitions 10s; common batches 90s; spacing batches 60s; official preview groups 45–120s. Streaming completion assertions retain 20s and server startup retains 120s. Shorter deadlines do not guarantee faster passing tests.
 
 ## Connect stories to official examples
 
@@ -185,7 +197,3 @@ For initial setup, check these two GitHub settings:
 2. Allow `deploy-github-pages` in the deployment branch rules under **Settings → Environments → github-pages**.
 
 The workflow reads the site's `/shadcn-ariax/` path and applies it to the build. Both deployment workflows can also be run manually from Actions by selecting their deployment branch.
-
-Detailed E2E reuses Preview between different stories in the same environment. Repeating a story or changing theme, args or address starts a new document. Transition deadlines are independent of the page clock; failures restore listeners and animation inventory. Context isolation and detailed comparison coverage remain unchanged.
-
-Budgets live in `tests/timeouts.ts`: ordinary tests 45s; assertions, actions and browser readiness 5s; document navigation 15s; Preview transitions 10s; common batches 90s; spacing batches 60s; official preview groups 45–120s. Streaming completion assertions retain 20s and server startup retains 120s. Shorter deadlines do not guarantee faster passing tests.
