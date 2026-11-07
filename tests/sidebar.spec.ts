@@ -282,6 +282,13 @@ for (const story of ["skeletons", "rsc"])
       },
       story === "skeletons" ? 0.2 : 0.8,
     );
+    if (story === "rsc")
+      await context.addInitScript(() => {
+        window.__sidebarProjectsReady = () =>
+          new Promise<void>((resolve) => {
+            window.__resolveSidebarProjects = resolve;
+          });
+      });
     try {
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
@@ -294,14 +301,26 @@ for (const story of ["skeletons", "rsc"])
         }),
       );
       if (story === "rsc") {
-        for (const page of pages) await page.reload();
         for (const page of pages)
           await expect(
             page.locator("[data-slot=sidebar-menu-skeleton]").first(),
           ).toBeVisible();
         await compare(pages[0], pages[1], info, "suspense-loading");
+        await Promise.all(
+          pages.map((page) =>
+            page.evaluate(() => {
+              if (!window.__resolveSidebarProjects)
+                throw new Error("Missing pending sidebar request");
+              window.__resolveSidebarProjects();
+            }),
+          ),
+        );
         for (const page of pages)
           await expect(page.getByText("Design Engineering")).toBeVisible();
+        for (const page of pages)
+          await expect(
+            page.locator("[data-slot=sidebar-menu-skeleton]"),
+          ).toHaveCount(0);
         await compare(pages[0], pages[1], info, "suspense-resolved");
       } else await compare(pages[0], pages[1], info, "seeded-skeletons");
     } finally {

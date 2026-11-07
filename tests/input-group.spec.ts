@@ -112,3 +112,24 @@ for (const theme of ["light", "dark"])
       await Promise.all(pages.map((page) => page.close()));
     }
   });
+
+test("Input Group xs sizes only direct icons", async ({ browser }, info) => {
+  const context = await browser.newContext();
+  try {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(async (url) => {
+        const page = await context.newPage();
+        await page.goto(
+          `${url}/iframe.html?id=components-input-group--buttons`,
+        );
+        const button = page.locator('button[data-size="xs"]').first();
+        await expect(button.locator(":scope > svg")).toHaveCSS("width", "14px");
+        await expect(button.locator("span > svg")).toHaveCSS("width", "16px");
+        return page;
+      }),
+    );
+    await compare(pages[0], pages[1], info, "direct-and-nested-icons");
+  } finally {
+    await context.close();
+  }
+});

@@ -10,8 +10,6 @@
   text-decoration-line: underline;
   text-underline-offset: 4px;
 }
-@media (hover: hover) {
-  .ariax-empty-description > a:hover {
-    color: var(--primary);
-  }
+.ariax-empty-description > a:hover {
+  color: var(--primary);
 }

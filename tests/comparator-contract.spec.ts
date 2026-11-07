@@ -225,3 +225,44 @@ test("animation names require equivalent transform paths and timing", async ({
     });
   }
 });
+
+test("comparators distinguish live form state even when attributes and pixels agree", async ({
+  context,
+}, info) => {
+  const a = await context.newPage(),
+    b = await context.newPage();
+  const markup =
+    '<main id="parity-root"><input type="password"><input type="checkbox"><textarea></textarea><select multiple><option value="a">A</option><option value="b">B</option></select></main>';
+  for (const kind of [
+    "value",
+    "checked",
+    "indeterminate",
+    "textarea",
+    "selected",
+  ] as const) {
+    await Promise.all([a, b].map((page) => page.setContent(markup)));
+    await a.locator("input[type=password]").fill("abcd");
+    await b.locator("input[type=password]").fill("abcd");
+    await b.evaluate((kind) => {
+      const input = document.querySelector(
+        "input[type=checkbox]",
+      ) as HTMLInputElement;
+      if (kind === "value")
+        (
+          document.querySelector("input[type=password]") as HTMLInputElement
+        ).value = "wxyz";
+      if (kind === "checked") input.checked = true;
+      if (kind === "indeterminate") input.indeterminate = true;
+      if (kind === "textarea")
+        document.querySelector("textarea")!.value = "edited";
+      if (kind === "selected")
+        document.querySelector("select")!.options[1].selected = true;
+    }, kind);
+    await expect(compare(a, b, info, `live-${kind}`, false)).rejects.toThrow(
+      `live-${kind}`,
+    );
+    await expect(compareDOMCSS(a, b, info, `live-ci-${kind}`)).rejects.toThrow(
+      `live-ci-${kind}`,
+    );
+  }
+});

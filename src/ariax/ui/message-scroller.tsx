@@ -256,13 +256,11 @@ const styles = stylex.create({
     insetInlineStart: "50%",
     translate: {
       default: "-50% 0",
-      ':is([dir="rtl"] *)': "50% 0",
+      ":dir(rtl)": "50% 0",
       ':is([data-active="false"][data-direction="end"])': "-50% 100%",
       ':is([data-active="false"][data-direction="start"])': "-50% -100%",
-      ':is([dir="rtl"] *)[data-active="false"][data-direction="end"]':
-        "50% 100%",
-      ':is([dir="rtl"] *)[data-active="false"][data-direction="start"]':
-        "50% -100%",
+      ':dir(rtl)[data-active="false"][data-direction="end"]': "50% 100%",
+      ':dir(rtl)[data-active="false"][data-direction="start"]': "50% -100%",
     },
     borderColor: "var(--border)",
     backgroundColor: {

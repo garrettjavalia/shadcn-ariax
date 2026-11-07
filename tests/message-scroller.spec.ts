@@ -247,3 +247,38 @@ test("MessageScroller actual active/inactive button transitions", async ({
     await context.close();
   }
 });
+
+test("MessageScroller buttons honor their own RTL direction", async ({
+  browser,
+}, info) => {
+  const context = await browser.newContext();
+  try {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(async (url) => {
+        const page = await context.newPage();
+        await page.goto(
+          `${url}/iframe.html?id=components-messagescroller--primitive-state`,
+        );
+        await expect(
+          page.locator('[data-slot="message-scroller-button"]').first(),
+        ).toBeAttached();
+        return page;
+      }),
+    );
+    for (const mode of ["attribute", "style"] as const) {
+      for (const page of pages)
+        await page
+          .locator('[data-slot="message-scroller-button"]')
+          .evaluateAll((buttons, mode) => {
+            for (const button of buttons) {
+              button.removeAttribute("dir");
+              if (mode === "attribute") button.setAttribute("dir", "rtl");
+              else (button as HTMLElement).style.direction = "rtl";
+            }
+          }, mode);
+      await compare(pages[0], pages[1], info, `button-rtl-${mode}`);
+    }
+  } finally {
+    await context.close();
+  }
+});

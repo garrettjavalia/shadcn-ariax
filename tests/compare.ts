@@ -158,6 +158,27 @@ export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
       return {
         path,
         tag: node.tagName,
+        ...(node instanceof HTMLInputElement
+          ? {
+              control: {
+                value: node.value,
+                checked: node.checked,
+                indeterminate: node.indeterminate,
+              },
+            }
+          : node instanceof HTMLTextAreaElement
+            ? { control: { value: node.value } }
+            : node instanceof HTMLSelectElement
+              ? {
+                  control: {
+                    value: node.value,
+                    selected: Array.from(
+                      node.options,
+                      (option) => option.selected,
+                    ),
+                  },
+                }
+              : {}),
         attrs: Object.fromEntries(
           [...node.attributes]
             // Test harness markers select roots, portals and interaction targets.

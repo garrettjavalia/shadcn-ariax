@@ -423,6 +423,9 @@ for (const theme of ["light", "dark"])
             p.locator('[data-slot="context-menu-content"]'),
           ).toHaveCount(0);
           await p.clock.runFor(1);
+          await expect(
+            p.locator('[data-slot="context-menu-content"]'),
+          ).toHaveCount(1);
           await p.clock.resume();
           await expect(
             p.locator('[data-slot="context-menu-content"]'),

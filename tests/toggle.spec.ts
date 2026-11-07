@@ -83,3 +83,25 @@ for (const theme of ["light", "dark"])
         await context.close();
       }
     });
+
+test("Toggle array helper includes opaque SVG styles", async ({
+  browser,
+}, info) => {
+  const { context, pages } = await createStoryPair(
+    browser,
+    undefined,
+    async (page, url) => {
+      await page.goto(`${url}/iframe.html?id=components-toggle--helper`);
+      await expect(page.locator("#parity-root svg")).toHaveCSS("width", "16px");
+      await expect(page.locator("#parity-root svg")).toHaveCSS(
+        "pointer-events",
+        "none",
+      );
+    },
+  );
+  try {
+    await compare(pages[0], pages[1], info, "raw-toggle-helper");
+  } finally {
+    await context.close();
+  }
+});

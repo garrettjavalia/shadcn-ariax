@@ -148,6 +148,10 @@ for (const theme of ["light", "dark"]) {
       }
       await compare(...pages, info, "copy-focus");
       for (const page of pages) {
+        await page.bringToFront();
+        await page.evaluate(() =>
+          navigator.clipboard.writeText("clipboard-before-copy"),
+        );
         await page.keyboard.press("Enter");
         await expect(
           page.getByRole("button", { name: "Copied", exact: true }),
