@@ -266,3 +266,32 @@ test("comparators distinguish live form state even when attributes and pixels ag
     );
   }
 });
+
+test("official overlay slots and explicit portals share a complete, nonduplicated snapshot", async ({
+  context,
+}, info) => {
+  const a = await context.newPage(),
+    b = await context.newPage();
+  const markup =
+    '<main id="parity-root"><button aria-controls="panel">Open</button></main><div data-slot="dialog-overlay"><section id="panel" role="dialog">Content</section></div>';
+  await Promise.all([a, b].map((page) => page.setContent(markup)));
+  await b.locator('[data-slot="dialog-overlay"]').evaluate((element) => {
+    element.setAttribute("data-parity-portal", "");
+    element.firstElementChild!.setAttribute("data-parity-portal", "");
+  });
+  expect(await snapshot(a)).toHaveLength(2);
+  expect(await snapshot(b)).toHaveLength(2);
+  await compare(a, b, info, "official-portal", false);
+  await b.getByRole("dialog").evaluate((element) => {
+    element.textContent = "Changed";
+  });
+  await expect(compareDOMCSS(a, b, info, "portal-content")).rejects.toThrow(
+    "portal-content",
+  );
+  await b
+    .locator('[data-slot="dialog-overlay"]')
+    .evaluate((element) => element.remove());
+  await expect(compareDOMCSS(a, b, info, "missing-portal")).rejects.toThrow(
+    "missing-portal",
+  );
+});

@@ -68,7 +68,9 @@ for (const theme of ["light", "dark"])
                   );
                   await expect(p.locator("#parity-root")).toBeVisible();
                   await p
-                    .locator("#parity-root [data-parity-trigger]")
+                    .locator(
+                      "#parity-root :is([data-parity-trigger], div[data-react-aria-pressable])",
+                    )
                     .nth(n)
                     .click({ button: "right" });
                   await expect(p.getByRole("menu").first()).toBeVisible();
@@ -157,7 +159,9 @@ for (const theme of ["light", "dark"])
       Promise.all(
         pages.map(async (p) => {
           await p
-            .locator("[data-parity-trigger]")
+            .locator(
+              ":is([data-parity-trigger], div[data-react-aria-pressable])",
+            )
             .first()
             .click({ button: "right" });
           await expect(p.getByRole("menu").first()).toBeVisible();
@@ -312,7 +316,9 @@ for (const theme of ["light", "dark"])
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page
-            .locator("[data-parity-trigger]")
+            .locator(
+              ":is([data-parity-trigger], div[data-react-aria-pressable])",
+            )
             .click({ button: "right" });
           await markPortals(page);
           await page.mouse.move(0, 800);
@@ -406,7 +412,11 @@ for (const theme of ["light", "dark"])
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--usage&viewMode=story&globals=theme:${theme}`,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
-          const box = await p.locator("[data-parity-trigger]").boundingBox();
+          const box = await p
+            .locator(
+              ":is([data-parity-trigger], div[data-react-aria-pressable])",
+            )
+            .boundingBox();
           if (!box) throw Error("Missing trigger");
           await p.clock.install({ time: new Date("2026-01-01T00:00:00Z") });
           await p.clock.pauseAt(
@@ -445,7 +455,11 @@ for (const theme of ["light", "dark"])
           await expect(
             p.locator('[data-slot="context-menu-content"]'),
           ).toBeHidden();
-          await expect(p.locator("[data-parity-trigger]")).toBeFocused();
+          await expect(
+            p.locator(
+              ":is([data-parity-trigger], div[data-react-aria-pressable])",
+            ),
+          ).toBeFocused();
         }),
       );
       await compare(pages[0], pages[1], info, "touch-escape");
@@ -465,7 +479,11 @@ for (const theme of ["light", "dark"])
             await p.goto(
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--rtl&viewMode=story&globals=theme:${theme}`,
             );
-            await p.locator("[data-parity-trigger]").click({ button: "right" });
+            await p
+              .locator(
+                ":is([data-parity-trigger], div[data-react-aria-pressable])",
+              )
+              .click({ button: "right" });
             await p
               .locator('[data-slot="context-menu-sub-trigger"]')
               .nth(n)
@@ -497,8 +515,14 @@ for (const theme of ["light", "dark"])
           `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--keyboard&viewMode=story&globals=theme:${theme}`,
         );
         await p.bringToFront();
-        await p.locator("[data-parity-trigger]").focus();
-        await expect(p.locator("[data-parity-trigger]")).toBeFocused();
+        await p
+          .locator(":is([data-parity-trigger], div[data-react-aria-pressable])")
+          .focus();
+        await expect(
+          p.locator(
+            ":is([data-parity-trigger], div[data-react-aria-pressable])",
+          ),
+        ).toBeFocused();
         const mac = await p.evaluate(() => /^Mac/i.test(navigator.platform));
         await p.keyboard.press(mac ? "Control+Enter" : "Shift+F10");
         await expect(p.getByRole("menu")).toBeVisible();

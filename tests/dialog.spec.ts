@@ -48,10 +48,23 @@ for (const theme of ["light", "dark"])
         ) {
           await Promise.all(
             pages.map((p) =>
-              p
-                .getByRole("dialog")
-                .locator('[style*="overflow"]')
-                .evaluate((el) => (el.scrollTop = 200)),
+              p.getByRole("dialog").evaluate((dialog) => {
+                const scrollers = [
+                  ...dialog.querySelectorAll<HTMLElement>("*"),
+                ].filter(
+                  (element) =>
+                    /^(auto|scroll)$/.test(
+                      getComputedStyle(element).overflowY,
+                    ) && element.scrollHeight > element.clientHeight,
+                );
+                if (scrollers.length !== 1)
+                  throw new Error(
+                    `Expected one scrollable dialog region, found ${scrollers.length}`,
+                  );
+                scrollers[0].scrollTop = 200;
+                if (scrollers[0].scrollTop !== 200)
+                  throw new Error("Dialog content did not scroll to 200px");
+              }),
             ),
           );
           await compare(pages[0], pages[1], info, name + "-scrolled");

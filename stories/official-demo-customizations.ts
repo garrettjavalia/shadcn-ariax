@@ -115,7 +115,7 @@ const styles=stylex.create({
   "emptyButtons": {
     "flexDirection": "row",
     "justifyContent": "center",
-    "gap": 8
+    "gap": "calc(var(--ariax-spacing, .25rem) * 2)"
   },
   "muted": {
     "color": "var(--muted-foreground)"
@@ -232,7 +232,7 @@ const styles=stylex.create({
     "display": "flex",
     "flexDirection": "column",
     "alignItems": "center",
-    "gap": 16
+    "gap": "calc(var(--ariax-spacing, .25rem) * 4)"
   },
   "keyInputs": {
     "display": "flex",

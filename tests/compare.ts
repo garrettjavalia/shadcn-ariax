@@ -47,8 +47,21 @@ export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
     };
     const root = document.querySelector("#parity-root");
     if (!root) throw new Error("Missing parity root");
-    // Explicitly registered portals are compared alongside the story tree.
-    const roots = [root, ...document.querySelectorAll("[data-parity-portal]")];
+    // Official JSX has no harness attributes. Register its public overlay slots
+    // too, preserving explicit roots for fixtures with custom data-slot values.
+    const candidates = [
+      ...document.querySelectorAll(
+        '[data-parity-portal], [data-slot="dialog-overlay"], [data-slot="alert-dialog-overlay"], [data-slot="sheet-overlay"], [data-slot="sidebar"][data-mobile="true"], [data-slot="popover-content"], [data-slot="hover-card-content"], [data-slot="tooltip-content"], [data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"], [data-slot="context-menu-content"], [data-slot="context-menu-sub-content"], [data-slot="select-content"], [data-slot="combobox-content"]',
+      ),
+    ].filter((element) => !root.contains(element));
+    const portals = candidates.filter(
+      (element) =>
+        !candidates.some(
+          (parent) => parent !== element && parent.contains(element),
+        ),
+    );
+    for (const portal of portals) portal.setAttribute("data-parity-portal", "");
+    const roots = [root, ...portals];
     const elements = roots.flatMap((r) => [r, ...r.querySelectorAll("*")]);
     const ids = new Map(
       elements

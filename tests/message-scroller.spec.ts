@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
+import { waitForStoryReadiness } from "./story-readiness";
 import { upstreamURL, stylexURL } from "./servers";
 for (const theme of ["light", "dark"])
   for (const story of [
@@ -30,6 +31,7 @@ for (const theme of ["light", "dark"])
             return page;
           }),
         );
+        await Promise.all(pages.map((page) => waitForStoryReadiness(page)));
         await compare(pages[0], pages[1], info, "initial");
         for (const command of ["Start", "Middle", "End"]) {
           for (const page of pages)
@@ -39,6 +41,7 @@ for (const theme of ["light", "dark"])
                 exact: true,
               })
               .click();
+          await Promise.all(pages.map((page) => waitForStoryReadiness(page)));
           await compare(pages[0], pages[1], info, command.toLowerCase());
         }
         for (const page of pages) {
@@ -52,6 +55,7 @@ for (const theme of ["light", "dark"])
             page.locator('[data-slot="message-scroller-item"]'),
           ).toHaveCount(6);
         }
+        await Promise.all(pages.map((page) => waitForStoryReadiness(page)));
         await compare(pages[0], pages[1], info, "append");
         for (const page of pages) {
           const viewport = page.locator(

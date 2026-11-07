@@ -140,7 +140,9 @@ for (const scenario of scenarios)
                 await page.mouse.move(0, 0);
                 if (id.startsWith("components-contextmenu--")) {
                   await page
-                    .locator("#parity-root [data-parity-trigger]")
+                    .locator(
+                      "#parity-root :is([data-parity-trigger], div[data-react-aria-pressable])",
+                    )
                     .first()
                     .click({ button: "right" });
                   await expect(page.getByRole("menu").first()).toBeVisible();

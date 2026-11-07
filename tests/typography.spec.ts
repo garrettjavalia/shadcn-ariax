@@ -22,9 +22,9 @@ test("Typography official intrinsic examples all have parity stories and no fake
       ]?.tags,
       name,
     ).toContain("parity");
-  const registry = await (
-    await request.get(stylexURL + "/r/typography.json")
-  ).json();
+  const registry = JSON.parse(
+    await readFile("registry/typography.json", "utf8"),
+  );
   expect(registry.type).toBe("registry:file");
   expect(
     registry.files.some(
