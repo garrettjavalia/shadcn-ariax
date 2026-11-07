@@ -73,21 +73,36 @@ English · [한국어](ko.md)
 
 ## Verification scope and remaining work
 
-- All 62 items have installation fixtures. Trace and Code Block passed actual CLI installation over HTTP, TypeScript checks and a production Vite build without Tailwind with the updated tools; the other 60 retain their previously verified installation coverage.
-- In this upstream refresh, Trace and Code Block received full browser comparisons and interaction, keyboard, clipboard, streaming, animation and accessibility checks. Existing components received the common static E2E comparison only. AI Elements composition patterns were not added.
-- After extending Preview reuse and shared budgets, 490 of 491 light tests across 74 affected specs passed in 8m 3s. One Sidebar menu-badge focus failure did not reproduce in 30 event-recorded repetitions and remains unresolved. Three of four representative CI batches passed; the known MessageScroller initial-position defect still failed. The suite is not fully passing.
-- CI runs static comparisons of registered stories at 1000px in light and dark themes; detailed behavior, pixel, and animation checks are separate.
-- A detailed light-theme full E2E run completed 768 tests: 697 passed and 71 failed in 21m 23.5s. After correcting official-example portal/trigger discovery, Carousel API observation, spacing tokens, metadata access and scroll readiness, only failed and affected cases were rerun. All 67 previous failures outside MessageScroller passed; Sidebar focus also passed 20 repetitions. This is not a new full-suite result.
-- The seven detailed MessageScroller tests passed five repetitions each (35 total) after waiting for SDK auto-scroll completion. Two related common comparison batches and three isolated opening-position comparisons also passed, but the official preview execution test failed at opening-position on all three repetitions. Conditional passes do not establish that the SDK initial-position defect is fixed.
-- With the same two workers, 1,020 stories and light/dark coverage, common static CI E2E decreased from 711.895s to 449.363s (36.9%; full command 453.166s). Of 134 batches, 133 passed and one failed, completing 2,039 comparisons. The 10-minute runtime target is met, but the suite is not fully passing. The reduction includes earlier termination of stalled readiness.
-- The official MessageScroller opening-position defect reproduced on 8/8 fresh pages for each implementation: a 24px anchor offset instead of 80px. This matches [upstream issue #11643](https://github.com/shadcn-ui/ui/issues/11643): the SDK calculates the destination using estimated heights from `content-visibility: auto`. Disabling that property for diagnosis produced the correct offset on 8/8 pages per implementation. Keeping it enabled and correcting with `scrollIntoView` after actual layout also succeeded on 8/8 each. This was a post-layout correction experiment, not a permanent fix or successful initial positioning. The latest published `@shadcn/react@0.3.1` remains affected and [fix PR #11670](https://github.com/shadcn-ui/ui/pull/11670) is unmerged (checked 2026-11-07). The original optimization, examples and SDK remain unchanged; tests do not force the expected position.
-- The separately observed intermittent `last-anchor` failure did not reproduce on eight subsequent pages per implementation, so its cause is not assumed identical. Checking fixture readiness every frame did not resolve the earlier failures. Readiness fails after 15 seconds with phase, geometry and animation diagnostics; comparison criteria remain unchanged.
-- The 493 official documentation preview occurrences have 486 connected comparisons and 7 explicit exceptions. Connected demos use the untouched official TSX on the upstream side and the StyleX adaptation on the AriaX side, under the same story ID. Their actual DOM/CSS equivalence is checked by the browser suite; a mapping alone is not a passing result.
-- `upstream/original-exceptions.json` records the exceptions: the raw CVA `button-render` example is outside the resolved `buttonProps` contract, and six MessageScroller demos depend on the Radix/Rhea `MessageAnimated` renderer. These originals remain available for browsing. Missing mappings, unexplained exclusions and stale exceptions fail generation; connected examples must have an active `parity` story in the live index.
+All 62 items have installation fixtures. Trace and Code Block received browser comparison, interaction, keyboard, clipboard, streaming, animation and accessibility checks. They also passed actual HTTP CLI installation, TypeScript checks and a production Vite build without Tailwind using shadcn CLI 4.23.0 and Zod 4.6.7. The subsequent fixes to Toggle, Questionnaire, Input Group and Tabs were also checked in an installed consumer app. This does not mean all 62 items were freshly reinstalled. AI Elements composition patterns were not added.
 
-Installation has been verified with Vite, React and TypeScript; Next.js, SSR and other framework integrations remain unverified. See the [Development guide](../development/en.md#checks) for checks.
+CI compares registered stories at 1000px in light and dark themes. Detailed behavior, geometry, focus, pixels and animation checks run separately. Installation has been verified with Vite, React and TypeScript; Next.js, SSR and other framework integrations remain unverified.
+
+### Latest detailed E2E result
+
+The 2026-11-07 full detailed light-theme run used four workers and prepared static Storybooks. Times below are command wall times; neither run skipped tests.
+
+| Revision | Passed / failed | Time |
+| --- | --- | --- |
+| Before: `ca94b84` | 697 / 71 (768 total) | 21m 23.50s |
+| After: `d62f42a` | 768 / 3 (771 total) | 14m 32.59s |
+
+The same selection retained all 768 existing tests and added three navigation/comparator contract tests. Runtime decreased by **6m 50.91s (32.0%)**, including fixes to failures and earlier termination of stalled waits. This does not establish a 32% speedup for each passing test or a passing full suite. A new full dark-theme run was not performed.
+
+The separate common static CI benchmark previously decreased from 711.895s to 449.363s (36.9%) with the same two workers, 1,020 stories and light/dark coverage. It completed 2,039 comparisons across 134 batches: 133 passed and one failed. Its 10-minute target applies to common CI E2E, not the detailed suite. See the [Development guide](../development/en.md#checks) for commands and budgets.
+
+### Unresolved failures
+
+- **MessageScroller opening position (two failing tests):** the official preview and the common comparison fail on the initial anchor position. Both implementations reproduced 24px instead of the expected 80px, consistent with [upstream issue #11643](https://github.com/shadcn-ui/ui/issues/11643) concerning estimated heights from `content-visibility: auto`. The pinned `@shadcn/react@0.3.1` is affected; [fix PR #11670](https://github.com/shadcn-ui/ui/pull/11670) was unmerged when checked on 2026-11-07. Post-layout correction experiments succeeded but were not adopted as a production fix: scrolling, cancellation and spacer contracts still need verification. Tests do not force the expected position. The seven detailed MessageScroller cases passed five repetitions each; those results do not resolve initial positioning.
+- **Sidebar focus (one failing test):** the latest run failed the `shortcut-expanded` pixel comparison after its DOM/CSS comparison passed. The upstream search input showed a focus ring that was absent from the AriaX screenshot. Earlier intermittent `menu-badge` focus failures did not reproduce in 30 instrumented repetitions and passed in the latest full run; their cause remains unresolved. Comparison tolerances remain unchanged.
+
+### Official example coverage
+
+The 493 official documentation preview occurrences have 486 connected comparisons and seven explicit exceptions. Connected demos use untouched official TSX upstream and the StyleX adaptation in AriaX under the same story ID. A mapping alone is not a passing browser comparison.
+
+[Official exceptions](../../../upstream/original-exceptions.json) records the raw CVA `button-render` example outside the resolved `buttonProps` contract and six MessageScroller demos depending on the Radix/Rhea `MessageAnimated` renderer. These originals remain browsable. Missing mappings, unexplained exclusions and stale exceptions fail generation; connected examples must have an active `parity` story in the live index.
 
 ## Notes
+
 - Native Select: OS-native popups are outside the verification scope.
 - Attachment: the official example’s native trigger does not automatically open Dialog, matching upstream. An explicitly controlled Dialog composition and open/close checks are also provided.
 - Trace: the official description color falls below WCAG AA text contrast in both themes. The implementation preserves the source color, and accessibility comparisons track this limitation.
