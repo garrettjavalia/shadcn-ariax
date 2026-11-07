@@ -176,11 +176,29 @@ for (const theme of ["light", "dark"]) {
       }
       await compare(...pages, info, "scrolled");
       for (const page of pages) {
-        await page
+        const content = page
           .locator('[data-slot="code-block-content"][data-numbered]')
-          .last()
-          .focus();
+          .last();
+        await content.focus();
+        const scrolling = content.evaluate(
+          (element) =>
+            new Promise<void>((resolve, reject) => {
+              const done = () => {
+                clearTimeout(timeout);
+                resolve();
+              };
+              const timeout = setTimeout(() => {
+                element.removeEventListener("scrollend", done);
+                reject(new Error("Keyboard scrolling did not finish"));
+              }, 5000);
+              element.addEventListener("scrollend", done, { once: true });
+            }),
+        );
         await page.keyboard.press("ArrowDown");
+        await scrolling;
+        expect(
+          await content.evaluate((element) => element.scrollTop),
+        ).toBeGreaterThan(120);
       }
       await compare(...pages, info, "keyboard-scroll");
     } finally {
