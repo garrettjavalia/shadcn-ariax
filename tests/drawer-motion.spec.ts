@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
@@ -30,8 +31,10 @@ for (const theme of ["light", "dark"])
       );
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-drawer--usage&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await p.getByRole("button", { name: "Open", exact: true }).click();
           await expect(p.getByRole("dialog")).toBeVisible();
@@ -96,8 +99,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-drawer--swipe-handle&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await p
             .getByRole("button", { name: "Open Drawer", exact: true })

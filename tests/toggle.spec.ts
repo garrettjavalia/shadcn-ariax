@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -37,8 +38,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-toggle--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
         },
@@ -91,7 +94,11 @@ test("Toggle array helper includes opaque SVG styles", async ({
     browser,
     undefined,
     async (page, url) => {
-      await page.goto(`${url}/iframe.html?id=components-toggle--helper`);
+      await navigateStory(
+        page,
+        `${url}/iframe.html?id=components-toggle--helper`,
+        true,
+      );
       await expect(page.locator("#parity-root svg")).toHaveCSS("width", "16px");
       await expect(page.locator("#parity-root svg")).toHaveCSS(
         "pointer-events",

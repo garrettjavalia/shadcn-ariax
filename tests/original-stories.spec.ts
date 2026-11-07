@@ -1,3 +1,4 @@
+import { originalPreviewBudget } from "./timeouts";
 import { test, expect } from "@playwright/test";
 import { readFile, readdir } from "node:fs/promises";
 import { readdirSync, readFileSync } from "node:fs";
@@ -109,7 +110,6 @@ for (const document of documents)
     page,
     request,
   }) => {
-    test.setTimeout(240_000);
     const manifest: OriginalStoriesManifest = await (
       await request.get(`${upstreamURL}/original-stories/manifest.json`)
     ).json();
@@ -120,7 +120,7 @@ for (const document of documents)
           .map((preview) => [preview.storyId, preview]),
       ).values(),
     ];
-    test.setTimeout(30_000 + previews.length * 45_000);
+    test.setTimeout(originalPreviewBudget(previews.length));
     expect(
       previews.length,
       `No official previews registered for ${document}`,

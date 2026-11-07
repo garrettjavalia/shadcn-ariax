@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   deterministicStoryContextOptions,
   createStoryPair,
@@ -63,8 +64,10 @@ for (const theme of ["light", "dark"])
             await test.step("trigger-" + n, async () => {
               await Promise.all(
                 pages.map(async (p, i) => {
-                  await p.goto(
+                  await navigateStory(
+                    p,
                     `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--${name}&viewMode=story&globals=theme:${theme}`,
+                    true,
                   );
                   await expect(p.locator("#parity-root")).toBeVisible();
                   await p
@@ -149,8 +152,10 @@ for (const theme of ["light", "dark"])
     const load = async (name: string) =>
       Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--${name}&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
         }),
@@ -311,8 +316,10 @@ for (const theme of ["light", "dark"])
             [b, stylexURL],
           ] as const
         ).map(async ([page, url]) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-contextmenu--basic&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page
@@ -408,8 +415,10 @@ for (const theme of ["light", "dark"])
               "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1",
             platform: "iPhone",
           });
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--usage&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           const box = await p
@@ -476,8 +485,10 @@ for (const theme of ["light", "dark"])
       for (let n = 0; n < 2; n++) {
         await Promise.all(
           pages.map(async (p, i) => {
-            await p.goto(
+            await navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--rtl&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await p
               .locator(
@@ -511,8 +522,10 @@ for (const theme of ["light", "dark"])
     });
     try {
       for (const [i, p] of pages.entries()) {
-        await p.goto(
+        await navigateStory(
+          p,
           `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-contextmenu--keyboard&viewMode=story&globals=theme:${theme}`,
+          true,
         );
         await p.bringToFront();
         await p

@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -38,8 +39,10 @@ for (const theme of ["light", "dark"])
           [a, upstreamURL],
           [b, stylexURL],
         ] as const) {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-card--${story}&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page
@@ -99,8 +102,10 @@ for (const theme of ["light", "dark"])
 test("Card StyleX dynamic styles survive React style updates and native props/ref forwarding", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-card--react-props&viewMode=story`,
+    true,
   );
   const card = page.locator("#interactive-card");
   await expect(card).toHaveCSS("width", "310px");

@@ -1,3 +1,4 @@
+import { e2eTimeouts } from "./timeouts";
 import type { Page } from "@playwright/test";
 
 export class BrowserWaitTimeout extends Error {}
@@ -8,7 +9,7 @@ export async function waitForBrowserWork<T>(
   page: Page,
   phase: () => string,
   work: () => Promise<T>,
-  timeout = 15_000,
+  timeout: number = e2eTimeouts.browserWork,
 ): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {

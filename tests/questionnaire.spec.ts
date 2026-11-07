@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -48,15 +49,16 @@ for (const theme of ["light", "dark"])
     test(`Questionnaire actual form flow / ${story} / ${theme}`, async ({
       browser,
     }, info) => {
-      test.setTimeout(90_000);
       const { context, pages } = await createStoryPair(browser, {
         viewport: { width: story === "mobile" ? 390 : 1000, height: 900 },
       });
       try {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-questionnaire--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

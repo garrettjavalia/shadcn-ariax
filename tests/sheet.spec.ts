@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -28,8 +29,10 @@ for (const theme of ["light", "dark"])
             : [0]) {
             await Promise.all(
               pages.map((p, i) =>
-                p.goto(
+                navigateStory(
+                  p,
                   `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-sheet--${name}&viewMode=story&globals=theme:${theme}`,
+                  true,
                 ),
               ),
             );
@@ -113,8 +116,10 @@ for (const theme of ["light", "dark"])
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < 2; i++) {
           const p = pages[i];
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-sheet--usage&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           if (phase === "exit") {
@@ -219,8 +224,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-sheet--no-close-button&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           await p.getByRole("button").click();

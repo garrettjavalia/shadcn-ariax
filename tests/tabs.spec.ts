@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -32,8 +33,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-tabs--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
         },
@@ -86,8 +89,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-tabs--controlled&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },
@@ -142,8 +147,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-tabs--conditions&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },
@@ -176,8 +183,10 @@ test("Tabs xstyle padding overrides icon-dependent defaults", async ({
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-tabs--xstyle-padding`,
+          true,
         );
         for (const tab of [
           page.getByRole("tab").nth(0),

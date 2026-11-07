@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { waitForStoryReadiness } from "./story-readiness";
@@ -22,8 +23,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-messagescroller--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(
               page.locator('[data-slot="message-scroller-viewport"]'),
@@ -85,8 +88,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-messagescroller--customization&globals=theme:${theme}`,
+            true,
           );
           await expect(
             page.locator('[data-slot="message-scroller"]'),
@@ -158,8 +163,10 @@ test("MessageScroller actual active/inactive button transitions", async ({
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-messagescroller--opening-start`,
+          true,
         );
         await expect(
           page.locator('[data-slot="message-scroller-viewport"]'),
@@ -260,8 +267,10 @@ test("MessageScroller buttons honor their own RTL direction", async ({
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-messagescroller--primitive-state`,
+          true,
         );
         await expect(
           page.locator('[data-slot="message-scroller-button"]').first(),

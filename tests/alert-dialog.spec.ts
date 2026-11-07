@@ -102,8 +102,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((p, i) =>
-          p.goto(
+          navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--in-dialog&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -152,8 +154,10 @@ for (const theme of ["light", "dark"])
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < 2; i++) {
           const p = pages[i];
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--usage&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           if (phase === "exit") {
@@ -231,8 +235,10 @@ for (const theme of ["light", "dark"])
       try {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-alertdialog--rtl&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

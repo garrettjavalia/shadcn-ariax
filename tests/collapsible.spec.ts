@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -35,8 +36,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-collapsible--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
         },
@@ -123,8 +126,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-collapsible--native&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },
@@ -191,8 +196,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-collapsible--flags&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },

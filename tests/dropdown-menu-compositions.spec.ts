@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -12,8 +13,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-dropdown-menu--registry-dialog&globals=theme:${theme}`,
+            true,
           );
           await page.getByRole("button", { name: "Open Dialog" }).click();
           await expect(page.getByRole("dialog")).toBeVisible();

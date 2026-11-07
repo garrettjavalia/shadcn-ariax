@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   deterministicStoryContextOptions,
   createStoryPair,
@@ -21,8 +22,10 @@ for (const theme of ["light", "dark"])
           [b, stylexURL],
         ].map(async ([page, url]) => {
           if (typeof page === "string") return;
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-table--selection&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page.getByRole("row").filter({ hasText: "INV001" }).click();
@@ -44,8 +47,10 @@ for (const theme of ["light", "dark"])
           [b, stylexURL],
         ].map(async ([page, url]) => {
           if (typeof page === "string") return;
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-table--scroll&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page
@@ -73,7 +78,11 @@ test("Table dynamic xstyle updates and user style precedence match upstream", as
           [b, stylexURL],
         ] as const
       ).map(async ([page, url]) => {
-        await page.goto(`${url}/iframe.html?id=components-table--customized`);
+        await navigateStory(
+          page,
+          `${url}/iframe.html?id=components-table--customized`,
+          true,
+        );
         await expect(page.locator("#parity-root")).toBeVisible();
         await page.getByRole("button", { name: "Resize" }).click();
       }),
@@ -93,8 +102,10 @@ for (const theme of ["light", "dark"])
         browser,
         deterministicStoryContextOptions(),
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-table--${labels ? "checkbox-labels" : "checkbox-selection"}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
         },

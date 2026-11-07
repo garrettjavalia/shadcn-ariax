@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect, type Page } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -28,8 +29,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-questionnaire--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(active(page)).toBeVisible();
             return page;
@@ -174,8 +177,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-questionnaire--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(page.locator("#custom-questionnaire")).toHaveAttribute(
               "data-ref",

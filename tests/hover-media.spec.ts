@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
@@ -27,8 +28,10 @@ for (const hasTouch of [false, true])
       for (const [story, selector] of cases) {
         for (let i = 0; i < pages.length; i++) {
           const page = pages[i];
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-${story}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           let target = selector;

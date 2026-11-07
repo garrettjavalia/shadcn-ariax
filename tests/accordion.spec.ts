@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -35,8 +36,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-accordion--${story}&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
         },
@@ -103,8 +106,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-accordion--controlled&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },
@@ -201,8 +206,10 @@ for (const theme of ["light", "dark"])
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-accordion--motion&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
         return page;
@@ -290,8 +297,10 @@ for (const theme of ["light", "dark"])
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-accordion--token-motion&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
         return page;
@@ -351,8 +360,10 @@ test("Accordion false animation flags preserve inactive styles", async ({
   const pages = await Promise.all(
     [upstreamURL, stylexURL].map(async (url) => {
       const page = await browser.newPage();
-      await page.goto(
+      await navigateStory(
+        page,
         url + "/iframe.html?id=components-accordion--false-flags",
+        true,
       );
       await expect(page.locator("#parity-root")).toBeVisible();
       return page;
