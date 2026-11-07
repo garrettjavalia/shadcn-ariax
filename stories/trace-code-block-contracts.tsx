@@ -127,6 +127,10 @@ export function CodeBlockContracts() {
           ))}
         </CodeBlockContent>
       </CodeBlock>
+      <CodeBlock variant="destructive">
+        <CodeBlockContent>Failed command</CodeBlockContent>
+        <CodeBlockFooter>Error details</CodeBlockFooter>
+      </CodeBlock>
     </div>
   );
 }

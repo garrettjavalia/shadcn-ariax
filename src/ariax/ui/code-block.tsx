@@ -231,11 +231,7 @@ const styles = stylex.create({
     gap: "calc(var(--ariax-spacing, .25rem) * 2)",
     paddingInline: "var(--ariax-code-padding)",
     paddingBottom: "var(--ariax-code-padding)",
-    color: {
-      default: "var(--muted-foreground)",
-      ':is([data-slot="code-block"][data-variant="destructive"] *)':
-        "var(--destructive)",
-    },
+    color: "var(--muted-foreground)",
   },
   title: {
     minWidth: 0,
