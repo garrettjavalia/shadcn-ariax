@@ -285,3 +285,109 @@ export const animationStyles = stylex.create({
     },
   },
 });
+
+// Trace applies shimmer only to direct titles in a running line.
+export const traceAnimationStyles = stylex.create({
+  title: {
+    "--ariax-shimmer-spread": {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        "var(--shimmer-spread, calc(3ch + 40px))",
+    },
+    "--ariax-shimmer-base": {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        "currentColor",
+    },
+    "--ariax-shimmer-highlight": {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default:
+            "var(--shimmer-color, oklch(from currentColor l c h / calc(alpha * 0.2)))",
+          ":is(.dark *)":
+            "var(--shimmer-color, oklch(from currentColor max(0.8, calc(l + 0.4)) c h / calc(alpha + 0.4)))",
+        },
+    },
+    backgroundImage: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default:
+            "var(--shimmer-image, linear-gradient(calc(90deg + var(--shimmer-angle)), var(--ariax-shimmer-base) calc(50% - var(--ariax-shimmer-spread)), color-mix(in oklch, var(--ariax-shimmer-highlight), var(--ariax-shimmer-base) 50%) calc(50% - var(--ariax-shimmer-spread) * 0.5), var(--ariax-shimmer-highlight) 50%, color-mix(in oklch, var(--ariax-shimmer-highlight), var(--ariax-shimmer-base) 50%) calc(50% + var(--ariax-shimmer-spread) * 0.5), var(--ariax-shimmer-base) calc(50% + var(--ariax-shimmer-spread))))",
+          "@media (prefers-reduced-motion: reduce)": "none",
+        },
+    },
+    backgroundRepeat: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        "no-repeat",
+    },
+    backgroundSize: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        "calc(200% + var(--ariax-shimmer-spread) * 2) 100%",
+    },
+    backgroundPosition: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        "0 0",
+    },
+    backgroundClip: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        "text",
+    },
+    WebkitTextFillColor: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default: "var(--shimmer-text-fill, transparent)",
+          "@media (prefers-reduced-motion: reduce)": "currentColor",
+        },
+    },
+    animationName: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default: shimmer,
+          "@media (prefers-reduced-motion: reduce)": "none",
+        },
+    },
+    animationDuration: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default: "var(--shimmer-duration, 2s)",
+          "@media (prefers-reduced-motion: reduce)": "0s",
+        },
+    },
+    animationTimingFunction: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default: "linear",
+          "@media (prefers-reduced-motion: reduce)": "ease",
+        },
+    },
+    animationIterationCount: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default: "infinite",
+          "@media (prefers-reduced-motion: reduce)": 1,
+        },
+    },
+    animationDirection: {
+      default: null,
+      ':is([data-slot="trace-line"][data-status="running"] > [data-slot="trace-title"])':
+        {
+          default: "normal",
+          ':where([dir="rtl"], [dir="rtl"] *)': {
+            default: "reverse",
+            "@media (prefers-reduced-motion: reduce)": "normal",
+          },
+        },
+    },
+  },
+});

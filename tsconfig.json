@@ -134,6 +134,9 @@
       ],
       "@button-group-customizations": [
         "./stories/button-group-customizations.ts"
+      ],
+      "@/styles/base-nova/ui/*": [
+        "./generated/reference/base-nova/ui/*"
       ]
     }
   },

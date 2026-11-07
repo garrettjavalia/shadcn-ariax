@@ -1,0 +1,47 @@
+:where(
+  [data-slot="code-block-header"] > :has(> [data-slot="code-block-title"])
+) {
+  min-width: 0;
+}
+:where([data-slot="code-block-title"] svg) {
+  pointer-events: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+:where([data-slot="code-block-title"] > svg) {
+  margin-inline-end: calc(var(--ariax-spacing, 0.25rem) * 1.5);
+}
+:where([data-slot="code-block-title"] svg:not([class*="size-"])) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 3.5);
+  height: calc(var(--ariax-spacing, 0.25rem) * 3.5);
+}
+:where([data-slot="code-block"] > [data-slot="code-block-actions"]) {
+  margin: 0;
+  top: calc(var(--ariax-spacing, 0.25rem) * 2);
+  inset-inline-end: calc(var(--ariax-spacing, 0.25rem) * 2);
+}
+:where(
+  [data-slot="code-block"][data-size="sm"] > [data-slot="code-block-actions"]
+) {
+  top: calc(var(--ariax-spacing, 0.25rem) * 1.5);
+  inset-inline-end: calc(var(--ariax-spacing, 0.25rem) * 1.5);
+}
+/* The parent's floating-action ring outranks the Button focus ring upstream.
+   Match StyleX's focus selector weight without changing the shared Button. */
+[data-slot="code-block"]
+  > [data-slot="code-block-actions"]
+  > button:not(#\#):not(#\#):not(#\#) {
+  background-color: var(--background);
+  box-shadow:
+    0 0 0 0 #0000,
+    0 0 0 0 #0000,
+    0 0 0 0 #0000,
+    0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent),
+    0 0 0 0 #0000;
+}
+:where([data-slot="code-block-line"])::before {
+  content: "";
+}
+:where([data-slot="code-block-line"])::after {
+  position: absolute;
+}

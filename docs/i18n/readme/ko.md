@@ -39,7 +39,7 @@ shadcn/ui의 `components.json`과 import 경로 별칭이 준비된 React·TypeS
 ### 1. 컴포넌트 추가
 
 ```sh
-pnpm dlx shadcn@4.21.1 add garrettjavalia/shadcn-ariax/button
+pnpm dlx shadcn@4.23.0 add garrettjavalia/shadcn-ariax/button
 ```
 
 CLI가 GitHub에서 컴포넌트 소스, 공통 CSS와 필요한 의존성을 설치합니다. 설치할 Git 리비전에는 루트 `registry.json`과 참조하는 소스 파일이 포함되어 있어야 합니다. 특정 리비전을 선택하려면 컴포넌트 주소 뒤에 `#<태그 또는 커밋>`을 붙입니다.

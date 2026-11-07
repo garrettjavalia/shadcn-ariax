@@ -71,12 +71,14 @@ PARITY_COMPONENT=components-button-- pnpm test:ci
 | 추가로 확인할 내용 | 명령 |
 | --- | --- |
 | 실제 CLI 설치와 설치 후 앱 빌드 | `pnpm test:install` |
+| 변경한 항목만 설치 검사 | `ARIAX_INSTALL_COMPONENTS=trace,code-block pnpm test:install` |
 | StyleX CSS 추출 | `pnpm test:stylex` |
 | 원본 준비·예제 생성 | `pnpm test:upstream` 및 `pnpm upstream:check` |
 | 양쪽 Storybook 빌드 | `pnpm build` |
 | 브라우저 검사 결과 보기 | `pnpm test:report` |
 
 PR의 CI는 타입·빌드와 원본 대비 정적 DOM·CSS 등을 검사합니다. 조작·픽셀·애니메이션까지 확인하려면 관련 브라우저 테스트도 실행해야 합니다. 평소에는 수정한 부분을 검사하고, 전체 검증이 필요할 때만 `pnpm test:full`을 실행합니다. 전체 검증에는 설치와 빌드도 포함되어 시간이 오래 걸립니다.
+
 
 ## 공식 예제와 스토리 연결하기
 

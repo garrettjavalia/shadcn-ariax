@@ -50,5 +50,7 @@
 @import "./bubble.css";
 @import "./attachment.css";
 @import "./message.css";
+@import "./trace.css";
+@import "./code-block.css";
 
 @stylex;
