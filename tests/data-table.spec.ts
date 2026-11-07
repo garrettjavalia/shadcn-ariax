@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -35,8 +36,10 @@ for (const theme of ["light", "dark"])
         try {
           await Promise.all(
             pages.map((page, i) =>
-              page.goto(
+              navigateStory(
+                page,
                 `${i ? stylexURL : upstreamURL}/iframe.html?id=components-data-table--${story}&globals=theme:${theme}`,
+                true,
               ),
             ),
           );
@@ -111,6 +114,9 @@ for (const theme of ["light", "dark"])
           await compare(pages[0], pages[1], info, "row-actions");
           for (const page of pages) {
             await page.bringToFront();
+            await page.evaluate(() =>
+              navigator.clipboard.writeText("clipboard-before-copy"),
+            );
             await page
               .getByRole("menuitem", {
                 name: story === "rtl" ? "نسخ معرف الدفع" : "Copy payment ID",
@@ -118,9 +124,9 @@ for (const theme of ["light", "dark"])
               })
               .click();
             await expect(page.getByRole("menu")).toHaveCount(0);
-            expect(
-              await page.evaluate(() => navigator.clipboard.readText()),
-            ).toBe("5kma53ae");
+            await expect
+              .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+              .toBe("5kma53ae");
           }
           await compare(pages[0], pages[1], info, "clipboard-action");
           for (const page of pages) {
@@ -148,8 +154,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-data-table--small-pages&globals=theme:${theme}`,
+            true,
           ),
         ),
       );

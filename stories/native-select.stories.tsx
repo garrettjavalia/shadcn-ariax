@@ -1,3 +1,4 @@
+import { NativeSelectRtl as OfficialRtl } from './official-examples/native-select-rtl';
 import {NativeSelectBasic,NativeSelectWithGroups,NativeSelectSizes,NativeSelectWithField} from "./native-select-example";
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { nativeSelectCustomized,nativeSelectOptionCustomized,nativeSelectGroupCustomized } from '@customizations';
@@ -17,7 +18,7 @@ export const Disabled:Story={render:()=> <NativeSelectDisabled/>};
 export const Invalid:Story={render:()=> <NativeSelectInvalid/>};
 export const Small:Story={render:()=> <NativeSelect size="sm"><NativeSelectOption value="">Select status</NativeSelectOption><NativeSelectOption value="todo">Todo</NativeSelectOption></NativeSelect>};
 export const Usage:Story={render:()=> <NativeSelect aria-label="Fruit"><NativeSelectOption value="">Select a fruit</NativeSelectOption>{['apple','banana','blueberry','pineapple'].map(f=><NativeSelectOption key={f} value={f}>{f[0].toUpperCase()+f.slice(1)}</NativeSelectOption>)}</NativeSelect>};
-export const Rtl:Story={render:()=> <NativeSelect dir="rtl"><NativeSelectOption value="">اختر الحالة</NativeSelectOption><NativeSelectOption value="todo">مهام</NativeSelectOption><NativeSelectOption value="in-progress">قيد التنفيذ</NativeSelectOption><NativeSelectOption value="done">منجز</NativeSelectOption><NativeSelectOption value="cancelled">ملغي</NativeSelectOption></NativeSelect>};
+export const Rtl:Story={ parameters: { originalExample: 'native-select-rtl' }, render: () => <OfficialRtl /> };
 export const States:Story={render:()=> <div style={{display:'grid',gap:16}}>{(['default','sm'] as const).map(size=><div key={size} style={{display:'flex',gap:16}}>{[{}, {disabled:true},{'aria-invalid':true},{disabled:true,'aria-invalid':true}].map((state,i)=><NativeSelect key={i} size={size} {...state} aria-label={`${size} ${i}`}><NativeSelectOption>State</NativeSelectOption></NativeSelect>)}</div>)}</div>};
 export const DisabledOptions:Story={render:()=> <NativeSelect aria-label="Available choice"><NativeSelectOption value="one">One</NativeSelectOption><NativeSelectOption disabled value="two">Two</NativeSelectOption><NativeSelectOptGroup disabled label="Unavailable"><NativeSelectOption value="three">Three</NativeSelectOption></NativeSelectOptGroup><NativeSelectOption value="four">Four</NativeSelectOption></NativeSelect>};
 export const Inline:Story={render:()=> <NativeSelect style={{width:190,fontSize:18,lineHeight:1.5}}><NativeSelectOptGroup label="Group" style={{color:'red'}}><NativeSelectOption style={{color:'blue'}}>Inline style</NativeSelectOption></NativeSelectOptGroup></NativeSelect>};

@@ -1,3 +1,4 @@
+import { readFileSync, readdirSync } from 'node:fs';
 import type { StorybookConfig } from '@storybook/react-vite';
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
@@ -15,9 +16,12 @@ import { originalAliases } from './original-aliases';
 import { frameworkAliases } from './framework-aliases';
 
 const upstream = process.env.ARIAX_IMPLEMENTATION === 'upstream';
+const linkedSources = upstream ? new Set<string>(JSON.parse(readFileSync(resolve('generated/original-stories/public/manifest.json'), 'utf8')).previews.flatMap((preview: { counterparts: { metaSource: string }[] }) => preview.counterparts.map(match => match.metaSource))) : new Set<string>();
+const sharedStories = readdirSync(resolve('stories'), { recursive: true }).filter((file): file is string => typeof file === 'string' && file.endsWith('.stories.tsx')).map(file => 'stories/' + file).filter(file => !linkedSources.has(file)).map(file => '../' + file);
+
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
-  stories: ['../stories/**/*.stories.tsx', ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
+  stories: [...sharedStories, ...(upstream ? ['../generated/original-stories/*.stories.tsx'] : [])],
   addons: ['@storybook/addon-docs'],
   staticDirs: ['../public', { from: '../licenses', to: '/licenses' }, { from: '../generated/upstream/shadcn/apps/v4/public/avatars', to: '/avatars' }, ...(upstream ? [{ from: '../generated/original-stories/public', to: '/original-stories' }] : [])],
   core: { disableTelemetry: true },
@@ -28,6 +32,7 @@ const config: StorybookConfig = {
     config.resolve.dedupe = [...new Set([...(config.resolve.dedupe ?? []), 'react', 'react-dom', 'react-aria-components', '@shadcn/react', 'recharts', 'sonner', 'next-themes'])];
     const inheritedAliases = config.resolve.alias;
     const aliases = {
+      '@code-block': resolve(upstream ? 'reference/code-block.ts' : 'src/ariax/ui/code-block.tsx'),
       '@avatar': resolve(upstream ? 'generated/reference/aria-nova/ui/avatar.tsx' : 'src/ariax/ui/avatar.tsx'),
       '@avatar-customizations': resolve(upstream ? 'reference/avatar-customizations.ts' : 'stories/avatar-customizations.ts'),
       '@dropdown-menu': resolve(upstream ? 'generated/reference/aria-nova/ui/dropdown-menu.tsx' : 'src/ariax/ui/dropdown-menu.tsx'),
@@ -71,6 +76,14 @@ const config: StorybookConfig = {
       '@implementation-css': resolve(upstream ? 'generated/reference/aria-nova/tailwind.css' : 'src/ariax/styles/entry.css'),
     };
     config.resolve.alias = [
+      {
+        find: /^@reference\/(.+)$/,
+        replacement: '$1',
+        customResolver(source, importer, options) {
+          const namespace = importer?.match(/generated\/reference\/([^/]+)\//)?.[1] ?? 'aria-nova';
+          return this.resolve(resolve('generated/reference', namespace, source), importer, { ...options, skipSelf: true });
+        },
+      },
       ...frameworkAliases,
       ...originalAliases,
       ...Object.entries(aliases).map(([find, replacement]) => ({ find, replacement })),

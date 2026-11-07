@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -32,8 +33,10 @@ for (const theme of ["light", "dark"])
           for (let n = 0; n < count; n++) {
             await Promise.all(
               pages.map((p, i) =>
-                p.goto(
+                navigateStory(
+                  p,
                   `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--${name}&viewMode=story&globals=theme:${theme}`,
+                  true,
                 ),
               ),
             );
@@ -103,8 +106,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--usage&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           await p.keyboard.press("Tab");
@@ -131,8 +136,10 @@ for (const theme of ["light", "dark"])
       await compare(pages[0], pages[1], info, "keyboard-escape");
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--in-dialog&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await p
             .getByRole("button", { name: "Open Dialog", exact: true })
@@ -164,8 +171,10 @@ for (const theme of ["light", "dark"])
       await compare(pages[0], pages[1], info, "dialog-closed");
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--default-open&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(
             p.locator('[data-slot="hover-card-content"]'),

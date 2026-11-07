@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   createStoryPair,
   deterministicStoryContextOptions,
@@ -16,8 +17,10 @@ async function pair(
     browser,
     deterministicStoryContextOptions(width, { colorScheme: "light" }),
     async (page, url) => {
-      await page.goto(
+      await navigateStory(
+        page,
         `${url}/iframe.html?id=components-button--${story}&viewMode=story&globals=theme:${theme}`,
+        true,
       );
       await expect(page.locator("#parity-root")).toBeVisible();
       await page.mouse.move(0, 0);

@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect, type Locator } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -90,8 +91,10 @@ for (const theme of ["light", "dark"])
             ]) {
           await Promise.all(
             pages.map((page, i) =>
-              page.goto(
+              navigateStory(
+                page,
                 `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--${story}&globals=theme:${theme}`,
+                true,
               ),
             ),
           );
@@ -179,8 +182,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--customization&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -211,8 +216,10 @@ for (const theme of ["light", "dark"])
       await compare(pages[0], pages[1], info, "custom-focus");
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--paste&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -249,8 +256,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-otp--usage&globals=theme:${theme}`,
+            true,
           ),
         ),
       );

@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -48,8 +49,10 @@ for (const theme of ["light", "dark"])
       try {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${i ? stylexURL : upstreamURL}/iframe.html?id=components-combobox--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -135,8 +138,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-combobox--demo&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -214,8 +219,10 @@ for (const theme of ["light", "dark"])
     const load = async (story: string) => {
       await Promise.all(
         pages.map((p, i) =>
-          p.goto(
+          navigateStory(
+            p,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-combobox--${story}&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -334,8 +341,10 @@ for (const theme of ["light", "dark"])
       try {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${i ? stylexURL : upstreamURL}/iframe.html?id=components-combobox--basic&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

@@ -1,0 +1,24 @@
+:where([data-slot="trace"] > :has(> [data-slot="trace-line"])) {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  text-align: start;
+  outline-style: none;
+  border-radius: calc(var(--radius) * 0.8);
+}
+:where([data-slot="trace"] > :has(> [data-slot="trace-line"]):focus-visible) {
+  box-shadow:
+    0 0 0 0 #0000,
+    0 0 0 0 #0000,
+    0 0 0 0 #0000,
+    0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent),
+    0 0 0 0 #0000;
+}
+:where([data-slot="trace-icon"] svg) {
+  pointer-events: none;
+}
+:where([data-slot="trace-icon"] svg:not([class*="size-"])) {
+  width: calc(var(--ariax-spacing, 0.25rem) * 4);
+  height: calc(var(--ariax-spacing, 0.25rem) * 4);
+}

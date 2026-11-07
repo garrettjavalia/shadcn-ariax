@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
@@ -14,8 +15,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         [a, b].map(async (page, i) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-group--align&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await page.locator('[data-slot="input-group-addon"]').first().click();
           await expect(
@@ -34,8 +37,10 @@ for (const theme of ["light", "dark"])
       await compare(a, b, info, "edit");
       await Promise.all(
         [a, b].map(async (page, i) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-group--buttons&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await page
             .getByRole("button", { name: "Send", exact: true })
@@ -50,8 +55,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["textarea", "custom", "inline-style"]) {
         await Promise.all(
           [a, b].map(async (page, i) => {
-            await page.goto(
+            await navigateStory(
+              page,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input-group--${story}&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await page
               .getByRole("textbox")
@@ -65,41 +72,14 @@ for (const theme of ["light", "dark"])
       await context.close();
     }
   });
-test("Input Group official document examples have an explicit supported or pending entry", async () => {
-  const { readFile } = await import("node:fs/promises");
-  const mdx = await readFile(
-    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/input-group.mdx",
-    "utf8",
-  );
-  const names = [
-    ...mdx.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
-  ].map((m) => m[1]);
-  const supported = [
-    "input-group-demo",
-    "input-group-icon",
-    "input-group-text",
-    "input-group-textarea",
-    "input-group-custom",
-  ];
-  const pending = [
-    "input-group-inline-start",
-    "input-group-inline-end",
-    "input-group-block-start",
-    "input-group-block-end",
-    "input-group-button",
-    "input-group-kbd",
-    "input-group-dropdown",
-    "input-group-spinner",
-    "input-group-rtl",
-  ];
-  expect(names.sort()).toEqual([...supported, ...pending].sort());
-});
 
 test("Input Group native style overrides retain dynamic StyleX variables", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-input-group--customized&viewMode=story`,
+    true,
   );
   const group = page.locator('[data-slot="input-group"]');
   await expect(group).toHaveCSS("width", "240px");
@@ -116,8 +96,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-input-group--buttons&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -141,3 +123,26 @@ for (const theme of ["light", "dark"])
       await Promise.all(pages.map((page) => page.close()));
     }
   });
+
+test("Input Group xs sizes only direct icons", async ({ browser }, info) => {
+  const context = await browser.newContext();
+  try {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(async (url) => {
+        const page = await context.newPage();
+        await navigateStory(
+          page,
+          `${url}/iframe.html?id=components-input-group--buttons`,
+          true,
+        );
+        const button = page.locator('button[data-size="xs"]').first();
+        await expect(button.locator(":scope > svg")).toHaveCSS("width", "14px");
+        await expect(button.locator("span > svg")).toHaveCSS("width", "16px");
+        return page;
+      }),
+    );
+    await compare(pages[0], pages[1], info, "direct-and-nested-icons");
+  } finally {
+    await context.close();
+  }
+});

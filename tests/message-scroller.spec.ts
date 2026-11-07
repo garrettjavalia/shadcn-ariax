@@ -1,5 +1,7 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
+import { waitForStoryReadiness } from "./story-readiness";
 import { upstreamURL, stylexURL } from "./servers";
 for (const theme of ["light", "dark"])
   for (const story of [
@@ -21,8 +23,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-messagescroller--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(
               page.locator('[data-slot="message-scroller-viewport"]'),
@@ -30,6 +34,7 @@ for (const theme of ["light", "dark"])
             return page;
           }),
         );
+        await Promise.all(pages.map((page) => waitForStoryReadiness(page)));
         await compare(pages[0], pages[1], info, "initial");
         for (const command of ["Start", "Middle", "End"]) {
           for (const page of pages)
@@ -39,6 +44,7 @@ for (const theme of ["light", "dark"])
                 exact: true,
               })
               .click();
+          await Promise.all(pages.map((page) => waitForStoryReadiness(page)));
           await compare(pages[0], pages[1], info, command.toLowerCase());
         }
         for (const page of pages) {
@@ -52,6 +58,7 @@ for (const theme of ["light", "dark"])
             page.locator('[data-slot="message-scroller-item"]'),
           ).toHaveCount(6);
         }
+        await Promise.all(pages.map((page) => waitForStoryReadiness(page)));
         await compare(pages[0], pages[1], info, "append");
         for (const page of pages) {
           const viewport = page.locator(
@@ -81,8 +88,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-messagescroller--customization&globals=theme:${theme}`,
+            true,
           );
           await expect(
             page.locator('[data-slot="message-scroller"]'),
@@ -154,8 +163,10 @@ test("MessageScroller actual active/inactive button transitions", async ({
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await context.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-messagescroller--opening-start`,
+          true,
         );
         await expect(
           page.locator('[data-slot="message-scroller-viewport"]'),
@@ -242,6 +253,43 @@ test("MessageScroller actual active/inactive button transitions", async ({
           false,
         );
       }
+    }
+  } finally {
+    await context.close();
+  }
+});
+
+test("MessageScroller buttons honor their own RTL direction", async ({
+  browser,
+}, info) => {
+  const context = await browser.newContext();
+  try {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(async (url) => {
+        const page = await context.newPage();
+        await navigateStory(
+          page,
+          `${url}/iframe.html?id=components-messagescroller--primitive-state`,
+          true,
+        );
+        await expect(
+          page.locator('[data-slot="message-scroller-button"]').first(),
+        ).toBeAttached();
+        return page;
+      }),
+    );
+    for (const mode of ["attribute", "style"] as const) {
+      for (const page of pages)
+        await page
+          .locator('[data-slot="message-scroller-button"]')
+          .evaluateAll((buttons, mode) => {
+            for (const button of buttons) {
+              button.removeAttribute("dir");
+              if (mode === "attribute") button.setAttribute("dir", "rtl");
+              else (button as HTMLElement).style.direction = "rtl";
+            }
+          }, mode);
+      await compare(pages[0], pages[1], info, `button-rtl-${mode}`);
     }
   } finally {
     await context.close();

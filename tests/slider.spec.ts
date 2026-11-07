@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -40,8 +41,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-slider--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(
             page.locator('[data-slot="slider"]').first(),
@@ -191,8 +194,10 @@ for (const theme of ["light", "dark"])
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await browser.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-slider--demo&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator('[data-slot="slider-thumb"]')).toBeVisible();
         await settle(page);

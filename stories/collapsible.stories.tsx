@@ -33,7 +33,7 @@ export const FileTree: Story = {
   render: () => <CollapsibleFileTree />
 };
 export const Rtl: Story = {
-  render: () => <DirectionProvider direction="rtl"><div dir="rtl"><CollapsibleRtl /></div></DirectionProvider>
+  decorators: [Story => <DirectionProvider direction="rtl"><div dir="rtl"><Story /></div></DirectionProvider>], parameters: { originalExample: "collapsible-rtl" }, render: () => <CollapsibleRtl />
 };
 export const Usage: Story = {
   render: () => <Collapsible><CollapsibleTrigger>Can I use this in my project?</CollapsibleTrigger><CollapsibleContent>Yes. Free to use for personal and commercial projects. No attribution required.</CollapsibleContent></Collapsible>

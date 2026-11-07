@@ -38,12 +38,12 @@ export const Icons: Story = {
   render: () => <TabsIcons />
 };
 export const Rtl: Story = {
-  render: () => <DirectionProvider direction="rtl"><div dir="rtl"><TabsRtl /></div></DirectionProvider>
+  decorators: [Story => <DirectionProvider direction="rtl"><div dir="rtl"><Story /></div></DirectionProvider>], parameters: { originalExample: "tabs-rtl" }, render: () => <TabsRtl />
 };
 export const Usage: Story = {
   render: () => <Tabs {...width} defaultSelectedKey="account"><TabsList><TabsTrigger id="account">Account</TabsTrigger><TabsTrigger id="password">Password</TabsTrigger></TabsList><TabsContent id="account">Make changes to your account here.</TabsContent><TabsContent id="password">Change your password here.</TabsContent></Tabs>
 };
-function ControlledTabs() {
+function ControlledTabs({inline = true}:{inline?:boolean}) {
   const [selected, setSelected] = useState<string | number>('one');
   return <><Tabs selectedKey={selected} onSelectionChange={setSelected} keyboardActivation="manual" orientation="vertical" disabledKeys={['blocked']} {...rootOverride(200)} style={({
       orientation
@@ -57,14 +57,14 @@ function ControlledTabs() {
       })}><TabsTrigger id="one" {...triggerOverride} style={({
           isSelected
         }) => ({
-          paddingInline: 12,
+          paddingInline: inline ? 12 : undefined,
           opacity: isSelected ? 1 : .6
         })}>{({
             isSelected
           }) => <><ArrowLeftIcon data-icon="inline-start" />{isSelected ? 'One selected' : 'One'}</>}</TabsTrigger><TabsTrigger id="two" {...triggerOverride} style={({
           isSelected
         }) => ({
-          paddingInline: 12,
+          paddingInline: inline ? 12 : undefined,
           opacity: isSelected ? 1 : .6
         })}><ArrowRightIcon data-icon="inline-end" />Two</TabsTrigger><TabsTrigger id="blocked">Blocked</TabsTrigger></TabsList><TabsContent id="one" style={({
         isFocusVisible
@@ -81,3 +81,5 @@ export const Conditions: Story = {
 export const Helpers: Story = {
   render: () => <Tabs defaultSelectedKey="one"><TabList data-variant="line" aria-label="External styled list" {...listHelper}><TabsTrigger id="one">One</TabsTrigger><TabsTrigger id="two">Two</TabsTrigger></TabList><TabsContent id="one">Helper panel one</TabsContent><TabsContent id="two">Helper panel two</TabsContent></Tabs>
 };
+
+export const XstylePadding: Story = {render: () => <ControlledTabs inline={false}/>};

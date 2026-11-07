@@ -4,12 +4,13 @@ import {
   upstreamPort,
   stylexPort,
 } from "./tests/servers";
+import { e2eTimeouts } from "./tests/timeouts";
 import { defineConfig } from "@playwright/test";
 const staticStorybook = process.env.ARIAX_STATIC_STORYBOOK === "1";
 export default defineConfig({
   testDir: "./tests",
-  timeout: 90_000,
-  expect: { timeout: 15_000 },
+  timeout: e2eTimeouts.test,
+  expect: { timeout: e2eTimeouts.expect },
   // Local sampling favors 4 workers; keep CI within its smaller runner budget.
   // The CLI's --workers option can tune either environment independently.
   fullyParallel: true,
@@ -22,6 +23,8 @@ export default defineConfig({
   ],
   use: {
     browserName: "chromium",
+    actionTimeout: e2eTimeouts.action,
+    navigationTimeout: e2eTimeouts.navigation,
     launchOptions: {
       args: ["--disable-partial-raster", "--disable-threaded-animation"],
     },

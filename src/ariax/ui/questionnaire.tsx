@@ -70,6 +70,26 @@ export function QuestionnaireTitle({
     <Primitive.Title
       data-slot="questionnaire-title"
       {...props}
+      render={
+        typeof props.render === "function"
+          ? (...args) => {
+              const result = (
+                props.render as Exclude<
+                  typeof props.render,
+                  React.ReactElement | undefined
+                >
+              )(...args);
+              return React.isValidElement(result) &&
+                typeof result.type !== "string" ? (
+                <RenderStylesContext.Provider value={[styles.title, xstyle]}>
+                  {result}
+                </RenderStylesContext.Provider>
+              ) : (
+                result
+              );
+            }
+          : props.render
+      }
       {...dom(styles.title, xstyle, style)}
     />
   );
@@ -92,6 +112,28 @@ export function QuestionnaireDescription({
     <Primitive.Description
       data-slot="questionnaire-description"
       {...props}
+      render={
+        typeof props.render === "function"
+          ? (...args) => {
+              const result = (
+                props.render as Exclude<
+                  typeof props.render,
+                  React.ReactElement | undefined
+                >
+              )(...args);
+              return React.isValidElement(result) &&
+                typeof result.type !== "string" ? (
+                <RenderStylesContext.Provider
+                  value={[styles.description, xstyle]}
+                >
+                  {result}
+                </RenderStylesContext.Provider>
+              ) : (
+                result
+              );
+            }
+          : props.render
+      }
       {...dom(styles.description, xstyle, style)}
     />
   );

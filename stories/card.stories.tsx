@@ -27,8 +27,8 @@ function CardDemo({spacing}:{spacing?:string}={}) {
       </CardHeader>
       <CardContent>
         <form>
-          <div style={{"display":"flex","flexDirection":"column","gap":"1.5rem"}}>
-            <div style={{"display":"grid","gap":".5rem"}}>
+          <div style={{"display":"flex","flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 6)"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -37,7 +37,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
                 required
               />
             </div>
-            <div style={{"display":"grid","gap":".5rem"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <div style={{"display":"flex","alignItems":"center"}}>
                 <Label htmlFor="password">Password</Label>
                 <a
@@ -52,7 +52,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
           </div>
         </form>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button type="submit" {...fullWidthButton}>
           Login
         </Button>
@@ -76,22 +76,22 @@ function CardSmall() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ul style={{"display":"grid","gap":".5rem","paddingBlock":".5rem","fontSize":".875rem"}}>
-          <li style={{"display":"flex","gap":".5rem"}}>
+        <ul style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)","paddingBlock":".5rem","fontSize":".875rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Choose a schedule (daily, or weekly).</span>
           </li>
-          <li style={{"display":"flex","gap":".5rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Send to channels or specific teammates.</span>
           </li>
-          <li style={{"display":"flex","gap":".5rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Include charts, tables, and key metrics.</span>
           </li>
         </ul>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button size="sm" {...fullWidthButton}>
           Set up scheduled reports
         </Button>
@@ -133,7 +133,7 @@ function CardEdgeToEdge() {
           </p>
         </div>
       </CardContent>
-      <CardFooter style={{"justifyContent":"flex-end","gap":".5rem"}}>
+      <CardFooter style={{"justifyContent":"flex-end","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button variant="outline">Decline</Button>
         <Button>Accept</Button>
       </CardFooter>
@@ -146,7 +146,7 @@ function CardImage() {
     <Card style={{"position":"relative","marginInline":"auto","width":"100%","maxWidth":"24rem","paddingTop":0}}>
       <div style={{"position":"absolute","inset":0,"zIndex":30,"aspectRatio":"16/9","background":"rgb(0 0 0 / .35)"}} />
       <img
-        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='360'%3E%3Crect width='640' height='360' fill='%23688'/%3E%3C/svg%3E"
+        src="https://avatar.vercel.sh/shadcn1"
         alt="Event cover"
         className="card-fixture-cover" style={{"position":"relative","zIndex":20,"aspectRatio":"16/9","width":"100%","objectFit":"cover"}}
       />
@@ -168,11 +168,11 @@ function CardImage() {
 }
 
 
-export const Demo:Story={render:()=> <CardDemo/>};
-export const Small:Story={render:()=> <CardSmall/>};
-export const EdgeToEdge:Story={render:()=> <CardEdgeToEdge/>};
-export const Image:Story={render:()=> <CardImage/>};
-export const Rtl:Story={render:()=> <div dir="rtl"><CardRtlDemo/></div>};
+export const Demo:Story={ parameters: { originalExample: "card-demo" },render:()=> <CardDemo/>};
+export const Small:Story={ parameters: { originalExample: "card-small" },render:()=> <CardSmall/>};
+export const EdgeToEdge:Story={ parameters: { originalExample: "card-edge-to-edge" },render:()=> <CardEdgeToEdge/>};
+export const Image:Story={ parameters: { originalExample: "card-image" },render:()=> <CardImage/>};
+export const Rtl:Story={decorators: [Story => <div dir="rtl"><Story /></div>], parameters: { originalExample: "card-rtl" }, render: () => <CardRtlDemo/>};
 export const Spacing:Story={render:()=> <CardSpacing/>};
 export const Structure:Story={render:()=> <div style={{display:'grid',gap:'2rem'}}>{(['default','sm'] as const).map(size=><Card key={size} size={size}><CardHeader><CardTitle>Title only</CardTitle></CardHeader><CardHeader><CardTitle>Title</CardTitle><CardDescription>Description</CardDescription></CardHeader><CardHeader><CardTitle>Title</CardTitle><CardAction>Action</CardAction></CardHeader><CardContent>Content, without footer</CardContent></Card>)}<Card><img alt="First" width="160" height="90" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='90'/%3E"/><CardHeader><CardTitle>Image first child</CardTitle></CardHeader><img alt="Last" width="160" height="90" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='90'/%3E"/></Card><Card size="sm"><Card><CardHeader><CardTitle>Nested title inside a small card</CardTitle></CardHeader></Card></Card><CardTitle>Standalone title</CardTitle></div>};
 export const Customized:Story={render:()=> <Card {...customCard} style={{width:350}}><CardHeader {...customPart}><CardTitle {...customPart}>Custom title</CardTitle><CardDescription {...customPart}>Custom description</CardDescription><CardAction {...customPart}>Action</CardAction></CardHeader><CardContent {...customPart}>Content</CardContent><CardFooter {...customPart}>Footer</CardFooter></Card>};
@@ -181,7 +181,7 @@ function ReactPropsDemo(){const [count,setCount]=useState(0);const dynamic=dynam
 export const ReactProps:Story={render:()=> <ReactPropsDemo/>};
 function CardRtlDemo({spacing}:{spacing?:string}={}) {
   return (
-    <Card style={{"width":"100%","maxWidth":"24rem"}}>
+    <Card dir="rtl" style={{"width":"100%","maxWidth":"24rem"}}>
       <CardHeader>
         <CardTitle>تسجيل الدخول إلى حسابك</CardTitle>
         <CardDescription>
@@ -193,8 +193,8 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
       </CardHeader>
       <CardContent>
         <form>
-          <div style={{"display":"flex","flexDirection":"column","gap":"1.5rem"}}>
-            <div style={{"display":"grid","gap":".5rem"}}>
+          <div style={{"display":"flex","flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 6)"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <Label htmlFor="email-rtl">البريد الإلكتروني</Label>
               <Input
                 id="email-rtl"
@@ -203,7 +203,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
                 required
               />
             </div>
-            <div style={{"display":"grid","gap":".5rem"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <div style={{"display":"flex","alignItems":"center"}}>
                 <Label htmlFor="password-rtl">كلمة المرور</Label>
                 <a
@@ -218,7 +218,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
           </div>
         </form>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button type="submit" {...fullWidthButton}>
           تسجيل الدخول
         </Button>

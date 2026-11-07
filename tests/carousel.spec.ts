@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import {
   controlCarouselFrames,
@@ -59,7 +60,6 @@ for (const theme of ["light", "dark"])
   test(`Carousel buttons, keyboard, endpoints, API and resize / ${theme}`, async ({
     browser,
   }, info) => {
-    test.setTimeout(180_000);
     const { context, pages } = await createStoryPair(browser, {
       viewport: { width: 1000, height: 900 },
     });
@@ -81,8 +81,10 @@ for (const theme of ["light", "dark"])
       ]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-carousel--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -154,8 +156,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["demo", "rtl", "orientation", "registry-multiple"]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-carousel--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -200,8 +204,10 @@ for (const theme of ["light", "dark"])
     });
     try {
       for (const [p, i] of pages.map((p, i) => [p, i] as const)) {
-        await p.goto(
+        await navigateStory(
+          p,
           `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-carousel--plugin&globals=theme:${theme}`,
+          true,
         );
         await ready(p);
         await p.locator('[data-slot="carousel"]').hover();
@@ -256,8 +262,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["demo", "orientation", "rtl", "loop"]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-carousel--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

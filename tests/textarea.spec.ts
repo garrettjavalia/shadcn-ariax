@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
@@ -15,8 +16,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["demo", "context", "inline-style"]) {
         await Promise.all(
           [a, b].map(async (page, i) => {
-            await page.goto(
+            await navigateStory(
+              page,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-textarea--${story}&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(page.locator("#parity-root textarea")).toBeVisible();
             await page.keyboard.press("Tab");
@@ -38,29 +41,14 @@ for (const theme of ["light", "dark"])
       await context.close();
     }
   });
-test("Textarea documentation coverage explicitly tracks pending Field compositions", async () => {
-  const { readFile } = await import("node:fs/promises");
-  const doc = await readFile(
-    "generated/upstream/shadcn/apps/v4/content/docs/components/aria/textarea.mdx",
-    "utf8",
-  );
-  const names = [
-    ...doc.matchAll(/<ComponentPreview\b[^>]*\bname="([^"]+)"/g),
-  ].map((m) => m[1]);
-  const covered = ["textarea-demo", "textarea-button"];
-  const pending = [
-    "textarea-field",
-    "textarea-disabled",
-    "textarea-invalid",
-    "textarea-rtl",
-  ];
-  expect(names.sort()).toEqual([...covered, ...pending].sort());
-});
+
 test("Textarea inline style wins while retaining dynamic StyleX variables", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-textarea--customized&viewMode=story`,
+    true,
   );
   const textarea = page.getByRole("textbox", { name: "Customized" });
   await expect(textarea).toHaveCSS("width", "240px");

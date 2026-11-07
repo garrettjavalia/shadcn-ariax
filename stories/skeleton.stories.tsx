@@ -1,3 +1,4 @@
+import { SkeletonRtl as OfficialRtl } from './official-examples/skeleton-rtl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from '@skeleton';
 import { shapes, skeletonCardStyle } from '@skeleton-customizations';
@@ -17,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 const grid = { display: 'grid', gap: 8 };
 const column = { display: 'flex', flexDirection: 'column' as const, gap: 8 };
 
-export const Demo: Story = {
+export const Demo: Story = { parameters: { originalExample: "skeleton-demo" },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
       <Skeleton xstyle={shapes.demoCircle} />
@@ -29,7 +30,7 @@ export const Demo: Story = {
   ),
 };
 
-export const Avatar: Story = {
+export const Avatar: Story = { parameters: { originalExample: "skeleton-avatar" },
   render: () => (
     <div style={{ display: 'flex', width: 'fit-content', alignItems: 'center', gap: 16 }}>
       <Skeleton xstyle={shapes.circle} />
@@ -41,7 +42,7 @@ export const Avatar: Story = {
 };
 export const Usage: Story = { args: { xstyle: shapes.usage } };
 
-export const Card: Story = {
+export const Card: Story = { parameters: { originalExample: "skeleton-card" },
   render: () => (
     <SkeletonCard {...skeletonCardStyle}>
       <CardHeader>
@@ -51,7 +52,7 @@ export const Card: Story = {
     </SkeletonCard>
   ),
 };
-export const Text: Story = {
+export const Text: Story = { parameters: { originalExample: "skeleton-text" },
   render: () => (
     <div style={{ ...column, width: '100%', maxWidth: 320 }}>
       <Skeleton xstyle={shapes.full} /><Skeleton xstyle={shapes.full} />
@@ -59,7 +60,7 @@ export const Text: Story = {
     </div>
   ),
 };
-export const Form: Story = {
+export const Form: Story = { parameters: { originalExample: "skeleton-form" },
   render: () => (
     <div style={{ ...column, gap: 28, width: '100%', maxWidth: 320 }}>
       {[shapes.label80, shapes.label96].map((shape, i) => (
@@ -71,7 +72,7 @@ export const Form: Story = {
     </div>
   ),
 };
-export const Table: Story = {
+export const Table: Story = { parameters: { originalExample: "skeleton-table" },
   render: () => (
     <div style={{ ...column, width: '100%', maxWidth: 384 }}>
       {Array.from({ length: 5 }, (_, i) => (
@@ -83,14 +84,4 @@ export const Table: Story = {
     </div>
   ),
 };
-export const Rtl: Story = {
-  render: () => (
-    <div dir="rtl" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-      <Skeleton xstyle={shapes.demoCircle} />
-      <div className="skeleton-demo-lines">
-        <Skeleton xstyle={shapes.line250} />
-        <Skeleton xstyle={shapes.line200} />
-      </div>
-    </div>
-  ),
-};
+export const Rtl: Story = { parameters: { originalExample: 'skeleton-rtl' }, render: () => <OfficialRtl /> };

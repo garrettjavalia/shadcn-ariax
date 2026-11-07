@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -41,8 +42,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-toggle-group--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(
             page.locator('[data-slot="toggle-group"]').first(),
@@ -151,8 +154,10 @@ for (const theme of ["light", "dark"])
     const pages = await Promise.all(
       [upstreamURL, stylexURL].map(async (url) => {
         const page = await browser.newPage();
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-toggle-group--aliases&globals=theme:${theme}`,
+          true,
         );
         await expect(
           page.getByRole("button", {

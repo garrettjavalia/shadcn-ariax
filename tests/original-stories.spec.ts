@@ -1,3 +1,4 @@
+import { originalPreviewBudget } from "./timeouts";
 import { test, expect } from "@playwright/test";
 import { readFile, readdir } from "node:fs/promises";
 import { readdirSync, readFileSync } from "node:fs";
@@ -42,21 +43,42 @@ test("original Storybook registers every pinned documentation preview from its o
     >,
   ).filter(
     (entry) =>
-      entry.type === "story" && entry.tags?.includes("original-documentation"),
+      entry.type === "story" &&
+      (entry.tags?.includes("original-documentation") ||
+        entry.tags?.includes("original-parity")),
   );
   expect(registered.map((entry) => entry.id).sort()).toEqual(
-    [...new Set(manifest.previews.map((preview) => preview.storyId))].sort(),
+    [
+      ...new Set(
+        manifest.previews.flatMap((preview) =>
+          preview.counterparts.length
+            ? preview.counterparts.map((match) => match.storyId)
+            : [preview.storyId],
+        ),
+      ),
+    ].sort(),
+  );
+  const exclusions: Record<string, string> = JSON.parse(
+    await readFile("upstream/original-exceptions.json", "utf8"),
   );
   for (const preview of manifest.previews) {
-    expect(index.entries[preview.storyId]?.name).toBe(preview.name);
+    expect(index.entries[preview.storyId]).toBeDefined();
+    if (preview.status !== "mapped")
+      expect(index.entries[preview.storyId]?.name).toBe(preview.name);
     expect(preview.status).toBe(
-      preview.counterparts.length ? "mapped" : "unmapped",
+      preview.counterparts.length
+        ? "mapped"
+        : exclusions[preview.name]
+          ? "excluded"
+          : "unmapped",
     );
+    if (preview.status === "excluded")
+      expect(preview.exclusionReason).toBe(exclusions[preview.name]);
     expect(preview.stylexStoryIds).toEqual(
       preview.counterparts.map((match) => match.stylexStoryId).sort(),
     );
     for (const match of preview.counterparts) {
-      expect(index.entries[match.storyId]?.name).toBe(preview.name);
+      expect(index.entries[match.storyId]).toBeDefined();
       expect(index.entries[match.storyId]?.tags).toContain("original-parity");
       expect(match.metaSource).toMatch(/^stories\/.+\.stories\.tsx$/);
     }
@@ -88,7 +110,6 @@ for (const document of documents)
     page,
     request,
   }) => {
-    test.setTimeout(240_000);
     const manifest: OriginalStoriesManifest = await (
       await request.get(`${upstreamURL}/original-stories/manifest.json`)
     ).json();
@@ -99,7 +120,7 @@ for (const document of documents)
           .map((preview) => [preview.storyId, preview]),
       ).values(),
     ];
-    test.setTimeout(30_000 + previews.length * 45_000);
+    test.setTimeout(originalPreviewBudget(previews.length));
     expect(
       previews.length,
       `No official previews registered for ${document}`,

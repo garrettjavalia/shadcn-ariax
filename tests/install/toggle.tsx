@@ -27,6 +27,9 @@ export default function Fixture() {
           }),
         )}
       >
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M4 12h16" />
+        </svg>
         Helper
       </button>
     </>

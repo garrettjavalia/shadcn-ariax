@@ -2,7 +2,7 @@
 
 English · [한국어](ko.md)
 
-60 registry items (59 UI components and one Typography recipe) for Nova / Neutral light and dark themes. See [Installation](../../../README.md#installation) for usage. Availability does not imply complete verification.
+62 registry items (61 UI components and one Typography recipe) for Nova / Neutral light and dark themes. See [Installation](../../../README.md#installation) for usage. Availability does not imply complete verification.
 
 | Component | Install name |
 | --- | --- |
@@ -22,6 +22,7 @@ English · [한국어](ko.md)
 | Carousel | `carousel` |
 | Chart | `chart` |
 | Checkbox | `checkbox` |
+| Code Block | `code-block` |
 | Collapsible | `collapsible` |
 | Combobox | `combobox` |
 | Command | `command` |
@@ -65,28 +66,38 @@ English · [한국어](ko.md)
 | Toggle | `toggle` |
 | Toggle Group | `toggle-group` |
 | Tooltip | `tooltip` |
+| Trace | `trace` |
 | Typography | `typography` |
 
 **Composition examples:** Data Table, Date Picker (assembled from registry items).
 
 ## Verification scope and remaining work
 
-- All 60 items have installation fixtures and passed actual shadcn CLI installation from the public HTTP endpoint, TypeScript checks, and a production Vite build without Tailwind.
-- [PR #115](https://github.com/garrettjavalia/shadcn-ariax/pull/115) records 999 passing detailed cases across 94 test files. These results apply to that revision and scope, not every current usage condition. CI runs static comparisons of registered stories at 1000px in light and dark themes; detailed behavior, pixel, and animation checks are separate.
-- Coverage of all official documentation examples remains incomplete. The current generated mapping has 139 of 452 previews without an automatic StyleX story counterpart. Manual stories or individual checks may still exist, so this is not a count of unimplemented components.
+All 62 registry items have installation fixtures. The supported installation environment is Vite with React and TypeScript, without Tailwind. Next.js, SSR and other framework integrations remain unverified.
 
-Tests explicitly track examples that still need complete official compositions.
+CI compares registered stories at 1000px in light and dark themes. Detailed browser tests cover interactions, geometry, scrolling, focus, pixels and animation states. Trace and Code Block also have keyboard, clipboard, streaming and accessibility checks. See the [Development guide](../development/en.md#checks) for commands and time budgets.
 
-| Component | Pending official examples | Scope |
-| --- | --- | --- |
-| Input | 14 | Field, Input Group and Button Group compositions; forms, states and RTL |
-| Input Group | 9 | Addon alignment; Button, Kbd, Dropdown and Spinner compositions; RTL |
-| Textarea | 4 | Field composition; disabled, invalid and RTL |
+### Verification status
 
-Passing individual component state or behavior checks does not establish complete coverage of official compositions. Installation has been verified with Vite, React and TypeScript; Next.js, SSR and other framework integrations remain unverified. See the [Development guide](../development/en.md#checks) for checks.
+The latest detailed full light-theme run (2026-11-07, revision `d62f42a`, four workers, static Storybooks) completed 771 tests: **768 passed, three failed, none skipped**. This is not a passing full suite or a full dark-theme result.
+
+For reference, the detailed light-theme E2E run took 14m 32.59s on the developer’s local computer. This excludes dark-theme tests, installation and builds. Runtime varies with hardware, system load and execution settings; this measurement is not a performance guarantee or an expected CI runtime.
+
+### Known limitations
+
+- **MessageScroller opening position:** two tests fail because the initial anchor offset is 24px instead of 80px in both implementations. The pinned `@shadcn/react@0.3.1` is affected by the estimated-height behavior of `content-visibility: auto`; see [upstream issue #11643](https://github.com/shadcn-ui/ui/issues/11643) and [proposed fix #11670](https://github.com/shadcn-ui/ui/pull/11670). AriaX does not apply a local positioning workaround.
+- **Sidebar focus:** the `shortcut-expanded` pixel comparison fails despite matching DOM/CSS snapshots: the upstream search input has a focus ring that is absent from the AriaX screenshot. Intermittent `menu-badge` focus differences also remain unresolved.
+
+### Official example coverage
+
+The 493 official documentation preview occurrences have 486 connected comparisons and seven explicit exceptions. Connected demos use untouched official TSX upstream and the StyleX adaptation in AriaX under the same story ID. A mapping alone is not a passing browser comparison.
+
+[Official exceptions](../../../upstream/original-exceptions.json) records the raw CVA `button-render` example outside the resolved `buttonProps` contract and six MessageScroller demos depending on the Radix/Rhea `MessageAnimated` renderer. These originals are available for browsing. Missing mappings, unexplained exclusions and stale exceptions fail generation; connected examples must have an active `parity` story in the live index.
 
 ## Notes
+
 - Native Select: OS-native popups are outside the verification scope.
 - Attachment: the official example’s native trigger does not automatically open Dialog, matching upstream. An explicitly controlled Dialog composition and open/close checks are also provided.
+- Trace: the official description color falls below WCAG AA text contrast in both themes. The implementation preserves the source color, and accessibility comparisons track this limitation.
 - Typography provides StyleX recipes for HTML elements.
 - Toast is deprecated upstream; use Sonner.

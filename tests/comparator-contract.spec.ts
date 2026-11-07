@@ -225,3 +225,73 @@ test("animation names require equivalent transform paths and timing", async ({
     });
   }
 });
+
+test("comparators distinguish live form state even when attributes and pixels agree", async ({
+  context,
+}, info) => {
+  const a = await context.newPage(),
+    b = await context.newPage();
+  const markup =
+    '<main id="parity-root"><input type="password"><input type="checkbox"><textarea></textarea><select multiple><option value="a">A</option><option value="b">B</option></select></main>';
+  for (const kind of [
+    "value",
+    "checked",
+    "indeterminate",
+    "textarea",
+    "selected",
+  ] as const) {
+    await Promise.all([a, b].map((page) => page.setContent(markup)));
+    await a.locator("input[type=password]").fill("abcd");
+    await b.locator("input[type=password]").fill("abcd");
+    await b.evaluate((kind) => {
+      const input = document.querySelector(
+        "input[type=checkbox]",
+      ) as HTMLInputElement;
+      if (kind === "value")
+        (
+          document.querySelector("input[type=password]") as HTMLInputElement
+        ).value = "wxyz";
+      if (kind === "checked") input.checked = true;
+      if (kind === "indeterminate") input.indeterminate = true;
+      if (kind === "textarea")
+        document.querySelector("textarea")!.value = "edited";
+      if (kind === "selected")
+        document.querySelector("select")!.options[1].selected = true;
+    }, kind);
+    await expect(compare(a, b, info, `live-${kind}`, false)).rejects.toThrow(
+      `live-${kind}`,
+    );
+    await expect(compareDOMCSS(a, b, info, `live-ci-${kind}`)).rejects.toThrow(
+      `live-ci-${kind}`,
+    );
+  }
+});
+
+test("official overlay slots and explicit portals share a complete, nonduplicated snapshot", async ({
+  context,
+}, info) => {
+  const a = await context.newPage(),
+    b = await context.newPage();
+  const markup =
+    '<main id="parity-root"><button aria-controls="panel">Open</button></main><div data-slot="dialog-overlay"><section id="panel" role="dialog">Content</section></div>';
+  await Promise.all([a, b].map((page) => page.setContent(markup)));
+  await b.locator('[data-slot="dialog-overlay"]').evaluate((element) => {
+    element.setAttribute("data-parity-portal", "");
+    element.firstElementChild!.setAttribute("data-parity-portal", "");
+  });
+  expect(await snapshot(a)).toHaveLength(2);
+  expect(await snapshot(b)).toHaveLength(2);
+  await compare(a, b, info, "official-portal", false);
+  await b.getByRole("dialog").evaluate((element) => {
+    element.textContent = "Changed";
+  });
+  await expect(compareDOMCSS(a, b, info, "portal-content")).rejects.toThrow(
+    "portal-content",
+  );
+  await b
+    .locator('[data-slot="dialog-overlay"]')
+    .evaluate((element) => element.remove());
+  await expect(compareDOMCSS(a, b, info, "missing-portal")).rejects.toThrow(
+    "missing-portal",
+  );
+});

@@ -1,5 +1,7 @@
+import { e2eTimeouts } from "./timeouts";
+import { BrowserWaitTimeout } from "./browser-wait";
 import { deterministicStoryContextOptions } from "./story-pair";
-import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
+import { controlAvatarAssets } from "./avatar-assets";
 import { upstreamPort, stylexPort, upstreamURL, stylexURL } from "./servers";
 import { test, expect } from "@playwright/test";
 import { readdirSync } from "node:fs";
@@ -14,8 +16,11 @@ const storyFileCount = readdirSync("stories", {
   recursive: true,
   withFileTypes: true,
 }).filter((file) => file.isFile() && file.name.endsWith(".stories.tsx")).length;
-const batchCount = process.env.PARITY_COMPONENT
-  ? 1
+const componentPrefixes = process.env.PARITY_COMPONENT?.split(",")
+  .map((value) => value.trim())
+  .filter(Boolean);
+const batchCount = componentPrefixes?.length
+  ? componentPrefixes.length
   : Math.max(1, storyFileCount);
 const ciMode = process.env.ARIAX_TEST_MODE === "ci";
 const selectedTheme = ciMode ? process.env.ARIAX_TEST_THEME : undefined;
@@ -36,7 +41,7 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
       `registered stories / ${theme} / ${width} / batch ${batch + 1}`,
       { tag: "@static-parity" },
       async ({ browser, request }, info) => {
-        test.setTimeout(240_000);
+        test.setTimeout(e2eTimeouts.parityBatch);
         const leftIndex = await (
           await request.get(`${upstreamURL}/index.json`)
         ).json();
@@ -50,8 +55,8 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                 s.type === "story" &&
                 s.tags?.includes("parity") &&
                 (!requiredTag || s.tags.includes(requiredTag)) &&
-                (!process.env.PARITY_COMPONENT ||
-                  s.id.startsWith(process.env.PARITY_COMPONENT)),
+                (!componentPrefixes?.length ||
+                  componentPrefixes.some((prefix) => s.id.startsWith(prefix))),
             )
             .map((s) => s.id)
             .sort();
@@ -64,6 +69,20 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
           "The official original story manifest must be published",
         ).toBe(true);
         const manifest: OriginalStoriesManifest = await manifestResponse.json();
+        for (const preview of manifest.previews) {
+          if (preview.status === "excluded") {
+            expect(preview.exclusionReason?.trim(), preview.name).toBeTruthy();
+            expect(preview.counterparts, preview.name).toHaveLength(0);
+          } else {
+            expect(preview.status, preview.name).toBe("mapped");
+            expect(
+              preview.counterparts.some(({ stylexStoryId }) =>
+                rightIndex.entries[stylexStoryId]?.tags?.includes("parity"),
+              ),
+              "Official example has no active comparison: " + preview.name,
+            ).toBe(true);
+          }
+        }
         const originals = new Map<string, string>();
         for (const preview of manifest.previews)
           for (const counterpart of preview.counterparts) {
@@ -111,6 +130,13 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                     [b, stylexPort],
                   ] as const
                 ).map(async ([page, port]) => {
+                  const phases: Record<string, number> = {};
+                  let phaseStarted = performance.now();
+                  const phase = (name: string) => {
+                    const now = performance.now();
+                    phases[name] = now - phaseStarted;
+                    phaseStarted = now;
+                  };
                   const storyId =
                     port === upstreamPort ? (originals.get(id) ?? id) : id;
                   await navigateStory(
@@ -118,13 +144,22 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                     `http://127.0.0.1:${port}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`,
                     true,
                   );
+                  phase("navigate");
                   await expect(page.locator("#parity-root")).toBeVisible();
-                  await waitAvatarAssets(page);
+                  phase("root");
                   await waitForStoryReadiness(page);
+                  phase("readiness");
                   await expect(page.locator("html")).toHaveClass(
                     theme === "dark" ? /\bdark\b/ : /^(?!.*\bdark\b).*$/,
                   );
+                  phase("theme");
                   await page.mouse.move(0, 0);
+                  phase("pointer");
+                  if (process.env.PARITY_PROFILE === "1")
+                    info.annotations.push({
+                      type: "parity-navigation-phases",
+                      description: JSON.stringify({ id, port, phases }),
+                    });
                 }),
               );
               if (process.env.PARITY_PROFILE === "1")
@@ -143,6 +178,7 @@ for (const { theme, width, requiredTag } of selectedEnvironments)
                   `${id}-rest`,
                 );
               } catch (error) {
+                if (error instanceof BrowserWaitTimeout) throw error;
                 expect.soft(false, String(error)).toBe(true);
               }
             });

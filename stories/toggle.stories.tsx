@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Toggle } from '@toggle';
-import { customToggle, toggleRow } from '@toggle-customizations';
+import { customToggle, toggleRow, helperToggle } from '@toggle-customizations';
 import { ToggleDemo } from './toggle-examples/toggle-demo';
 import { ToggleOutline } from './toggle-examples/toggle-outline';
 import { ToggleText } from './toggle-examples/toggle-text';
@@ -55,3 +55,5 @@ export const Customization: Story = {
 export const Conditions: Story = {
   render: () => <div {...toggleRow}><Toggle aria-label="Invalid toggle" variant="outline" aria-invalid="true">Invalid</Toggle><Toggle aria-label="Explicit selected" data-selected="">Data selected</Toggle><Toggle aria-label="Explicit off" data-selected="false">Data off</Toggle><Toggle aria-label="Explicit on" data-state="on">Data state</Toggle><Toggle aria-label="No variants" variant={null} size={null}>Null</Toggle><Toggle aria-label="Start icon"><svg data-icon="inline-start" />Start</Toggle><Toggle aria-label="End icon" size="sm" dir="rtl">End<svg data-icon="inline-end" /></Toggle></div>
 };
+
+export const Helper: StoryObj<typeof meta> = {render:()=> <button {...helperToggle}><svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12h16"/></svg>Helper</button>};

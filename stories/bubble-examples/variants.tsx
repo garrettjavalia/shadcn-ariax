@@ -8,7 +8,7 @@ import {
 
 export function BubbleVariantsDemo() {
   return (
-    <div style={{display:'flex',width:'100%',maxWidth:'24rem',flexDirection:'column',gap:'3rem',paddingBlock:'3rem'}}>
+    <div style={{display:'flex',width:'100%',maxWidth:'24rem',flexDirection:'column',gap:'calc(var(--ariax-spacing, .25rem) * 12)',paddingBlock:'calc(var(--ariax-spacing, .25rem) * 12)'}}>
       <Bubble>
         <BubbleContent>This is the default primary bubble.</BubbleContent>
       </Bubble>

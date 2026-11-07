@@ -225,9 +225,14 @@ export const styles = stylex.create({
     },
     backgroundColor: {
       default: null,
-      ":hover::after": "var(--sidebar-border)",
-      ':is(.ariax-sidebar[data-collapsible="offcanvas"] *):hover':
-        "var(--sidebar)",
+      ":hover::after": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-border)",
+      },
+      ':is(.ariax-sidebar[data-collapsible="offcanvas"] *):hover': {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar)",
+      },
     },
     content: {
       default: null,
@@ -409,11 +414,17 @@ export const styles = stylex.create({
     transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
     color: {
       default: "var(--sidebar-foreground)",
-      ":hover": "var(--sidebar-accent-foreground)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
     },
     backgroundColor: {
       default: null,
-      ":hover": "var(--sidebar-accent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent)",
+      },
     },
     position: {
       default: "absolute",
@@ -514,13 +525,19 @@ export const styles = stylex.create({
     transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
     backgroundColor: {
       default: null,
-      ":hover": "var(--sidebar-accent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent)",
+      },
       ":active": "var(--sidebar-accent)",
       ':is([data-active="true"])': "var(--sidebar-accent)",
     },
     color: {
       default: null,
-      ":hover": "var(--sidebar-accent-foreground)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
       ":active": "var(--sidebar-accent-foreground)",
       ':is([data-active="true"])': "var(--sidebar-accent-foreground)",
     },
@@ -536,19 +553,28 @@ export const styles = stylex.create({
   outline: {
     backgroundColor: {
       default: "var(--background)",
-      ":hover": "var(--sidebar-accent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent)",
+      },
       ":active": "var(--sidebar-accent)",
       ':is([data-active="true"])': "var(--sidebar-accent)",
     },
     boxShadow: {
       default:
         "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 1px var(--sidebar-border)",
-      ":hover":
-        "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 1px var(--sidebar-accent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)":
+          "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 1px var(--sidebar-accent)",
+      },
       ":focus-visible":
         "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 2px var(--sidebar-ring), 0 0 0 1px var(--sidebar-border)",
-      ":focus-visible:hover":
-        "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 2px var(--sidebar-ring), 0 0 0 1px var(--sidebar-accent)",
+      ":focus-visible:hover": {
+        default: null,
+        "@media (hover: hover)":
+          "0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 0 #0000, 0 0 0 2px var(--sidebar-ring), 0 0 0 1px var(--sidebar-accent)",
+      },
     },
   },
   normal: {
@@ -620,13 +646,21 @@ export const styles = stylex.create({
     transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
     color: {
       default: "var(--sidebar-foreground)",
-      ":hover": "var(--sidebar-accent-foreground)",
-      ":is(.ariax-sidebar-menu-button:hover ~ *)":
-        "var(--sidebar-accent-foreground)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
+      ":is(.ariax-sidebar-menu-button:hover ~ *)": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
     },
     backgroundColor: {
       default: null,
-      ":hover": "var(--sidebar-accent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent)",
+      },
     },
     position: {
       default: "absolute",
@@ -662,16 +696,24 @@ export const styles = stylex.create({
       default: 1,
       "@media (width >= 48rem)": {
         default: 0,
-        ":is(.ariax-sidebar-menu-item:hover *)": 1,
+        ":is(.ariax-sidebar-menu-item:hover *)": {
+          default: null,
+          "@media (hover: hover)": 1,
+        },
         ":is(.ariax-sidebar-menu-item:focus-within *)": 1,
         ':is([aria-expanded="true"])': 1,
       },
     },
     color: {
       default: "var(--sidebar-foreground)",
-      ":hover": "var(--sidebar-accent-foreground)",
-      ":is(.ariax-sidebar-menu-button:hover ~ *)":
-        "var(--sidebar-accent-foreground)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
+      ":is(.ariax-sidebar-menu-button:hover ~ *)": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
       ':is(.ariax-sidebar-menu-button[data-active="true"] ~ *)':
         "var(--sidebar-accent-foreground)",
     },
@@ -687,8 +729,10 @@ export const styles = stylex.create({
     userSelect: "none",
     color: {
       default: "var(--sidebar-foreground)",
-      ":is(.ariax-sidebar-menu-button:hover ~ *)":
-        "var(--sidebar-accent-foreground)",
+      ":is(.ariax-sidebar-menu-button:hover ~ *)": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
       ':is(.ariax-sidebar-menu-button[data-active="true"] ~ *)':
         "var(--sidebar-accent-foreground)",
     },
@@ -788,13 +832,19 @@ export const styles = stylex.create({
     },
     color: {
       default: "var(--sidebar-foreground)",
-      ":hover": "var(--sidebar-accent-foreground)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent-foreground)",
+      },
       ":active": "var(--sidebar-accent-foreground)",
       ':is([data-active="true"])': "var(--sidebar-accent-foreground)",
     },
     backgroundColor: {
       default: null,
-      ":hover": "var(--sidebar-accent)",
+      ":hover": {
+        default: null,
+        "@media (hover: hover)": "var(--sidebar-accent)",
+      },
       ":active": "var(--sidebar-accent)",
       ':is([data-active="true"])': "var(--sidebar-accent)",
     },

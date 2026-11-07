@@ -45,8 +45,6 @@
   text-decoration-line: underline;
   text-underline-offset: var(--ariax-field-link-offset);
 }
-@media (hover: hover) {
-  .ariax-field-description > a:hover {
-    color: var(--ariax-field-link-hover);
-  }
+.ariax-field-description > a:hover {
+  color: var(--ariax-field-link-hover);
 }

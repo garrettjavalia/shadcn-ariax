@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -53,8 +54,10 @@ for (const theme of ["light", "dark"])
       ]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-marker--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -126,8 +129,10 @@ for (const theme of ["light", "dark"])
       try {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-marker--${dir === "rtl" ? "rtl" : "shimmer"}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -184,8 +189,10 @@ test("Marker touch links do not apply hover-only colors", async ({
   try {
     await Promise.all(
       pages.map((p, i) =>
-        p.goto(
+        navigateStory(
+          p,
           `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-marker--link-button`,
+          true,
         ),
       ),
     );

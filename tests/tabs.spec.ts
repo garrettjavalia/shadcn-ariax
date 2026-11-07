@@ -1,8 +1,9 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
-import { stylexURL } from "./servers";
+import { upstreamURL, stylexURL } from "./servers";
 test("all official Tabs previews and usage have parity stories", async ({
   request,
 }) => {
@@ -32,8 +33,10 @@ for (const theme of ["light", "dark"])
         browser,
         undefined,
         async (page, url) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-tabs--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
         },
@@ -86,8 +89,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-tabs--controlled&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },
@@ -142,8 +147,10 @@ for (const theme of ["light", "dark"])
       browser,
       undefined,
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-tabs--conditions&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
       },
@@ -167,3 +174,32 @@ for (const theme of ["light", "dark"])
       await context.close();
     }
   });
+
+test("Tabs xstyle padding overrides icon-dependent defaults", async ({
+  browser,
+}, info) => {
+  const context = await browser.newContext();
+  try {
+    const pages = await Promise.all(
+      [upstreamURL, stylexURL].map(async (url) => {
+        const page = await context.newPage();
+        await navigateStory(
+          page,
+          `${url}/iframe.html?id=components-tabs--xstyle-padding`,
+          true,
+        );
+        for (const tab of [
+          page.getByRole("tab").nth(0),
+          page.getByRole("tab").nth(1),
+        ]) {
+          await expect(tab).toHaveCSS("padding-left", "10px");
+          await expect(tab).toHaveCSS("padding-right", "10px");
+        }
+        return page;
+      }),
+    );
+    await compare(pages[0], pages[1], info, "icon-padding-override");
+  } finally {
+    await context.close();
+  }
+});

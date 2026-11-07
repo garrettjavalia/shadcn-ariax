@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -43,8 +44,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["interactive-variants", "customization"]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-bubble--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -108,8 +111,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["collapsible", "popover", "tooltip"]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-bubble--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

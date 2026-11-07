@@ -18,7 +18,7 @@ export default function CarouselDemo() {
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
-            <div style={{padding:4}}>
+            <div style={{padding:'calc(var(--ariax-spacing, .25rem) * 1)'}}>
               <Card>
                 <CardContent {...carouselcard}>
                   <span style={{fontSize:'2.25rem',lineHeight:'calc(2.5 / 2.25)',fontWeight:600}}>{index + 1}</span>

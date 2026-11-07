@@ -1,3 +1,4 @@
+import { waitForBrowserWork } from "./browser-wait";
 import { expect, type Page, type TestInfo } from "@playwright/test";
 import { PNG } from "pngjs";
 import { filterColorDifferences } from "./color-differences";
@@ -46,8 +47,21 @@ export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
     };
     const root = document.querySelector("#parity-root");
     if (!root) throw new Error("Missing parity root");
-    // Explicitly registered portals are compared alongside the story tree.
-    const roots = [root, ...document.querySelectorAll("[data-parity-portal]")];
+    // Official JSX has no harness attributes. Register its public overlay slots
+    // too, preserving explicit roots for fixtures with custom data-slot values.
+    const candidates = [
+      ...document.querySelectorAll(
+        '[data-parity-portal], [data-slot="dialog-overlay"], [data-slot="alert-dialog-overlay"], [data-slot="sheet-overlay"], [data-slot="sidebar"][data-mobile="true"], [data-slot="popover-content"], [data-slot="hover-card-content"], [data-slot="tooltip-content"], [data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"], [data-slot="context-menu-content"], [data-slot="context-menu-sub-content"], [data-slot="select-content"], [data-slot="combobox-content"]',
+      ),
+    ].filter((element) => !root.contains(element));
+    const portals = candidates.filter(
+      (element) =>
+        !candidates.some(
+          (parent) => parent !== element && parent.contains(element),
+        ),
+    );
+    for (const portal of portals) portal.setAttribute("data-parity-portal", "");
+    const roots = [root, ...portals];
     const elements = roots.flatMap((r) => [r, ...r.querySelectorAll("*")]);
     const ids = new Map(
       elements
@@ -157,6 +171,27 @@ export async function snapshot(page: Page, mode: "full" | "dom-css" = "full") {
       return {
         path,
         tag: node.tagName,
+        ...(node instanceof HTMLInputElement
+          ? {
+              control: {
+                value: node.value,
+                checked: node.checked,
+                indeterminate: node.indeterminate,
+              },
+            }
+          : node instanceof HTMLTextAreaElement
+            ? { control: { value: node.value } }
+            : node instanceof HTMLSelectElement
+              ? {
+                  control: {
+                    value: node.value,
+                    selected: Array.from(
+                      node.options,
+                      (option) => option.selected,
+                    ),
+                  },
+                }
+              : {}),
         attrs: Object.fromEntries(
           [...node.attributes]
             // Test harness markers select roots, portals and interaction targets.
@@ -370,41 +405,60 @@ export function differences(
 }
 
 export async function settle(page: Page) {
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-    const frames = () =>
-      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-    // Let React effects and focus restoration start their transitions before sampling.
-    await frames();
-    let quiet = false;
-    for (;;) {
-      // Scroll/view timelines reflect the current scroll position, not elapsed
-      // wall time. Preserve their effects for the snapshot instead of waiting
-      // for a scroll that the test has not requested or changing their phase.
-      const animations = document
-        .getAnimations()
-        .filter((animation) => animation.timeline instanceof DocumentTimeline);
-      // Infinite spinners are sampled at a fixed phase, not disabled.
-      for (const animation of animations)
-        if (animation.effect?.getComputedTiming().iterations === Infinity) {
-          animation.pause();
-          animation.currentTime = 250;
+  await waitForBrowserWork(
+    page,
+    () => "fonts and finite animation completion",
+    () =>
+      page.evaluate(async () => {
+        await document.fonts.ready;
+        const frames = () =>
+          new Promise((r) =>
+            requestAnimationFrame(() => requestAnimationFrame(r)),
+          );
+        // Let React effects and focus restoration start their transitions before sampling.
+        await frames();
+        let quiet = false;
+        for (;;) {
+          // Scroll/view timelines reflect the current scroll position, not elapsed
+          // wall time. Preserve their effects for the snapshot instead of waiting
+          // for a scroll that the test has not requested or changing their phase.
+          const animations = document
+            .getAnimations()
+            .filter(
+              (animation) => animation.timeline instanceof DocumentTimeline,
+            );
+          // Infinite spinners are sampled at a fixed phase, not disabled.
+          for (const animation of animations)
+            if (animation.effect?.getComputedTiming().iterations === Infinity) {
+              animation.pause();
+              animation.currentTime = 250;
+            }
+          const finite = animations.filter(
+            (a) =>
+              a.effect?.getComputedTiming().iterations !== Infinity &&
+              (a.playState === "running" || a.pending),
+          );
+          // Complete time-based effects through the native API; preserve
+          // callbacks and then observe any follow-up transitions. Frame tests
+          // bypass settle entirely and scroll timelines remain untouched.
+          for (const animation of finite) {
+            if (
+              animation.playbackRate > 0 &&
+              Number.isFinite(animation.effect?.getComputedTiming().endTime)
+            )
+              animation.finish();
+          }
+          if (!finite.length && quiet) break;
+          // Completion handlers can restore focus or mount content on a later frame,
+          // starting another transition after the first empty animation inventory.
+          quiet = !finite.length;
+          // Chromium may defer finished-promise delivery in content-visibility:
+          // hidden subtrees. Observe actual play states across frames instead;
+          // this also sees transitions started by React effects during completion.
+          await frames();
         }
-      const finite = animations.filter(
-        (a) =>
-          a.effect?.getComputedTiming().iterations !== Infinity &&
-          (a.playState === "running" || a.pending),
-      );
-      if (!finite.length && quiet) break;
-      // Completion handlers can restore focus or mount content on a later frame,
-      // starting another transition after the first empty animation inventory.
-      quiet = !finite.length;
-      // Chromium may defer finished-promise delivery in content-visibility:
-      // hidden subtrees. Observe actual play states across frames instead;
-      // this also sees transitions started by React effects during completion.
-      await frames();
-    }
-  });
+      }),
+  );
 }
 
 export function pixelsMatch(a: PNG, b: PNG): boolean {

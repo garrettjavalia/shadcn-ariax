@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
@@ -11,8 +12,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--timed&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           const box = await p.getByRole("button").boundingBox();
@@ -77,8 +80,10 @@ for (const theme of ["light", "dark"])
         for (const phase of ["enter", "exit"]) {
           for (let i = 0; i < 2; i++) {
             const p = pages[i];
-            await p.goto(
+            await navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--rtl&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(p.locator("#parity-root")).toBeVisible();
             await p.mouse.move(0, 800);
@@ -174,8 +179,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--interactive&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           await p.keyboard.press("Tab");
@@ -213,8 +220,10 @@ for (const theme of ["light", "dark"])
       await compare(pages[0], pages[1], info, "interactive-safe-area");
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--disabled&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           await p.mouse.move(0, 800);
@@ -246,8 +255,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-hovercard--usage&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           const box = await p.getByRole("button").boundingBox();
@@ -268,6 +279,9 @@ for (const theme of ["light", "dark"])
             p.locator('[data-slot="hover-card-content"]'),
           ).toHaveCount(0);
           await p.clock.runFor(1);
+          await expect(
+            p.locator('[data-slot="hover-card-content"]'),
+          ).toHaveCount(1);
           await p.clock.resume();
           await expect(
             p.locator('[data-slot="hover-card-content"]'),

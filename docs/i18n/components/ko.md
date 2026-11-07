@@ -2,7 +2,7 @@
 
 [English](en.md) · 한국어
 
-Nova / Neutral 라이트·다크 테마의 레지스트리 항목 60개(UI 컴포넌트 59개와 Typography 레시피 1개)를 제공합니다. 사용법은 [설치 안내](../readme/ko.md#설치)를 참고하세요. 설치 가능 여부가 전체 검증 완료를 뜻하지는 않습니다.
+Nova / Neutral 라이트·다크 테마의 레지스트리 항목 62개(UI 컴포넌트 61개와 Typography 레시피 1개)를 제공합니다. 사용법은 [설치 안내](../readme/ko.md#설치)를 참고하세요. 설치 가능 여부가 전체 검증 완료를 뜻하지는 않습니다.
 
 | 컴포넌트 | 설치 이름 |
 | --- | --- |
@@ -22,6 +22,7 @@ Nova / Neutral 라이트·다크 테마의 레지스트리 항목 60개(UI 컴�
 | Carousel | `carousel` |
 | Chart | `chart` |
 | Checkbox | `checkbox` |
+| Code Block | `code-block` |
 | Collapsible | `collapsible` |
 | Combobox | `combobox` |
 | Command | `command` |
@@ -65,28 +66,38 @@ Nova / Neutral 라이트·다크 테마의 레지스트리 항목 60개(UI 컴�
 | Toggle | `toggle` |
 | Toggle Group | `toggle-group` |
 | Tooltip | `tooltip` |
+| Trace | `trace` |
 | Typography | `typography` |
 
 **조합 예제:** Data Table, Date Picker (레지스트리 항목을 조합해 구성).
 
 ## 검증 범위와 남은 작업
 
-- 60개 항목 모두 설치 픽스처가 있으며, 공개 HTTP 주소에서 실제 shadcn CLI 설치·타입 검사·Tailwind 없는 Vite 프로덕션 빌드를 통과했습니다.
-- 기존 상세 검사 94개 파일·999개 케이스의 통과 기록은 [PR #115](https://github.com/garrettjavalia/shadcn-ariax/pull/115)에 있습니다. 이는 당시 코드와 검사 범위의 결과이며, 현재 모든 사용 조건의 검증 완료를 뜻하지 않습니다. CI는 등록된 스토리의 1000px 라이트·다크 정적 비교를 수행하며, 상세 동작·픽셀·애니메이션 검사는 별도입니다.
-- 공식 문서 예제 전체의 대응은 아직 완료되지 않았습니다. 현재 자동 생성한 대응표에서 452개 예제 중 139개는 StyleX 스토리와 자동 연결되지 않습니다. 수동 스토리나 개별 검사가 있을 수 있으므로 이 수치는 미구현 컴포넌트 수가 아닙니다.
+레지스트리 항목 62개 모두 설치 픽스처가 있습니다. 검증한 설치 환경은 Tailwind 없는 Vite + React + TypeScript입니다. Next.js·SSR 및 다른 프레임워크 통합은 미검증 상태입니다.
 
-완전한 공식 조합 예제로 보완할 항목이 테스트에 명시되어 있습니다.
+CI는 등록된 스토리를 1000px 라이트·다크 테마에서 비교합니다. 상세 브라우저 검사는 조작·위치와 크기·스크롤·포커스·픽셀·애니메이션 상태를 다룹니다. Trace와 Code Block에는 키보드·복사·스트리밍·접근성 검사도 있습니다. 실행 방법과 제한시간은 [개발 가이드](../development/ko.md#검사)를 참고하세요.
 
-| 컴포넌트 | 남은 공식 예제 | 범위 |
-| --- | --- | --- |
-| Input | 14개 | Field·Input Group·Button Group 조합, 폼·상태·RTL 등 |
-| Input Group | 9개 | addon 배치, Button·Kbd·Dropdown·Spinner 조합, RTL |
-| Textarea | 4개 | Field 조합, disabled·invalid·RTL |
+### 검증 상태
 
-단일 컴포넌트의 상태·동작 검사 통과와 공식 조합 예제 전체의 대응 완료는 구분합니다. 설치 환경은 Vite + React + TypeScript를 확인했으며, Next.js·SSR 및 다른 프레임워크 통합은 아직 검증하지 않았습니다. 검사 방법은 [개발 가이드](../development/ko.md#검사)를 참고하세요.
+최신 상세 전체 라이트 테마 실행(2026-11-07, 리비전 `d62f42a`, worker 4개, 정적 Storybook)은 총 771개 중 **768개 통과·3개 실패·건너뜀 없음**입니다. 전체 통과 상태나 다크 테마 전체 검증 결과를 의미하지는 않습니다.
+
+참고로 개발자의 로컬 컴퓨터에서 측정한 라이트 테마 상세 E2E 실행시간은 14분 32.59초입니다. 다크 테마 검사·설치·빌드는 포함하지 않습니다. 하드웨어·시스템 부하·실행 설정에 따라 달라지는 참고값이며, 성능 보장이나 CI 예상 소요시간을 뜻하지 않습니다.
+
+### 알려진 제한
+
+- **MessageScroller 초기 위치:** 양쪽 구현의 최초 앵커 간격이 기대값 80px 대신 24px이어서 테스트 2개가 실패합니다. 고정한 `@shadcn/react@0.3.1`은 `content-visibility: auto`의 추정 높이에 영향을 받습니다. [업스트림 이슈 #11643](https://github.com/shadcn-ui/ui/issues/11643)과 [수정 제안 #11670](https://github.com/shadcn-ui/ui/pull/11670)을 참고하세요. AriaX에는 별도의 위치 보정 우회책을 적용하지 않습니다.
+- **Sidebar 포커스:** `shortcut-expanded`의 DOM·CSS 스냅샷은 일치하지만 원본 검색 입력의 포커스 링이 AriaX 스크린샷에는 없어 픽셀 비교가 실패합니다. 간헐적인 `menu-badge` 포커스 차이도 미해결 상태입니다.
+
+### 공식 예제 연결 범위
+
+공식 문서의 493개 예제 등장 위치 중 486개를 비교에 연결하고 7개를 명시적으로 제외합니다. 연결된 데모는 upstream에서 수정하지 않은 공식 TSX를, AriaX에서 StyleX로 옮긴 대응 예제를 같은 스토리 ID로 실행합니다. 연결 자체가 브라우저 비교 통과를 뜻하지는 않습니다.
+
+[공식 예제 예외 목록](../../../upstream/original-exceptions.json)에는 최종 스타일을 제공하는 `buttonProps` 계약 밖의 가공 전 CVA `button-render` 예제와 Radix/Rhea의 `MessageAnimated` 렌더러에 의존하는 MessageScroller 데모 6개를 기록합니다. 이 원본들도 둘러볼 수 있습니다. 미연결 예제, 이유 없는 제외, 더 이상 유효하지 않은 예외는 생성 단계에서 실패하며, 연결된 예제는 실제 Storybook 인덱스에 활성 `parity` 스토리가 있어야 합니다.
 
 ## 참고 사항
+
 - Native Select: OS 네이티브 팝업은 검증 범위에서 제외합니다.
 - Attachment: 공식 예제의 native trigger는 원본과 같이 Dialog를 자동으로 열지 않습니다. 제어 상태를 명시적으로 연결하는 Dialog 조합 예제와 열기·닫기 검사도 제공합니다.
+- Trace: 공식 원본의 설명 텍스트 색상은 두 테마 모두 WCAG AA 대비 기준에 미달합니다. 원본 색상을 보존하며 접근성 비교에서 이 제한을 추적합니다.
 - Typography는 HTML 요소용 StyleX 레시피를 제공합니다.
 - Toast는 업스트림에서 deprecated되었으므로 Sonner를 사용합니다.
