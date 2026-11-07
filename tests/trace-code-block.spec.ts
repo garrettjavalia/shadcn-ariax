@@ -167,7 +167,7 @@ for (const theme of ["light", "dark"]) {
           page.getByRole("button", { name: "Copy", exact: true }).last(),
         ).toBeDisabled();
         await page
-          .locator('[data-slot="code-block-content"]')
+          .locator('[data-slot="code-block-content"][data-numbered]')
           .last()
           .evaluate((el) => {
             el.scrollTop = 120;
@@ -176,7 +176,10 @@ for (const theme of ["light", "dark"]) {
       }
       await compare(...pages, info, "scrolled");
       for (const page of pages) {
-        await page.locator('[data-slot="code-block-content"]').last().focus();
+        await page
+          .locator('[data-slot="code-block-content"][data-numbered]')
+          .last()
+          .focus();
         await page.keyboard.press("ArrowDown");
       }
       await compare(...pages, info, "keyboard-scroll");
