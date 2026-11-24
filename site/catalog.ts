@@ -392,7 +392,7 @@ function portableSources(repo: string, installed: Set<string>) {
         code.slice(0, change.start) + change.value + code.slice(change.end);
     return { contents: code, children };
   }
-  return async (code: string, file: string, label: string) => {
+  return async (code: string, file: string, label: string, rtl: boolean) => {
     const entry = await rewrite(code, file, label);
     const files = [{ path: label, contents: entry.contents }];
     const seen = new Set<string>();
@@ -415,6 +415,21 @@ function portableSources(repo: string, installed: Set<string>) {
     }
     const sheets = files.filter((f) => f.path.endsWith(".css"));
     const modules = files.filter((f) => !f.path.endsWith(".css"));
+    if (rtl) {
+      modules.unshift({
+        path: "rtl-preview.tsx",
+        contents: `import Demo from ${JSON.stringify("./" + label)};
+import { I18nProvider } from "react-aria-components";
+
+export default function RtlExample() {
+  return (
+    <I18nProvider locale="ar">
+      <div dir="rtl" lang="ar" style={{ display: "contents" }}><Demo /></div>
+    </I18nProvider>
+  );
+}`,
+      });
+    }
     const portable = await bundleExample(modules);
     const stylesheet = await exampleStylesheet(portable, sheets);
     // Each displayed file can be imported directly by a Next.js server page.
@@ -459,6 +474,7 @@ export async function loadCatalog(repo = process.cwd()): Promise<Catalog> {
   }
   async function exampleSource(
     counterpart: Counterpart,
+    rtl: boolean,
   ): Promise<CatalogSource> {
     let file = resolve(repo, counterpart.metaSource);
     const story = await getModule(file);
@@ -488,7 +504,7 @@ export async function loadCatalog(repo = process.cwd()): Promise<Catalog> {
     const label = fixture ? basename(file) : counterpart.exportName + ".tsx";
     return {
       kind: fixture ? "ariax" : "story",
-      ...(await portable(code, file, label)),
+      ...(await portable(code, file, label, rtl)),
       label,
       url:
         "https://github.com/garrettjavalia/shadcn-ariax/blob/main/" +
@@ -582,7 +598,9 @@ export async function loadCatalog(repo = process.cwd()): Promise<Catalog> {
             "Missing AriaX example for " + slug + "/" + item.name,
           );
           const id = counterpart.stylexStoryId;
-          if (!sources.has(id)) sources.set(id, exampleSource(counterpart));
+          if (!sources.has(id)) {
+            sources.set(id, exampleSource(counterpart, item.name.endsWith("-rtl")));
+          }
           blocks.push({
             kind: "preview",
             name: item.name,

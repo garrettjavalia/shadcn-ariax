@@ -23,19 +23,19 @@ export default function InputGroupWithButtons() {
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput id="input-button-14" />
+          <InputGroupInput aria-label="Text with outline button" />
           <InputGroupAddon>
             <InputGroupButton variant="outline">Outline</InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput id="input-button-15" />
+          <InputGroupInput aria-label="Text with secondary button" />
           <InputGroupAddon>
             <InputGroupButton variant="secondary">Secondary</InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput id="input-button-16" />
+          <InputGroupInput aria-label="Text with trailing button" />
           <InputGroupAddon align="inline-end">
             <InputGroupButton variant="secondary">Button</InputGroupButton>
           </InputGroupAddon>
