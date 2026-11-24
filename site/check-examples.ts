@@ -87,6 +87,7 @@ async function run(command: string, args: string[], cwd: string) {
   const child = spawn(command, args, {
     cwd,
     stdio: "inherit",
+    shell: process.platform === "win32" && command === "pnpm",
     env: { ...process.env, CI: "true", NODE_PATH: "" },
   });
   const [code, signal] = await once(child, "exit");
