@@ -1044,9 +1044,8 @@ const s = stylex.create({
   hero: {
     maxWidth: "82rem",
     marginInline: "auto",
-    minHeight: "min(44rem, 80vh)",
     paddingInline: "clamp(1.25rem, 4vw, 3rem)",
-    paddingBlock: "clamp(3.25rem, 8vw, 7.75rem) clamp(3rem, 7vw, 6rem)",
+    paddingBlock: "clamp(1.625rem, 4vw, 3.875rem) clamp(1.5rem, 3.5vw, 3rem)",
     display: "grid",
     gridTemplateColumns: {
       default: "1.12fr 1fr",
@@ -1149,7 +1148,7 @@ const s = stylex.create({
     maxWidth: "82rem",
     marginInline: "auto",
     paddingInline: "clamp(1.25rem, 4vw, 3rem)",
-    paddingBlock: "clamp(3rem, 7vw, 6.35rem)",
+    paddingBlock: "clamp(1.5rem, 3.5vw, 3.175rem)",
   },
   lastSection: { borderTop: "1px solid var(--border)" },
   sectionHeading: { marginBottom: "1.1rem" },
