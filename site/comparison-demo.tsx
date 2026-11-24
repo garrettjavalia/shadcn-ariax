@@ -405,18 +405,21 @@ export function ComparisonDemo({
     ];
     function connect(frame: HTMLIFrameElement) {
       const doc = frame.contentDocument;
-      if (!doc || doc.URL === "about:blank" || documents.get(frame) === doc)
+      const root = doc?.documentElement;
+      // A navigating frame can expose its Document before the parser creates <html>.
+      // Its load listener retries the connection once the document is ready.
+      if (!doc || !root || doc.URL === "about:blank" || documents.get(frame) === doc)
         return;
       release.get(frame)?.();
       pending();
       documents.set(frame, doc);
-      doc.documentElement.dataset.compareVariant = variant;
-      doc.documentElement.dataset.compareState = activeState;
-      doc.documentElement.classList.toggle("dark", theme === "dark");
-      doc.documentElement.toggleAttribute("data-disabled", disabled);
+      root.dataset.compareVariant = variant;
+      root.dataset.compareState = activeState;
+      root.classList.toggle("dark", theme === "dark");
+      root.toggleAttribute("data-disabled", disabled);
       for (const event of events) doc.addEventListener(event, schedule, true);
       const observer = new MutationObserver(schedule);
-      observer.observe(doc.documentElement, {
+      observer.observe(root, {
         attributes: true,
         childList: true,
         characterData: true,
