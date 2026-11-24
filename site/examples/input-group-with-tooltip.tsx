@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDownIcon, InfoIcon, StarIcon } from "lucide-react";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 import { ButtonGroup, ButtonGroupText } from "@button-group";
 import {
@@ -26,15 +26,16 @@ import {
 import { Tooltip, TooltipTrigger } from "@tooltip";
 
 export default function InputGroupWithTooltip() {
+  const id = useId();
   const [country, setCountry] = useState("+1");
   const [favorite, setFavorite] = useState(false);
   return (
     <>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="input-tooltip-20">Tooltip</FieldLabel>
+          <FieldLabel htmlFor={`${id}-input-tooltip-20`}>Tooltip</FieldLabel>
           <InputGroup>
-            <InputGroupInput id="input-tooltip-20" />
+            <InputGroupInput id={`${id}-input-tooltip-20`} />
             <InputGroupAddon align="inline-end">
               <TooltipTrigger>
                 <InputGroupButton
@@ -53,9 +54,9 @@ export default function InputGroupWithTooltip() {
           </FieldDescription>
         </Field>
         <Field>
-          <FieldLabel htmlFor="input-dropdown-21">Dropdown</FieldLabel>
+          <FieldLabel htmlFor={`${id}-input-dropdown-21`}>Dropdown</FieldLabel>
           <InputGroup>
-            <InputGroupInput id="input-dropdown-21" />
+            <InputGroupInput id={`${id}-input-dropdown-21`} />
             <InputGroupAddon>
               <DropdownMenuTrigger>
                 <InputGroupButton
@@ -90,7 +91,7 @@ export default function InputGroupWithTooltip() {
           </FieldDescription>
         </Field>
         <Field>
-          <FieldLabel htmlFor="input-secure-19">Popover</FieldLabel>
+          <FieldLabel htmlFor={`${id}-input-secure-19`}>Popover</FieldLabel>
           <InputGroup>
             <PopoverTrigger>
               <InputGroupAddon>
@@ -119,7 +120,7 @@ export default function InputGroupWithTooltip() {
             >
               https://
             </InputGroupAddon>
-            <InputGroupInput id="input-secure-19" />
+            <InputGroupInput id={`${id}-input-secure-19`} />
             <InputGroupAddon align="inline-end">
               <InputGroupButton
                 size="icon-xs"
@@ -136,11 +137,11 @@ export default function InputGroupWithTooltip() {
           </FieldDescription>
         </Field>
         <Field>
-          <FieldLabel htmlFor="url">Button Group</FieldLabel>
+          <FieldLabel htmlFor={`${id}-url`}>Button Group</FieldLabel>
           <ButtonGroup>
             <ButtonGroupText>https://</ButtonGroupText>
             <InputGroup>
-              <InputGroupInput id="url" />
+              <InputGroupInput id={`${id}-url`} />
               <InputGroupAddon align="inline-end">
                 <InfoIcon />
               </InputGroupAddon>

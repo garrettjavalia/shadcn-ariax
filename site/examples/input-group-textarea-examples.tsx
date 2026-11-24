@@ -1,3 +1,4 @@
+import { useId } from "react";
 import {
   ArrowUpIcon,
   CodeIcon,
@@ -17,22 +18,23 @@ import {
 import { Textarea } from "@textarea";
 
 export default function InputGroupTextareaExamples() {
+  const id = useId();
   return (
     <FieldGroup>
       <Field>
-        <FieldLabel htmlFor="textarea-header-footer-12">
+        <FieldLabel htmlFor={`${id}-textarea-header-footer-12`}>
           Default Textarea (No Input Group)
         </FieldLabel>
         <Textarea
-          id="textarea-header-footer-12"
+          id={`${id}-textarea-header-footer-12`}
           placeholder="Enter your text here..."
         />
       </Field>
       <Field>
-        <FieldLabel htmlFor="textarea-header-footer-13">Input Group</FieldLabel>
+        <FieldLabel htmlFor={`${id}-textarea-header-footer-13`}>Input Group</FieldLabel>
         <InputGroup>
           <InputGroupTextarea
-            id="textarea-header-footer-13"
+            id={`${id}-textarea-header-footer-13`}
             placeholder="Enter your text here..."
           />
         </InputGroup>
@@ -41,10 +43,10 @@ export default function InputGroupTextareaExamples() {
         </FieldDescription>
       </Field>
       <Field data-invalid="true">
-        <FieldLabel htmlFor="textarea-header-footer-14">Invalid</FieldLabel>
+        <FieldLabel htmlFor={`${id}-textarea-header-footer-14`}>Invalid</FieldLabel>
         <InputGroup>
           <InputGroupTextarea
-            id="textarea-header-footer-14"
+            id={`${id}-textarea-header-footer-14`}
             placeholder="Enter your text here..."
             aria-invalid="true"
           />
@@ -54,10 +56,10 @@ export default function InputGroupTextareaExamples() {
         </FieldDescription>
       </Field>
       <Field data-disabled="true">
-        <FieldLabel htmlFor="textarea-header-footer-15">Disabled</FieldLabel>
+        <FieldLabel htmlFor={`${id}-textarea-header-footer-15`}>Disabled</FieldLabel>
         <InputGroup>
           <InputGroupTextarea
-            id="textarea-header-footer-15"
+            id={`${id}-textarea-header-footer-15`}
             placeholder="Enter your text here..."
             disabled
           />
@@ -67,9 +69,9 @@ export default function InputGroupTextareaExamples() {
         </FieldDescription>
       </Field>
       <Field>
-        <FieldLabel htmlFor="prompt-31">Addon (block-start)</FieldLabel>
+        <FieldLabel htmlFor={`${id}-prompt-31`}>Addon (block-start)</FieldLabel>
         <InputGroup>
-          <InputGroupTextarea id="prompt-31" />
+          <InputGroupTextarea id={`${id}-prompt-31`} />
           <InputGroupAddon align="block-start">
             <InputGroupText>Ask, Search or Chat...</InputGroupText>
             <InfoIcon
@@ -85,12 +87,12 @@ export default function InputGroupTextareaExamples() {
         </FieldDescription>
       </Field>
       <Field>
-        <FieldLabel htmlFor="textarea-header-footer-30">
+        <FieldLabel htmlFor={`${id}-textarea-header-footer-30`}>
           Addon (block-end)
         </FieldLabel>
         <InputGroup>
           <InputGroupTextarea
-            id="textarea-header-footer-30"
+            id={`${id}-textarea-header-footer-30`}
             placeholder="Enter your text here..."
           />
           <InputGroupAddon align="block-end">
@@ -107,10 +109,10 @@ export default function InputGroupTextareaExamples() {
         </InputGroup>
       </Field>
       <Field>
-        <FieldLabel htmlFor="textarea-comment-31">Addon (Buttons)</FieldLabel>
+        <FieldLabel htmlFor={`${id}-textarea-comment-31`}>Addon (Buttons)</FieldLabel>
         <InputGroup>
           <InputGroupTextarea
-            id="textarea-comment-31"
+            id={`${id}-textarea-comment-31`}
             placeholder="Share your thoughts..."
             style={{ minHeight: 120 }}
           />
@@ -129,10 +131,10 @@ export default function InputGroupTextareaExamples() {
         </InputGroup>
       </Field>
       <Field>
-        <FieldLabel htmlFor="textarea-code-32">Code Editor</FieldLabel>
+        <FieldLabel htmlFor={`${id}-textarea-code-32`}>Code Editor</FieldLabel>
         <InputGroup>
           <InputGroupTextarea
-            id="textarea-code-32"
+            id={`${id}-textarea-code-32`}
             placeholder="console.log('Hello, world!');"
             style={{ minHeight: 300, paddingBlock: ".75rem" }}
           />
