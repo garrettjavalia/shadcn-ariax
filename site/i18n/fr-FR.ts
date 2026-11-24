@@ -81,7 +81,7 @@ export default {
     "The state control previews interaction styles in both frames. Keyboard focus stays on the control.":
       "Le sélecteur applique les styles de l’état choisi dans les deux cadres. Le focus clavier reste sur le sélecteur.",
     "Native pseudo-classes": "Pseudo-classes natives",
-    testingTitle: "Comment nous testons AriaX",
+    testingTitle: "Méthodes de test",
     testingPurpose: "Nous comparons AriaX et shadcn/ui dans les mêmes conditions pour que vous retrouviez en production la même apparence et le même comportement.",
     comparisonTitle: "Comparaison avec shadcn/ui",
     comparisonDescription:
@@ -92,7 +92,7 @@ export default {
     consumerTitle: "Compilation des exemples",
     consumerDescription:
       "Nous installons les composants du registre dans une nouvelle application React, vérifions les types et compilons tous les exemples publiés avant de les ouvrir un à un dans Chromium.",
-    toolkitTitle: "La conception d’AriaX",
+    toolkitTitle: "Conception",
     sourceTitle: "Code du composant",
     sourceDescription:
       "Installez les composants avec la CLI de <project>shadcn</project> et modifiez leur code sous licence MIT.",

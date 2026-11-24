@@ -77,7 +77,7 @@ export default {
     "The state control previews interaction styles in both frames. Keyboard focus stays on the control.":
       "The state control previews interaction styles in both frames. Keyboard focus stays on the control.",
     "Native pseudo-classes": "Native pseudo-classes",
-    testingTitle: "How we test",
+    testingTitle: "Testing methods",
     testingPurpose: "We compare AriaX with shadcn/ui under the same conditions so you can rely on familiar visuals and behavior in production.",
     comparisonTitle: "Compare with shadcn/ui",
     comparisonDescription:
@@ -88,7 +88,7 @@ export default {
     consumerTitle: "Build the examples",
     consumerDescription:
       "We install the registry in a fresh React app, type-check and build every published example, then open each one in Chromium.",
-    toolkitTitle: "Inside AriaX",
+    toolkitTitle: "Design",
     sourceTitle: "Component source",
     sourceDescription:
       "Install the components you need with the <project>shadcn</project> CLI and edit their MIT-licensed source.",
