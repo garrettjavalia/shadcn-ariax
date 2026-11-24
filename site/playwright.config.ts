@@ -20,7 +20,11 @@ export default defineConfig({
     colorScheme: "light",
     viewport: { width: 1200, height: 900 },
     trace: "retain-on-failure",
-    ...(executablePath ? { launchOptions: { executablePath } } : {}),
+    launchOptions: {
+      executablePath,
+      // Keep browser checks against the deployment artifact out of production analytics.
+      args: ["--host-resolver-rules=MAP www.googletagmanager.com ~NOTFOUND"],
+    },
   },
   webServer: {
     command: "node --import tsx site/serve-static.ts",

@@ -35,6 +35,7 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium
       - name: Build and verify public AriaX site
         env:
+          ARIAX_GTM_ID: ${{ github.event_name != 'pull_request' && 'GTM-NLZ2285R' || '' }}
           ARIAX_SITE_BASE: ${{ github.event_name == 'pull_request' && format('/{0}', github.event.repository.name) || steps.pages.outputs.base_path }}/
         run: |
           pnpm build:site

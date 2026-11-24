@@ -17,6 +17,8 @@ import { loadExampleRequirements } from "./example-requirements";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const output = resolve(root, "dist/site");
 const ssr = resolve(root, "dist/site-ssr");
+const tagManagerId = process.env.ARIAX_GTM_ID;
+if (tagManagerId) assert.match(tagManagerId, /^GTM-[A-Z0-9]+$/);
 const base = process.env.ARIAX_SITE_BASE ?? "/shadcn-ariax/";
 assert.match(
   base,
@@ -354,7 +356,16 @@ ${forwardOldManager}
   if (${locale === defaultLocale && page !== "not-found"} && target && target !== ${safeJson(defaultLocale)}) {
     url.pathname = ${safeJson(base)} + target.split("-")[0] + "/" + url.pathname.slice(${base.length});
     location.replace(url);
+    return;
   }
+  ${tagManagerId ? `
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag("js", new Date());
+  const tag = document.createElement("script");
+  tag.async = true;
+  tag.src = ${safeJson("https://www.googletagmanager.com/gtm.js?id=" + tagManagerId)};
+  document.head.appendChild(tag);` : ""}
 })();
 </script>
 ${styles}
