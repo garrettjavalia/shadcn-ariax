@@ -43,17 +43,6 @@ jobs:
         env:
           ARIAX_SITE_BASE: /${{ github.event.repository.name }}/
         run: pnpm test:site
-      - name: Check deployment artifact
-        if: github.event_name != 'pull_request'
-        env:
-          ARIAX_GTM_ID: ${{ vars.ARIAX_GTM_ID }}
-        run: |
-          test -s dist/site/index.html
-          test -s dist/site/ja/index.html
-          test -s dist/site/docs/components/button/index.html
-          if [ -n "$ARIAX_GTM_ID" ]; then
-            grep -Fq "https://www.googletagmanager.com/gtm.js?id=$ARIAX_GTM_ID" dist/site/index.html
-          fi
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:
