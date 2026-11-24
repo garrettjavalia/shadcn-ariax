@@ -191,6 +191,8 @@ shadcn/ui의 공식 레지스트리 목록 등록은 별도 절차입니다. [�
 
 `deploy-github-pages`에 푸시하면 `pnpm build:site`를 실행한 뒤 `dist/site/`를 업로드합니다. [프로젝트 홈페이지](https://garrettjavalia.github.io/shadcn-ariax/)의 진입점은 영어 랜딩 페이지인 `index.html`입니다. 브라우저에서는 지원 언어에 따라 `/shadcn-ariax/ko/` 같은 경로로 이동합니다. 각 언어의 홈페이지를 기준으로 설치 가이드는 `docs/installation/`, 컴포넌트 뷰어는 `docs/components/`에 있습니다. Pages에는 정적 사이트, 예제 모듈, 레지스트리 파일을 배포합니다. 스토리를 개발하고 비교할 때는 로컬에서 `pnpm storybook`을 실행하세요.
 
+PR에서도 프로젝트 경로로 사이트를 빌드하고 Chromium으로 검사합니다. 공개 배포는 검사를 통과한 `deploy-github-pages` 푸시 또는 해당 브랜치의 수동 실행에서 진행합니다. 배포 브랜치와 `main`의 커밋 이력이 갈라진 경우, 깨끗한 배포 브랜치 워크트리에 릴리스할 커밋의 전체 트리를 복사해 새 커밋으로 푸시하면 기존 배포 이력을 보존할 수 있습니다.
+
 처음 설정할 때는 GitHub에서 다음 두 항목을 확인합니다.
 
 1. **Settings → Pages → Source**를 **GitHub Actions**로 선택합니다.

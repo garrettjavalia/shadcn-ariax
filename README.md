@@ -1,5 +1,7 @@
 # AriaX
 
+[Explore components and installation guides on the AriaX website](https://garrettjavalia.github.io/shadcn-ariax/)
+
 shadcn/ui React Aria components styled with StyleX.
 
 AriaX brings the Nova style and Neutral light/dark themes to a shadcn/ui registry. Install component source into your project and customize it with StyleX.

@@ -1,5 +1,7 @@
 # AriaX
 
+[AriaX 공식 홈페이지에서 컴포넌트와 설치 가이드 살펴보기](https://garrettjavalia.github.io/shadcn-ariax/ko/)
+
 shadcn/ui React Aria 컴포넌트를 StyleX로 제공합니다.
 
 AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn/ui 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.

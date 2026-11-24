@@ -52,7 +52,11 @@ export function useSidebar() {
     throw new Error("useSidebar must be used within a SidebarProvider.");
   return context;
 }
+export const SidebarShortcutScope = React.createContext<"window" | "sidebar">(
+  "window",
+);
 export function SidebarProvider({
+  onKeyDown,
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
@@ -80,16 +84,25 @@ export function SidebarProvider({
       isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open),
     [isMobile, setOpen],
   );
-  React.useEffect(() => {
-    const handle = (event: KeyboardEvent) => {
-      if (event.key === "b" && (event.metaKey || event.ctrlKey)) {
+  const shortcutScope = React.useContext(SidebarShortcutScope);
+  const handleShortcut = React.useCallback(
+    (event: KeyboardEvent | React.KeyboardEvent) => {
+      if (
+        !event.defaultPrevented &&
+        event.key === "b" &&
+        (event.metaKey || event.ctrlKey)
+      ) {
         event.preventDefault();
         toggleSidebar();
       }
-    };
-    window.addEventListener("keydown", handle);
-    return () => window.removeEventListener("keydown", handle);
-  }, [toggleSidebar]);
+    },
+    [toggleSidebar],
+  );
+  React.useEffect(() => {
+    if (shortcutScope !== "window") return;
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, [handleShortcut, shortcutScope]);
   const state = open ? "expanded" : "collapsed";
   const value = React.useMemo<SidebarContextProps>(
     () => ({
@@ -106,6 +119,14 @@ export function SidebarProvider({
   return (
     <SidebarContext.Provider value={value}>
       <div
+        onKeyDown={
+          shortcutScope === "sidebar"
+            ? (event) => {
+                onKeyDown?.(event);
+                handleShortcut(event);
+              }
+            : onKeyDown
+        }
         data-slot="sidebar-wrapper"
         {...props}
         {...attrs(

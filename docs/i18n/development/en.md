@@ -191,6 +191,8 @@ Listing the registry in shadcn/ui's official directory is a separate step. See t
 
 Pushing to `deploy-github-pages` runs `pnpm build:site` and uploads `dist/site/`. The [project homepage](https://garrettjavalia.github.io/shadcn-ariax/) serves `index.html`, the English landing page. The browser can redirect to a supported locale, such as `/shadcn-ariax/ko/`. The installation guide and component viewer are under `docs/installation/` and `docs/components/` relative to each language’s homepage. The Pages artifact contains the static site, native example modules and registry files. Use `pnpm storybook` locally to develop and compare stories.
 
+Pull requests build the site at its project path and run the Chromium checks. A push to `deploy-github-pages` or a manual run on that branch deploys the verified artifact. If the deployment branch and `main` have diverged, copy the release commit’s entire tree into a clean worktree of the deployment branch and push it as a new commit to preserve the deployment history.
+
 For initial setup, check these two GitHub settings:
 
 1. Set **Settings → Pages → Source** to **GitHub Actions**.

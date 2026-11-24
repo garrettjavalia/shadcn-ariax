@@ -63,6 +63,8 @@ import { Kbd } from "../src/ariax/ui/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../src/ariax/ui/tabs";
 import { ComparisonDemo } from "./comparison-demo";
 import { ExampleCode } from "./example-code";
+import { RouterProvider } from "react-aria-components";
+import { SidebarShortcutScope } from "../src/ariax/ui/sidebar";
 import { LivePreview } from "./live-preview";
 import type { PreviewLayout } from "./preview-layouts";
 import { Toaster } from "../src/ariax/ui/sonner";
@@ -736,6 +738,11 @@ function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
   const t = useText();
   const [query, setQuery] = useState("");
   const active = page === "component" ? data?.slug : page;
+  function previewHref(href: string) {
+    if (href === "/") return base;
+    if (href === "/components" || href === "/docs/components") return route(base);
+    return href;
+  }
   let eagerPlaced = false;
   const anchored = new Set<string>();
   return (
@@ -846,13 +853,20 @@ function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
                 : "example-" + block.name;
               anchored.add(block.name);
               return (
-                <Example
+                <RouterProvider
                   key={i}
-                  block={block}
-                  preview={previewLayouts![block.name]}
-                  eager={eager}
-                  anchor={anchor}
-                />
+                  useHref={previewHref}
+                  navigate={(href) => location.assign(previewHref(href))}
+                >
+                  <SidebarShortcutScope.Provider value="sidebar">
+                    <Example
+                      block={block}
+                      preview={previewLayouts![block.name]}
+                      eager={eager}
+                      anchor={anchor}
+                    />
+                  </SidebarShortcutScope.Provider>
+                </RouterProvider>
               );
             })}
           </>

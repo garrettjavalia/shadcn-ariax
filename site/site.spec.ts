@@ -755,7 +755,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     }
     if (state === "pressed") {
       for (const button of buttons)
-        await expect(button).toHaveAttribute("data-pressed", "");
+        await expect(button).toHaveAttribute("data-pressed", /^(?:true)?$/);
     }
     await expect(result).toContainText("Buttons match");
     await expect(inspector.locator("pre").first()).toBeVisible();

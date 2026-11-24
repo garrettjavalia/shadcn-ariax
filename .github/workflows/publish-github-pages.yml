@@ -1,6 +1,7 @@
 name: Publish AriaX to GitHub Pages
 
 on:
+  pull_request:
   push:
     branches: [deploy-github-pages]
   workflow_dispatch:
@@ -9,12 +10,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: publish-github-pages
+  group: publish-github-pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/deploy-github-pages'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/deploy-github-pages'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -28,17 +29,22 @@ jobs:
           cache: pnpm
       - uses: actions/configure-pages@v5
         id: pages
+        if: github.event_name != 'pull_request'
       - run: pnpm install --frozen-lockfile
       - run: pnpm registry:check
       - name: Build public AriaX site
         env:
-          ARIAX_SITE_BASE: ${{ steps.pages.outputs.base_path }}/
+          ARIAX_SITE_BASE: ${{ github.event_name == 'pull_request' && format('/{0}', github.event.repository.name) || steps.pages.outputs.base_path }}/
         run: pnpm build:site
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:site
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
         with:
           path: dist/site
 
   deploy:
+    if: github.ref == 'refs/heads/deploy-github-pages' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10

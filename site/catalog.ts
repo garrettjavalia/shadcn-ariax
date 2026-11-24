@@ -417,9 +417,10 @@ function portableSources(repo: string, installed: Set<string>) {
     const modules = files.filter((f) => !f.path.endsWith(".css"));
     const portable = await bundleExample(modules);
     const stylesheet = await exampleStylesheet(portable, sheets);
-    return stylesheet
-      ? { code: 'import "./example.css";\n' + portable, stylesheet }
-      : { code: portable };
+    // Each displayed file can be imported directly by a Next.js server page.
+    const body = portable.replace(/^"use client";\s*/, "");
+    const cssImport = stylesheet ? 'import "./example.css";\n' : "";
+    return { code: '"use client";\n\n' + cssImport + body, stylesheet };
   };
 }
 
