@@ -114,7 +114,7 @@ function Results({
   className?: string;
 }) {
   const t = useText();
-  const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const terms = query.toLowerCase().trim().split(/[\s-]+/).filter(Boolean);
   const exact = query.toLowerCase().trim();
   const includes = (value: string) =>
     terms.every((term) => value.toLowerCase().includes(term));
@@ -122,10 +122,10 @@ function Results({
     const titleMatch = includes(
       [item.title, item.slug, item.description].join(" "),
     );
-    const example =
+    const example = item.examples?.find((name) => name === exact) ?? (
       !titleMatch && terms.length
         ? item.examples?.find((name) => includes(name.replaceAll("-", " ")))
-        : undefined;
+        : undefined);
     return titleMatch || example ? [{ ...item, example }] : [];
   });
   if (exact)

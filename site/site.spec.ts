@@ -172,7 +172,7 @@ test("catalog search can link directly to a named example", async ({
   const search = page.getByRole("searchbox", {
     name: "Filter component catalog",
   });
-  await search.fill("anchoring");
+  await search.fill("message-scroller-anchoring");
   const match = page.getByRole("link", {
     name: /message scroller.*anchoring/i,
   });
@@ -228,6 +228,26 @@ test("component content keeps the same horizontal bounds between routes", async 
     }
   }
 });
+
+for (const [component, collection] of [
+  ["context-menu", "menu"],
+  ["dropdown-menu", "menu"],
+  ["select", "listbox"],
+] as const) {
+  test(`${component} keeps the collection focused during an outside mouse press`, async ({ page }) => {
+    await page.goto(`docs/components/${component}/`);
+    const context = component === "context-menu";
+    const preview = page.locator(context ? '[data-preview-stage="context-menu-basic"]' : "[data-preview-stage]").first();
+    await preview.getByRole("button").first().click({ button: context ? "right" : "left" });
+    const list = page.getByRole(collection).first();
+    await expect(list).toBeFocused();
+    await page.mouse.move(4, 4);
+    await page.mouse.down();
+    await expect(list).toBeFocused();
+    await page.mouse.up();
+    await expect(list).toBeHidden();
+  });
+}
 
 test("dialog opens in the page viewport, traps focus and restores it on Escape", async ({
   page,

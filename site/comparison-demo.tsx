@@ -419,6 +419,7 @@ export function ComparisonDemo({
       observer.observe(doc.documentElement, {
         attributes: true,
         childList: true,
+        characterData: true,
         subtree: true,
       });
       const clear = () => {

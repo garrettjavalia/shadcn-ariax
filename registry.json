@@ -3154,6 +3154,11 @@
           "target": "@ui/calendar.tsx"
         },
         {
+          "path": "src/ariax/ui/collection-focus.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/collection-focus.internal.ts"
+        },
+        {
           "path": "src/ariax/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "@ui/input-group.tsx"
@@ -5800,6 +5805,11 @@
       ],
       "files": [
         {
+          "path": "src/ariax/ui/collection-focus.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/collection-focus.internal.ts"
+        },
+        {
           "path": "src/ariax/ui/context-menu.tsx",
           "type": "registry:ui",
           "target": "@ui/context-menu.tsx"
@@ -6946,6 +6956,11 @@
         "postcss@8.5.29"
       ],
       "files": [
+        {
+          "path": "src/ariax/ui/collection-focus.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/collection-focus.internal.ts"
+        },
         {
           "path": "src/ariax/ui/dropdown-menu.tsx",
           "type": "registry:ui",
@@ -12921,6 +12936,11 @@
           "path": "src/ariax/ui/button.tsx",
           "type": "registry:ui",
           "target": "@ui/button.tsx"
+        },
+        {
+          "path": "src/ariax/ui/collection-focus.internal.ts",
+          "type": "registry:file",
+          "target": "@ui/collection-focus.internal.ts"
         },
         {
           "path": "src/ariax/ui/input-group.tsx",

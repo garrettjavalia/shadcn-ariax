@@ -78,9 +78,13 @@ export default function MessagePattern() {
           <MessageFooter style={{ paddingInline: 0 }}>
             <MessageAction
               label={copied ? "Copied" : "Copy"}
-              onPress={() => {
-                navigator.clipboard.writeText(reply);
-                setCopied(true);
+              onPress={async () => {
+                try {
+                  await navigator.clipboard.writeText(reply);
+                  setCopied(true);
+                } catch {
+                  setCopied(false);
+                }
               }}
             >
               {copied ? <CheckIcon /> : <CopyIcon />}
