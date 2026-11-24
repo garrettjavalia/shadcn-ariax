@@ -223,12 +223,24 @@ function SearchDialog({ base, nav }: Pick<SiteProps, "base" | "nav">) {
           value={query}
           onChange={(event) => setQuery(event.currentTarget.value)}
         />
-        <Results
-          base={base}
-          nav={nav}
-          query={query}
-          className={stylex.props(s.searchResults).className}
-        />
+        <RouterProvider navigate={(href) => {
+          setOpen(false);
+          setQuery("");
+          // Release the modal's scroll lock before following a same-page anchor.
+          requestAnimationFrame(() => {
+            location.assign(href);
+            if (location.hash && location.pathname === new URL(href, location.href).pathname) {
+              document.getElementById(location.hash.slice(1))?.scrollIntoView();
+            }
+          });
+        }}>
+          <Results
+            base={base}
+            nav={nav}
+            query={query}
+            className={stylex.props(s.searchResults).className}
+          />
+        </RouterProvider>
       </Dialog>
     </DialogTrigger>
   );

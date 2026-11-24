@@ -161,6 +161,10 @@
   gap: 0.55rem;
   margin-bottom: 0.65rem;
 }
+.comparison-demo .comparison-filters [data-slot="select"] {
+  display: grid;
+  gap: 0.25rem;
+}
 .comparison-demo .comparison-filters [data-slot="input"] {
   width: min(100%, 17rem);
 }

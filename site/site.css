@@ -284,7 +284,7 @@ main > section:not([data-example]) h3 {
 .hero-intro {
   min-width: 0;
   container-type: inline-size;
-  --hero-title-size: min(6.75cqi, 3.75rem);
+  --hero-title-size: min(6.2cqi, 3.75rem);
 }
 html:lang(ko) .hero-intro {
   --hero-title-size: min(7.8cqi, 4rem);

@@ -87,11 +87,7 @@ export function SidebarProvider({
   const shortcutScope = React.useContext(SidebarShortcutScope);
   const handleShortcut = React.useCallback(
     (event: KeyboardEvent | React.KeyboardEvent) => {
-      if (
-        !event.defaultPrevented &&
-        event.key === "b" &&
-        (event.metaKey || event.ctrlKey)
-      ) {
+      if (event.key === "b" && (event.metaKey || event.ctrlKey)) {
         event.preventDefault();
         toggleSidebar();
       }
@@ -123,7 +119,7 @@ export function SidebarProvider({
           shortcutScope === "sidebar"
             ? (event) => {
                 onKeyDown?.(event);
-                handleShortcut(event);
+                if (!event.defaultPrevented) handleShortcut(event);
               }
             : onKeyDown
         }

@@ -154,6 +154,17 @@ test("search opens, narrows results and navigates using only the keyboard", asyn
   ).toBeVisible();
 });
 
+test("a missing preview chunk leaves the example code and document available", async ({ page, request }) => {
+  const manifest = await (await request.get(".vite/manifest.json")).json();
+  const chunk = manifest["generated/site-previews/official-demos--button-demo/example.tsx"].file;
+  await page.route(deployedPath(chunk), route => route.fulfill({ status: 404 }));
+  await page.goto(buttonPath);
+  const example = page.locator("[data-example=button-demo]").first();
+  await expect(example.getByText("Preview unavailable.")).toBeVisible();
+  await example.getByRole("button", { name: "View code" }).click();
+  await expect(example.getByRole("button", { name: "Copy code" })).toBeVisible();
+});
+
 test("catalog search can link directly to a named example", async ({
   page,
 }) => {
@@ -174,6 +185,12 @@ test("catalog search can link directly to a named example", async ({
   await expect(
     page.locator("#example-message-scroller-anchoring"),
   ).toBeInViewport();
+  await page.keyboard.press("Control+k");
+  const modal = page.getByRole("dialog");
+  await modal.getByRole("searchbox").fill("streaming");
+  await modal.getByRole("link", { name: /message scroller.*streaming/i }).click();
+  await expect(modal).toBeHidden();
+  await expect(page.locator("#example-message-scroller-streaming")).toBeInViewport();
 });
 
 test("component content keeps the same horizontal bounds between routes", async ({
@@ -701,6 +718,16 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
   await expect(
     inspector.getByRole("rowheader", { name: "background-color", exact: true }),
   ).toBeVisible();
+  const differencesOnly = inspector.getByRole("checkbox", { name: "Differences only" });
+  await inspector.getByText("Differences only", { exact: true }).click();
+  await expect(differencesOnly).toBeChecked();
+  await expect(inspector.getByText("No matching properties")).toBeVisible();
+  await buttons[1].evaluate((node) => node.style.setProperty("background-color", "red", "important"));
+  await expect(inspector.getByRole("rowheader", { name: "background-color", exact: true })).toBeVisible();
+  await buttons[1].evaluate((node) => node.style.removeProperty("background-color"));
+  await expect(inspector.getByText("No matching properties")).toBeVisible();
+  await differencesOnly.press("Space");
+  await expect(differencesOnly).not.toBeChecked();
   await inspector.getByRole("textbox", { name: "Filter properties" }).fill("");
   const variantControl = panel.getByRole("button", {
     name: /Button variant$/,

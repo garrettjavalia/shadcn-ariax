@@ -1,4 +1,6 @@
 import {
+  Component as ReactComponent,
+  type ReactNode,
   createContext,
   lazy,
   Suspense,
@@ -9,6 +11,7 @@ import {
   type ComponentType,
   type LazyExoticComponent,
 } from "react";
+import { useTranslation } from "react-i18next";
 import type { PreviewLayout } from "./preview-layouts";
 
 type PreviewComponents = Map<string, LazyExoticComponent<ComponentType>>;
@@ -25,6 +28,18 @@ export function previewComponents(
   );
 }
 
+class PreviewBoundary extends ReactComponent<{ children: ReactNode; fallback: ReactNode }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
 type Props = {
   name: string;
   story: string;
@@ -34,6 +49,7 @@ type Props = {
 };
 
 export function LivePreview({ name, story, layout, documented, eager }: Props) {
+  const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
   const Component = useContext(PreviewModules).get(story);
@@ -72,9 +88,11 @@ export function LivePreview({ name, story, layout, documented, eager }: Props) {
           data-viewport-block={layout.block || name.startsWith("sidebar-")}
         >
           {active && Component && (
-            <Suspense fallback={null}>
-              <Component />
-            </Suspense>
+            <PreviewBoundary key={story} fallback={<p role="status">{t("Preview unavailable")}</p>}>
+              <Suspense fallback={null}>
+                <Component />
+              </Suspense>
+            </PreviewBoundary>
           )}
         </div>
       </div>

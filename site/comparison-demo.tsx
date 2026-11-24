@@ -79,13 +79,22 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
   const [selection, setSelection] = useState("");
   const [query, setQuery] = useState("");
   const [custom, setCustom] = useState(false);
+  const [onlyDifferences, setOnlyDifferences] = useState(false);
   const selected =
     comparison.computedStyles.find((node) => node.path === selection) ??
     comparison.computedStyles[0];
   const needle = query.trim().toLowerCase();
+  const different = new Set(
+    (custom ? comparison.customPropertyDifferences : comparison.differences)
+      .filter((diff) => diff.kind === "style" && diff.path === selected?.path)
+      .map((diff) => diff.property),
+  );
   const rows = (
     selected?.[custom ? "customProperties" : "properties"] ?? []
-  ).filter((row) => !needle || row.property.toLowerCase().includes(needle));
+  ).filter((row) =>
+    (!onlyDifferences || different.has(row.property)) &&
+    row.property.toLowerCase().includes(needle),
+  );
   return (
     <div className="comparison-inspector">
       <h3>{t("Rendered DOM")}</h3>
@@ -131,11 +140,11 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
       <h3>{t("Computed CSS")}</h3>
       <div className="comparison-filters">
         <Select
-          aria-label={t("Inspect element")}
           selectedKey={selected?.path}
           onSelectionChange={(key) => setSelection(String(key))}
         >
-          <SelectTrigger size="sm" aria-label={t("Inspect element")}>
+          <Label>{t("Inspect element")}</Label>
+          <SelectTrigger size="sm">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -162,6 +171,16 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
             {t("CSS custom properties")}
           </Label>
         </div>
+        <div className="comparison-control">
+          <Checkbox
+            id="comparison-only-differences"
+            isSelected={onlyDifferences}
+            onChange={setOnlyDifferences}
+          />
+          <Label htmlFor="comparison-only-differences">
+            {t("Differences only")}
+          </Label>
+        </div>
       </div>
       <div
         className="comparison-values"
@@ -181,7 +200,7 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
             {rows.map((row) => (
               <tr
                 key={row.property}
-                data-different={row.upstream !== row.ariax || undefined}
+                data-different={different.has(row.property) || undefined}
               >
                 <th scope="row">{row.property}</th>
                 <td>{row.upstream ?? "∅"}</td>
