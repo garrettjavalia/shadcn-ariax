@@ -65,7 +65,7 @@ export default {
     "Inspect element": "비교할 요소",
     "Filter properties": "속성 검색",
     Property: "속성",
-    "No matching properties": "일치하는 속성이 없습니다",
+    "No matching properties": "표시할 속성이 없습니다",
     "Differences only": "차이만 보기",
     "CSS custom properties": "CSS 사용자 정의 속성",
     "Button state": "버튼 상태",
