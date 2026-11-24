@@ -1,5 +1,4 @@
 "use client"
-import {chartAnimationEvents} from "../chart-animation"
 
 import {demoCard,demoHeader,demoIntro,flex,demoButton,mutedTiny,demoTotal,demoContent,demoChart,demoTooltip,exampleChart,previewRoot,previewLabel,arrowOne,previewEnd,previewSecondLabel,arrowTwo,previewHidden,previewStart,previewThirdLabel,arrowThree,medium,grid,muted,value,labelWidth,privateTooltipRoot,privateTooltipItem,privateIndicator,privateTooltipRow} from "@chart-customizations"
 
@@ -154,7 +153,7 @@ export function ChartDemo() {
                 />
               }
             />
-            <Bar {...chartAnimationEvents} dataKey={activeChart} fill={`var(--color-${activeChart})`} />
+            <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
           </BarChart>
         </ChartContainer>
       </CardContent>

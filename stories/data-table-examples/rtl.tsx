@@ -1,6 +1,6 @@
 "use client"
 
-import {ghostHeader,capitalizeItem,capitalize,lowercase,amountRight,valueRight,amountStart,valueStart,srOnly,menu44,menu40,full,toolbar,toolbarGap,filterInput,marginLeft,marginStart,frame,footerSpace,footerGap,selectionCount,paginationSpace,paginationGap} from "@data-table-customizations"
+import {ghostHeader,capitalizeItem,capitalize,lowercase,amountRight,valueRight,amountStart,valueStart,srOnly,menu44,menu40,full,toolbar,toolbarGap,filterInput,marginLeft,marginStart,frame,footerSpace,footerGap,selectionCount,paginationGap} from "@data-table-customizations"
 
 import * as React from "react"
 import {

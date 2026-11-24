@@ -16,6 +16,10 @@ const helpers = {
 };
 const reference = resolve('generated/reference/aria-nova');
 export const originalAliases = [
+  { find: /^@\/(?:styles\/aria-(?:nova|rhea)\/ui(?:-rtl)?|registry\/bases\/aria\/ui)\/carousel$/, replacement: resolve('reference/carousel.tsx') },
+  { find: /^@\/styles\/base-rhea\/ui\/(.+)$/, replacement: resolve('generated/reference/base-rhea/ui') + '/$1' },
+  { find: /^@\/registry\/bases\/base\/hooks\/(.+)$/, replacement: resolve('generated/reference/base-rhea/hooks') + '/$1' },
+  { find: /^@\/registry\/bases\/aria\/hooks\/(.+)$/, replacement: `${reference}/hooks/$1` },
   { find: /^@\/styles\/base-nova\/ui\/(.+)$/, replacement: resolve('generated/reference/base-nova/ui') + '/$1' },
   { find: /^@\/styles\/radix-rhea\/ui\/(.+)$/, replacement: resolve('generated/reference/radix-rhea/ui') + '/$1' },
   ...Object.entries(helpers).map(([find, path]) => ({ find, replacement: resolve(pinned, path) })),

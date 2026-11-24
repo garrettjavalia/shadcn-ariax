@@ -161,7 +161,13 @@ try {
     join(app, "index.html"),
     '<html><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>',
   );
-  run("pnpm", ["dlx", "shadcn@4.21.1", "add", registry, "--yes"]);
+  run("pnpm", [
+    "dlx",
+    `shadcn@${pkg.devDependencies.shadcn}`,
+    "add",
+    registry,
+    "--yes",
+  ]);
   for (const file of ["babel.config.cjs", "postcss.config.cjs"])
     await writeFile(join(app, file), example(file));
   // The README requires an existing @ alias; preserve it when adding the documented plugin setup.

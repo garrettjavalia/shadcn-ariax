@@ -134,6 +134,9 @@
       ],
       "@button-group-customizations": [
         "./stories/button-group-customizations.ts"
+      ],
+      "@/styles/base-nova/ui/*": [
+        "./generated/reference/base-nova/ui/*"
       ]
     }
   },
@@ -146,7 +149,8 @@
     "scripts",
     "reference",
     "generated/reference",
-    "tests/types"
+    "tests/types",
+    "site"
   ],
   "exclude": [
     "generated/reference/**/source/**"

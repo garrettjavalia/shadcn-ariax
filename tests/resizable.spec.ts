@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -83,8 +84,10 @@ for (const theme of ["light", "dark"])
             ]) {
           await Promise.all(
             pages.map((page, i) =>
-              page.goto(
+              navigateStory(
+                page,
                 `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-resizable--${story}&globals=theme:${theme}`,
+                true,
               ),
             ),
           );
@@ -139,8 +142,10 @@ for (const theme of ["light", "dark"])
       ]) {
         await Promise.all(
           pages.map((page, i) =>
-            page.goto(
+            navigateStory(
+              page,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-resizable--${story}&globals=theme:${theme}`,
+              true,
             ),
           ),
         );

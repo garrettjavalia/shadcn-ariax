@@ -1,0 +1,245 @@
+.comparison-demo .comparison-heading {
+  margin-block-end: 1.15rem;
+}
+.comparison-demo .comparison-heading p {
+  margin-block: 0.65rem 0;
+  color: var(--muted-foreground);
+}
+.comparison-demo .comparison-panel {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--card-foreground);
+}
+.comparison-demo .comparison-control {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+.comparison-demo .comparison-frames {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  container-type: inline-size;
+  border-block: 1px solid var(--border);
+}
+.comparison-demo figure {
+  min-width: 0;
+  margin: 0;
+}
+.comparison-demo figure + figure {
+  box-shadow: inset 1px 0 var(--border);
+}
+.comparison-demo figcaption {
+  padding: 0.8rem 1rem 0;
+  font-size: 0.81rem;
+  font-weight: 600;
+}
+.comparison-demo iframe {
+  display: block;
+  border: 0;
+  width: 100%;
+  width: round(down, 50cqw, 1px);
+  height: 7rem;
+}
+.comparison-demo .comparison-reading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+.comparison-demo dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  font-size: 0.81rem;
+}
+.comparison-demo dl div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+.comparison-demo dt {
+  color: var(--muted-foreground);
+}
+.comparison-demo dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.comparison-demo details {
+  border-top: 1px solid var(--border);
+  padding: 0.8rem 1rem;
+}
+.comparison-demo summary {
+  cursor: pointer;
+  width: fit-content;
+  font-size: 0.875rem;
+}
+.comparison-demo ul {
+  list-style: none;
+  overflow: auto;
+  max-height: 20rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+.comparison-demo li {
+  padding: 0.6rem 0;
+  overflow-wrap: anywhere;
+}
+.comparison-demo li + li {
+  border-top: 1px solid var(--border);
+}
+.comparison-demo li code {
+  font-size: 0.8rem;
+}
+.comparison-demo li dl {
+  margin-block-start: 0.2rem;
+}
+.comparison-demo .comparison-panel > button {
+  margin: 0 1rem 1rem;
+}
+
+.comparison-demo details p {
+  margin-block: 0.65rem;
+  font-size: 0.875rem;
+}
+.comparison-demo details [data-slot="input"] {
+  margin-top: 0.65rem;
+  max-width: 25rem;
+}
+.comparison-demo .comparison-paging {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.65rem;
+  font-size: 0.82rem;
+}
+
+.comparison-demo .comparison-inspector {
+  padding: clamp(0.75rem, 3vw, 1.25rem);
+  border-top: 1px solid var(--border);
+}
+.comparison-demo .comparison-inspector h3 {
+  font-size: 1rem;
+  margin: 0 0 0.65rem;
+}
+.comparison-demo .comparison-inspector h4 {
+  font-size: 0.78rem;
+  margin: 0 0 0.35rem;
+}
+.comparison-demo .comparison-markup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 1.1rem;
+}
+.comparison-demo .comparison-markup pre {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  padding: 0.65rem;
+  max-height: 7rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 0.74rem/1.45 var(--font-mono);
+}
+.comparison-demo .comparison-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.65rem;
+}
+.comparison-demo .comparison-filters [data-slot="select"] {
+  display: grid;
+  gap: 0.25rem;
+}
+.comparison-demo .comparison-filters [data-slot="input"] {
+  width: min(100%, 17rem);
+}
+.comparison-demo .comparison-filters .comparison-control {
+  padding: 0;
+}
+.comparison-demo .comparison-values {
+  max-height: 20rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+}
+.comparison-demo .comparison-values table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: start;
+  font: 0.74rem/1.4 var(--font-mono);
+}
+.comparison-demo .comparison-values th,
+.comparison-demo .comparison-values td {
+  overflow-wrap: anywhere;
+  text-align: start;
+  vertical-align: top;
+  border-block-end: 1px solid var(--border);
+  padding: 0.4rem 0.55rem;
+}
+.comparison-demo .comparison-values thead th {
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  color: var(--card-foreground);
+  font-family: var(--font-sans);
+}
+.comparison-demo .comparison-values tbody th {
+  font-weight: 500;
+}
+.comparison-demo .comparison-values tr[data-different] {
+  background: var(--accent);
+}
+
+.comparison-demo .comparison-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.8rem;
+  padding: 1rem 1rem 0.45rem;
+}
+.comparison-demo .comparison-options .comparison-control {
+  padding: 0.5rem 0;
+}
+.comparison-demo .comparison-choice {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 7rem;
+}
+.comparison-demo .comparison-choice > span,
+.comparison-demo .comparison-state-note {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+.comparison-demo .comparison-state-note {
+  margin: 0;
+  padding: 0 1rem 0.85rem;
+}
+.comparison-demo .comparison-native {
+  margin-bottom: 0.8rem;
+}
+.comparison-demo .comparison-native table {
+  width: 100%;
+  font-size: 0.82rem;
+  text-align: start;
+  margin-top: 0.6rem;
+}
+.comparison-demo .comparison-native th {
+  text-align: start;
+}

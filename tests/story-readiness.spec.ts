@@ -68,3 +68,32 @@ test("initial readiness failures propagate to the parity test", async ({
     "Fixture initialization failed",
   );
 });
+
+test("a stalled fixture fails by phase even when the page clock is paused", async ({
+  page,
+}) => {
+  await page.setContent('<main id="parity-root">Waiting</main>');
+  await page.clock.install();
+  await page.clock.pauseAt(new Date());
+  await page.evaluate(() => {
+    (window as Window & { parityReady?: Promise<void> }).parityReady =
+      new Promise(() => {});
+  });
+  await expect(waitForStoryReadiness(page, 100)).rejects.toThrow(
+    "fixture readiness signal",
+  );
+});
+
+test("shared image readiness decodes an avatar only once", async ({ page }) => {
+  await page.setContent(
+    '<main id="parity-root"><img data-slot="avatar-image" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22/%3E"></main>',
+  );
+  await page.evaluate(() => {
+    const image = document.querySelector("img")!;
+    image.decode = async () => {
+      image.dataset.decodes = String(Number(image.dataset.decodes ?? 0) + 1);
+    };
+  });
+  await waitForStoryReadiness(page);
+  expect(await page.locator("img").getAttribute("data-decodes")).toBe("1");
+});

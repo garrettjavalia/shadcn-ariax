@@ -310,7 +310,7 @@ const sizes = stylex.create({
     borderRadius: "calc(var(--radius) - 3px)",
     paddingInlineStart: "calc(var(--ariax-spacing, .25rem) * 1.5)",
     paddingInlineEnd: "calc(var(--ariax-spacing, .25rem) * 1.5)",
-    "--ariax-icon-size": "calc(var(--ariax-spacing, .25rem) * 3.5)",
+    "--ariax-input-group-icon-size": "calc(var(--ariax-spacing, .25rem) * 3.5)",
   },
   sm: {},
   "icon-xs": {

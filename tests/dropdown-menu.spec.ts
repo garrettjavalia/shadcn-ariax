@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
 import { test, expect } from "@playwright/test";
@@ -33,8 +34,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-dropdown-menu--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await waitAvatarAssets(page);
@@ -98,8 +101,10 @@ for (const theme of ["light", "dark"])
             [b, stylexURL],
           ] as const
         ).map(async ([page, url]) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-dropdown-menu--${story}&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await waitAvatarAssets(page);
@@ -256,8 +261,10 @@ for (const theme of ["light", "dark"])
             [b, stylexURL],
           ] as const
         ).map(async ([page, url]) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-dropdown-menu--basic&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await waitAvatarAssets(page);
@@ -341,8 +348,10 @@ for (const theme of ["light", "dark"])
         [a, upstreamURL],
         [b, stylexURL],
       ] as const) {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-dropdown-menu--basic&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
         await waitAvatarAssets(page);
@@ -373,8 +382,10 @@ for (const theme of ["light", "dark"])
         [a, upstreamURL],
         [b, stylexURL],
       ] as const) {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-dropdown-menu--table-actions-example&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
         await waitAvatarAssets(page);

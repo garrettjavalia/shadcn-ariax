@@ -34,7 +34,11 @@
     "test:stylex": "node --import tsx --test scripts/stylex-extraction.test.ts",
     "test:install:button": "node --import tsx scripts/test-install-button.ts",
     "format:components": "prettier --write \"src/ariax/**/*.{ts,tsx,css}\"",
-    "format:check": "prettier --check \"src/ariax/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\" playwright.config.ts"
+    "format:check": "prettier --check \"src/ariax/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\" playwright.config.ts",
+    "build:site": "node --import tsx site/build.ts",
+    "test:site": "node --import tsx --test site/catalog.test.ts site/compare-buttons.test.ts && playwright test --config site/playwright.config.ts",
+    "check:site:examples": "node --import tsx site/check-examples.ts",
+    "preview:site": "node --import tsx site/serve-static.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.6.0",
@@ -56,8 +60,9 @@
     "@babel/parser": "7.29.9",
     "@internationalized/date": "3.12.4",
     "@playwright/test": "1.63.0",
-    "@shadcn/helpers": "0.2.0",
+    "@shadcn/helpers": "0.3.0",
     "@storybook/addon-docs": "10.6.1",
+    "@storybook/icons": "2.1.0",
     "@storybook/react-vite": "10.6.1",
     "@streamdown/code": "1.1.1",
     "@stylexjs/babel-plugin": "0.19.1",
@@ -77,16 +82,22 @@
     "cross-env": "10.1.0",
     "embla-carousel-autoplay": "8.5.2",
     "embla-carousel-react": "8.5.2",
+    "i18next": "25.10.10",
     "input-otp": "1.4.2",
     "lucide-react": "1.52.0",
+    "micromark": "4.0.3",
+    "micromark-extension-gfm-table": "2.1.2",
     "motion": "12.23.12",
     "pngjs": "7.0.0",
     "postcss": "8.5.29",
+    "postcss-selector-parser": "7.1.6",
     "prettier": "3.9.9",
     "radix-ui": "1.4.3",
+    "react-i18next": "16.6.6",
     "react-resizable-panels": "4.5.8",
     "react-textarea-autosize": "8.5.9",
-    "shadcn": "4.21.1",
+    "shadcn": "4.23.0",
+    "shiki": "4.6.0",
     "sonner": "2.0.7",
     "storybook": "10.6.1",
     "streamdown": "2.5.0",
@@ -95,6 +106,6 @@
     "tw-animate-css": "1.4.0",
     "typescript": "7.0.2",
     "vite": "^7.3.6",
-    "zod": "3.25.76"
+    "zod": "4.6.7"
   }
 }

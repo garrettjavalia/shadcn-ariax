@@ -8,7 +8,7 @@ import { Input } from '@input';
 const meta = { title: 'Components/Label', component: Label, tags: ['parity'], decorators: [Story => <main id="parity-root"><Story /></main>] } satisfies Meta<typeof Label>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-function Example({ rtl = false }: { rtl?: boolean }) { return <div style={{ display: 'flex', gap: '0.5rem' }} dir={rtl ? 'rtl' : undefined}><Checkbox id={rtl ? 'terms-rtl' : 'terms'} /><Label htmlFor={rtl ? 'terms-rtl' : 'terms'}>{rtl ? 'قبول الشروط والأحكام' : 'Accept terms and conditions'}</Label></div>; }
+function Example({ rtl = false }: { rtl?: boolean }) { return <div style={{ display: 'flex', gap: 'calc(var(--ariax-spacing, .25rem) * 2)' }} dir={rtl ? 'rtl' : undefined}><Checkbox id={rtl ? 'terms-rtl' : 'terms'} /><Label htmlFor={rtl ? 'terms-rtl' : 'terms'}>{rtl ? 'قبول الشروط والأحكام' : 'Accept terms and conditions'}</Label></div>; }
 export const Demo: Story = { parameters: { originalExample: "label-demo" }, render: () => <Example /> };
 export const Rtl: Story = { parameters: { originalExample: 'label-rtl' }, render: () => <OfficialRtl /> };
 export const Usage: Story = { render: () => <><Label htmlFor="email">Your email address</Label><Input id="email" /></> };

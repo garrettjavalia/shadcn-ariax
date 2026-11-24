@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { compare } from "./compare";
@@ -14,8 +15,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-table--registry-${kind}&globals=theme:${theme}`,
+              true,
             );
             await expect(page.locator("#parity-root")).toBeVisible();
             return page;

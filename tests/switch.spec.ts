@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   deterministicStoryContextOptions,
   createStoryPair,
@@ -54,8 +55,10 @@ for (const theme of ["light", "dark"])
       ]) {
         await Promise.all(
           pages.map((p, i) =>
-            p.goto(
+            navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-switch--${story}&viewMode=story&globals=theme:${theme}`,
+              true,
             ),
           ),
         );
@@ -112,8 +115,10 @@ test("Switch thumb transition preserves duration, intermediate movement and endp
     browser,
     undefined,
     async (p, url) => {
-      await p.goto(
+      await navigateStory(
+        p,
         `${url}/iframe.html?id=components-switch--sizes&viewMode=story`,
+        true,
       );
     },
   );

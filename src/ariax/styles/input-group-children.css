@@ -25,3 +25,8 @@
   width: var(--ariax-text-icon-size);
   height: var(--ariax-text-icon-size);
 }
+
+.ariax-button[data-size="xs"] > svg:not([class*="size-"]) {
+  width: var(--ariax-input-group-icon-size, var(--ariax-icon-size));
+  height: var(--ariax-input-group-icon-size, var(--ariax-icon-size));
+}

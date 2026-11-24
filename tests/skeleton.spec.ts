@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { stylexPort } from "./servers";
@@ -39,8 +40,10 @@ test("Skeleton pulse preserves opacity at start, midpoint and cycle end", async 
     [upstreamPort, stylexPort].map(async (port) => {
       const page = await browser.newPage();
       try {
-        await page.goto(
+        await navigateStory(
+          page,
           `http://127.0.0.1:${port}/iframe.html?id=components-skeleton--usage&viewMode=story`,
+          true,
         );
         await expect(page.locator('[data-slot="skeleton"]')).toBeVisible();
         return await page

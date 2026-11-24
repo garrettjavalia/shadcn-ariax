@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   deterministicStoryContextOptions,
   createStoryPair,
@@ -27,8 +28,10 @@ for (const theme of ["light", "dark"])
         browser,
         deterministicStoryContextOptions(1000, { colorScheme: "light" }),
         async (p, url) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${url}/iframe.html?id=components-checkbox--${story}&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
         },
@@ -98,8 +101,10 @@ for (const theme of ["light", "dark"])
 test("Checkbox accessible name, mixed state and group context", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-checkbox--indeterminate&viewMode=story`,
+    true,
   );
   await expect(page.getByRole("checkbox", { name: "Mixed" })).toHaveJSProperty(
     "indeterminate",
@@ -109,8 +114,10 @@ test("Checkbox accessible name, mixed state and group context", async ({
     (await new AxeBuilder({ page }).include("#parity-root").analyze())
       .violations,
   ).toEqual([]);
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-checkbox--primitive-group&viewMode=story`,
+    true,
   );
   await expect(page.getByRole("checkbox", { name: "One" })).toBeChecked();
   await expect(page.getByRole("checkbox", { name: "Two" })).not.toBeChecked();

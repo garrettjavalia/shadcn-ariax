@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { compare } from "./compare";
@@ -42,8 +43,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-progress--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(page.getByRole("progressbar").first()).toBeVisible();
             if (story === "demo")
@@ -123,8 +126,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-progress--customization&globals=theme:${theme}`,
+            true,
           );
           await expect(page.getByRole("progressbar")).toBeVisible();
           await page.evaluate(() => {
@@ -222,8 +227,10 @@ for (const theme of ["light", "dark"])
       const pages = await Promise.all(
         [upstreamURL, stylexURL].map(async (url) => {
           const page = await context.newPage();
-          await page.goto(
+          await navigateStory(
+            page,
             `${url}/iframe.html?id=components-progress--controlled&globals=theme:${theme}`,
+            true,
           );
           await expect(page.getByRole("progressbar")).toBeVisible();
           return page;

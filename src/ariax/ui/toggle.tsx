@@ -13,11 +13,22 @@ export type ToggleProps = Omit<ToggleButtonProps, "className"> & {
   size?: "default" | "sm" | "lg" | null;
 };
 type Variants = Pick<ToggleProps, "variant" | "size">;
+// A compiled marker has no declarations. Keep its stable class in the public
+// array helper as well as Toggle so installed CSS can reach opaque SVG children.
+const toggleMarker = {
+  $$css: true,
+  "ariax-toggle-marker": "ariax-toggle",
+} as unknown as stylex.StyleXStyles;
 export function toggleVariants({
   variant = "default",
   size = "default",
 }: Variants = {}) {
-  return [styles.base, variant && variants[variant], size && sizes[size]];
+  return [
+    toggleMarker,
+    styles.base,
+    variant && variants[variant],
+    size && sizes[size],
+  ];
 }
 export function toggleProps({
   variant = "default",
@@ -32,7 +43,7 @@ export function toggleProps({
     xstyle,
   );
   return {
-    className: ["ariax-toggle", applied.className].filter(Boolean).join(" "),
+    className: applied.className,
     style: applied.style,
   };
 }

@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -34,8 +35,10 @@ for (const theme of ["light", "dark"])
           for (let n = 0; n < count; n++) {
             await Promise.all(
               pages.map((p, i) =>
-                p.goto(
+                navigateStory(
+                  p,
                   `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-popover--${name}&viewMode=story&globals=theme:${theme}`,
+                  true,
                 ),
               ),
             );
@@ -121,8 +124,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-popover--in-dialog&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(p.locator("#parity-root")).toBeVisible();
           await p
@@ -155,8 +160,10 @@ for (const theme of ["light", "dark"])
       await compare(pages[0], pages[1], info, "nested-all-closed");
       await Promise.all(
         pages.map(async (p, i) => {
-          await p.goto(
+          await navigateStory(
+            p,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-popover--basic&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await p.getByRole("button").click();
           await expect(
@@ -182,8 +189,10 @@ for (const theme of ["light", "dark"])
         for (const phase of ["enter", "exit"]) {
           for (let i = 0; i < 2; i++) {
             const p = pages[i];
-            await p.goto(
+            await navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-popover--rtl&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(p.locator("#parity-root")).toBeVisible();
             if (phase === "exit") {

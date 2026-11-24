@@ -1,6 +1,6 @@
 "use client"
 
-import {ghostHeader,capitalizeItem,capitalize,lowercase,amountRight,valueRight,amountStart,valueStart,srOnly,menu44,menu40,full,toolbar,toolbarGap,filterInput,marginLeft,marginStart,frame,footerSpace,footerGap,selectionCount,paginationSpace,paginationGap} from "@data-table-customizations"
+import {ghostHeader,capitalizeItem,capitalize,lowercase,amountRight,valueRight,amountStart,valueStart,srOnly,menu44,menu40,full,toolbar,toolbarGap,filterInput,marginLeft,marginStart,frame,footerSpace,footerGap,spacedSelection,spacedButton,paginationGap} from "@data-table-customizations"
 
 import * as React from "react"
 import {
@@ -311,14 +311,15 @@ export function DataTableDemo({pageSize}:{pageSize?:number} = {}) {
         </Table>
       </div>
       <div {...footerSpace}>
-        <div {...selectionCount}>
+        <div {...spacedSelection}>
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div {...paginationSpace}>
+        <div>
           <Button
             variant="outline"
             size="sm"
+            {...spacedButton}
             onClick={() => table.previousPage()}
             isDisabled={!table.getCanPreviousPage()}
           >

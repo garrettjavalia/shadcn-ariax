@@ -1,0 +1,4 @@
+/* input-otp renders this fallback alongside its container. */
+.otp-controlled > noscript {
+  margin-block: 0 .5rem;
+}

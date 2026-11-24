@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 
@@ -12,8 +13,10 @@ for (const theme of ["light", "dark"])
         viewport: { width: 1000, height: 900 },
       },
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-alert--content&viewMode=story&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#content-alert")).toHaveAttribute(
           "role",
@@ -62,8 +65,10 @@ test("Alert links preserve the upstream hover capability condition on touch devi
       isMobile: true,
     },
     async (page, url) => {
-      await page.goto(
+      await navigateStory(
+        page,
         `${url}/iframe.html?id=components-alert--content&viewMode=story`,
+        true,
       );
       await expect(page.locator("#content-alert")).toBeVisible();
       expect(
@@ -89,8 +94,10 @@ for (const theme of ["light", "dark"])
         viewport: { width: 1000, height: 900 },
       },
       async (page, url) => {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-alert--rtl-action&viewMode=story&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator('[data-slot="alert"]')).toBeVisible();
       },

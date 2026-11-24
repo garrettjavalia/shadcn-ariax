@@ -21,7 +21,9 @@
     "switch",
     "avatar",
     "radio-group",
-    "button-group"
+    "button-group",
+    "trace",
+    "code-block"
   ],
   "helperReferences": [
     {
@@ -38,6 +40,13 @@
         "bubble",
         "message",
         "message-scroller"
+      ]
+    },
+    {
+      "base": "base",
+      "style": "rhea",
+      "components": [
+        "code-block"
       ]
     }
   ]

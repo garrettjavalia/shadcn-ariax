@@ -29,9 +29,15 @@ const projects = [{
   badge: "8"
 }];
 
-// Dummy fetch function.
+declare global {
+  interface Window {
+    __sidebarProjectsReady?: () => Promise<void>;
+    __resolveSidebarProjects?: () => void;
+  }
+}
+// Dummy fetch; browser tests can hold the response until both skeletons are compared.
 async function fetchProjects() {
-  await new Promise(resolve => setTimeout(resolve, 3000));
+  await (window.__sidebarProjectsReady?.() ?? new Promise(resolve => setTimeout(resolve, 3000)));
   return projects;
 }
 export default function AppSidebar() {

@@ -77,3 +77,5 @@
 @source "../../upstream/shadcn/apps/v4/components/message-animated.tsx";
 @source "../base-nova/ui";
 @source "../radix-rhea/ui";
+@source "../base-rhea/ui";
+@source "../base-rhea/lib";

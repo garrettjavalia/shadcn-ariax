@@ -11,7 +11,11 @@ if (registryURL) {
   assert.ok(url.pathname.endsWith('/') && !url.search && !url.hash, 'ARIAX_REGISTRY_URL must end with / and have no query or fragment');
 }
 // Fail before running the CLI when the catalog and fixtures disagree.
-const fixtures = await collectInstallFixtures(root);
+const allFixtures = await collectInstallFixtures(root);
+const selectedNames = process.env.ARIAX_INSTALL_COMPONENTS?.split(',').map(name => name.trim()).filter(Boolean);
+if (selectedNames) assert.ok(selectedNames.length, 'ARIAX_INSTALL_COMPONENTS must name at least one component');
+if (selectedNames) for (const name of selectedNames) assert.ok(allFixtures.some(fixture => fixture.item.name === name), `Unknown install component: ${name}`);
+const fixtures = selectedNames ? allFixtures.filter(fixture => selectedNames.includes(fixture.item.name)) : allFixtures;
 // Both transports must describe exactly the same installation, including shared files.
 const catalogJSON = await readFile('registry.json', 'utf8');
 assert.equal(await readFile('registry/registry.json', 'utf8'), catalogJSON);

@@ -1,24 +1,32 @@
+import { navigateStory } from "./story-navigation";
+import { e2eTimeouts } from "./timeouts";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync } from "node:fs";
 import { compare } from "./compare";
 import { upstreamURL, stylexURL } from "./servers";
-import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
+import { controlAvatarAssets } from "./avatar-assets";
 import { waitForStoryReadiness } from "./story-readiness";
 import { partitionStories } from "./story-batches";
 import type { StoryEntry } from "./catalog";
 
-// Derive the coverage floor from installed production sources, including recipes
-// and internal components. Components without spacing still run in normal parity.
+// These primitives have no intrinsic spacing; their examples include independent
+// consumer layout. Do not infer exclusions from the implementation's token use:
+// removing its last token must not remove a component from this contract.
+const withoutIntrinsicSpacing = new Set([
+  "aspect-ratio",
+  "collapsible",
+  "direction",
+  "scroll-area",
+  "separator",
+  "skeleton",
+]);
 const components = readdirSync("src/ariax/ui")
   .filter(
-    (file) =>
-      /(?:\.tsx|\.recipe\.stylex\.ts)$/.test(file) &&
-      readFileSync(`src/ariax/ui/${file}`, "utf8").includes("--ariax-spacing"),
+    (file) => /^[^.]+\.tsx$/.test(file) || file.endsWith(".recipe.stylex.ts"),
   )
-  .map((file) =>
-    file.replace(/(?:\.internal|\.recipe\.stylex)?\.(tsx|ts)$/, ""),
-  );
+  .map((file) => file.replace(/(?:\.recipe\.stylex)?\.(tsx|ts)$/, ""))
+  .filter((component) => !withoutIntrinsicSpacing.has(component));
 const scenarios = [
   { name: "custom spacing", spacing: ".375rem", fontSize: "16px" },
   { name: "root font size", spacing: ".25rem", fontSize: "20px" },
@@ -32,7 +40,7 @@ for (const scenario of scenarios)
       browser,
       request,
     }, info) => {
-      test.setTimeout(240_000);
+      test.setTimeout(e2eTimeouts.spacingBatch);
       const left = await (
         await request.get(`${upstreamURL}/index.json`)
       ).json();
@@ -125,16 +133,19 @@ for (const scenario of scenarios)
                   [b, stylexURL],
                 ] as const
               ).map(async ([page, url]) => {
-                await page.goto(
+                await navigateStory(
+                  page,
                   `${url}/iframe.html?id=${id}&viewMode=story&globals=theme:light`,
+                  true,
                 );
                 await expect(page.locator("#parity-root")).toBeVisible();
-                await waitAvatarAssets(page);
                 await waitForStoryReadiness(page);
                 await page.mouse.move(0, 0);
                 if (id.startsWith("components-contextmenu--")) {
                   await page
-                    .locator("#parity-root [data-parity-trigger]")
+                    .locator(
+                      "#parity-root :is([data-parity-trigger], div[data-react-aria-pressable])",
+                    )
                     .first()
                     .click({ button: "right" });
                   await expect(page.getByRole("menu").first()).toBeVisible();
@@ -210,8 +221,10 @@ for (const scenario of scenarios)
 test("public spacing token inherits locally and is independent of Tailwind spacing", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-button--matrix&viewMode=story&globals=theme:light`,
+    true,
   );
   const button = page.locator('[data-slot="button"][data-size="icon"]').first();
   await expect(button).toBeVisible();

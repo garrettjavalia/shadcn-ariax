@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -126,8 +127,10 @@ for (const theme of ["light", "dark"])
         [a, upstreamURL],
         [b, stylexURL],
       ] as const) {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-avatar--customized&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
         await waitAvatarAssets(page);
@@ -183,8 +186,10 @@ for (const theme of ["light", "dark"])
         [a, upstreamURL],
         [b, stylexURL],
       ] as const) {
-        await page.goto(
+        await navigateStory(
+          page,
           `${url}/iframe.html?id=components-avatar--dropdown&globals=theme:${theme}`,
+          true,
         );
         await expect(page.locator("#parity-root")).toBeVisible();
         await waitAvatarAssets(page);

@@ -1,6 +1,6 @@
+import { termsParagraph, coverImage } from "@card-customizations";
 import {CardSpacing} from './card-examples/spacing';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import './card-fixtures.css';
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
@@ -10,6 +10,8 @@ import { Label } from '@label';
 import { Badge } from '@badge';
 import { fullWidthButton, customCard, customPart, dynamicCard, cardSpacingNativeStyle } from '@card-customizations';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@card';
+
+
 const meta = {title:'Components/Card',component:Card,tags:['parity'],decorators:[Story=><main id="parity-root"><Story /></main>]} satisfies Meta<typeof Card>;
 export default meta;
 type Story=StoryObj<typeof meta>;
@@ -27,8 +29,8 @@ function CardDemo({spacing}:{spacing?:string}={}) {
       </CardHeader>
       <CardContent>
         <form>
-          <div style={{"display":"flex","flexDirection":"column","gap":"1.5rem"}}>
-            <div style={{"display":"grid","gap":".5rem"}}>
+          <div style={{"display":"flex","flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 6)"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -37,7 +39,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
                 required
               />
             </div>
-            <div style={{"display":"grid","gap":".5rem"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <div style={{"display":"flex","alignItems":"center"}}>
                 <Label htmlFor="password">Password</Label>
                 <a
@@ -52,7 +54,7 @@ function CardDemo({spacing}:{spacing?:string}={}) {
           </div>
         </form>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button type="submit" {...fullWidthButton}>
           Login
         </Button>
@@ -76,22 +78,22 @@ function CardSmall() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ul style={{"display":"grid","gap":".5rem","paddingBlock":".5rem","fontSize":".875rem"}}>
-          <li style={{"display":"flex","gap":".5rem"}}>
+        <ul style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)","paddingBlock":".5rem","fontSize":".875rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Choose a schedule (daily, or weekly).</span>
           </li>
-          <li style={{"display":"flex","gap":".5rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Send to channels or specific teammates.</span>
           </li>
-          <li style={{"display":"flex","gap":".5rem"}}>
+          <li style={{"display":"flex","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
             <ChevronRightIcon style={{"marginTop":".125rem","width":"1rem","height":"1rem","flexShrink":0,"color":"var(--muted-foreground)"}} />
             <span>Include charts, tables, and key metrics.</span>
           </li>
         </ul>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button size="sm" {...fullWidthButton}>
           Set up scheduled reports
         </Button>
@@ -113,27 +115,27 @@ function CardEdgeToEdge() {
         </CardDescription>
       </CardHeader>
       <CardContent style={{"marginBottom":"calc(var(--card-spacing) * -1)"}}>
-        <div className="card-fixture-terms" style={{"marginInline":"calc(var(--card-spacing) * -1)","maxHeight":"12rem","overflowY":"scroll","borderTopWidth":1,"backgroundColor":"color-mix(in oklab,var(--muted) 50%,transparent)","paddingInline":"var(--card-spacing)","paddingBlock":"1rem","fontSize":".875rem","lineHeight":1.625}}>
-          <p>
+        <div style={{"marginInline":"calc(var(--card-spacing) * -1)","maxHeight":"12rem","overflowY":"scroll","borderTopWidth":1,"backgroundColor":"color-mix(in oklab,var(--muted) 50%,transparent)","paddingInline":"var(--card-spacing)","paddingBlock":"1rem","fontSize":".875rem","lineHeight":1.625}}>
+          <p {...termsParagraph}>
             These terms govern your use of the workspace, including access to
             shared documents, project files, and collaboration tools.
           </p>
-          <p>
+          <p {...termsParagraph}>
             You are responsible for the content you upload and for ensuring that
             your team has the appropriate permissions to view or edit it.
           </p>
-          <p>
+          <p {...termsParagraph}>
             We may update features or limits as the service evolves. When those
             changes materially affect your workflow, we will notify your
             workspace administrators.
           </p>
-          <p>
+          <p {...termsParagraph}>
             By continuing, you agree to keep your account credentials secure and
             to follow your organization&apos;s acceptable use policies.
           </p>
         </div>
       </CardContent>
-      <CardFooter style={{"justifyContent":"flex-end","gap":".5rem"}}>
+      <CardFooter style={{"justifyContent":"flex-end","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button variant="outline">Decline</Button>
         <Button>Accept</Button>
       </CardFooter>
@@ -148,7 +150,7 @@ function CardImage() {
       <img
         src="https://avatar.vercel.sh/shadcn1"
         alt="Event cover"
-        className="card-fixture-cover" style={{"position":"relative","zIndex":20,"aspectRatio":"16/9","width":"100%","objectFit":"cover"}}
+        {...coverImage} style={{"position":"relative","zIndex":20,"aspectRatio":"16/9","width":"100%","objectFit":"cover"}}
       />
       <CardHeader>
         <CardAction>
@@ -193,8 +195,8 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
       </CardHeader>
       <CardContent>
         <form>
-          <div style={{"display":"flex","flexDirection":"column","gap":"1.5rem"}}>
-            <div style={{"display":"grid","gap":".5rem"}}>
+          <div style={{"display":"flex","flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 6)"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <Label htmlFor="email-rtl">البريد الإلكتروني</Label>
               <Input
                 id="email-rtl"
@@ -203,7 +205,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
                 required
               />
             </div>
-            <div style={{"display":"grid","gap":".5rem"}}>
+            <div style={{"display":"grid","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
               <div style={{"display":"flex","alignItems":"center"}}>
                 <Label htmlFor="password-rtl">كلمة المرور</Label>
                 <a
@@ -218,7 +220,7 @@ function CardRtlDemo({spacing}:{spacing?:string}={}) {
           </div>
         </form>
       </CardContent>
-      <CardFooter style={{"flexDirection":"column","gap":".5rem"}}>
+      <CardFooter style={{"flexDirection":"column","gap":"calc(var(--ariax-spacing, .25rem) * 2)"}}>
         <Button type="submit" {...fullWidthButton}>
           تسجيل الدخول
         </Button>

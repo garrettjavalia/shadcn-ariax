@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { controlAvatarAssets, waitAvatarAssets } from "./avatar-assets";
 import { compare } from "./compare";
@@ -18,8 +19,10 @@ for (const theme of ["light", "dark"])
         const pages = await Promise.all(
           [upstreamURL, stylexURL].map(async (url) => {
             const page = await context.newPage();
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-avatar--registry-empty&globals=theme:${theme}`,
+              true,
             );
             await expect(
               page.getByText("No Team Members", {

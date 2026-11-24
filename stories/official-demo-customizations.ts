@@ -115,7 +115,7 @@ const styles=stylex.create({
   "emptyButtons": {
     "flexDirection": "row",
     "justifyContent": "center",
-    "gap": 8
+    "gap": "calc(var(--ariax-spacing, .25rem) * 2)"
   },
   "muted": {
     "color": "var(--muted-foreground)"
@@ -232,7 +232,7 @@ const styles=stylex.create({
     "display": "flex",
     "flexDirection": "column",
     "alignItems": "center",
-    "gap": 16
+    "gap": "calc(var(--ariax-spacing, .25rem) * 4)"
   },
   "keyInputs": {
     "display": "flex",
@@ -271,7 +271,9 @@ const styles=stylex.create({
   "lines": {},
   "line250": {
     "height": 16,
-    "width": 250
+    "width": 250,
+    "marginBlockStart": 0,
+    "marginBlockEnd": 8
   },
   "line200": {
     "height": 16,
@@ -315,4 +317,4 @@ const styles=stylex.create({
   }
 });
 export const demoStyle=<K extends keyof typeof styles>(name:K)=>({xstyle:styles[name], style: (name==='roundGroup'?{'--radius':'9999px'}:name==='payment'?{'--radius':'1rem'}:undefined) as CSSProperties | undefined});
-export const demoProps=(name:keyof typeof styles)=>name==='lines'?{className:'official-skeleton-lines'}:({...stylex.props(styles[name]), ...(['roundGroup','payment'].includes(name)?{style:demoStyle(name).style}:{})});
+export const demoProps=(name:keyof typeof styles)=>({...stylex.props(styles[name]), ...(['roundGroup','payment'].includes(name)?{style:demoStyle(name).style}:{})});

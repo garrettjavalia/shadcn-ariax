@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { stylexURL } from "./servers";
@@ -21,18 +22,24 @@ test("Label documentation examples map to stories or the Field integration", asy
 test("Label click focuses the actual Input, toggles checkbox, and preserves context rules", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-label--usage&viewMode=story`,
+    true,
   );
   await page.getByText("Your email address").click();
   await expect(page.locator('[data-slot="input"]')).toBeFocused();
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-label--demo&viewMode=story`,
+    true,
   );
   await page.getByText("Accept terms and conditions").click();
   await expect(page.getByRole("checkbox")).toBeChecked();
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-label--context&viewMode=story`,
+    true,
   );
   await expect(page.getByText("Explicit clears context")).not.toHaveAttribute(
     "id",

@@ -1,6 +1,6 @@
 {
   "repository": "shadcn-ui/ui",
-  "commit": "3b1ae6e43f082dd82d0e5710b813cfad929abdb4",
+  "commit": "42f3bb63b46a69e52a24bd005cdc9ec15ba7a7b9",
   "base": "aria",
   "style": "nova",
   "paths": [
@@ -74,6 +74,10 @@
     "apps/v4/public/avatars/02.png",
     "apps/v4/public/avatars/03.png",
     "apps/v4/public/avatars/10.png",
-    "apps/v4/public/avatars/shadcn.jpg"
+    "apps/v4/public/avatars/shadcn.jpg",
+    "apps/v4/registry/bases/aria/ui/trace.tsx",
+    "apps/v4/content/docs/components/aria/trace.mdx",
+    "apps/v4/registry/bases/aria/ui/code-block.tsx",
+    "apps/v4/content/docs/components/aria/code-block.mdx"
   ]
 }

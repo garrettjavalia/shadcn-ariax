@@ -39,3 +39,6 @@ export const Rtl:Story={render:()=> <div dir="rtl"><QuestionnaireDemo/></div>};
 export const Mobile:Story={tags:['viewport-390'],render:()=> <QuestionnaireFreeform/>};
 import {QuestionnaireCustomization} from './questionnaire-examples/customization';
 export const Customization:Story={render:()=> <QuestionnaireCustomization/>};
+
+export const CallbackCustomization:Story={render:()=> <QuestionnaireCustomization mode="callback"/>};
+export const NativeCustomization:Story={render:()=> <QuestionnaireCustomization mode="native"/>};

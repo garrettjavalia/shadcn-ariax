@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import {
   expect,
   type Browser,
@@ -49,8 +50,10 @@ export async function loadStoryPair(
 ) {
   await Promise.all(
     pages.map(async (page, index) => {
-      await page.goto(
+      await navigateStory(
+        page,
         `${[upstreamURL, stylexURL][index]}/iframe.html?id=${storyId}&viewMode=story&globals=theme:${theme}`,
+        true,
       );
       await expect(page.locator("#parity-root")).toBeVisible();
       await prepare?.(page);

@@ -214,7 +214,18 @@ const styles = stylex.create({
       ':is(.dark *):is(.ariax-tabs-list[data-variant="line"] *)[data-selected="true"]':
         "transparent",
     },
-    paddingInline: "calc(var(--ariax-spacing, .25rem) * 1.5)",
+    paddingInline:
+      "var(--ariax-tabs-padding-start) var(--ariax-tabs-padding-end)",
+    "--ariax-tabs-padding-start": {
+      default: "calc(var(--ariax-spacing, .25rem) * 1.5)",
+      ':has([data-icon="inline-start"])':
+        "calc(var(--ariax-spacing, .25rem) * 1)",
+    },
+    "--ariax-tabs-padding-end": {
+      default: "calc(var(--ariax-spacing, .25rem) * 1.5)",
+      ':has([data-icon="inline-end"])':
+        "calc(var(--ariax-spacing, .25rem) * 1)",
+    },
     paddingBlock: "calc(var(--ariax-spacing, .25rem) * 0.5)",
     fontSize: "0.875rem",
     lineHeight: "calc(1.25 / 0.875)",

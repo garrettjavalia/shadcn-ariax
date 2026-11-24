@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -7,7 +8,6 @@ for (const theme of ["light", "dark"])
   test(`Tooltip official examples and trigger states / ${theme}`, async ({
     browser,
   }, info) => {
-    test.setTimeout(120_000);
     const contexts = await Promise.all(
       [0, 1].map(() =>
         browser.newContext(
@@ -22,8 +22,10 @@ for (const theme of ["light", "dark"])
       Promise.all(
         pages.map(async (page, i) => {
           await page.mouse.move(0, 0);
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-tooltip--${story}&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page.mouse.move(0, 0);
@@ -176,8 +178,10 @@ test("every official Tooltip preview and Usage has a registered parity story", a
 test("Tooltip native style preserves StyleX dynamic variables and user priority", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-tooltip--customized&viewMode=story`,
+    true,
   );
   const content = page.getByRole("tooltip");
   await expect(content).toBeVisible();
@@ -227,8 +231,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map(async (page, i) => {
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-tooltip--demo&viewMode=story&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           await page.mouse.move(0, 0);

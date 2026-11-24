@@ -31,3 +31,6 @@ export const bookmarkIcon = attrs(styles.bookmark);
 export const customToggle = (width: number) => ({
   xstyle: styles.custom(width)
 });
+
+import {toggleVariants} from '@toggle';
+export const helperToggle = stylex.props(...toggleVariants({variant:'outline',size:'default'}));

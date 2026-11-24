@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { upstreamURL, stylexURL } from "./servers";
@@ -35,8 +36,10 @@ for (const theme of ["light", "dark"])
         [b, stylexURL],
       ].map(async ([page, url]) => {
         const p = page as typeof a;
-        await p.goto(
+        await navigateStory(
+          p,
           `${url}/iframe.html?id=components-aspectratio--customized&viewMode=story&globals=theme:${theme}`,
+          true,
         );
         await p.getByRole("button", { name: "Change ratio" }).click();
         const ratio = p.locator("#custom-ratio");

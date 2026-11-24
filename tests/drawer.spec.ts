@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { readFile } from "node:fs/promises";
 import { test, expect } from "@playwright/test";
@@ -32,8 +33,10 @@ for (const theme of ["light", "dark"])
       try {
         await Promise.all(
           pages.map(async (p, i) => {
-            await p.goto(
+            await navigateStory(
+              p,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-drawer--${name}&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(p.locator("#parity-root")).toBeVisible();
           }),

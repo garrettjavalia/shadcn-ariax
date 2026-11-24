@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { upstreamURL, stylexURL } from "./servers";
@@ -42,8 +43,10 @@ for (const theme of ["light", "dark"])
               [b, stylexURL],
             ] as const
           ).map(async ([page, url]) => {
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-direction--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(page.locator("#parity-root")).toBeVisible();
           }),

@@ -16,22 +16,17 @@ function StateReadiness({
     });
     // Publish only committed work; discarded renders must not leave a signal.
     scope.parityReady = promise;
-    const observer = new MutationObserver(checkState);
+    // Scroll offsets, ResizeObserver layout and font metrics can change without
+    // a DOM mutation. Observe the actual completion predicate on animation
+    // frames so those states cannot leave the readiness promise pending.
+    let frame = 0;
     function checkState() {
-      if (check()) {
-        observer.disconnect();
-        resolve();
-      }
+      if (check()) resolve();
+      else frame = requestAnimationFrame(checkState);
     }
-    observer.observe(document, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      characterData: true,
-    });
     checkState();
     return () => {
-      observer.disconnect();
+      cancelAnimationFrame(frame);
       resolve();
       if (scope.parityReady === promise) delete scope.parityReady;
     };

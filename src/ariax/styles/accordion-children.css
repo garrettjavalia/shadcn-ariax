@@ -2,8 +2,10 @@
   text-decoration-line: underline;
   text-underline-offset: 3px;
 }
-.ariax-accordion-content-inner a:hover {
-  color: var(--foreground);
+@media (hover: hover) {
+  .ariax-accordion-content-inner a:hover {
+    color: var(--foreground);
+  }
 }
 .ariax-accordion-content-inner p:not(:last-child) {
   margin-bottom: calc(var(--ariax-spacing, 0.25rem) * 4);

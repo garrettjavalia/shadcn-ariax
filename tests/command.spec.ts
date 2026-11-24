@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -74,8 +75,10 @@ for (const theme of ["light", "dark"]) {
                 [b, stylexURL],
               ] as const
             ).map(async ([page, url]) => {
-              await page.goto(
+              await navigateStory(
+                page,
                 `${url}/iframe.html?id=components-command--${story}&globals=theme:${theme}`,
+                true,
               );
               await expect(page.locator("#parity-root")).toBeVisible();
               if (story === "keyboard-dialog")
@@ -139,8 +142,10 @@ for (const theme of ["light", "dark"]) {
               [b, stylexURL],
             ] as const
           ).map(async ([page, url]) => {
-            await page.goto(
+            await navigateStory(
+              page,
               `${url}/iframe.html?id=components-command--${story}&globals=theme:${theme}`,
+              true,
             );
             await expect(page.locator('[data-slot="command"]')).toBeVisible();
           }),
@@ -209,8 +214,10 @@ for (const theme of ["light", "dark"])
       for (const phase of ["enter", "exit"]) {
         for (let i = 0; i < pages.length; i++) {
           const page = pages[i];
-          await page.goto(
+          await navigateStory(
+            page,
             `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-command--basic&globals=theme:${theme}`,
+            true,
           );
           await expect(page.locator("#parity-root")).toBeVisible();
           if (phase === "exit") {

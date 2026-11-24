@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { createStoryPair } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -22,9 +23,9 @@ test("Typography official intrinsic examples all have parity stories and no fake
       ]?.tags,
       name,
     ).toContain("parity");
-  const registry = await (
-    await request.get(stylexURL + "/r/typography.json")
-  ).json();
+  const registry = JSON.parse(
+    await readFile("registry/typography.json", "utf8"),
+  );
   expect(registry.type).toBe("registry:file");
   expect(
     registry.files.some(
@@ -53,8 +54,10 @@ for (const theme of ["light", "dark"])
     try {
       await Promise.all(
         pages.map((page, i) =>
-          page.goto(
+          navigateStory(
+            page,
             `${i ? stylexURL : upstreamURL}/iframe.html?id=components-typography--conditions&globals=theme:${theme}`,
+            true,
           ),
         ),
       );
@@ -106,8 +109,10 @@ test("Typography dynamic xstyle variables survive and native style takes precede
   try {
     await Promise.all(
       pages.map((page, i) =>
-        page.goto(
+        navigateStory(
+          page,
           `${i ? stylexURL : upstreamURL}/iframe.html?id=components-typography--native-overrides`,
+          true,
         ),
       ),
     );

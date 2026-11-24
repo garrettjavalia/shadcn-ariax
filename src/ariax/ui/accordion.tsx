@@ -163,7 +163,10 @@ const styles = stylex.create({
     fontSize: "0.875rem",
     lineHeight: "calc(1.25 / 0.875)",
     fontWeight: 500,
-    textDecorationLine: { default: null, ":hover": "underline" },
+    textDecorationLine: {
+      default: null,
+      ":hover": { default: null, "@media (hover: hover)": "underline" },
+    },
     pointerEvents: { default: null, ":disabled": "none" },
     opacity: { default: null, ":disabled": 0.5 },
     boxShadow: {

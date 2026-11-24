@@ -1,11 +1,14 @@
+import { navigateStory } from "./story-navigation";
 import { test, expect } from "@playwright/test";
 import { stylexURL } from "./servers";
 // Appearance/attributes against upstream are covered by shared parity stories.
 test("Separator retains native semantics and forwards public DOM props", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-separator--semantics&viewMode=story`,
+    true,
   );
   const separators = page.locator('[data-slot="separator"]');
   await expect(separators).toHaveCount(5);

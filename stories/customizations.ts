@@ -45,3 +45,26 @@ export const radioFit={xstyle:radioStyles.fit};export const radioMax={xstyle:rad
 const radioCustomStyles=stylex.create({initial:{width:180,gap:'0.25rem'},dynamic:(width:number)=>({width,gap:'1rem'}),item:{width:24,height:24}});
 export const radioCustom=(width:number)=>({xstyle:[radioCustomStyles.initial,radioCustomStyles.dynamic(width)],style:({isDisabled}:{isDisabled:boolean})=>({padding:isDisabled?0:8})});
 export const radioItemCustom={xstyle:radioCustomStyles.item,style:({isSelected}:{isSelected:boolean})=>({width:isSelected?28:24,opacity:0.8})};
+
+const layout = stylex.create({
+  description: { display: 'flex', maxWidth: '24rem', flexDirection: 'column', gap: '1rem', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
+  heading: { display: 'flex', flexDirection: 'column', gap: '.375rem' },
+  vertical: { display: 'flex', height: '1.25rem', alignItems: 'center', gap: '1rem', fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
+  menu: { display: 'flex', alignItems: 'center', gap: { default: '.5rem', '@media (min-width: 48rem)': '1rem' }, fontSize: '.875rem', lineHeight: 'calc(1.25 / .875)' },
+  group: { display: 'flex', flexDirection: 'column', gap: '.25rem' },
+  help: { display: { default: 'none', '@media (min-width: 48rem)': 'flex' } },
+  label: { fontWeight: 500 },
+  summary: { fontSize: '.75rem', lineHeight: 'calc(1 / .75)', color: 'var(--muted-foreground)' },
+  semantics: { display: 'flex', flexDirection: 'column', gap: '1rem', height: 200 },
+});
+export const separatorLayout = {
+  description: stylex.props(layout.description),
+  heading: stylex.props(layout.heading),
+  vertical: stylex.props(layout.vertical),
+  menu: stylex.props(layout.menu),
+  group: stylex.props(layout.group),
+  label: stylex.props(layout.label),
+  summary: stylex.props(layout.summary),
+  semantics: stylex.props(layout.semantics),
+  help: stylex.props(layout.group, layout.help),
+};

@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { upstreamURL, stylexURL } from "./servers";
@@ -15,8 +16,10 @@ for (const theme of ["light", "dark"])
       for (const story of ["basic", "context", "inline-style", "file"]) {
         await Promise.all(
           [a, b].map(async (page, i) => {
-            await page.goto(
+            await navigateStory(
+              page,
               `${[upstreamURL, stylexURL][i]}/iframe.html?id=components-input--${story}&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(page.locator("#parity-root input")).toBeVisible();
             await page.keyboard.press("Tab");
@@ -46,8 +49,10 @@ test("Input pseudo-element CSS mutations are detected", async ({ page }) => {
     ["basic", "::placeholder", "color", "rgb(1, 2, 3)"],
     ["file", "::file-selector-button", "height", "47px"],
   ]) {
-    await page.goto(
+    await navigateStory(
+      page,
       `${stylexURL}/iframe.html?id=components-input--${story}&viewMode=story`,
+      true,
     );
     await expect(page.locator("input")).toBeVisible();
     const before = await snapshot(page);
@@ -64,8 +69,10 @@ test("Input pseudo-element CSS mutations are detected", async ({ page }) => {
 test("Input inline style wins while retaining StyleX dynamic variables", async ({
   page,
 }) => {
-  await page.goto(
+  await navigateStory(
+    page,
     `${stylexURL}/iframe.html?id=components-input--customized&viewMode=story`,
+    true,
   );
   const input = page.getByRole("textbox", { name: "Customized" });
   await expect(input).toHaveCSS("width", "240px");

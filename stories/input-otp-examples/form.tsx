@@ -1,5 +1,4 @@
-import './fixtures.css';
-import {otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
+import {otpSupport,otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
 import { RefreshCwIcon } from "lucide-react"
 
 import { Button } from "@button"
@@ -71,7 +70,7 @@ export function InputOTPForm() {
             Having trouble signing in?{" "}
             <a
               href="#"
-              className="fixture-otp-support"
+              {...otpSupport}
             >
               Contact support
             </a>

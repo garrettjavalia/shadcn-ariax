@@ -13,6 +13,7 @@ const exitCode = await new Promise<number>((done, fail) => { child.on('error', f
 const wallSeconds = (performance.now() - start) / 1000;
 const report = JSON.parse(await readFile('test-results/results.json', 'utf8'));
 const totals = { comparisons: 0, navigations: 0, navigationMs: 0, settleMs: 0, snapshotMs: 0, diffMs: 0, pixelsMs: 0 };
+const navigationPhases: { id: string; port: number; phases: Record<string, number> }[] = [];
 type Suite = { suites?: Suite[]; specs?: { tests: { annotations?: { type: string; description?: string }[] }[] }[] };
 function visit(suites: Suite[]) {
   for (const suite of suites) {
@@ -22,6 +23,7 @@ function visit(suites: Suite[]) {
         const timing = JSON.parse(annotation.description); totals.comparisons++;
         for (const key of ['settleMs', 'snapshotMs', 'diffMs', 'pixelsMs'] as const) totals[key] += timing[key];
       }
+      if (annotation.type === 'parity-navigation-phases') navigationPhases.push(JSON.parse(annotation.description));
       if (annotation.type === 'parity-navigation') { totals.navigations++; totals.navigationMs += JSON.parse(annotation.description).ms; }
     }
     visit(suite.suites ?? []);
@@ -29,7 +31,12 @@ function visit(suites: Suite[]) {
 }
 visit(report.suites);
 const withinBudget = !ci || wallSeconds <= 600;
-const result = { command: `pnpm ${command.join(' ')}`, wallSeconds, ...(ci ? { budgetSeconds: 600, withinBudget } : {}), servers, workers: report.config.workers, exitCode, tests: report.stats, summedPhaseTimes: totals };
+const phaseTotals = navigationPhases.reduce<Record<string, number>>((total, entry) => {
+  for (const [phase, ms] of Object.entries(entry.phases)) total[phase] = (total[phase] ?? 0) + ms;
+  return total;
+}, {});
+const slowestNavigations = navigationPhases.map(entry => ({...entry, totalMs:Object.values(entry.phases).reduce((sum, ms) => sum + ms, 0)})).sort((a,b) => b.totalMs-a.totalMs).slice(0,20);
+const result = { navigationPhaseTotalsMs:phaseTotals, slowestNavigations, command: `pnpm ${command.join(' ')}`, wallSeconds, ...(ci ? { budgetSeconds: 600, withinBudget } : {}), servers, workers: report.config.workers, exitCode, tests: report.stats, summedPhaseTimes: totals };
 await writeFile('test-results/benchmark.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));
 process.exitCode = exitCode || (withinBudget ? 0 : 1);

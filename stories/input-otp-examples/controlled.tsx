@@ -1,8 +1,8 @@
-import './fixtures.css';
-import {otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
+import {otpControlled,otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
 "use client"
 
 import * as React from "react"
+import "./controlled-fallback.css"
 
 import {
   InputOTP,
@@ -14,8 +14,8 @@ export default function InputOTPControlled() {
   const [value, setValue] = React.useState("")
 
   return (
-    <div className="fixture-otp-controlled">
-      <InputOTP
+    <div className="otp-controlled">
+      <InputOTP {...otpControlled}
         maxLength={6}
         value={value}
         onChange={(value) => setValue(value)}

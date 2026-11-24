@@ -1,3 +1,4 @@
+import { navigateStory } from "./story-navigation";
 import { deterministicStoryContextOptions } from "./story-pair";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -54,8 +55,10 @@ for (const theme of ["light", "dark"])
             [b, stylexURL],
           ].map(async ([page, url]) => {
             const p = page as typeof a;
-            await p.goto(
+            await navigateStory(
+              p,
               `${url}/iframe.html?id=components-native-select--${story}&viewMode=story&globals=theme:${theme}`,
+              true,
             );
             await expect(p.locator("#parity-root")).toBeVisible();
           }),
@@ -117,8 +120,10 @@ test("NativeSelect dark hover respects non-hover touch media", async ({
       [a, upstreamURL],
       [b, stylexURL],
     ] as const) {
-      await page.goto(
+      await navigateStory(
+        page,
         `${url}/iframe.html?id=components-native-select--demo&viewMode=story&globals=theme:dark`,
+        true,
       );
       await expect(page.locator("#parity-root")).toBeVisible();
       expect(
