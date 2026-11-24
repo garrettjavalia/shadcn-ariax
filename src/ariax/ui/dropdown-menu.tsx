@@ -1,4 +1,5 @@
 "use client";
+import { useCollectionPopoverRef } from "./collection-focus.internal";
 import { applied, resolveStyle } from "./style-props.internal";
 import { animationStyles } from "./animations.stylex";
 import type { ComponentProps, ReactNode } from "react";
@@ -249,8 +250,10 @@ export function DropdownMenu({
 }: DropdownMenuProps) {
   const sx = stylex.props(animationStyles.overlay, styles.content, xstyle);
   const menu = stylex.props(styles.menu);
+  const popoverRef = useCollectionPopoverRef();
   return (
     <Popover
+      ref={popoverRef}
       data-slot={dataSlot}
       placement={placement}
       offset={offset}

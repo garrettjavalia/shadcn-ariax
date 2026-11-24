@@ -11,3 +11,6 @@ export const otpCustom=(gap:number)=>({containerClassName:gap===12?'gap-3':'gap-
 export const otpCustomSlot={className:'rounded-none first:rounded-none last:rounded-none h-10 w-10'};
 
 export const otpInputStyle={className:'text-[18px]!'};
+
+export const otpControlled = { containerClassName: '[margin-block-start:0] [margin-block-end:.5rem]' };
+export const otpSupport = { className: 'underline underline-offset-4 transition-colors hover:text-primary' };

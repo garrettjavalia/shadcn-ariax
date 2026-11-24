@@ -1,5 +1,4 @@
 import {observeCarousel} from './observe';
-import './fixtures.css';
 import {carouseldemo,carouselplugin,carouselwide,carouselfull,carouselregistry,carouselcard,carouselverticalCard,carouselgap,carouselverticalContent,carouselverticalItem,carouselsize,carouselspacing,carouselmultiple,carouselregistryGap,carouselcontrol,carouselmargin} from '@carousel-customizations';
 import { Card, CardContent } from "@card"
 import {

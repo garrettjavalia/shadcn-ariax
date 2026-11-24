@@ -9,3 +9,14 @@ const spacingExampleStyles=stylex.create({root:{marginInline:'auto',display:'gri
 const spacingExampleMap={'mx-auto grid w-full max-w-sm gap-4':spacingExampleStyles.root,'justify-center':spacingExampleStyles.center,'flex flex-col gap-6':spacingExampleStyles.form,'grid gap-2':spacingExampleStyles.field,'flex items-center':spacingExampleStyles.row,'ml-auto inline-block text-sm underline-offset-4 hover:underline':spacingExampleStyles.forgot,'ms-auto inline-block text-sm underline-offset-4 hover:underline':spacingExampleStyles.forgotRtl,'flex-col gap-2':spacingExampleStyles.footer,'w-full':spacingExampleStyles.full};
 export function cardSpacingExampleStyle(key:keyof typeof spacingExampleMap){return {xstyle:spacingExampleMap[key]};}
 export function cardSpacingNativeStyle(key:keyof typeof spacingExampleMap){const {className,style}=stylex.props(spacingExampleMap[key]);return {className,style};}
+
+const layout = stylex.create({
+  termsParagraph: {
+    marginBlockEnd: { default: null, ':not(:last-child)': '1rem' },
+  },
+  cover: {
+    filter: { default: 'brightness(.6) grayscale(1)', ':is(.dark *)': 'brightness(.4) grayscale(1)' },
+  },
+});
+export const termsParagraph = stylex.props(layout.termsParagraph);
+export const coverImage = stylex.props(layout.cover);

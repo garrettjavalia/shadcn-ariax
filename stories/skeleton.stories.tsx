@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from '@skeleton';
 import { shapes, skeletonCardStyle } from '@skeleton-customizations';
 import {Card as SkeletonCard,CardHeader,CardContent} from '@card';
-import './skeleton-fixtures.css';
 
 const meta = {
   title: 'Components/Skeleton',
@@ -22,7 +21,7 @@ export const Demo: Story = { parameters: { originalExample: "skeleton-demo" },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
       <Skeleton xstyle={shapes.demoCircle} />
-      <div className="skeleton-demo-lines">
+      <div>
         <Skeleton xstyle={shapes.line250} />
         <Skeleton xstyle={shapes.line200} />
       </div>

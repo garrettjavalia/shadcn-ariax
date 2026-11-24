@@ -1,5 +1,4 @@
-import './fixtures.css';
-import {otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
+import {otpSupport,otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
 "use client"
 
 import * as React from "react"
@@ -257,7 +256,7 @@ export function InputOTPForm() {
             Having trouble signing in?{" "}
             <a
               href="#"
-              className="fixture-otp-support"
+              {...otpSupport}
             >
               Contact support
             </a>

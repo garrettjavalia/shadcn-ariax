@@ -1,6 +1,6 @@
 export const shapes = {
   "demoCircle": "h-12 w-12 rounded-full",
-  "line250": "h-4 w-[250px]",
+  "line250": "h-4 w-[250px] [margin-block-start:0] [margin-block-end:8px]",
   "line200": "h-4 w-[200px]",
   "circle": "size-10 shrink-0 rounded-full",
   "line150": "h-4 w-[150px]",

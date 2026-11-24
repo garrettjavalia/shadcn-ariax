@@ -69,3 +69,15 @@ export const nativeExample = {
   s27: stylex.props(exampleStyles.s27),
   s25: stylex.props(exampleStyles.s25),
 };
+
+const markdownStyles = stylex.create({
+  block: {
+    marginBlockStart: { default: null, ":not(:last-child)": 0 },
+    marginBlockEnd: {
+      default: null,
+      ":not(:last-child)": "calc(var(--ariax-spacing, .25rem) * 4)",
+    },
+  },
+});
+export const markdownParagraph = stylex.props(markdownStyles.block);
+export const markdownCodeBlock = {xstyle: markdownStyles.block};

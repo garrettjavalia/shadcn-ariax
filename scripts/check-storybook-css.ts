@@ -20,7 +20,7 @@ const stylesheets = [...html.matchAll(/<link\b[^>]*>/g)].map(match => match[0])
   .filter(link => /\brel=["']stylesheet["']/.test(link))
   .map(link => /\bhref=["']([^"']+)["']/.exec(link)?.[1]).filter((href): href is string => !!href);
 assert.ok(stylesheets.length > 0, 'Storybook iframe must load a stylesheet');
-const base = process.env.ARIAX_STORYBOOK_BASE ?? '/';
+const base = '/';
 const entryCSS = (await Promise.all(stylesheets.map(href => {
   const path = href.startsWith(base) ? href.slice(base.length) : href.replace(/^\//, '');
   return readFile(resolve(directory, path), 'utf8');

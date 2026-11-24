@@ -24,3 +24,15 @@ export const switchCustomized=(height:number)=>({style:({isSelected}:{isSelected
 export const radioFit={className:'w-fit'}; export const radioMax={className:'max-w-sm'};export const radioFieldset={className:'w-full max-w-xs'};export const radioNormal={className:'font-normal'};
 export const radioCustom=(width:number)=>({style:({isDisabled}:{isDisabled:boolean})=>({width,padding:isDisabled?0:8}),className:'gap-4'});
 export const radioItemCustom={className:'size-6',style:({isSelected}:{isSelected:boolean})=>({width:isSelected?28:24,opacity:0.8})};
+
+export const separatorLayout = {
+  description: { className: 'flex max-w-sm flex-col gap-4 text-sm' },
+  heading: { className: 'flex flex-col gap-1.5' },
+  vertical: { className: 'flex h-5 items-center gap-4 text-sm' },
+  menu: { className: 'flex items-center gap-2 text-sm md:gap-4' },
+  group: { className: 'flex flex-col gap-1' },
+  help: { className: 'hidden flex-col gap-1 md:flex' },
+  label: { className: 'font-medium' },
+  summary: { className: 'text-xs text-muted-foreground' },
+  semantics: { className: 'flex h-[200px] flex-col gap-4' },
+};

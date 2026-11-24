@@ -1,5 +1,7 @@
 # AriaX
 
+[AriaX 공식 홈페이지에서 컴포넌트와 설치 가이드 살펴보기](https://garrettjavalia.github.io/shadcn-ariax/ko/)
+
 shadcn/ui React Aria 컴포넌트를 StyleX로 제공합니다.
 
 AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn/ui 레지스트리입니다. 컴포넌트 소스를 프로젝트에 설치하고 StyleX로 수정할 수 있습니다.
@@ -17,7 +19,7 @@ AriaX는 Nova 스타일과 Neutral light/dark 테마를 제공하는 shadcn/ui �
 
 ## 컴포넌트 둘러보기
 
-[공개 AriaX Storybook](https://garrettjavalia.github.io/shadcn-ariax/)에서 예제를 보고 컴포넌트 동작을 직접 체험할 수 있습니다.
+[AriaX 컴포넌트 뷰어](https://garrettjavalia.github.io/shadcn-ariax/ko/docs/components/)에서 예제를 보고 컴포넌트 동작을 직접 체험할 수 있습니다.
 
 AriaX Storybook을 로컬에서 실행해 예제와 컴포넌트 동작을 살펴볼 수 있습니다. Node.js 22.19+와 pnpm 10.15.1이 필요합니다.
 
@@ -34,15 +36,15 @@ pnpm storybook
 
 shadcn/ui의 `components.json`과 import 경로 별칭이 준비된 React·TypeScript 프로젝트에서 시작합니다.
 
-아래 예시는 Vite 7과 `@vitejs/plugin-react` 5 기준입니다. Next.js, SSR 및 다른 프레임워크 통합은 아직 이 프로젝트에서 검증하지 않았습니다.
-
 ### 1. 컴포넌트 추가
 
 ```sh
-pnpm dlx shadcn@4.23.0 add garrettjavalia/shadcn-ariax/button
+pnpm dlx shadcn add garrettjavalia/shadcn-ariax/button
 ```
 
 CLI가 GitHub에서 컴포넌트 소스, 공통 CSS와 필요한 의존성을 설치합니다. 설치할 Git 리비전에는 루트 `registry.json`과 참조하는 소스 파일이 포함되어 있어야 합니다. 특정 리비전을 선택하려면 컴포넌트 주소 뒤에 `#<태그 또는 커밋>`을 붙입니다.
+
+### Vite 7
 
 ### 2. StyleX 설정
 
@@ -110,7 +112,76 @@ export default function App() {
 
 `<html>`에 `dark` 클래스를 추가하면 다크 모드가 적용됩니다. 추가 컴포넌트도 같은 CLI 명령으로 설치하며, StyleX 설정은 공유합니다.
 
-레지스트리 관리자는 [GitHub Raw 게시와 디렉터리 등록](../development/ko.md#레지스트리-디렉터리용-게시)을 참고하세요. 위 GitHub 설치 주소는 디렉터리 등록 없이 사용할 수 있습니다.
+### Next.js 16 · App Router
+
+Next.js 16 App Router에서는 TypeScript 프로젝트에 `src/` 디렉터리를 두고 `@/*`를 `./src/*`에 연결하세요. shadcn/ui의 `components.json`을 설정한 뒤 위 명령으로 버튼을 설치하세요.
+
+Next.js용 Babel과 PostCSS 설정은 다음과 같습니다. 루트 레이아웃에서 설치된 CSS를 불러오고, 상태와 이벤트 핸들러 등 상호작용을 처리하는 코드는 클라이언트 컴포넌트에 둡니다.
+
+**`babel.config.js`**
+
+```js
+module.exports = {
+  presets: ["next/babel"],
+  plugins: [
+    [
+      "@stylexjs/babel-plugin",
+      { runtimeInjection: false, treeshakeCompensation: true },
+    ],
+  ],
+};
+```
+
+**`postcss.config.cjs`**
+
+```js
+module.exports = {
+  plugins: {
+    "@stylexjs/postcss-plugin": {
+      include: ["src/**/*.{js,jsx,ts,tsx}"],
+      babelConfig: {
+        babelrc: false,
+        configFile: false,
+        parserOpts: { plugins: ["typescript", "jsx"] },
+        plugins: require("./babel.config.js").plugins,
+      },
+    },
+  },
+};
+```
+
+**`src/app/layout.tsx`**
+
+```tsx
+import "@/components/ui/ariax/styles/entry.css";
+import type { ReactNode } from "react";
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+**`src/app/page.tsx`**
+
+```tsx
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+export default function Page() {
+  const [count, setCount] = useState(0);
+  return <Button onPress={() => setCount(count + 1)}>Count {count}</Button>;
+}
+```
+
+프로덕션 빌드를 실행한 뒤 로컬 서버를 여세요. 이 예제는 Next.js 16.4.6과 Turbopack에서 실행을 확인했습니다.
+
+```sh
+pnpm exec next build
+pnpm exec next start
+```
 
 ## 커스터마이징
 
@@ -123,6 +194,22 @@ AriaX는 원본과 StyleX용 Storybook을 분리하고, 고정한 업스트림 �
 CI 비교는 1000px 뷰포트의 라이트·다크 테마에서 DOM 구조, 텍스트, 속성, 계산 CSS와 의사 요소를 검사합니다. 계산 CSS의 단일 색상 값은 작은 색상 변환 차이를 고려해 OKLab에서 최대 ΔE 0.002를 허용합니다. 투명도와 나머지 비교 값은 정확하게 비교합니다.
 
 로컬 전체 검증에서는 조작, 위치·크기, 스크롤, 포커스, 픽셀, 애니메이션 시간별 상태, 설치와 빌드도 검사합니다. CI 비교는 전체 검증보다 범위가 좁으며, 컴포넌트별 검증 범위는 [컴포넌트 지원 현황](../components/ko.md)에서 관리합니다.
+
+## 웹사이트 개발
+
+공개 사이트는 AriaX 소개, 설치 안내, 검색 가능한 컴포넌트 목록을 제공하는 Vite 정적 빌드입니다. 영어·한국어·일본어·스페인어·포르투갈어(브라질)·프랑스어·독일어 페이지를 생성하고, 각 컴포넌트의 AriaX 예제와 소스를 함께 제공합니다. 처음 열면 브라우저의 언어 설정을 따릅니다.
+
+홈페이지에서 두 버튼을 실시간으로 비교할 수 있습니다. 고정된 버전의 shadcn/ui 버튼과 레지스트리에서 설치한 AriaX 버튼을 별도 프레임에 렌더링합니다. 브라우저에서 두 버튼의 DOM과 계산 스타일을 직접 확인할 수 있습니다.
+
+```sh
+pnpm build:site
+pnpm check:site:examples
+pnpm preview:site
+# Chromium 설치 후 미리보기 서버를 종료하고 실행
+pnpm test:site
+```
+
+GitHub Pages는 이 저장소의 루트 경로인 `/shadcn-ariax/`에서 `dist/site/index.html`을 [AriaX 홈페이지](https://garrettjavalia.github.io/shadcn-ariax/)로 제공합니다. 각 언어의 설치 가이드와 컴포넌트 문서에는 개별 HTML 파일이 생성됩니다. 다른 경로로 빌드하려면 `ARIAX_SITE_BASE`를 지정하세요. Storybook은 개발과 원본 비교 테스트에 사용합니다.
 
 ## 로컬 개발
 

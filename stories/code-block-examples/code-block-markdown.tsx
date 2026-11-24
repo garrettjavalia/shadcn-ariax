@@ -2,8 +2,9 @@
 import {
   componentExample,
   nativeExample,
+  markdownParagraph,
+  markdownCodeBlock,
 } from "@trace-code-block-example-customizations";
-import "../code-block-markdown.css";
 
 import * as React from "react";
 import { useChat } from "@ai-sdk/react";
@@ -70,7 +71,7 @@ function MarkdownCodeBlock({
   const lines = useHighlightedCode(code, language);
 
   return (
-    <CodeBlock>
+    <CodeBlock {...markdownCodeBlock}>
       <CodeBlockHeader>
         <CodeBlockTitle>{language || "text"}</CodeBlockTitle>
         <CodeBlockActions>
@@ -109,7 +110,12 @@ function MarkdownCode({
   );
 }
 
-const components = { code: MarkdownCode };
+const components = {
+  code: MarkdownCode,
+  p: ({ node, ...props }: React.ComponentProps<"p"> & ExtraProps) => (
+    <p {...props} {...markdownParagraph} />
+  ),
+};
 
 export function CodeBlockMarkdown() {
   const { messages, sendMessage, setMessages, status } = useChat({
@@ -133,7 +139,6 @@ export function CodeBlockMarkdown() {
           <Message key={message.id}>
             <MessageContent>
               <Streamdown
-                className="ariax-code-markdown"
                 controls={false}
                 components={components}
                 isAnimating={busy && message === messages.at(-1)}
