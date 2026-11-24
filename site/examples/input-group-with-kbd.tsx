@@ -17,7 +17,7 @@ export default function InputGroupWithKbd() {
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput id="input-kbd-23" />
+          <InputGroupInput aria-label="Search with keyboard shortcut" />
           <InputGroupAddon align="inline-end">
             <Kbd>⌘K</Kbd>
           </InputGroupAddon>

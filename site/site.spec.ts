@@ -532,6 +532,13 @@ test("locale detection and language switching preserve component routes", async 
     );
     await page.reload();
     await expect(page.locator("html")).toHaveAttribute("lang", "en-US");
+
+    const missing = await page.goto(page.url().replace(/docs\/components\/input\/.*$/, "missing/"));
+    expect(missing?.status()).toBe(404);
+    await page.getByRole("button", { name: "EN Language", exact: true }).click();
+    await page.getByRole("option", { name: "한국어", exact: true }).click();
+    await expect(page).toHaveURL(url => url.pathname === deployedPath("ko/404.html"));
+    await expect(page.locator("html")).toHaveAttribute("lang", "ko-KR");
   } finally {
     await context.close();
   }

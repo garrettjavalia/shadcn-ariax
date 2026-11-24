@@ -306,7 +306,7 @@ function Header({
               url.pathname =
                 assetBase +
                 localePrefix(next) +
-                url.pathname.slice(base.length);
+                (page === "not-found" ? "404.html" : url.pathname.slice(base.length));
               url.searchParams.set("lang", next);
               location.assign(url);
             }}
