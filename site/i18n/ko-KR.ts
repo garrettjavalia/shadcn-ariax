@@ -79,7 +79,7 @@ export default {
     "The state control previews interaction styles in both frames. Keyboard focus stays on the control.":
       "선택한 상태의 스타일을 두 프레임에 함께 적용합니다. 실제 키보드 포커스는 선택 컨트롤에 유지됩니다.",
     "Native pseudo-classes": "브라우저의 실제 의사 클래스",
-    testingTitle: "AriaX의 검증 방식",
+    testingTitle: "검증 방법",
     testingPurpose: "실제 서비스에서도 shadcn/ui의 모양과 동작을 유지할 수 있도록, 두 구현을 같은 조건에서 비교합니다.",
     comparisonTitle: "shadcn/ui 원본과 비교",
     comparisonDescription:
@@ -90,7 +90,7 @@ export default {
     consumerTitle: "예제 빌드",
     consumerDescription:
       "새 React 앱에 레지스트리 컴포넌트를 설치하고 공개된 모든 예제를 타입 검사·빌드한 뒤 Chromium에서 각각 실행합니다.",
-    toolkitTitle: "AriaX의 설계",
+    toolkitTitle: "설계",
     sourceTitle: "컴포넌트 소스",
     sourceDescription:
       "<project>shadcn</project> CLI로 필요한 컴포넌트를 설치하고 MIT 라이선스에 따라 소스를 수정할 수 있습니다.",

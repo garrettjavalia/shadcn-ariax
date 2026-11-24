@@ -113,7 +113,14 @@ export async function loadExampleRequirements(root: string) {
       )
         collect(node.arguments[0].value);
     });
-    const toaster = external.has("sonner");
+    const importsToaster = ast.program.body.some(statement =>
+      t.isImportDeclaration(statement) &&
+      ["sonner", "@/components/ui/sonner"].includes(statement.source.value) &&
+      statement.specifiers.some(specifier =>
+        t.isImportSpecifier(specifier) && t.isIdentifier(specifier.imported, { name: "Toaster" }),
+      ),
+    );
+    const toaster = external.has("sonner") && !importsToaster;
     if (toaster) requiredModules.add("sonner");
     const items = new Set(initialItems);
     const covered = (file: string) =>

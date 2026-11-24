@@ -193,6 +193,21 @@ test("catalog search can link directly to a named example", async ({
   await expect(page.locator("#example-message-scroller-streaming")).toBeInViewport();
 });
 
+test("the documentation sidebar keeps its scroll position between component pages", async ({ page }) => {
+  await page.goto("docs/components/button/");
+  const sidebar = page.locator("aside").filter({ has: page.getByRole("navigation", { name: "Documentation" }) });
+  const next = sidebar.getByRole("link", { name: "Switch", exact: true });
+  await next.scrollIntoViewIfNeeded();
+  const offset = () => sidebar.evaluate(node => node.scrollTop);
+  const before = await offset();
+  expect(before).toBeGreaterThan(0);
+  await next.click();
+  await expect(page).toHaveURL(url => url.pathname === deployedPath("docs/components/switch/"));
+  await expect.poll(offset).toBe(before);
+  await page.goBack();
+  await expect.poll(offset).toBe(before);
+});
+
 test("component content keeps the same horizontal bounds between routes", async ({
   page,
 }) => {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createInstance } from "i18next";
 import {
   I18nextProvider,
@@ -410,6 +410,7 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
     <main id="main">
       <section {...stylex.props(s.hero)}>
         <div className="hero-intro">
+          <div {...stylex.props(s.heroBrand)}>AriaX</div>
           <h1 {...stylex.props(s.heroTitle)}>
             {t("heroTitle")
               .split("\n")
@@ -579,8 +580,29 @@ function DocsNav({
   active,
 }: Pick<SiteProps, "base" | "nav"> & { active?: string }) {
   const t = useText();
+  const sidebar = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const node = sidebar.current;
+    if (!node) return;
+    const key = "ariax-docs-sidebar:" + base;
+    try {
+      node.scrollTop = Number(sessionStorage.getItem(key)) || 0;
+    } catch {
+      // Storage can be unavailable in privacy-restricted browsing contexts.
+    }
+    const remember = () => {
+      if (!node.clientHeight) return;
+      try {
+        sessionStorage.setItem(key, String(node.scrollTop));
+      } catch {
+        // Navigation remains available without storage.
+      }
+    };
+    window.addEventListener("pagehide", remember);
+    return () => window.removeEventListener("pagehide", remember);
+  }, [base]);
   return (
-    <aside {...stylex.props(s.sidebar)}>
+    <aside ref={sidebar} {...stylex.props(s.sidebar)}>
       <nav aria-label={t("Documentation")} {...stylex.props(s.sideNav)}>
         <div {...stylex.props(s.sideLabel)}>{t("GET STARTED")}</div>
         <LinkButton
@@ -965,7 +987,9 @@ function SiteContent(props: SiteProps) {
       <footer {...stylex.props(s.copyright)}>
         <small>© 2026 Minsuk Jung</small>
       </footer>
-      {page === "component" && (
+      {page === "component" && props.data?.blocks.some(
+        block => block.kind === "preview" && block.source?.requirements?.toaster,
+      ) && (
         <Toaster theme={theme === "dark" ? "dark" : "light"} />
       )}
     </>
@@ -1084,6 +1108,12 @@ const s = stylex.create({
     borderRadius: "50%",
     backgroundColor: "var(--ring)",
     flexShrink: 0,
+  },
+  heroBrand: {
+    fontSize: "clamp(3rem, 16cqi, 6rem)",
+    fontWeight: 800,
+    lineHeight: 1,
+    color: "var(--foreground)",
   },
   heroTitle: {
     fontSize: "var(--hero-title-size)",

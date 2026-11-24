@@ -97,8 +97,13 @@ createServer(async (request, response) => {
   } catch (error) {
     const code = (error as NodeJS.ErrnoException).code;
     if (error instanceof URIError) end(400, "Invalid path");
-    else if (code === "ENOENT" || code === "ENOTDIR") end(404, "Not found");
-    else end(500, "Could not read build output");
+    else if (code === "ENOENT" || code === "ENOTDIR") {
+      response.writeHead(404, { "content-type": contentTypes[".html"] });
+      if (request.method === "HEAD") response.end();
+      else createReadStream(resolve(root, "404.html"))
+        .on("error", () => response.destroy())
+        .pipe(response);
+    } else end(500, "Could not read build output");
   }
 }).listen(port, "127.0.0.1", () => {
   console.log(`AriaX preview: http://127.0.0.1:${port}${base}`);
