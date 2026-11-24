@@ -63,7 +63,7 @@ import { Kbd } from "../src/ariax/ui/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../src/ariax/ui/tabs";
 import { ComparisonDemo } from "./comparison-demo";
 import { ExampleCode } from "./example-code";
-import { RouterProvider } from "react-aria-components";
+import { I18nProvider, RouterProvider } from "react-aria-components";
 import { SidebarShortcutScope } from "../src/ariax/ui/sidebar";
 import { LivePreview } from "./live-preview";
 import type { PreviewLayout } from "./preview-layouts";
@@ -921,7 +921,9 @@ export function Site(props: SiteProps) {
   });
   return (
     <I18nextProvider i18n={instance}>
-      <SiteContent {...props} />
+      <I18nProvider locale={props.locale}>
+        <SiteContent {...props} />
+      </I18nProvider>
     </I18nextProvider>
   );
 }

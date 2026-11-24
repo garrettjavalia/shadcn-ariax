@@ -344,10 +344,14 @@ export function ComparisonDemo({
     const release = new Map<HTMLIFrameElement, () => void>();
     let raf = 0;
     let deadline = 0;
+    const failed = () => {
+      setComparison(null);
+      setResult("error");
+    };
     const pending = () => {
       setResult("loading");
       clearTimeout(deadline);
-      deadline = window.setTimeout(() => setResult("error"), 15000);
+      deadline = window.setTimeout(failed, 15000);
     };
     const inspect = () => {
       try {
@@ -378,7 +382,7 @@ export function ComparisonDemo({
         setComparison(comparison);
         setResult("ready");
       } catch {
-        setResult("error");
+        failed();
       }
     };
     const schedule = () => {
@@ -427,6 +431,7 @@ export function ComparisonDemo({
       };
       const unload = () => {
         clear();
+        setComparison(null);
         pending();
       };
       doc.defaultView?.addEventListener("pagehide", unload);
