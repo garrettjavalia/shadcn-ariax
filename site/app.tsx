@@ -832,15 +832,6 @@ function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
               <h1>{data.title}</h1>
             </div>
             <p {...stylex.props(s.docIntro)}>{data.description}</p>
-            <div {...stylex.props(s.docTools)}>
-              <LinkButton
-                href={base + "docs/installation/"}
-                variant="outline"
-                size="sm"
-              >
-                {t("Installation guide")} <ArrowUpRight />
-              </LinkButton>
-            </div>
             {data.installCommand && (
               <Code
                 value={data.installCommand}
@@ -1246,12 +1237,6 @@ const s = stylex.create({
     lineHeight: 1.6,
     color: "var(--muted-foreground)",
     marginBlock: "0.65rem 1.25rem",
-  },
-  docTools: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "0.4rem",
-    marginBlockEnd: "1.5rem",
   },
   breadcrumb: {
     display: "flex",
