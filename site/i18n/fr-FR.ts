@@ -80,6 +80,7 @@ export default {
       "Le sélecteur applique les styles de l’état choisi dans les deux cadres. Le focus clavier reste sur le sélecteur.",
     "Native pseudo-classes": "Pseudo-classes natives",
     testingTitle: "Comment nous testons AriaX",
+    testingPurpose: "Nous comparons AriaX et shadcn/ui dans les mêmes conditions pour que vous retrouviez en production la même apparence et le même comportement.",
     comparisonTitle: "Comparaison avec shadcn/ui",
     comparisonDescription:
       "Nous comparons le DOM et les styles calculés pour un même exemple dans AriaX et shadcn/ui.",

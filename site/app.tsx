@@ -487,6 +487,7 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
         },
         {
           title: "testingTitle",
+          description: "testingPurpose",
           cards: [
             {
               icon: <ScanLine />,
@@ -509,6 +510,9 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
         <section key={section.title} {...stylex.props(s.homeSection)}>
           <div data-section-heading {...stylex.props(s.sectionHeading)}>
             <h2>{t(section.title)}</h2>
+            {section.description && (
+              <p {...stylex.props(s.testingPurpose)}>{t(section.description)}</p>
+            )}
           </div>
           <div {...stylex.props(s.featureGrid)}>
             {section.cards.map((item) => (
@@ -1165,6 +1169,7 @@ const s = stylex.create({
     paddingBlock: "clamp(1.5rem, 3.5vw, 3.175rem)",
   },
   lastSection: { borderTop: "1px solid var(--border)" },
+  testingPurpose: { marginBlockStart: "0.65rem", color: "var(--muted-foreground)" },
   sectionHeading: { marginBottom: "1.1rem" },
   featureGrid: {
     display: "grid",

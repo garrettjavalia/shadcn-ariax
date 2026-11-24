@@ -78,6 +78,7 @@ export default {
       "選択した状態のスタイルを両方のフレームに適用します。実際のキーボードフォーカスは選択コントロールに残ります。",
     "Native pseudo-classes": "ブラウザーの実際の疑似クラス",
     testingTitle: "AriaX の検証方法",
+    testingPurpose: "本番環境でも shadcn/ui の見た目と動作を保てるよう、同じ条件で両方の実装を比較しています。",
     comparisonTitle: "shadcn/ui との比較",
     comparisonDescription:
       "AriaX と shadcn/ui で同じサンプルを表示し、DOM 構造とブラウザーが計算したスタイルを比較します。",

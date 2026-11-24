@@ -77,6 +77,7 @@ export default {
       "El selector aplica los estilos del estado elegido en ambos marcos. El foco del teclado permanece en el selector.",
     "Native pseudo-classes": "Pseudoclases nativas",
     testingTitle: "Cómo probamos AriaX",
+    testingPurpose: "Comparamos AriaX y shadcn/ui en las mismas condiciones para que en producción puedas contar con la apariencia y el comportamiento que ya conoces de shadcn/ui.",
     comparisonTitle: "Comparación con shadcn/ui",
     comparisonDescription:
       "Comparamos el DOM y los estilos calculados del mismo ejemplo en AriaX y shadcn/ui.",

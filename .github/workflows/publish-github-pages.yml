@@ -32,12 +32,13 @@ jobs:
         if: github.event_name != 'pull_request'
       - run: pnpm install --frozen-lockfile
       - run: pnpm registry:check
-      - name: Build public AriaX site
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Build and verify public AriaX site
         env:
           ARIAX_SITE_BASE: ${{ github.event_name == 'pull_request' && format('/{0}', github.event.repository.name) || steps.pages.outputs.base_path }}/
-        run: pnpm build:site
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:site
+        run: |
+          pnpm build:site
+          pnpm test:site
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:

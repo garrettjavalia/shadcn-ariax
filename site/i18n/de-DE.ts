@@ -79,6 +79,7 @@ export default {
       "Die Zustandsauswahl zeigt die Interaktionsstile in beiden Frames. Der Tastaturfokus bleibt auf dem Auswahlfeld.",
     "Native pseudo-classes": "Native Pseudoklassen",
     testingTitle: "So testen wir AriaX",
+    testingPurpose: "Damit Aussehen und Verhalten von shadcn/ui im Produktivbetrieb erhalten bleiben, vergleichen wir beide Implementierungen unter denselben Bedingungen.",
     comparisonTitle: "Vergleich mit shadcn/ui",
     comparisonDescription:
       "Wir vergleichen die DOM-Struktur und die berechneten Stile desselben Beispiels in AriaX und shadcn/ui.",

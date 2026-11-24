@@ -174,6 +174,9 @@ async function main() {
   const legacyGroups: Record<string, string> = {};
   for (const page of catalog) {
     assert.match(page.slug, /^[a-z][a-z0-9-]*$/);
+    // Legacy Storybook titles include both "AlertDialog" and "Alert Dialog" forms.
+    legacyGroups["components-" + page.slug] = page.slug + "/";
+    legacyGroups["components-" + page.slug.replaceAll("-", "")] = page.slug + "/";
     for (const block of page.blocks) {
       if (block.kind !== "preview" || !block.storyId) continue;
       const path = page.slug + "/";

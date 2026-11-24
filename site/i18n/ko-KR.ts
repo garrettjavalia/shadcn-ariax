@@ -78,6 +78,7 @@ export default {
       "선택한 상태의 스타일을 두 프레임에 함께 적용합니다. 실제 키보드 포커스는 선택 컨트롤에 유지됩니다.",
     "Native pseudo-classes": "브라우저의 실제 의사 클래스",
     testingTitle: "AriaX의 검증 방식",
+    testingPurpose: "실제 서비스에서도 shadcn/ui의 모양과 동작을 유지할 수 있도록, 두 구현을 같은 조건에서 비교합니다.",
     comparisonTitle: "shadcn/ui 원본과 비교",
     comparisonDescription:
       "같은 예제를 AriaX와 shadcn/ui로 렌더링해 DOM 구조와 브라우저가 계산한 스타일을 비교합니다.",

@@ -1,7 +1,7 @@
 import { locales, localePrefix } from "./i18n/locales";
 import { expect, test, type Page } from "@playwright/test";
 
-const deploymentPath = "/shadcn-ariax/";
+const deploymentPath = process.env.ARIAX_SITE_BASE ?? "/shadcn-ariax/";
 const installationPath = "docs/installation/";
 const buttonPath = "docs/components/button/";
 const dialogPath = "docs/components/dialog/";
@@ -401,7 +401,7 @@ test("theme updates the preview and persists even before hydration", async ({
   // 외부 클라이언트 번들만 차단해 초기 테마 스크립트를 확인한다.
   let blockedClient = false;
   await page.route(
-    (url) => /^\/shadcn-ariax\/assets\/[^/]+\.js$/.test(url.pathname),
+    (url) => url.pathname.startsWith(deployedPath("assets/")) && url.pathname.endsWith(".js"),
     (route) => {
       blockedClient = true;
       return route.abort();
@@ -454,7 +454,7 @@ test("locale detection and language switching preserve component routes", async 
     await page.getByRole("option", { name: "English", exact: true }).click();
     await expect(page.locator("html")).toHaveAttribute("lang", "en-US");
     await expect(page).toHaveURL(
-      /ariax\/docs\/components\/input\/#example-input-file$/,
+      (url) => url.pathname + url.hash === deployedPath("docs/components/input/#example-input-file"),
     );
     await page.reload();
     await expect(page.locator("html")).toHaveAttribute("lang", "en-US");
