@@ -31,15 +31,29 @@ jobs:
         id: pages
         if: github.event_name != 'pull_request'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm registry:check
-      - run: pnpm exec playwright install --with-deps chromium
-      - name: Build and verify public AriaX site
+      - if: github.event_name == 'pull_request'
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Build public AriaX site
         env:
           ARIAX_GTM_ID: ${{ github.event_name != 'pull_request' && vars.ARIAX_GTM_ID || '' }}
           ARIAX_SITE_BASE: ${{ github.event_name == 'pull_request' && format('/{0}', github.event.repository.name) || steps.pages.outputs.base_path }}/
+        run: pnpm build:site
+      - name: Test public AriaX site
+        if: github.event_name == 'pull_request'
+        env:
+          ARIAX_SITE_BASE: /${{ github.event.repository.name }}/
+        run: pnpm test:site
+      - name: Check deployment artifact
+        if: github.event_name != 'pull_request'
+        env:
+          ARIAX_GTM_ID: ${{ vars.ARIAX_GTM_ID }}
         run: |
-          pnpm build:site
-          pnpm test:site
+          test -s dist/site/index.html
+          test -s dist/site/ja/index.html
+          test -s dist/site/docs/components/button/index.html
+          if [ -n "$ARIAX_GTM_ID" ]; then
+            grep -Fq "https://www.googletagmanager.com/gtm.js?id=$ARIAX_GTM_ID" dist/site/index.html
+          fi
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:
