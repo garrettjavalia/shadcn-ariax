@@ -430,7 +430,8 @@ export function ComparisonDemo({
         documents.delete(frame);
         release.delete(frame);
       };
-      const unload = () => {
+      const unload = (event: PageTransitionEvent) => {
+        if (event.persisted) return;
         clear();
         setComparison(null);
         pending();

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createInstance } from "i18next";
 import {
   I18nextProvider,
@@ -574,35 +574,27 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
   );
 }
 
+// Run as the browser parses the sidebar, before it paints or hydrates the examples.
+const restoreDocsScroll = `(() => {
+  const sidebar = document.currentScript.parentElement;
+  const key = "ariax-docs-sidebar:" + sidebar.dataset.docsBase;
+  try {
+    sidebar.scrollTop = Number(sessionStorage.getItem(key)) || 0;
+  } catch {}
+  window.addEventListener("pagehide", () => {
+    if (!sidebar.clientHeight) return;
+    try { sessionStorage.setItem(key, String(sidebar.scrollTop)); } catch {}
+  });
+})();`;
+
 function DocsNav({
   base,
   nav,
   active,
 }: Pick<SiteProps, "base" | "nav"> & { active?: string }) {
   const t = useText();
-  const sidebar = useRef<HTMLElement>(null);
-  useLayoutEffect(() => {
-    const node = sidebar.current;
-    if (!node) return;
-    const key = "ariax-docs-sidebar:" + base;
-    try {
-      node.scrollTop = Number(sessionStorage.getItem(key)) || 0;
-    } catch {
-      // Storage can be unavailable in privacy-restricted browsing contexts.
-    }
-    const remember = () => {
-      if (!node.clientHeight) return;
-      try {
-        sessionStorage.setItem(key, String(node.scrollTop));
-      } catch {
-        // Navigation remains available without storage.
-      }
-    };
-    window.addEventListener("pagehide", remember);
-    return () => window.removeEventListener("pagehide", remember);
-  }, [base]);
   return (
-    <aside ref={sidebar} {...stylex.props(s.sidebar)}>
+    <aside data-docs-base={base} {...stylex.props(s.sidebar)}>
       <nav aria-label={t("Documentation")} {...stylex.props(s.sideNav)}>
         <div {...stylex.props(s.sideLabel)}>{t("GET STARTED")}</div>
         <LinkButton
@@ -634,6 +626,7 @@ function DocsNav({
           </LinkButton>
         ))}
       </nav>
+      <script dangerouslySetInnerHTML={{ __html: restoreDocsScroll }} />
     </aside>
   );
 }

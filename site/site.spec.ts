@@ -201,11 +201,13 @@ test("the documentation sidebar keeps its scroll position between component page
   const offset = () => sidebar.evaluate(node => node.scrollTop);
   const before = await offset();
   expect(before).toBeGreaterThan(0);
+  // The first visible list must already be positioned while hydration is unavailable.
+  await page.route("**/assets/*.js", route => route.abort());
   await next.click();
   await expect(page).toHaveURL(url => url.pathname === deployedPath("docs/components/switch/"));
-  await expect.poll(offset).toBe(before);
+  expect(await offset()).toBe(before);
   await page.goBack();
-  await expect.poll(offset).toBe(before);
+  expect(await offset()).toBe(before);
 });
 
 test("component content keeps the same horizontal bounds between routes", async ({
