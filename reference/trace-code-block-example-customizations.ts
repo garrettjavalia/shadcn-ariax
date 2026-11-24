@@ -97,3 +97,6 @@ export const componentExample={
   }
 };
 export const nativeExample=componentExample;
+
+export const markdownParagraph = {className:'not-last:mb-4'};
+export const markdownCodeBlock = markdownParagraph;

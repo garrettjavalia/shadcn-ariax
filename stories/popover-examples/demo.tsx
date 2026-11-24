@@ -1,4 +1,4 @@
-import {wide,input,grid,gridSmall,row,heading,description,spaced} from '@popover-customizations';
+import {wide,input,grid,gridSmall,row,heading,description} from '@popover-customizations';
 import { Button } from "@button"
 import { Input } from "@input"
 import { Label } from "@label"
@@ -10,7 +10,7 @@ export default function PopoverDemo() {
       <Button variant="outline">Open popover</Button>
       <Popover data-parity-portal {...wide}>
         <div {...grid}>
-          <div {...spaced}>
+          <div>
             <h4 {...heading}>Dimensions</h4>
             <p {...description}>
               Set the dimensions for the layer.

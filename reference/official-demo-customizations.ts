@@ -50,7 +50,7 @@ const classes={
   "skeleton": "flex items-center gap-4",
   "circle": "h-12 w-12 rounded-full",
   "lines": "space-y-2",
-  "line250": "h-4 w-[250px]",
+  "line250": "h-4 w-[250px] [margin-block-start:0] [margin-block-end:8px]",
   "line200": "h-4 w-[200px]",
   "payment": "flex w-full max-w-xs flex-col gap-4 [--radius:1rem]",
   "clamp": "line-clamp-1",

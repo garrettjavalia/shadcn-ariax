@@ -38,7 +38,6 @@ import {
 } from "@chart"
 import { IconTrendingUp } from "@tabler/icons-react"
 import{registryUI,registryDOM}from"@chart-customizations"
-import{chartAnimationEvents}from"../chart-animation"
 
 const areaChartData = [
   { month: "January", desktop: 186 },
@@ -101,7 +100,7 @@ export function ChartAreaExample() {
                 cursor={false}
                 content={<ChartTooltipContent indicator="line" />}
               />
-              <Area {...chartAnimationEvents}
+              <Area
                 dataKey="desktop"
                 type="natural"
                 fill="var(--color-desktop)"
@@ -172,8 +171,8 @@ export function ChartBarExample() {
                 cursor={false}
                 content={<ChartTooltipContent indicator="dashed" />}
               />
-              <Bar {...chartAnimationEvents} dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-              <Bar {...chartAnimationEvents} dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+              <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+              <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
             </BarChart>
           </ChartContainer>
         </CardContent>
@@ -238,14 +237,14 @@ export function ChartLineExample() {
                 tickFormatter={(value) => value.slice(0, 3)}
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <Line {...chartAnimationEvents}
+              <Line
                 dataKey="desktop"
                 type="monotone"
                 stroke="var(--color-desktop)"
                 strokeWidth={2}
                 dot={false}
               />
-              <Line {...chartAnimationEvents}
+              <Line
                 dataKey="mobile"
                 type="monotone"
                 stroke="var(--color-mobile)"
@@ -329,7 +328,7 @@ export function ChartPieExample() {
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-              <Pie {...chartAnimationEvents}
+              <Pie
                 data={pieChartData}
                 dataKey="visitors"
                 nameKey="browser"
@@ -425,12 +424,12 @@ export function ChartRadarExample() {
               />
               <PolarAngleAxis dataKey="month" />
               <PolarGrid />
-              <Radar {...chartAnimationEvents}
+              <Radar
                 dataKey="desktop"
                 fill="var(--color-desktop)"
                 fillOpacity={0.6}
               />
-              <Radar {...chartAnimationEvents} dataKey="mobile" fill="var(--color-mobile)" />
+              <Radar dataKey="mobile" fill="var(--color-mobile)" />
             </RadarChart>
           </ChartContainer>
         </CardContent>
@@ -488,7 +487,7 @@ export function ChartRadialExample() {
                 {...registryDOM("polar")}
                 polarRadius={[86, 74]}
               />
-              <RadialBar {...chartAnimationEvents} dataKey="visitors" background />
+              <RadialBar dataKey="visitors" background />
               <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
                 <Label
                   content={({ viewBox }) => {

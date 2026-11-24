@@ -1,4 +1,5 @@
 "use client";
+import { useCollectionPopoverRef } from "./collection-focus.internal";
 import type { ComponentProps, ReactNode } from "react";
 import * as stylex from "@stylexjs/stylex";
 import {
@@ -136,11 +137,14 @@ export function SelectPopover({
   placement = "bottom start",
   offset = 4,
   crossOffset = 0,
+  ref,
   ...props
 }: ContentProps) {
   const sx = stylex.props(animationStyles.overlay, styles.content, xstyle);
+  const popoverRef = useCollectionPopoverRef(ref);
   return (
     <Popover
+      ref={popoverRef}
       data-slot="select-content"
       placement={placement}
       offset={offset}

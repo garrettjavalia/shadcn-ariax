@@ -9,3 +9,10 @@ const styles = stylex.create({
 });
 export const colors = [styles.blue,styles.green,styles.sky,styles.purple,styles.red].map(xstyle=>({xstyle}));
 export const dynamic = {xstyle:styles.dynamic(123)};
+
+const layout = stylex.create({
+  row: { display: 'flex', flexWrap: 'wrap', gap: '.5rem' },
+  centered: { width: '100%', justifyContent: 'center' },
+});
+export const badgeRow = stylex.props(layout.row);
+export const centeredBadgeRow = stylex.props(layout.row, layout.centered);

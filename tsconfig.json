@@ -149,7 +149,8 @@
     "scripts",
     "reference",
     "generated/reference",
-    "tests/types"
+    "tests/types",
+    "site"
   ],
   "exclude": [
     "generated/reference/**/source/**"

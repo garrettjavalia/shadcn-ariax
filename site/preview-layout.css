@@ -1,0 +1,56 @@
+.ariax-preview-surface {
+  --site-preview-surface: oklch(0.98 0 0);
+  container-type: inline-size;
+  min-width: 0;
+}
+
+html.dark .ariax-preview-surface {
+  --site-preview-surface: oklch(0.2 0 0);
+}
+
+:where(.ariax-preview-surface) [data-preview-stage] {
+  min-width: 0;
+  min-height: 0;
+}
+:where(.ariax-preview-surface) [data-preview-stage][data-documented="false"] {
+  height: auto;
+  min-height: 18rem;
+  max-height: max(18rem, 100svh);
+  overflow: auto;
+  align-items: safe center;
+}
+:where(.ariax-preview-surface [data-preview-stage]) > *,
+:where(.ariax-preview-surface [data-preview-stage]) > [dir] > :only-child {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* A sidebar's fixed insets and viewport height belong to its preview. */
+:where(.ariax-preview-surface)
+  [data-preview-stage][data-viewport-block="true"] {
+  aspect-ratio: 4 / 2.5;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  overflow: auto;
+  align-items: flex-start;
+  contain: size layout paint;
+  container-type: size;
+}
+:where(.ariax-preview-surface)
+  [data-viewport-block="true"]
+  [data-slot="sidebar-wrapper"] {
+  min-height: 100cqh;
+}
+:where(.ariax-preview-surface)
+  [data-viewport-block="true"]
+  [data-slot="sidebar-container"] {
+  height: 100cqh;
+}
+
+/* The outline button sits 3rem beyond the transcript's inline end. */
+:where(.ariax-preview-surface)
+  [data-preview-stage="message-scroller-visibility"]
+  > :only-child {
+  max-width: min(100%, calc(100cqw - 6rem));
+}

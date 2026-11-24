@@ -35,3 +35,11 @@ export const carouselmargin={xstyle:styles.margin};
 export const carouselCustom=(width:number)=>({xstyle:styles.custom(width)});
 export const carouselCustomItem={xstyle:styles.item};
 export const carouselCustomButton={xstyle:styles.button};
+
+const layout = stylex.create({
+  wrapper: {
+    marginInline: 'auto',
+    maxWidth: { default: '10rem', '@media (min-width: 640px)': '20rem' },
+  },
+});
+export const apiWrapper = stylex.props(layout.wrapper);

@@ -60,7 +60,7 @@ function componentExport(source: string, file: string): string {
 }
 
 /** Only map renders that directly use a fixture corresponding to an official source. */
-async function fixtureMappings(repo: string, names: Set<string>) {
+export async function fixtureMappings(repo: string, names: Set<string>) {
   const mapping = new Map<string, { stylexStoryId: string; metaSource: string; exportName: string }[]>();
   const metas = new Map<string, string>();
   for (const file of await files(resolve(repo, 'stories'), '.stories.tsx')) {

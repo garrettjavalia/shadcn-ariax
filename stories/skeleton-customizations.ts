@@ -2,7 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 
 export const shapes = stylex.create({
   demoCircle: { height: 48, width: 48, borderRadius: 'calc(infinity * 1px)' },
-  line250: { height: 16, width: 250 },
+  line250: { height: 16, width: 250, marginBlockStart: 0, marginBlockEnd: 8 },
   line200: { height: 16, width: 200 },
   circle: { width: 40, height: 40, flexShrink: 0, borderRadius: 'calc(infinity * 1px)' },
   line150: { height: 16, width: 150 },

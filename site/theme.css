@@ -1,0 +1,22 @@
+/* Shared by the site and both isolated comparison documents. */
+:root[data-ariax-themed] {
+  color-scheme: light;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --primary: #486326;
+  --primary-foreground: #fff;
+  --muted: #c8d8bb;
+  --muted-foreground: #415239;
+  --accent: color-mix(in oklab, #84ad40 15%, var(--background));
+  --accent-foreground: #496524;
+  --ring: #719739;
+}
+:root.dark[data-ariax-themed] {
+  color-scheme: dark;
+  --primary: #cbe998;
+  --primary-foreground: #182405;
+  --muted: #56694b;
+  --muted-foreground: #dde8d7;
+  --accent-foreground: #b6d779;
+  --ring: #a0c660;
+}

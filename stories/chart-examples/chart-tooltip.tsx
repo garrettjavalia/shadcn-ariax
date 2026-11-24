@@ -8,7 +8,7 @@ import * as React from "react"
 export function ChartTooltipDemo() {
   return (
     <div {...previewRoot}>
-      <div>
+      <div {...previewEnd}>
         <div {...previewLabel}>
           Label
         </div>
