@@ -249,6 +249,26 @@ for (const [component, collection] of [
   });
 }
 
+test("leaving a context menu releases hover focus and preserves keyboard navigation", async ({ page }) => {
+  await page.goto("docs/components/context-menu/");
+  await page.locator('[data-preview-stage="context-menu-basic"]').getByRole("button").click({ button: "right" });
+  const menu = page.getByRole("menu");
+  const back = menu.getByRole("menuitem", {name: "Back"});
+  const reload = menu.getByRole("menuitem", {name: "Reload"});
+  await reload.hover();
+  await expect(reload).toBeFocused();
+  await page.mouse.move(4, 4);
+  await expect(menu).toBeFocused();
+  await expect(menu.locator("[data-focused]")).toHaveCount(0);
+  await page.keyboard.press("ArrowDown");
+  await expect(back).toBeFocused();
+  await reload.hover();
+  await page.keyboard.press("Home");
+  await expect(back).toBeFocused();
+  await page.mouse.move(4, 4);
+  await expect(back).toBeFocused();
+});
+
 test("dialog opens in the page viewport, traps focus and restores it on Escape", async ({
   page,
 }) => {

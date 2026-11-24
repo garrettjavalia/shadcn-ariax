@@ -2,10 +2,19 @@
 import { useCollectionPopoverRef } from "./collection-focus.internal";
 import { applied, resolveStyle } from "./style-props.internal";
 import { animationStyles } from "./animations.stylex";
-import type { ComponentProps, ReactNode } from "react";
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  type ComponentProps,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import * as stylex from "@stylexjs/stylex";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 import {
+  CollectionRendererContext,
+  MenuStateContext,
   composeRenderProps,
   Header,
   MenuItem,
@@ -241,6 +250,35 @@ export function ContextMenuTrigger(
     <MenuTrigger data-slot="context-menu" trigger="contextMenu" {...props} />
   );
 }
+function ClearMouseFocusOnLeave({
+  menuRef,
+}: {
+  menuRef?: RefObject<HTMLElement | null>;
+}) {
+  const state = useContext(MenuStateContext);
+  useEffect(() => {
+    const menu = menuRef?.current;
+    if (!menu || !state) return;
+    const leave = (event: PointerEvent) => {
+      const active = menu.ownerDocument.activeElement;
+      if (
+        event.pointerType !== "mouse" ||
+        event.buttons !== 0 ||
+        active?.closest('[role="menu"]') !== menu ||
+        !active?.matches(
+          '[role^="menuitem"]:not([data-focus-visible]):not([aria-expanded="true"])',
+        )
+      )
+        return;
+      menu.focus({ preventScroll: true });
+      state.selectionManager.setFocusedKey(null);
+    };
+    menu.addEventListener("pointerleave", leave);
+    return () => menu.removeEventListener("pointerleave", leave);
+  }, [menuRef, state]);
+  return null;
+}
+
 export function ContextMenu({
   "data-slot": dataSlot = "context-menu-content",
   placement = "bottom start",
@@ -253,6 +291,21 @@ export function ContextMenu({
 }: ContextMenuProps) {
   const sx = stylex.props(animationStyles.overlay, styles.content, xstyle);
   const menu = stylex.props(styles.menu);
+  const renderer = useContext(CollectionRendererContext);
+  const menuRenderer = useMemo(
+    () => ({
+      ...renderer,
+      CollectionRoot: (
+        props: ComponentProps<typeof renderer.CollectionRoot>,
+      ) => (
+        <CollectionRendererContext.Provider value={renderer}>
+          <ClearMouseFocusOnLeave menuRef={props.scrollRef} />
+          <renderer.CollectionRoot {...props} />
+        </CollectionRendererContext.Provider>
+      ),
+    }),
+    [renderer],
+  );
   const popoverRef = useCollectionPopoverRef();
   return (
     <Popover
@@ -266,9 +319,11 @@ export function ContextMenu({
         .join(" ")}
       style={sx.style}
     >
-      <Menu className={menu.className} {...props}>
-        {children}
-      </Menu>
+      <CollectionRendererContext.Provider value={menuRenderer}>
+        <Menu className={menu.className} {...props}>
+          {children}
+        </Menu>
+      </CollectionRendererContext.Provider>
     </Popover>
   );
 }
