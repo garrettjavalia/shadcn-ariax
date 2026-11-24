@@ -187,9 +187,9 @@ ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax
 
 Listing the registry in shadcn/ui's official directory is a separate step. See the [submission guide](https://ui.shadcn.com/docs/registry/registry-index).
 
-### Publishing Storybook to GitHub Pages
+### Publishing the AriaX site to GitHub Pages
 
-Pushing to `deploy-github-pages` builds AriaX Storybook and deploys it to the [public Storybook](https://garrettjavalia.github.io/shadcn-ariax/). The contents of `dist/stylex/` are uploaded; build output is not stored on a separate branch.
+Pushing to `deploy-github-pages` runs `pnpm build:site` and uploads `dist/site/`. The [project homepage](https://garrettjavalia.github.io/shadcn-ariax/) serves `index.html`, the English landing page. The browser can redirect to a supported locale, such as `/shadcn-ariax/ko/`. The installation guide and component viewer are under `docs/installation/` and `docs/components/` relative to each language’s homepage. The Pages artifact contains the static site, native example modules and registry files. Use `pnpm storybook` locally to develop and compare stories.
 
 For initial setup, check these two GitHub settings:
 

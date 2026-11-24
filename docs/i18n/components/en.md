@@ -73,7 +73,7 @@ English · [한국어](ko.md)
 
 ## Verification scope and remaining work
 
-All 62 registry items have installation fixtures. The supported installation environment is Vite with React and TypeScript, without Tailwind. Next.js, SSR and other framework integrations remain unverified.
+All 62 registry items have installation fixtures for Vite with React and TypeScript without Tailwind. For Next.js 16.4.6 App Router, verification covers installing the public button, building with Turbopack, serving prerendered HTML and handling pointer and keyboard input in the browser.
 
 CI compares registered stories at 1000px in light and dark themes. Detailed browser tests cover interactions, geometry, scrolling, focus, pixels and animation states. Trace and Code Block also have keyboard, clipboard, streaming and accessibility checks. See the [Development guide](../development/en.md#checks) for commands and time budgets.
 

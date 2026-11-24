@@ -1,1 +1,0 @@
-.ariax-code-markdown > :not(:last-child) { margin-block-start: 0; margin-block-end: calc(var(--ariax-spacing, .25rem) * 4); }

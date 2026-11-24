@@ -187,9 +187,9 @@ ARIAX_REGISTRY_URL=https://raw.githubusercontent.com/garrettjavalia/shadcn-ariax
 
 shadcn/ui의 공식 레지스트리 목록 등록은 별도 절차입니다. [등록 안내](https://ui.shadcn.com/docs/registry/registry-index)를 참고하세요.
 
-### GitHub Pages에 Storybook 게시
+### GitHub Pages에 AriaX 사이트 게시
 
-`deploy-github-pages`에 푸시하면 AriaX Storybook을 빌드해 [공개 Storybook](https://garrettjavalia.github.io/shadcn-ariax/)에 배포합니다. `dist/stylex/` 내부 파일을 업로드하며, 빌드 결과를 별도 브랜치에 저장하지 않습니다.
+`deploy-github-pages`에 푸시하면 `pnpm build:site`를 실행한 뒤 `dist/site/`를 업로드합니다. [프로젝트 홈페이지](https://garrettjavalia.github.io/shadcn-ariax/)의 진입점은 영어 랜딩 페이지인 `index.html`입니다. 브라우저에서는 지원 언어에 따라 `/shadcn-ariax/ko/` 같은 경로로 이동합니다. 각 언어의 홈페이지를 기준으로 설치 가이드는 `docs/installation/`, 컴포넌트 뷰어는 `docs/components/`에 있습니다. Pages에는 정적 사이트, 예제 모듈, 레지스트리 파일을 배포합니다. 스토리를 개발하고 비교할 때는 로컬에서 `pnpm storybook`을 실행하세요.
 
 처음 설정할 때는 GitHub에서 다음 두 항목을 확인합니다.
 

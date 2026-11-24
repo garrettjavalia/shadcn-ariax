@@ -1,4 +1,4 @@
-name: Publish Storybook to GitHub Pages
+name: Publish AriaX to GitHub Pages
 
 on:
   push:
@@ -30,15 +30,13 @@ jobs:
         id: pages
       - run: pnpm install --frozen-lockfile
       - run: pnpm registry:check
-      - name: Build public AriaX Storybook
+      - name: Build public AriaX site
         env:
-          ARIAX_STORYBOOK_BASE: ${{ steps.pages.outputs.base_path }}/
-        run: |
-          pnpm build:stylex
-          node --import tsx scripts/prepare-pages.ts
+          ARIAX_SITE_BASE: ${{ steps.pages.outputs.base_path }}/
+        run: pnpm build:site
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/stylex
+          path: dist/site
 
   deploy:
     needs: build

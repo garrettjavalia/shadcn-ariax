@@ -70,5 +70,3 @@ export function ChartAnimationControl({children}:{children:ReactNode}){
   return()=>{cancelled=true;observer.disconnect();resolveReady();if(window.parityReady===ready)delete window.parityReady;};
  },[]);
  return <AnimationManagerContext.Provider value={factory}>{children}</AnimationManagerContext.Provider>;}
-// Older shared fixtures spread this binding; readiness now observes the SDK itself.
-export const chartAnimationEvents={};

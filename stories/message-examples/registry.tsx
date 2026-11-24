@@ -171,8 +171,8 @@ export function MessageWithAvatar() {
           </MessageAvatar>
           <MessageContent>
             <Bubble variant="muted">
-              <BubbleContent {...messageClasses.space2}>
-                <div>
+              <BubbleContent>
+                <div {...messageClasses.spacedChild}>
                   I checked the latest deployment and found the build failed
                   during dependency installation.
                 </div>

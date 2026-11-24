@@ -1,0 +1,214 @@
+export default {
+  ui: {
+    "Example files": "サンプルファイル",
+    "View code": "コードを表示",
+    "{{count}} components found": "検索結果：{{count}} 件",
+    "No components match “{{query}}”.":
+      "「{{query}}」に一致するコンポーネントはありません。",
+    "Search components": "コンポーネントを検索",
+    Search: "検索",
+    "Find a component by name or description.":
+      "名前や説明からコンポーネントを検索できます。",
+    "Try Dialog or Date Picker…": "例：Dialog、Date Picker…",
+    "Theme: System": "テーマ：システム設定",
+    "Theme: Light": "テーマ：ライト",
+    "Theme: Dark": "テーマ：ダーク",
+    "Main navigation": "メインナビゲーション",
+    Installation: "インストール",
+    Components: "コンポーネント",
+    Language: "言語",
+    "AriaX on GitHub": "GitHub で AriaX を見る",
+    "Copy code": "コードをコピー",
+    "Explore components": "コンポーネントを見る",
+    "Installation guide": "インストールガイド",
+    heroTitle: "なじみのデザインシステム、\n確かな基盤",
+    "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
+      "shadcn/ui のデザインを React Aria と StyleX で実装しました。各コンポーネントのソースコードをインストールして編集できます。",
+    "LIVE COMPONENT": "コンポーネントを試す",
+    "A button, made yours.": "ボタンを試してみよう。",
+    "Choose a style and try the button.":
+      "スタイルを選んでボタンを押してみてください。",
+    "Button variant": "ボタンのスタイル",
+    Outline: "枠線",
+    Solid: "塗りつぶし",
+    Ghost: "背景なし",
+    Saved: "保存済み",
+    "Try button": "押してみる",
+    "Live button comparison": "ボタンのライブ比較",
+    "Compare the rendered button in both implementations.":
+      "ブラウザーで両方のボタンの現在の DOM と計算済み CSS を確認できます。",
+    "Disable both buttons": "両方のボタンを無効にする",
+    "Checking buttons…": "比較中…",
+    "Buttons match": "比較項目が一致しました",
+    "Differences found": "差分があります",
+    "Comparison unavailable": "比較できません",
+    "DOM checks": "DOM の比較項目",
+    "Style checks": "スタイルの比較項目",
+    "View differences": "差分を表示",
+    "Retry comparison": "再比較",
+    "Comparison scope": "比較範囲",
+    "This comparison runs in your browser at the current frame size and button state.":
+      "現在のブラウザー、フレームの大きさ、ボタンの状態で比較します。",
+    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "ボタンとその子孫の DOM、すべての計算済みスタイル、疑似要素 ::before と ::after を検査します。生成されたクラスとインラインスタイルは計算結果で、ID は参照先で比較します。",
+    "CSS properties": "CSS プロパティ",
+    "CSS variable checks": "CSS 変数の比較項目",
+    "Inspect CSS variable differences": "CSS 変数の差分を見る",
+    "No CSS variable differences": "CSS 変数の差分なし",
+    "Search differences": "差分を検索",
+    Previous: "前へ",
+    Next: "次へ",
+    "Page {{page}} of {{pages}}": "{{page}} / {{pages}}",
+    "Rendered DOM": "描画された DOM",
+    "Computed CSS": "計算済み CSS",
+    "Inspect element": "要素を選択",
+    "Filter properties": "プロパティを検索",
+    Property: "プロパティ",
+    "No matching properties": "該当するプロパティはありません",
+    "CSS custom properties": "CSS カスタムプロパティ",
+    "Button state": "ボタンの状態",
+    Secondary: "セカンダリ",
+    Destructive: "破壊的操作",
+    Link: "リンク",
+    Rest: "通常",
+    Hover: "ホバー",
+    "Keyboard focus": "キーボードフォーカス",
+    Pressed: "押下中",
+    "The state control previews interaction styles in both frames. Keyboard focus stays on the control.":
+      "選択した状態のスタイルを両方のフレームに適用します。実際のキーボードフォーカスは選択コントロールに残ります。",
+    "Native pseudo-classes": "ブラウザーの実際の疑似クラス",
+    testingTitle: "AriaX の検証方法",
+    comparisonTitle: "shadcn/ui との比較",
+    comparisonDescription:
+      "AriaX と shadcn/ui で同じサンプルを表示し、DOM 構造とブラウザーが計算したスタイルを比較します。",
+    interactionsTitle: "ブラウザーでの操作テスト",
+    interactionsDescription:
+      "ライトテーマとダークテーマで、キーボードでのナビゲーション、フォーカス、スクロールを確認します。",
+    consumerTitle: "サンプルのビルド",
+    consumerDescription:
+      "新しい React アプリにレジストリのコンポーネントをインストールし、公開サンプルをすべて型チェックしてビルドした後、一つずつ Chromium で開きます。",
+    toolkitTitle: "AriaX の設計",
+    sourceTitle: "コンポーネントのソース",
+    sourceDescription:
+      "必要なコンポーネントを <project>shadcn</project> CLI で追加し、MIT ライセンスの下でソースを編集できます。",
+    stylesTitle: "スタイルとテーマ",
+    stylesDescription:
+      "<project>StyleX</project> を使います。テーマの色は CSS 変数で設定し、個々のコンポーネントには xstyle でスタイルを渡せます。",
+    keyboardTitle: "アクセシビリティ",
+    keyboardDescription:
+      "<project>React Aria</project> がキーボード操作、フォーカス管理、スクリーンリーダー対応を担います。",
+    "Get started": "はじめに",
+    Terminal: "ターミナル",
+    Documentation: "ドキュメント",
+    "GET STARTED": "はじめに",
+    COMPONENTS: "コンポーネント",
+    "All components": "すべてのコンポーネント",
+    Preview: "プレビュー",
+    Code: "コード",
+    "GET STARTED / INSTALLATION": "はじめに / インストール",
+    "Install AriaX in a Vite or Next.js App Router project.":
+      "Vite または Next.js App Router のプロジェクトに AriaX を導入します。",
+    "Browse components": "コンポーネントを見る",
+    "REFERENCE / CATALOG": "リファレンス / カタログ",
+    "Browse the React Aria component docs, with live StyleX previews and the AriaX source used to render them.":
+      "React Aria コンポーネントのドキュメントを参照し、StyleX の動くプレビューとその実装に使った AriaX のソースを確認できます。",
+    "Filter component catalog": "コンポーネントを絞り込む",
+    "Filter the component catalog…": "コンポーネントを絞り込む…",
+
+    "Install with shadcn": "shadcn でインストール",
+    "Install prerequisites": "前提となるコンポーネントをインストール",
+    "404 / NOT FOUND": "404 / ページが見つかりません",
+    "This page is missing.": "ページが見つかりません。",
+    "Skip to content": "本文へ移動",
+    "Example dependencies": "サンプルに必要なパッケージ",
+    "Page not found": "ページが見つかりません",
+    "Component examples and source": "コンポーネントの例とソースコード",
+  },
+  descriptions: {
+    accordion: "縦に並んだ見出しを選ぶと、対応するセクションが展開されます。",
+    alert: "ユーザーに気付いてほしい情報を目立つ形で表示します。",
+    "alert-dialog":
+      "重要な情報をモーダルダイアログに表示し、ユーザーの応答を待ちます。",
+    "aspect-ratio": "指定した縦横比でコンテンツを表示します。",
+    attachment:
+      "添付ファイルや画像のプレビュー、メタデータ、アップロード状態、操作を表示します。",
+    avatar:
+      "ユーザーを表す画像を表示します。画像が利用できない場合は代替表示に切り替わります。",
+    badge: "短いラベルをバッジとして表示します。",
+    breadcrumb: "階層化されたリンクで、現在のページまでの経路を示します。",
+    bubble:
+      "会話を吹き出しに表示します。スタイルや配置の変更、グループ化、リアクション、折りたたみに対応します。",
+    button: "ボタンや、ボタンの見た目を持つコンポーネントを表示します。",
+    "button-group": "関連するボタンをまとめ、統一したスタイルで表示します。",
+    calendar: "カレンダーから日付または期間を選択できます。",
+    card: "ヘッダー、本文、フッターをカードにまとめます。",
+    carousel:
+      "Embla を使った、アニメーションとスワイプ操作に対応するカルーセルです。",
+    chart: "Recharts を使ったグラフをコピーしてプロジェクトに組み込めます。",
+    checkbox: "チェックボックスで項目の選択状態を切り替えます。",
+    "code-block":
+      "コード、端末出力、差分を表示します。ヘッダーは任意で、行番号とコピーボタンも使えます。",
+    collapsible: "パネルを展開または折りたたむことができます。",
+    combobox: "入力内容に応じて選択候補を表示するコンボボックスです。",
+    command: "検索や操作をすばやく実行するためのコマンドメニューです。",
+    "context-menu": "右クリックなどの操作で、対象に応じたメニューを開きます。",
+    "data-table": "TanStack Table を使ってデータテーブルを構築します。",
+    "date-picker": "日付、期間、事前に設定した期間を選べる日付ピッカーです。",
+    dialog:
+      "ウィンドウや別のダイアログの上に表示され、背後のコンテンツへの操作を一時的に無効にします。",
+    direction:
+      "アプリケーションのテキストの書字方向を指定するプロバイダーです。",
+    drawer: "画面の端から引き出せる React のパネルです。",
+    "dropdown-menu": "ボタンを押すと、操作や機能のメニューを表示します。",
+    empty: "表示する項目がないときの状態を示します。",
+    field:
+      "ラベル、入力コントロール、ヘルプを組み合わせて、アクセシブルな入力欄や入力グループを作成します。",
+    "hover-card":
+      "リンクにマウスを重ねるか、フォーカスするか、長押しすると、リンク先の内容をプレビューできます。",
+    input:
+      "フォームなどでテキストを入力する、スタイルとアクセシビリティ機能を備えた入力欄です。",
+    "input-group": "入力欄に補助要素、ボタン、ヘルプを組み合わせます。",
+    "input-otp":
+      "コピーと貼り付けに対応した、アクセシブルなワンタイムパスワード入力欄です。",
+    item: "メディア、タイトル、説明、操作を一つの項目にまとめます。",
+    kbd: "キー名やショートカットなど、キーボードで入力する内容を表示します。",
+    label: "入力コントロールに関連付けたアクセシブルなラベルを表示します。",
+    marker:
+      "会話の中で、ステータス、システムメモ、枠付きの行、ラベル付きの区切りを表示します。",
+    message:
+      "会話内のメッセージを表示します。アバター、ヘッダー、フッター、配置を設定できます。",
+    "message-scroller":
+      "チャットの発言を画面に固定し、保存した会話の表示、ストリーミング応答の追従、表示位置を保った履歴の読み込み、特定メッセージへの移動に対応します。",
+    "native-select":
+      "デザインシステムに合わせたスタイルを持つ HTML 標準の select 要素です。",
+    pagination: "ページ番号や前後のリンクでページ間を移動します。",
+    popover: "ボタンを押すと、ポータルにリッチコンテンツを表示します。",
+    progress: "通常はプログレスバーとして、タスクの完了度を表示します。",
+    questionnaire:
+      "単一選択、複数選択、自由記述、スキップ可能な質問を含む段階式アンケートです。",
+    "radio-group": "選択肢のうち一つだけを選べるラジオボタンのグループです。",
+    resizable:
+      "キーボード操作に対応した、サイズ変更可能なパネルグループとレイアウトです。",
+    "scroll-area":
+      "ブラウザー標準のスクロール操作を保ちつつ、ブラウザー間で一貫したスタイルを設定できます。",
+    select: "ボタンを押して選択肢のリストを開き、項目を選びます。",
+    separator: "コンテンツを視覚的または意味的に区切ります。",
+    sheet: "Dialog を拡張し、画面の主な内容を補うコンテンツを表示します。",
+    sidebar:
+      "要素を組み合わせて構築し、テーマや用途に合わせて変更できるサイドバーです。",
+    skeleton: "コンテンツの読み込み中にプレースホルダーを表示します。",
+    slider: "指定した範囲内で値を選ぶスライダーです。",
+    sonner: "React アプリでトースト通知を表示するコンポーネントです。",
+    spinner: "回転するインジケーターで読み込み中であることを示します。",
+    switch: "設定のオンとオフを切り替えるスイッチです。",
+    table: "画面幅に対応するデータテーブルを表示します。",
+    tabs: "タブを選んで、対応するコンテンツパネルを一つずつ表示します。",
+    textarea: "複数行のテキストを入力できるフォーム要素を表示します。",
+    toggle: "オンとオフの二つの状態を切り替えるボタンです。",
+    "toggle-group": "オンとオフを切り替えられるボタンをグループにまとめます。",
+    tooltip: "フォーカス時やマウスを重ねたときに、短い説明を表示します。",
+    trace: "推論の手順、ツール呼び出し、参照元を順番に表示します。",
+    typography:
+      "見出し、段落、リストなどのテキスト要素のスタイルを表示します。",
+  },
+};

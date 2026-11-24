@@ -1,4 +1,3 @@
-import './fixtures.css';
 import {otpField,otpRtlField,otpCard,otpLargeGroup,otpRegistryGroup,otpLargeSlot,otpSeparator,otpButton,otpFooter} from '@input-otp-customizations';
 "use client"
 

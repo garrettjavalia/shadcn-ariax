@@ -1,5 +1,5 @@
+import { apiWrapper } from "@carousel-customizations";
 import {observeCarousel} from './observe';
-import './fixtures.css';
 import {carouseldemo,carouselplugin,carouselwide,carouselfull,carouselregistry,carouselcard,carouselverticalCard,carouselgap,carouselverticalContent,carouselverticalItem,carouselsize,carouselspacing,carouselmultiple,carouselregistryGap,carouselcontrol,carouselmargin} from '@carousel-customizations';
 "use client"
 
@@ -14,6 +14,8 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@carousel"
+
+
 
 export default function CarouselDApiDemo() {
   const [api, setApi] = React.useState<CarouselApi>()
@@ -34,7 +36,7 @@ export default function CarouselDApiDemo() {
   }, [api])
 
   return (
-    <div className="carousel-api-wrapper">
+    <div {...apiWrapper}>
       <Carousel setApi={api=>{setApi(api);observeCarousel(api);}} {...carouselfull}>
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (

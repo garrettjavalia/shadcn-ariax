@@ -30,7 +30,7 @@ export function SkeletonRtl() {
   return (
     <div {...demoProps('skeleton')} dir={dir}>
       <Skeleton {...demoStyle('circle')} />
-      <div {...demoProps('lines')}>
+      <div>
         <Skeleton {...demoStyle('line250')} />
         <Skeleton {...demoStyle('line200')} />
       </div>

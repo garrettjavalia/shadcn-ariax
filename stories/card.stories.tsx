@@ -1,6 +1,6 @@
+import { termsParagraph, coverImage } from "@card-customizations";
 import {CardSpacing} from './card-examples/spacing';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import './card-fixtures.css';
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
@@ -10,6 +10,8 @@ import { Label } from '@label';
 import { Badge } from '@badge';
 import { fullWidthButton, customCard, customPart, dynamicCard, cardSpacingNativeStyle } from '@card-customizations';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@card';
+
+
 const meta = {title:'Components/Card',component:Card,tags:['parity'],decorators:[Story=><main id="parity-root"><Story /></main>]} satisfies Meta<typeof Card>;
 export default meta;
 type Story=StoryObj<typeof meta>;
@@ -113,21 +115,21 @@ function CardEdgeToEdge() {
         </CardDescription>
       </CardHeader>
       <CardContent style={{"marginBottom":"calc(var(--card-spacing) * -1)"}}>
-        <div className="card-fixture-terms" style={{"marginInline":"calc(var(--card-spacing) * -1)","maxHeight":"12rem","overflowY":"scroll","borderTopWidth":1,"backgroundColor":"color-mix(in oklab,var(--muted) 50%,transparent)","paddingInline":"var(--card-spacing)","paddingBlock":"1rem","fontSize":".875rem","lineHeight":1.625}}>
-          <p>
+        <div style={{"marginInline":"calc(var(--card-spacing) * -1)","maxHeight":"12rem","overflowY":"scroll","borderTopWidth":1,"backgroundColor":"color-mix(in oklab,var(--muted) 50%,transparent)","paddingInline":"var(--card-spacing)","paddingBlock":"1rem","fontSize":".875rem","lineHeight":1.625}}>
+          <p {...termsParagraph}>
             These terms govern your use of the workspace, including access to
             shared documents, project files, and collaboration tools.
           </p>
-          <p>
+          <p {...termsParagraph}>
             You are responsible for the content you upload and for ensuring that
             your team has the appropriate permissions to view or edit it.
           </p>
-          <p>
+          <p {...termsParagraph}>
             We may update features or limits as the service evolves. When those
             changes materially affect your workflow, we will notify your
             workspace administrators.
           </p>
-          <p>
+          <p {...termsParagraph}>
             By continuing, you agree to keep your account credentials secure and
             to follow your organization&apos;s acceptable use policies.
           </p>
@@ -148,7 +150,7 @@ function CardImage() {
       <img
         src="https://avatar.vercel.sh/shadcn1"
         alt="Event cover"
-        className="card-fixture-cover" style={{"position":"relative","zIndex":20,"aspectRatio":"16/9","width":"100%","objectFit":"cover"}}
+        {...coverImage} style={{"position":"relative","zIndex":20,"aspectRatio":"16/9","width":"100%","objectFit":"cover"}}
       />
       <CardHeader>
         <CardAction>

@@ -17,3 +17,5 @@ export const carouselmargin={className:"m-px"};
 export const carouselCustom=(_width:number)=>({className:'w-[var(--carousel-width)]'});
 export const carouselCustomItem={className:'bg-muted'};
 export const carouselCustomButton={className:'rounded-none'};
+
+export const apiWrapper = { className: 'mx-auto max-w-40 sm:max-w-80' };

@@ -1,5 +1,4 @@
 "use client"
-import {chartAnimationEvents} from "../chart-animation"
 
 import {demoCard,demoHeader,demoIntro,flex,demoButton,mutedTiny,demoTotal,demoContent,demoChart,demoTooltip,exampleChart,previewRoot,previewLabel,arrowOne,previewEnd,previewSecondLabel,arrowTwo,previewHidden,previewStart,previewThirdLabel,arrowThree,medium,grid,muted,value,labelWidth,privateTooltipRoot,privateTooltipItem,privateIndicator,privateTooltipRow} from "@chart-customizations"
 
@@ -39,8 +38,8 @@ export function ChartBarDemoAxis() {
           axisLine={false}
           tickFormatter={(value) => value.slice(0, 3)}
         />
-        <Bar {...chartAnimationEvents} dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-        <Bar {...chartAnimationEvents} dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+        <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
       </BarChart>
     </ChartContainer>
   )

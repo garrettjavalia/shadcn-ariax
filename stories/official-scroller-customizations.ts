@@ -169,4 +169,4 @@ const styles=stylex.create({
   }
 });
 export const scrollerStyle=<K extends keyof typeof styles>(name:K)=>({xstyle:styles[name]});
-export const scrollerProps=(name:keyof typeof styles)=>name==='lines'?{className:'official-skeleton-lines'}:stylex.props(styles[name]);
+export const scrollerProps=(name:keyof typeof styles)=>stylex.props(styles[name]);
