@@ -9,7 +9,7 @@ import {
   SearchIcon,
   StarIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@field";
 import {
@@ -22,6 +22,18 @@ import {
 
 export default function InputGroupWithAddons() {
   const [value, setValue] = useState("");
+  const copyInput = useRef<HTMLInputElement>(null);
+  const [manualCopy, setManualCopy] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setManualCopy(false);
+    } catch {
+      copyInput.current?.focus();
+      copyInput.current?.select();
+      setManualCopy(true);
+    }
+  }
   return (
     <FieldGroup>
       <Field>
@@ -95,6 +107,7 @@ export default function InputGroupWithAddons() {
         <InputGroup>
           <InputGroupInput
             id="input-icon-both-10"
+            ref={copyInput}
             value={value}
             onChange={(event) => setValue(event.currentTarget.value)}
           />
@@ -103,7 +116,7 @@ export default function InputGroupWithAddons() {
             <InputGroupButton
               size="icon-xs"
               aria-label="Copy input"
-              onPress={() => void navigator.clipboard.writeText(value)}
+              onPress={copy}
             >
               <CopyIcon />
             </InputGroupButton>
@@ -112,6 +125,7 @@ export default function InputGroupWithAddons() {
             <RadioIcon style={{ color: "var(--destructive)" }} />
           </InputGroupAddon>
         </InputGroup>
+        {manualCopy && <p role="status">Use your device’s copy command to copy the selected text.</p>}
       </Field>
       <Field>
         <FieldLabel htmlFor="input-description-10">Description</FieldLabel>

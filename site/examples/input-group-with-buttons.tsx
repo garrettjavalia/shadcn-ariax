@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CopyIcon, TrashIcon } from "lucide-react";
 
 import { Field, FieldGroup, FieldLabel } from "@field";
@@ -12,6 +12,18 @@ import {
 export default function InputGroupWithButtons() {
   const [copyValue, setCopyValue] = useState("");
   const [clearValue, setClearValue] = useState("");
+  const copyInput = useRef<HTMLInputElement>(null);
+  const [manualCopy, setManualCopy] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(copyValue);
+      setManualCopy(false);
+    } catch {
+      copyInput.current?.focus();
+      copyInput.current?.select();
+      setManualCopy(true);
+    }
+  }
   return (
     <FieldGroup>
       <Field>
@@ -43,6 +55,7 @@ export default function InputGroupWithButtons() {
         <InputGroup>
           <InputGroupInput
             id="input-button-17"
+            ref={copyInput}
             aria-label="Text to copy"
             value={copyValue}
             onChange={(event) => setCopyValue(event.currentTarget.value)}
@@ -51,12 +64,13 @@ export default function InputGroupWithButtons() {
             <InputGroupButton
               aria-label="Copy"
               size="icon-xs"
-              onPress={() => void navigator.clipboard.writeText(copyValue)}
+              onPress={copy}
             >
               <CopyIcon />
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
+        {manualCopy && <p role="status">Use your device’s copy command to copy the selected text.</p>}
         <InputGroup>
           <InputGroupInput
             id="input-button-18"
