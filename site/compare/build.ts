@@ -8,7 +8,7 @@ import { join, relative } from "node:path";
 import { promisify } from "node:util";
 import react from "@vitejs/plugin-react";
 import tailwind from "@tailwindcss/vite";
-import { build } from "vite";
+import { build, normalizePath } from "vite";
 import { babel } from "../vite.config";
 import { fixtureStates } from "./states";
 
@@ -130,7 +130,7 @@ export async function buildComparison(
     .replace(/^@source [^;]+;/gm, "")
     .replace(
       '"./cli.css"',
-      JSON.stringify(relative(app, join(reference, "cli.css"))),
+      JSON.stringify(normalizePath(relative(app, join(reference, "cli.css")))),
     );
   await writeFile(
     join(app, "reference.css"),
@@ -150,7 +150,7 @@ export async function buildComparison(
       : "../components/ui/ariax/styles/entry.css";
     await writeFile(
       join(folder, "entry.ts"),
-      `import ${JSON.stringify(stylesheet)};\nimport "../../../site/theme.css";\nimport {Button} from ${JSON.stringify(button)};\nimport {mount} from "../../../site/compare/mount";\nmount(Button);\n`,
+      `import ${JSON.stringify(stylesheet)};\nimport "../../../site/theme.css";\nimport {Button} from ${JSON.stringify(normalizePath(button))};\nimport {mount} from "../../../site/compare/mount";\nmount(Button);\n`,
     );
     await writeFile(
       join(folder, "index.html"),
