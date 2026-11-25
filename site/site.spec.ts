@@ -170,6 +170,10 @@ test("catalog search can link directly to a named example", async ({
   page,
 }) => {
   await page.goto("docs/components/");
+  const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" });
+  await expect(breadcrumb.getByRole("link", { name: "Home", exact: true }))
+    .toHaveAttribute("href", deployedPath());
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText("Components");
   const search = page.getByRole("searchbox", {
     name: "Filter component catalog",
   });
