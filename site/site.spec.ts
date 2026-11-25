@@ -1,3 +1,4 @@
+import korean from "./i18n/ko-KR";
 import { locales, localePrefix } from "./i18n/locales";
 import { expect, test, type Page } from "@playwright/test";
 
@@ -522,8 +523,16 @@ test("locale detection and language switching preserve component routes", async 
       /ko\/docs\/components\/input\/#example-input-file$/,
     );
     await expect(
-      page.getByText("폼에서 텍스트와 사용자 데이터를 입력합니다."),
+      page.getByText(korean.descriptions.input, { exact: true }),
     ).toBeVisible();
+    const breadcrumb = page.getByRole("navigation", { name: korean.ui.Breadcrumb });
+    await expect(breadcrumb.getByRole("link", { name: korean.ui.Home })).toHaveAttribute(
+      "href", deployedPath("ko/"),
+    );
+    await expect(breadcrumb.getByRole("link", { name: korean.ui.Components })).toHaveAttribute(
+      "href", deployedPath("ko/docs/components/"),
+    );
+    await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText("Input");
     await page.getByRole("button", { name: "KO 언어", exact: true }).click();
     await page.getByRole("option", { name: "English", exact: true }).click();
     await expect(page.locator("html")).toHaveAttribute("lang", "en-US");
@@ -562,6 +571,7 @@ test("each locale has a two-line mobile headline and localized guide", async ({
       await page.goto(root);
       await expect(page.locator("html")).toHaveAttribute("lang", locale);
       const heading = page.locator("h1");
+      await expect(page.locator("[data-doc-breadcrumb]")).toHaveCount(0);
       const lines = heading.locator(".hero-line");
       await expect(lines).toHaveCount(2);
       const widths = await lines.evaluateAll((items) =>
@@ -578,6 +588,9 @@ test("each locale has a two-line mobile headline and localized guide", async ({
       expect(await page.evaluate(() => innerWidth)).toBe(320);
       await expectNoHorizontalOverflow(page);
       await page.goto(root + localePrefix(locale) + installationPath);
+      const breadcrumb = page.locator("[data-doc-breadcrumb]");
+      await expect(breadcrumb.getByRole("link")).toHaveAttribute("href", deployedPath(localePrefix(locale)));
+      await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(await heading.innerText());
       await expect(
         page.getByRole("tabpanel").locator("pre").first(),
       ).toContainText("pnpm dlx shadcn add");
