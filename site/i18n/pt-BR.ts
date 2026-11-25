@@ -25,7 +25,7 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "O visual do shadcn/ui com React Aria e StyleX. Instale cada componente com o código-fonte e adapte-o ao seu projeto.",
     "LIVE COMPONENT": "COMPONENTE INTERATIVO",
-    "A button, made yours.": "Um botão do seu jeito.",
+    "Button style preview": "Prévia dos estilos de botão",
     "Choose a style and try the button.": "Escolha um estilo e teste o botão.",
     "Button variant": "Variante do botão",
     Outline: "Contorno",

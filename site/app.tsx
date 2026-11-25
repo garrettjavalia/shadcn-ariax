@@ -440,7 +440,7 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
                   NOVA / NEUTRAL
                 </Badge>
                 <h2 {...stylex.props(s.boardTitle)}>
-                  {t("A button, made yours.")}
+                  {t("Button style preview")}
                 </h2>
                 <p {...stylex.props(s.boardCopy)}>
                   {t("Choose a style and try the button.")}

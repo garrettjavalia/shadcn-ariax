@@ -25,7 +25,7 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "shadcn/ui의 디자인을 React Aria와 StyleX로 구현했습니다. 필요한 컴포넌트를 설치하고 소스를 직접 수정하세요.",
     "LIVE COMPONENT": "라이브 컴포넌트",
-    "A button, made yours.": "버튼 스타일 미리보기",
+    "Button style preview": "버튼 스타일 미리보기",
     "Choose a style and try the button.":
       "스타일을 선택하고 버튼을 눌러 보세요.",
     "Button variant": "버튼 스타일",
