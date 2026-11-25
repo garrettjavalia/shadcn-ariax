@@ -765,6 +765,36 @@ function Example({
   );
 }
 
+function DocsBreadcrumb({
+  base,
+  page,
+  data,
+}: Pick<SiteProps, "base" | "page" | "data">) {
+  const t = useText();
+  let title = data?.title;
+  if (page === "installation") title = t("Installation");
+  if (page === "components") title = t("Components");
+  if (!title) return null;
+
+  return (
+    <nav
+      aria-label={t("Breadcrumb")}
+      data-doc-breadcrumb
+      {...stylex.props(s.breadcrumb)}
+    >
+      <a href={base}>{t("Home")}</a>
+      <span aria-hidden="true">/</span>
+      {page === "component" && (
+        <>
+          <a href={route(base)}>{t("Components")}</a>
+          <span aria-hidden="true">/</span>
+        </>
+      )}
+      <span aria-current="page">{title}</span>
+    </nav>
+  );
+}
+
 function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
   const t = useText();
   const [query, setQuery] = useState("");
@@ -780,10 +810,10 @@ function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
     <div {...stylex.props(s.docs)}>
       <DocsNav base={base} nav={nav} active={active} />
       <main id="main" {...stylex.props(s.docMain)}>
+        <DocsBreadcrumb base={base} page={page} data={data} />
         {page === "installation" && (
           <>
             <div data-section-heading {...stylex.props(s.sectionHeading)}>
-              <p>{t("GET STARTED / INSTALLATION")}</p>
               <h1>{t("Installation")}</h1>
             </div>
             <p {...stylex.props(s.docIntro)}>
@@ -814,7 +844,6 @@ function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
         {page === "components" && (
           <>
             <div data-section-heading {...stylex.props(s.sectionHeading)}>
-              <p>{t("REFERENCE / CATALOG")}</p>
               <h1>{t("Components")}</h1>
             </div>
             <p {...stylex.props(s.docIntro)}>
@@ -839,10 +868,6 @@ function Docs({ previewLayouts, base, page, data, nav, guide }: SiteProps) {
         )}
         {page === "component" && data && (
           <>
-            <div data-doc-breadcrumb {...stylex.props(s.breadcrumb)}>
-              <a href={route(base)}>{t("Components")}</a> <span>/</span>{" "}
-              {data.title}
-            </div>
             <div data-section-heading {...stylex.props(s.sectionHeading)}>
               <h1>{data.title}</h1>
             </div>
