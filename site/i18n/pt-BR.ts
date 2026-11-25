@@ -141,7 +141,7 @@ export default {
     breadcrumb:
       "Mostra o caminho até a página atual com uma hierarquia de links.",
     bubble:
-      "Exibe mensagens em balões com opções de alinhamento, agrupamento, reações e conteúdo recolhível.",
+      "Exibe mensagens em balões com vários estilos, alinhamento, agrupamento, reações e conteúdo recolhível.",
     button:
       "Exibe um botão para executar uma ação ou aplica seu estilo a outro elemento.",
     "button-group": "Agrupa botões relacionados com um estilo consistente.",
@@ -176,7 +176,7 @@ export default {
       "Permite digitar texto em formulários com estilos e recursos de acessibilidade integrados.",
     "input-group": "Agrupa um campo com botões, complementos e texto de ajuda.",
     "input-otp":
-      "Permite digitar e colar um código de uso único em um campo acessível.",
+      "Permite digitar, copiar e colar um código de uso único em um campo acessível.",
     item: "Reúne mídia, título, descrição e ações em um item.",
     kbd: "Identifica teclas e atalhos de teclado no texto.",
     label: "Cria um rótulo acessível e o associa a um controle.",
@@ -195,7 +195,7 @@ export default {
     progress:
       "Indica o progresso de uma tarefa, geralmente por meio de uma barra.",
     questionnaire:
-      "Organiza questionários em etapas com perguntas de escolha única, múltipla, resposta livre ou preenchimento opcional.",
+      "Organiza questionários em etapas com perguntas de escolha única, de múltipla escolha e de resposta livre. Também permite pular perguntas.",
     "radio-group":
       "Permite escolher uma única opção em um grupo de botões de seleção.",
     resizable: "Permite redimensionar painéis com o ponteiro ou o teclado.",

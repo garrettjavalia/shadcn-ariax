@@ -142,7 +142,7 @@ export default {
     breadcrumb:
       "Muestra la ruta hasta la página actual mediante una jerarquía de enlaces.",
     bubble:
-      "Muestra mensajes en bocadillos que admiten alineación, agrupación, reacciones y contenido plegable.",
+      "Muestra mensajes en bocadillos con varios estilos, alineación, agrupación, reacciones y contenido plegable.",
     button:
       "Muestra un botón para ejecutar una acción o aplica su estilo a otro elemento.",
     "button-group": "Agrupa botones relacionados con un estilo coherente.",
@@ -180,7 +180,7 @@ export default {
     "input-group":
       "Agrupa un campo con botones, complementos y texto de ayuda.",
     "input-otp":
-      "Permite introducir y pegar un código de un solo uso en un campo accesible.",
+      "Permite introducir, copiar y pegar un código de un solo uso en un campo accesible.",
     item: "Combina contenido multimedia, título, descripción y acciones en un elemento.",
     kbd: "Identifica teclas y combinaciones de teclado dentro del texto.",
     label: "Crea una etiqueta accesible y la asocia a un control.",
@@ -199,7 +199,7 @@ export default {
     progress:
       "Indica el progreso de una tarea, normalmente mediante una barra de progreso.",
     questionnaire:
-      "Organiza cuestionarios por pasos con preguntas de respuesta única, múltiple, libre u opcional.",
+      "Organiza cuestionarios por pasos con preguntas de selección única, de selección múltiple y de respuesta libre. También permite omitir preguntas.",
     "radio-group":
       "Permite elegir una sola opción de un grupo de botones de selección.",
     resizable:

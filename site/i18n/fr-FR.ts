@@ -206,7 +206,7 @@ export default {
     progress:
       "Indique la progression d’une tâche, généralement au moyen d’une barre.",
     questionnaire:
-      "Un questionnaire en plusieurs étapes avec questions à choix unique, à choix multiples, à réponse libre ou facultatives.",
+      "Un questionnaire en plusieurs étapes avec des questions à choix unique, à choix multiples ou à réponse libre et la possibilité de passer certaines questions.",
     "radio-group":
       "Un groupe de boutons radio dans lequel une seule option peut être sélectionnée à la fois.",
     resizable:
