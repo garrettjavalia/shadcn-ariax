@@ -108,11 +108,11 @@ export default {
     "All components": "すべてのコンポーネント",
     Preview: "プレビュー",
     Code: "コード",
-    "GET STARTED / INSTALLATION": "はじめに / インストール",
+    Home: "ホーム",
+    Breadcrumb: "パンくずリスト",
     "Install AriaX in a Vite or Next.js App Router project.":
       "Vite または Next.js App Router のプロジェクトに AriaX を導入します。",
     "Browse components": "コンポーネントを見る",
-    "REFERENCE / CATALOG": "リファレンス / カタログ",
     "Browse the React Aria component docs, with live StyleX previews and the AriaX source used to render them.":
       "React Aria コンポーネントのドキュメントを参照し、StyleX の動くプレビューとその実装に使った AriaX のソースを確認できます。",
     "Filter component catalog": "コンポーネントを絞り込む",

@@ -106,11 +106,11 @@ export default {
     "All components": "All components",
     Preview: "Preview",
     Code: "Code",
-    "GET STARTED / INSTALLATION": "GET STARTED / INSTALLATION",
+    Home: "Home",
+    Breadcrumb: "Breadcrumb",
     "Install AriaX in a Vite or Next.js App Router project.":
       "Install AriaX in a Vite or Next.js App Router project.",
     "Browse components": "Browse components",
-    "REFERENCE / CATALOG": "REFERENCE / CATALOG",
     "Browse the React Aria component docs, with live StyleX previews and the AriaX source used to render them.":
       "Browse the React Aria component docs, with live StyleX previews and the AriaX source used to render them.",
     "Filter component catalog": "Filter component catalog",
