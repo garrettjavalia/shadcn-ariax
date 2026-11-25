@@ -131,7 +131,7 @@ export default {
   },
   descriptions: {
     accordion:
-      "Présente des titres empilés verticalement. Chaque titre permet de déplier la section correspondante.",
+      "Présente des titres empilés verticalement. Chaque titre permet de déplier ou de replier sa section.",
     alert:
       "Met en évidence une information pour attirer l’attention de l’utilisateur.",
     "alert-dialog":
@@ -142,7 +142,7 @@ export default {
       "Présente un fichier ou une image en pièce jointe avec son aperçu, ses métadonnées, l’état du téléversement et les actions disponibles.",
     avatar:
       "Représente un utilisateur par une image et prévoit une solution de repli si elle est indisponible.",
-    badge: "Affiche un libellé court sous forme de badge.",
+    badge: "Affiche un libellé court pour indiquer un état ou une catégorie.",
     breadcrumb:
       "Indique le chemin vers la ressource actuelle à l’aide d’une hiérarchie de liens.",
     bubble:
@@ -155,7 +155,7 @@ export default {
       "Permet de sélectionner une date ou une plage de dates dans un calendrier.",
     card: "Affiche une carte avec un en-tête, un contenu et un pied de carte.",
     carousel:
-      "Un carrousel animé prenant en charge le balayage tactile, réalisé avec Embla.",
+      "Un carrousel animé réalisé avec Embla. Passez d’une diapositive à l’autre par balayage ou avec les boutons de navigation.",
     chart: "Des graphiques réalisés avec Recharts, à copier dans votre projet.",
     checkbox:
       "Permet de sélectionner ou désélectionner une option à l’aide d’une case à cocher.",
@@ -166,18 +166,19 @@ export default {
     command:
       "Un menu de commandes pour effectuer des recherches et lancer rapidement des actions.",
     "context-menu":
-      "Ouvre un menu d’actions contextuelles, par exemple par un clic droit.",
+      "Un clic droit ouvre un menu d’actions contextuelles.",
     "data-table":
-      "Permet de créer des tableaux de données avec TanStack Table.",
+      "Permet de créer des tableaux et des grilles de données avec TanStack Table.",
     "date-picker":
       "Permet de choisir une date, une plage de dates ou une période prédéfinie.",
     dialog:
       "Superpose une boîte de dialogue à la fenêtre principale ou à une autre boîte de dialogue et rend le contenu en arrière-plan inactif.",
     direction:
       "Un fournisseur qui définit le sens d’écriture dans l’application.",
-    drawer: "Un panneau coulissant pour React.",
+    drawer:
+      "Un panneau React qui s’ouvre en coulissant depuis un bord de l’écran.",
     "dropdown-menu":
-      "Ouvre à l’aide d’un bouton un menu d’actions ou de fonctions.",
+      "Un bouton ouvre un menu d’actions.",
     empty: "Affiche un état vide lorsqu’il n’y a aucun élément à présenter.",
     field:
       "Associe des libellés, des contrôles et du texte d’aide pour créer des champs de formulaire et des groupes de saisie accessibles.",
@@ -210,7 +211,7 @@ export default {
     "radio-group":
       "Un groupe de boutons radio dans lequel une seule option peut être sélectionnée à la fois.",
     resizable:
-      "Des groupes de panneaux et des dispositions redimensionnables accessibles au clavier.",
+      "Permet de redimensionner des groupes de panneaux et des mises en page au pointeur ou au clavier.",
     "scroll-area":
       "Conserve le défilement natif et permet d’en personnaliser l’apparence sur différents navigateurs.",
     select:
@@ -224,7 +225,7 @@ export default {
     slider:
       "Un curseur qui permet de choisir une valeur dans une plage donnée.",
     sonner: "Un composant React pour afficher des notifications de type toast.",
-    spinner: "Un indicateur animé signale un chargement en cours.",
+    spinner: "Un indicateur rotatif signale un chargement en cours.",
     switch: "Un interrupteur pour activer ou désactiver une option.",
     table: "Affiche un tableau qui s’adapte à la largeur de l’écran.",
     tabs: "Affiche un panneau de contenu à la fois selon l’onglet sélectionné.",
@@ -233,7 +234,7 @@ export default {
     "toggle-group":
       "Regroupe plusieurs boutons à deux états qui peuvent être activés ou désactivés.",
     tooltip:
-      "Affiche une brève explication lorsqu’un élément reçoit le focus ou est survolé.",
+      "Affiche une brève explication lorsqu’un élément reçoit le focus clavier ou est survolé.",
     trace:
       "Présente dans l’ordre les étapes de raisonnement, les appels d’outils et les sources.",
     typography:

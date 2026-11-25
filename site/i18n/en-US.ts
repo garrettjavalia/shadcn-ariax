@@ -127,15 +127,15 @@ export default {
   },
   descriptions: {
     accordion:
-      "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "Stacks headings vertically. Select a heading to expand or collapse its section.",
     alert: "Displays a callout for user attention.",
     "alert-dialog":
       "A modal dialog that interrupts the user with important content and expects a response.",
     "aspect-ratio": "Displays content within a desired ratio.",
     attachment:
-      "Displays a file or image attachment with media, metadata, upload state, and actions.",
+      "Displays a file or image attachment with a preview, metadata, upload status, and actions.",
     avatar: "An image element with a fallback for representing the user.",
-    badge: "Displays a badge or a component that looks like a badge.",
+    badge: "Displays a short label for a status or category.",
     breadcrumb:
       "Displays the path to the current resource using a hierarchy of links.",
     bubble:
@@ -146,9 +146,10 @@ export default {
     calendar:
       "A calendar component that allows users to select a date or a range of dates.",
     card: "Displays a card with header, content, and footer.",
-    carousel: "A carousel with motion and swipe built using Embla.",
+    carousel:
+      "An animated carousel built with Embla. Move between slides with a swipe or the navigation buttons.",
     chart:
-      "Beautiful charts. Built using Recharts. Copy and paste into your apps.",
+      "Charts built with Recharts that you can copy into your project.",
     checkbox:
       "A control that allows the user to toggle between checked and not checked.",
     "code-block":
@@ -157,27 +158,27 @@ export default {
     combobox: "Autocomplete input with a list of suggestions.",
     command: "Command menu for search and quick actions.",
     "context-menu": "Displays a menu of actions triggered by a right click.",
-    "data-table": "Powerful table and datagrids built using TanStack Table.",
+    "data-table": "Build data tables and grids with TanStack Table.",
     "date-picker": "A date picker component with range and presets.",
     dialog:
       "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
     direction:
       "A provider component that sets the text direction for your application.",
-    drawer: "A drawer component for React.",
+    drawer: "A React panel that slides in from the edge of the screen.",
     "dropdown-menu":
-      "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
+      "Opens a menu of actions when a button is pressed.",
     empty: "Use the Empty component to display an empty state.",
     field:
       "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
     "hover-card":
-      "A popover that appears on hover, focus, or long press to preview content available behind a link.",
+      "Previews a link’s destination on hover, focus, or long press.",
     input:
       "A text input component for forms and user data entry with built-in styling and accessibility features.",
     "input-group": "Add addons, buttons, and helper content to inputs.",
     "input-otp":
       "Accessible one-time password component with copy paste functionality.",
     item: "A versatile component for displaying content with media, title, description, and actions.",
-    kbd: "Used to display textual user input from keyboard.",
+    kbd: "Displays keyboard input such as key names and shortcuts.",
     label: "Renders an accessible label associated with controls.",
     marker:
       "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
@@ -187,7 +188,7 @@ export default {
       "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
     "native-select":
       "A styled native HTML select element with consistent design system integration.",
-    pagination: "Pagination with page navigation, next and previous links.",
+    pagination: "Navigate by page number or use the previous and next links.",
     popover: "Displays rich content in a portal, triggered by a button.",
     progress:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
@@ -196,7 +197,7 @@ export default {
     "radio-group":
       "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
     resizable:
-      "Accessible resizable panel groups and layouts with keyboard support.",
+      "Resize panel groups and layouts with a pointer or keyboard.",
     "scroll-area":
       "Augments native scroll functionality for custom, cross-browser styling.",
     select:
@@ -208,19 +209,19 @@ export default {
     skeleton: "Use to show a placeholder while content is loading.",
     slider:
       "An input where the user selects a value from within a given range.",
-    sonner: "An opinionated toast component for React.",
-    spinner: "An indicator that can be used to show a loading state.",
+    sonner: "Displays toast notifications in React.",
+    spinner: "A spinning indicator that shows a loading state.",
     switch:
-      "A control that allows the user to toggle between checked and not checked.",
+      "Turns a setting on or off.",
     table: "A responsive table component.",
     tabs: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
     textarea:
-      "Displays a form textarea or a component that looks like a textarea.",
+      "A form field for entering multiple lines of text.",
     toggle: "A two-state button that can be either on or off.",
     "toggle-group": "A set of two-state buttons that can be toggled on or off.",
     tooltip:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    trace: "The building block for reasoning, tool calls, sources and more.",
+    trace: "Displays reasoning steps, tool calls, and sources in sequence.",
     typography: "Styles for headings, paragraphs, lists...etc",
   },
 };

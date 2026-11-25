@@ -134,7 +134,7 @@ export default {
       "Abre un diálogo modal para comunicar información importante y pedir una respuesta.",
     "aspect-ratio": "Muestra el contenido con la relación de aspecto indicada.",
     attachment:
-      "Muestra un archivo adjunto con su vista previa, metadatos, estado de carga y acciones.",
+      "Muestra un archivo o una imagen adjunta con vista previa, metadatos, estado de carga y acciones.",
     avatar:
       "Representa al usuario con una imagen y muestra una alternativa si la imagen no carga.",
     badge:
@@ -144,17 +144,17 @@ export default {
     bubble:
       "Muestra mensajes en bocadillos con varios estilos, alineación, agrupación, reacciones y contenido plegable.",
     button:
-      "Muestra un botón para ejecutar una acción o aplica su estilo a otro elemento.",
+      "Muestra un botón o aplica su estilo a otro elemento.",
     "button-group": "Agrupa botones relacionados con un estilo coherente.",
     calendar:
       "Permite elegir una fecha o un intervalo de fechas en un calendario.",
     card: "Organiza el contenido en una tarjeta con cabecera, cuerpo y pie.",
     carousel:
-      "Muestra diapositivas que se pueden recorrer con gestos o controles gracias a Embla.",
-    chart: "Crea gráficos de datos con Recharts.",
+      "Un carrusel animado creado con Embla. Cambia de diapositiva con un gesto de deslizamiento o con los botones de navegación.",
+    chart: "Gráficos creados con Recharts que puedes copiar en tu proyecto.",
     checkbox: "Permite marcar y desmarcar una opción.",
     "code-block":
-      "Muestra código, salida del terminal y diferencias entre versiones, con cabecera, números de línea y botón de copia opcionales.",
+      "Muestra código, salida del terminal y diferencias entre versiones. Admite una cabecera opcional, números de línea y un botón para copiar.",
     collapsible: "Permite desplegar y contraer un panel de contenido.",
     combobox:
       "Sugiere opciones para completar el texto a medida que se escribe.",
@@ -165,11 +165,11 @@ export default {
     "date-picker":
       "Permite elegir una fecha, un intervalo o un periodo predefinido.",
     dialog:
-      "Abre un diálogo sobre la página y bloquea la interacción con el contenido del fondo.",
-    direction: "Define la dirección del texto de la aplicación.",
+      "Abre un diálogo sobre la ventana principal u otro diálogo y bloquea la interacción con el contenido que queda detrás.",
+    direction: "Un proveedor que define la dirección del texto de la aplicación.",
     drawer:
       "Muestra un panel de React que se desliza desde un borde de la pantalla.",
-    "dropdown-menu": "Abre desde un botón un menú con acciones u opciones.",
+    "dropdown-menu": "Un botón abre un menú de acciones.",
     empty: "Describe el estado de una vista que aún no tiene contenido.",
     field:
       "Combina etiquetas, controles y texto de ayuda para crear campos y grupos de campos accesibles.",
@@ -185,11 +185,11 @@ export default {
     kbd: "Identifica teclas y combinaciones de teclado dentro del texto.",
     label: "Crea una etiqueta accesible y la asocia a un control.",
     marker:
-      "Inserta estados, notas del sistema, filas con borde o separadores con etiqueta en una conversación.",
+      "Inserta indicadores de estado en línea, notas del sistema, filas con borde o separadores con etiqueta en una conversación.",
     message:
-      "Muestra un mensaje con avatar, cabecera, pie y alineación opcionales.",
+      "Muestra un mensaje de conversación con avatar, cabecera y pie opcionales y alineación configurable.",
     "message-scroller":
-      "Gestiona el desplazamiento de un chat: fija turnos, abre conversaciones guardadas, sigue respuestas en curso, carga el historial sin perder la posición y permite saltar a cualquier mensaje.",
+      "Gestiona el desplazamiento de un chat: fija turnos, abre conversaciones guardadas, sigue las respuestas mientras se transmiten, carga el historial sin perder la posición y permite saltar a cualquier mensaje.",
     "native-select":
       "Aplica los estilos del sistema de diseño al selector nativo de HTML.",
     pagination:
@@ -203,13 +203,13 @@ export default {
     "radio-group":
       "Permite elegir una sola opción de un grupo de botones de selección.",
     resizable:
-      "Permite cambiar el tamaño de paneles con el puntero o el teclado.",
+      "Permite cambiar el tamaño de grupos de paneles y diseños con el puntero o el teclado.",
     "scroll-area":
-      "Personaliza el aspecto de las barras de desplazamiento nativas en distintos navegadores.",
-    select: "Abre una lista de opciones para que el usuario elija una.",
+      "Mantiene el desplazamiento nativo y permite personalizar su aspecto en distintos navegadores.",
+    select: "Un botón abre la lista de opciones para elegir una.",
     separator: "Separa secciones de contenido de forma visual o semántica.",
     sheet:
-      "Muestra en un panel de diálogo contenido que complementa la vista principal.",
+      "Amplía el componente Dialog para mostrar contenido que complementa la vista principal.",
     sidebar:
       "Permite componer y personalizar una barra lateral con soporte para temas.",
     skeleton:
@@ -217,7 +217,7 @@ export default {
     slider:
       "Permite seleccionar un valor dentro de un intervalo con un control deslizante.",
     sonner: "Muestra notificaciones breves de React con Sonner.",
-    spinner: "Muestra un indicador de carga o de actividad.",
+    spinner: "Un indicador giratorio que muestra que se está cargando contenido.",
     switch: "Permite activar y desactivar un ajuste.",
     table: "Muestra datos en una tabla que se adapta al ancho disponible.",
     tabs: "Organiza el contenido en pestañas y muestra un panel cada vez.",
@@ -228,7 +228,7 @@ export default {
     tooltip:
       "Muestra una ayuda breve al pasar el puntero por un elemento o enfocarlo con el teclado.",
     trace:
-      "Agrupa pasos de razonamiento, llamadas a herramientas y fuentes en una traza.",
+      "Muestra en orden los pasos de razonamiento, las llamadas a herramientas y las fuentes.",
     typography:
       "Define estilos para títulos, párrafos, listas y otros elementos de texto.",
   },
