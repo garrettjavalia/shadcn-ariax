@@ -8,6 +8,12 @@ html.dark .ariax-preview-surface {
   --site-preview-surface: oklch(0.2 0 0);
 }
 
+/* Use the site palette for examples that request the upstream blue theme. */
+.ariax-preview-surface [data-preview-stage].theme-blue {
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+}
+
 :where(.ariax-preview-surface) [data-preview-stage] {
   min-width: 0;
   min-height: 0;

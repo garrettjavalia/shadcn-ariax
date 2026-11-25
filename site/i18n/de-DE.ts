@@ -25,7 +25,7 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "Das Design von shadcn/ui, umgesetzt mit React Aria und StyleX. Installieren Sie die Komponenten als bearbeitbaren Quellcode.",
     "LIVE COMPONENT": "INTERAKTIVES BEISPIEL",
-    "A button, made yours.": "Ihr Button, Ihr Stil.",
+    "Button style preview": "Vorschau der Button-Stile",
     "Choose a style and try the button.":
       "Wählen Sie einen Stil und probieren Sie den Button aus.",
     "Button variant": "Button-Variante",
@@ -130,7 +130,7 @@ export default {
   },
   descriptions: {
     accordion:
-      "Untereinander angeordnete Überschriften lassen sich auswählen, um den jeweiligen Inhalt aufzuklappen.",
+      "Über die untereinander angeordneten Überschriften lässt sich der jeweilige Abschnitt auf- und zuklappen.",
     alert:
       "Hebt einen Hinweis hervor, der die Aufmerksamkeit der Nutzer erfordert.",
     "alert-dialog":
@@ -140,7 +140,8 @@ export default {
       "Zeigt Datei- oder Bildanhänge mit Vorschau, Metadaten, Uploadstatus und verfügbaren Aktionen.",
     avatar:
       "Stellt einen Nutzer durch ein Bild dar und zeigt bei Bedarf eine Alternative an.",
-    badge: "Stellt kurze Kennzeichnungen als Badge dar.",
+    badge:
+      "Kennzeichnet einen Status oder eine Kategorie mit einer kurzen Beschriftung.",
     breadcrumb:
       "Zeigt den Pfad zur aktuellen Seite als hierarchische Folge von Links.",
     bubble:
@@ -152,7 +153,7 @@ export default {
       "Ermöglicht die Auswahl eines Datums oder eines Zeitraums im Kalender.",
     card: "Zeigt eine Karte mit Kopfbereich, Inhalt und Fußbereich.",
     carousel:
-      "Ein mit Embla erstelltes Karussell mit Animationen und Wischgesten.",
+      "Ein animiertes Karussell mit Embla. Per Wischgeste oder Navigationstaste lässt sich zwischen den Folien wechseln.",
     chart:
       "Mit Recharts erstellte Diagramme zum Kopieren in das eigene Projekt.",
     checkbox:
@@ -165,16 +166,16 @@ export default {
     command:
       "Ein Befehlsmenü für die Suche und den schnellen Zugriff auf Aktionen.",
     "context-menu":
-      "Öffnet beispielsweise per Rechtsklick ein Menü mit kontextbezogenen Aktionen.",
-    "data-table": "Erstellt Datentabellen mit TanStack Table.",
+      "Ein Rechtsklick öffnet ein Menü mit kontextbezogenen Aktionen.",
+    "data-table": "Erstellt Datentabellen und Datenraster mit TanStack Table.",
     "date-picker":
-      "Eine Datumsauswahl mit Unterstützung für Zeiträume und vordefinierte Werte.",
+      "Ermöglicht die Auswahl eines Datums, eines Zeitraums oder eines voreingestellten Zeitraums.",
     dialog:
       "Legt ein Dialogfenster über das Hauptfenster oder einen anderen Dialog und sperrt die Interaktion mit den darunterliegenden Inhalten.",
     direction: "Ein Provider legt die Schreibrichtung der Anwendung fest.",
-    drawer: "Ein ausziehbarer Bereich für React.",
+    drawer: "Ein React-Panel, das vom Bildschirmrand aus eingeblendet wird.",
     "dropdown-menu":
-      "Öffnet über einen Button ein Menü mit Aktionen oder Funktionen.",
+      "Ein Button öffnet ein Menü mit Aktionen.",
     empty: "Zeigt einen Leerzustand an, wenn keine Inhalte vorhanden sind.",
     field:
       "Verbindet Beschriftungen, Steuerelemente und Hilfetexte zu barrierefreien Formularfeldern und Eingabegruppen.",
@@ -199,7 +200,7 @@ export default {
     pagination:
       "Ermöglicht die Seitennavigation über Seitenzahlen sowie Links zur vorherigen und nächsten Seite.",
     popover:
-      "Zeigt nach Betätigung eines Buttons zusätzliche Inhalte in einem Portal an.",
+      "Öffnet per Button formatierte Inhalte in einem Portal.",
     progress:
       "Zeigt den Fortschritt einer Aufgabe an, üblicherweise als Fortschrittsbalken.",
     questionnaire:
@@ -207,7 +208,7 @@ export default {
     "radio-group":
       "Eine Gruppe von Optionsfeldern, aus der höchstens ein Eintrag ausgewählt werden kann.",
     resizable:
-      "Barrierefreie Panelgruppen und Layouts mit per Tastatur anpassbarer Größe.",
+      "Panelgruppen und Layouts lassen sich per Zeigegerät oder Tastatur in der Größe anpassen.",
     "scroll-area":
       "Erweitert das native Scrollverhalten um browserübergreifend anpassbare Stile.",
     select:
@@ -230,7 +231,7 @@ export default {
     "toggle-group":
       "Fasst mehrere Buttons mit jeweils zwei Zuständen zu einer Gruppe zusammen.",
     tooltip:
-      "Zeigt beim Fokussieren oder Überfahren mit der Maus einen kurzen Hinweis an.",
+      "Zeigt einen kurzen Hinweis, wenn ein Element den Tastaturfokus erhält oder der Mauszeiger darüber steht.",
     trace:
       "Zeigt Denkschritte, Werkzeugaufrufe und Quellen in ihrer Reihenfolge an.",
     typography:

@@ -25,7 +25,7 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "O visual do shadcn/ui com React Aria e StyleX. Instale cada componente com o código-fonte e adapte-o ao seu projeto.",
     "LIVE COMPONENT": "COMPONENTE INTERATIVO",
-    "A button, made yours.": "Um botão do seu jeito.",
+    "Button style preview": "Prévia dos estilos de botão",
     "Choose a style and try the button.": "Escolha um estilo e teste o botão.",
     "Button variant": "Variante do botão",
     Outline: "Contorno",
@@ -134,26 +134,27 @@ export default {
       "Abre uma caixa de diálogo modal para apresentar informações importantes e pedir uma resposta.",
     "aspect-ratio": "Exibe o conteúdo na proporção indicada.",
     attachment:
-      "Exibe um anexo com prévia, metadados, estado do envio e ações.",
+      "Exibe um arquivo ou uma imagem em anexo com prévia, metadados, estado do envio e ações.",
     avatar:
       "Representa o usuário com uma imagem e exibe uma alternativa se a imagem não carregar.",
     badge: "Exibe um rótulo curto para identificar um estado ou uma categoria.",
     breadcrumb:
       "Mostra o caminho até a página atual com uma hierarquia de links.",
     bubble:
-      "Exibe mensagens em balões com opções de alinhamento, agrupamento, reações e conteúdo recolhível.",
+      "Exibe mensagens em balões com vários estilos, alinhamento, agrupamento, reações e conteúdo recolhível.",
     button:
-      "Exibe um botão para executar uma ação ou aplica seu estilo a outro elemento.",
+      "Exibe um botão ou aplica seu estilo a outro elemento.",
     "button-group": "Agrupa botões relacionados com um estilo consistente.",
     calendar:
       "Permite selecionar uma data ou um intervalo de datas em um calendário.",
     card: "Organiza o conteúdo em um cartão com cabeçalho, corpo e rodapé.",
     carousel:
-      "Exibe slides que podem ser percorridos por gestos ou controles com o Embla.",
-    chart: "Cria gráficos de dados com o Recharts.",
+      "Um carrossel animado criado com o Embla. Deslize ou use os botões de navegação para mudar de slide.",
+    chart:
+      "Gráficos criados com o Recharts que você pode copiar para o seu projeto.",
     checkbox: "Permite marcar e desmarcar uma opção.",
     "code-block":
-      "Exibe código, saída do terminal e diferenças entre versões, com cabeçalho, números de linha e botão de cópia opcionais.",
+      "Exibe código, saída do terminal e diferenças entre versões. Oferece cabeçalho opcional, números de linha e botão de cópia.",
     collapsible: "Permite expandir e recolher um painel de conteúdo.",
     combobox: "Sugere opções para completar o texto durante a digitação.",
     command: "Oferece um menu de busca e acesso rápido a ações.",
@@ -163,10 +164,10 @@ export default {
     "date-picker":
       "Permite selecionar uma data, um intervalo ou um período predefinido.",
     dialog:
-      "Abre uma caixa de diálogo sobre a página e bloqueia a interação com o conteúdo ao fundo.",
-    direction: "Define a direção do texto do aplicativo.",
+      "Abre uma caixa de diálogo sobre a janela principal ou outro diálogo e bloqueia a interação com o conteúdo ao fundo.",
+    direction: "Um provedor que define a direção do texto do aplicativo.",
     drawer: "Exibe um painel React que desliza a partir de uma borda da tela.",
-    "dropdown-menu": "Abre um menu de ações ou opções a partir de um botão.",
+    "dropdown-menu": "Um botão abre um menu de ações.",
     empty: "Descreve o estado de uma área que ainda não tem conteúdo.",
     field:
       "Combina rótulos, controles e texto de ajuda para criar campos e grupos de campos acessíveis.",
@@ -176,16 +177,16 @@ export default {
       "Permite digitar texto em formulários com estilos e recursos de acessibilidade integrados.",
     "input-group": "Agrupa um campo com botões, complementos e texto de ajuda.",
     "input-otp":
-      "Permite digitar e colar um código de uso único em um campo acessível.",
+      "Permite digitar, copiar e colar um código de uso único em um campo acessível.",
     item: "Reúne mídia, título, descrição e ações em um item.",
     kbd: "Identifica teclas e atalhos de teclado no texto.",
     label: "Cria um rótulo acessível e o associa a um controle.",
     marker:
-      "Insere estados, notas do sistema, linhas com borda ou separadores com rótulo em uma conversa.",
+      "Insere indicadores de status em linha, notas do sistema, linhas com borda ou separadores com rótulo em uma conversa.",
     message:
-      "Exibe uma mensagem com opções de avatar, cabeçalho, rodapé e alinhamento.",
+      "Exibe uma mensagem de conversa com avatar, cabeçalho e rodapé opcionais e alinhamento configurável.",
     "message-scroller":
-      "Gerencia a rolagem da conversa: fixa turnos, abre conversas salvas, acompanha respostas em andamento, carrega o histórico sem perder a posição e permite ir diretamente a qualquer mensagem.",
+      "Gerencia a rolagem da conversa: fixa turnos, abre conversas salvas, acompanha respostas à medida que são transmitidas, carrega o histórico sem perder a posição e permite ir diretamente a qualquer mensagem.",
     "native-select":
       "Aplica os estilos do sistema de design ao seletor nativo do HTML.",
     pagination:
@@ -195,24 +196,26 @@ export default {
     progress:
       "Indica o progresso de uma tarefa, geralmente por meio de uma barra.",
     questionnaire:
-      "Organiza questionários em etapas com perguntas de escolha única, múltipla, resposta livre ou preenchimento opcional.",
+      "Organiza questionários em etapas com perguntas de escolha única, de múltipla escolha e de resposta livre. Também permite pular perguntas.",
     "radio-group":
       "Permite escolher uma única opção em um grupo de botões de seleção.",
-    resizable: "Permite redimensionar painéis com o ponteiro ou o teclado.",
+    resizable:
+      "Permite redimensionar grupos de painéis e layouts com o ponteiro ou o teclado.",
     "scroll-area":
-      "Personaliza a aparência das barras de rolagem nativas em diferentes navegadores.",
-    select: "Abre uma lista de opções para o usuário escolher uma delas.",
+      "Mantém a rolagem nativa e permite personalizar sua aparência em diferentes navegadores.",
+    select:
+      "Um botão abre a lista de opções para que o usuário escolha uma delas.",
     separator: "Separa seções de conteúdo de forma visual ou semântica.",
     sheet:
-      "Exibe em um painel de diálogo conteúdo que complementa a tela principal.",
+      "Estende o componente Dialog para exibir conteúdo que complementa a tela principal.",
     sidebar:
       "Permite montar e personalizar uma barra lateral com suporte a temas.",
     skeleton:
-      "Reserva espaço e exibe uma prévia do formato enquanto o conteúdo carrega.",
+      "Exibe um marcador de posição enquanto o conteúdo é carregado.",
     slider:
-      "Permite selecionar um valor dentro de um intervalo arrastando um controle.",
+      "Permite selecionar um valor dentro de um intervalo com um controle deslizante.",
     sonner: "Exibe notificações breves em React com o Sonner.",
-    spinner: "Exibe um indicador de carregamento ou atividade.",
+    spinner: "Um indicador giratório que mostra que o conteúdo está carregando.",
     switch: "Permite ativar e desativar uma configuração.",
     table: "Exibe dados em uma tabela que se adapta à largura disponível.",
     tabs: "Organiza o conteúdo em abas e exibe um painel por vez.",
@@ -222,7 +225,7 @@ export default {
     tooltip:
       "Exibe uma dica breve quando um elemento recebe foco pelo teclado ou o ponteiro passa sobre ele.",
     trace:
-      "Reúne etapas de raciocínio, chamadas de ferramentas e fontes em um registro de execução.",
+      "Exibe em sequência as etapas de raciocínio, as chamadas de ferramentas e as fontes.",
     typography:
       "Define estilos para títulos, parágrafos, listas e outros elementos de texto.",
   },
