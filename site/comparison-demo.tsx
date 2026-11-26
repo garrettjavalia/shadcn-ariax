@@ -373,6 +373,8 @@ export function ComparisonDemo({
           !committed ||
           !left ||
           !right ||
+          left.ownerDocument.fonts.status === "loading" ||
+          right.ownerDocument.fonts.status === "loading" ||
           left.disabled !== disabled ||
           right.disabled !== disabled
         )
@@ -418,6 +420,7 @@ export function ComparisonDemo({
       root.classList.toggle("dark", theme === "dark");
       root.toggleAttribute("data-disabled", disabled);
       for (const event of events) doc.addEventListener(event, schedule, true);
+      doc.fonts.addEventListener("loadingdone", schedule);
       const observer = new MutationObserver(schedule);
       observer.observe(root, {
         attributes: true,
@@ -427,6 +430,7 @@ export function ComparisonDemo({
       });
       const clear = () => {
         observer.disconnect();
+        doc.fonts.removeEventListener("loadingdone", schedule);
         for (const event of events)
           doc.removeEventListener(event, schedule, true);
         doc.defaultView?.removeEventListener("pagehide", unload);
