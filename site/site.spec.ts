@@ -758,6 +758,23 @@ for (const width of [320, 390]) {
   });
 }
 
+test("Japanese comparison buttons render with the bundled Japanese font", async ({ page }) => {
+  await page.goto("./ja/");
+  const panel = page.locator(".comparison-demo");
+  await panel.scrollIntoViewIfNeeded();
+  for (const name of ["shadcn/ui", "AriaX"]) {
+    const button = panel.frameLocator(`iframe[title="${name}"]`).getByRole("button").first();
+    await expect(button).toBeVisible();
+    await expect(button).toHaveCSS("font-family", /^"Pretendard JP Variable"/);
+    await expect.poll(() => button.evaluate(async (element) => {
+      await document.fonts.ready;
+      return [...document.fonts].some(face =>
+        face.family.replace(/["']/g, "") === "Pretendard JP Variable" && face.status === "loaded"
+      ) && element.ownerDocument.documentElement.lang === "ja-JP";
+    })).toBe(true);
+  }
+});
+
 test("homepage compares the rendered buttons and reports specific mismatches", async ({
   page,
 }) => {

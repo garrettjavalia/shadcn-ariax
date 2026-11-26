@@ -181,7 +181,7 @@ export async function buildComparison(
     );
     await writeFile(
       join(folder, "index.html"),
-      '<!doctype html><html lang="en" data-ariax-themed><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Component preview</title><link rel="stylesheet" vite-ignore href="../../fonts/pretendard/font.css"><style>html,body{height:100%;margin:0;background:transparent}#parity-root{display:grid;place-items:center;height:100%}</style></head><body><main id="parity-root"></main><script type="module" src="./entry.ts"></script></body></html>',
+      '<!doctype html><html lang="en" data-ariax-themed><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Component preview</title><link rel="stylesheet" vite-ignore href="../../fonts/pretendard/font.css"><link rel="stylesheet" vite-ignore href="../../fonts/pretendard-jp/font.css"><style>html,body{height:100%;margin:0;background:transparent}#parity-root{display:grid;place-items:center;height:100%}</style></head><body><main id="parity-root"></main><script type="module" src="./entry.ts"></script></body></html>',
     );
   }
   await build({
