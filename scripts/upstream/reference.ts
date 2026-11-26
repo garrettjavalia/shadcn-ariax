@@ -108,7 +108,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
       await writeFile(target, styled.split(`@/registry/bases/${config.base}/`).join(`@/registry/${config.base}-${config.style}/`));
       files.push({ ...file, path: relative(directory, target) });
     }
-    items.push({ ...item, files, registryDependencies: item.registryDependencies?.map(name => resolve(directory, 'registry', `${name}.json`)) });
+    items.push({ ...item, files, registryDependencies: item.registryDependencies?.map(name => `./registry/${name}.json`) });
   }
   await writeFile(resolve(directory, 'registry.json'), JSON.stringify({ name: 'pinned-shadcn-reference', homepage: 'https://ui.shadcn.com', items }));
   // Give the CLI's package-manager subprocess its own workspace boundary.
@@ -141,7 +141,7 @@ export async function buildReference(directory: string, inputs: Awaited<ReturnTy
   }
   try {
     await run(['build', resolve(directory, 'registry.json'), '--output', resolve(directory, 'registry')]);
-    await run(['add', ...['style', ...inputs.components].map(name => resolve(directory, 'registry', `${name}.json`)), '--yes', '--overwrite']);
+    await run(['add', ...['style', ...inputs.components].map(name => `./registry/${name}.json`), '--yes', '--overwrite']);
   } finally {
     await new Promise<void>((done, fail) => registry.close(error => error ? fail(error) : done()));
   }

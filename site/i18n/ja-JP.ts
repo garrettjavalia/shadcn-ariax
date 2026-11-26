@@ -1,5 +1,16 @@
 export default {
   ui: {
+    "This selection is invalid.": "選択した値は無効です。",
+    "Vertical layout": "縦配置",
+    "Invalid state": "エラー状態",
+    "Small size": "小さいサイズ",
+    "Show more": "さらに表示",
+    "All": "すべて",
+    Select: "セレクト",
+    "Three-state checkbox": "3 状態チェックボックス",
+    "Toggle group": "トグルグループ",
+    Button: "ボタン",
+    Example: "例",
     "Example files": "サンプルファイル",
     "View code": "コードを表示",
     "{{count}} components found": "検索結果：{{count}} 件",
@@ -25,22 +36,23 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "shadcn/ui のデザインを React Aria と StyleX で実装しました。各コンポーネントのソースコードをインストールして編集できます。",
     "LIVE COMPONENT": "コンポーネントを試す",
-    "Button style preview": "ボタンスタイルのプレビュー",
-    "Choose a style and try the button.":
-      "スタイルを選んでボタンを押してみてください。",
+    "Live component preview": "コンポーネントのプレビュー",
+    "Choose an example and try it with your mouse or keyboard.":
+      "例を選び、マウスやキーボードで操作してみてください。",
     "Button variant": "ボタンのスタイル",
     Outline: "枠線",
     Solid: "塗りつぶし",
     Ghost: "背景なし",
     Saved: "保存済み",
     "Try button": "押してみる",
-    "Live button comparison": "ボタンのライブ比較",
-    "Compare the rendered button in both implementations.":
-      "ブラウザーで両方のボタンの現在の DOM と計算済み CSS を確認できます。",
-    "Disable both buttons": "両方のボタンを無効にする",
-    "Checking buttons…": "比較中…",
-    "Buttons match": "比較項目が一致しました",
+    "Live component comparison": "コンポーネントのライブ比較",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "DOM と計算済み CSS を比較します。各例は独立した状態を持つため、同じ状態を比較するには左右で同じ順序で操作する必要がある場合があります。フォーカスを外して比較するには、最後にフレームの外をクリックしてください。",
+    "Disabled": "無効",
+    "Checking components…": "コンポーネントを比較中…",
+    "Components match": "比較項目が一致",
     "Differences found": "差分があります",
+    "Focus state differs": "フォーカス状態が異なります",
     "Preview unavailable": "プレビューを表示できません。",
     "Comparison unavailable": "比較できません",
     "DOM checks": "DOM の比較項目",
@@ -48,10 +60,10 @@ export default {
     "View differences": "差分を表示",
     "Retry comparison": "再比較",
     "Comparison scope": "比較範囲",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "現在のブラウザー、フレームの大きさ、ボタンの状態で比較します。",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "ボタンとその子孫の DOM、すべての計算済みスタイル、疑似要素 ::before と ::after を検査します。生成されたクラスとインラインスタイルは計算結果で、ID は参照先で比較します。",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "現在のブラウザーのフレームサイズとコンポーネントの状態で比較します。",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "例と開いている選択リストについて、すべての計算済み CSS プロパティと ::before、::after 疑似要素を確認します。生成クラスとインラインスタイルは計算済みスタイルで、ID は参照先で比較します。",
     "CSS properties": "CSS プロパティ",
     "CSS variable checks": "CSS 変数の比較項目",
     "Inspect CSS variable differences": "CSS 変数の差分を見る",
@@ -80,7 +92,8 @@ export default {
       "選択した状態のスタイルを両方のフレームに適用します。実際のキーボードフォーカスは選択コントロールに残ります。",
     "Native pseudo-classes": "ブラウザーの実際の疑似クラス",
     testingTitle: "検証方法",
-    testingPurpose: "本番環境でも shadcn/ui の見た目と動作を保てるよう、同じ条件で両方の実装を比較しています。",
+    testingPurpose:
+      "本番環境でも shadcn/ui の見た目と動作を保てるよう、同じ条件で両方の実装を比較しています。",
     comparisonTitle: "shadcn/ui との比較",
     comparisonDescription:
       "AriaX と shadcn/ui で同じサンプルを表示し、DOM 構造とブラウザーが計算したスタイルを比較します。",
@@ -128,7 +141,8 @@ export default {
     "Component examples and source": "コンポーネントの例とソースコード",
   },
   descriptions: {
-    accordion: "縦に並んだ見出しを選ぶと、対応するセクションを展開したり折りたたんだりできます。",
+    accordion:
+      "縦に並んだ見出しを選ぶと、対応するセクションを展開したり折りたたんだりできます。",
     alert: "ユーザーに気付いてほしい情報を目立つ形で表示します。",
     "alert-dialog":
       "重要な情報をモーダルダイアログに表示し、ユーザーの応答を待ちます。",
@@ -155,7 +169,8 @@ export default {
     combobox: "入力内容に応じて選択候補を表示するコンボボックスです。",
     command: "検索や操作をすばやく実行するためのコマンドメニューです。",
     "context-menu": "右クリックすると、対象に応じた操作メニューが開きます。",
-    "data-table": "TanStack Table を使ってデータテーブルやグリッドを構築します。",
+    "data-table":
+      "TanStack Table を使ってデータテーブルやグリッドを構築します。",
     "date-picker": "日付、期間、事前に設定した期間を選べる日付ピッカーです。",
     dialog:
       "ウィンドウや別のダイアログの上に表示され、背後のコンテンツへの操作を一時的に無効にします。",
@@ -209,7 +224,8 @@ export default {
     textarea: "複数行のテキストを入力できるフォーム要素を表示します。",
     toggle: "オンとオフの二つの状態を切り替えるボタンです。",
     "toggle-group": "オンとオフを切り替えられるボタンをグループにまとめます。",
-    tooltip: "要素にキーボードでフォーカスするかマウスを重ねると、短い説明を表示します。",
+    tooltip:
+      "要素にキーボードでフォーカスするかマウスを重ねると、短い説明を表示します。",
     trace: "推論の手順、ツール呼び出し、参照元を順番に表示します。",
     typography:
       "見出し、段落、リストなどのテキスト要素のスタイルを表示します。",

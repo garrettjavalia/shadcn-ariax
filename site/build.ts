@@ -135,6 +135,23 @@ async function main() {
   });
   await cp(resolve(root, "registry.json"), resolve(output, "registry.json"));
 
+  // Keep the upstream unicode ranges and relative URLs so all pages and frames
+  // share the same cached font subsets under the Pages deployment base.
+  for (const [pkg, stylesheet] of [
+    ["pretendard", "pretendardvariable-dynamic-subset.css"],
+    ["pretendard-jp", "pretendardvariable-jp-dynamic-subset.css"],
+  ]) {
+    const dist = resolve(root, "node_modules", pkg, "dist");
+    const variable = resolve(dist, "web/variable");
+    const target = resolve(output, "fonts", pkg);
+    await mkdir(target, { recursive: true });
+    await Promise.all([
+      cp(resolve(variable, stylesheet), resolve(target, "font.css")),
+      cp(resolve(variable, "woff2-dynamic-subset"), resolve(target, "woff2-dynamic-subset"), { recursive: true }),
+      cp(resolve(dist, "LICENSE.txt"), resolve(target, "LICENSE.txt")),
+    ]);
+  }
+
   await write(".nojekyll", "");
   await cp(resolve(root, "assets/ariax.svg"), resolve(output, "favicon.svg"));
 
@@ -159,6 +176,14 @@ async function main() {
     .map((file) => `<link rel="stylesheet" href="${base}${file}">`)
     .join("\n");
   const script = `<script type="module" src="${base}${entry.file}"></script>`;
+  const homeExamples = catalog.map(({ slug, title, blocks }) => {
+    const first = blocks.find(block => block.kind === "preview" && block.storyId);
+    assert.ok(first?.kind === "preview" && first.storyId, "Missing first preview: " + slug);
+    return { slug, title, name: first.name, story: first.storyId,
+      layout: previewLayouts.layouts[previewLayouts.examples[first.name] ?? 0],
+      documented: Object.hasOwn(previewLayouts.examples, first.name),
+      toaster: Boolean(first.source?.requirements?.toaster) };
+  });
   const nav = catalog.map(({ slug, title, description, blocks }) => ({
     slug,
     title,
@@ -284,6 +309,7 @@ async function main() {
         base: base + prefix,
         locale,
         messages: ui,
+        ...(page === "home" ? { homeExamples } : {}),
         page,
         nav: nav.map((item) => ({
           ...item,
@@ -332,6 +358,7 @@ async function main() {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="${base}favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="${base}fonts/${locale === "ja-JP" ? "pretendard-jp" : "pretendard"}/font.css">
 <meta name="description" content="${escapeHtml(localSummary)}">
 <title>${escapeHtml(localTitle)}</title>
 <script>${theme}</script>
@@ -369,7 +396,7 @@ ${forwardOldManager}
 })();
 </script>
 ${styles}
-${page === "component" ? `<link rel="stylesheet" href="${base}preview-layout.css">` : ""}
+${(page === "component" || page === "home") ? `<link rel="stylesheet" href="${base}preview-layout.css">` : ""}
 ${script}
 </head>
 <body>

@@ -1,5 +1,16 @@
 export default {
   ui: {
+    "This selection is invalid.": "Cette sélection est invalide.",
+    "Vertical layout": "Disposition verticale",
+    "Invalid state": "État invalide",
+    "Small size": "Petite taille",
+    "Show more": "Afficher plus",
+    "All": "Tous",
+    Select: "Liste de sélection",
+    "Three-state checkbox": "Case à trois états",
+    "Toggle group": "Groupe de boutons à bascule",
+    Button: "Bouton",
+    Example: "Exemple",
     "Example files": "Fichiers de l’exemple",
     "View code": "Voir le code",
     "{{count}} components found": "Composants trouvés : {{count}}",
@@ -25,22 +36,23 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "Le design de shadcn/ui, réalisé avec React Aria et StyleX. Chaque composant s’installe avec son code source modifiable.",
     "LIVE COMPONENT": "COMPOSANT INTERACTIF",
-    "Button style preview": "Aperçu des styles de bouton",
-    "Choose a style and try the button.":
-      "Choisissez un style et essayez le bouton.",
+    "Live component preview": "Aperçu des composants",
+    "Choose an example and try it with your mouse or keyboard.":
+      "Choisissez un exemple et essayez-le à la souris ou au clavier.",
     "Button variant": "Variante du bouton",
     Outline: "Contour",
     Solid: "Plein",
     Ghost: "Transparent",
     Saved: "Enregistré",
     "Try button": "Essayer",
-    "Live button comparison": "Comparaison des boutons en direct",
-    "Compare the rendered button in both implementations.":
-      "Examinez le DOM actuel et les styles CSS calculés des deux boutons dans votre navigateur.",
-    "Disable both buttons": "Désactiver les deux boutons",
-    "Checking buttons…": "Comparaison en cours…",
-    "Buttons match": "Les valeurs comparées correspondent",
+    "Live component comparison": "Comparaison des composants en direct",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "Comparez le DOM et le CSS calculé. Chaque exemple conserve son propre état. Pour comparer le même état, vous devrez parfois effectuer les mêmes actions des deux côtés. Cliquez ensuite en dehors des deux cadres pour retirer le focus.",
+    "Disabled": "Désactivé",
+    "Checking components…": "Comparaison des composants…",
+    "Components match": "Les composants correspondent",
     "Differences found": "Des différences ont été détectées",
+    "Focus state differs": "L’état du focus diffère",
     "Preview unavailable": "L’aperçu est indisponible.",
     "Comparison unavailable": "Comparaison indisponible",
     "DOM checks": "Vérifications du DOM",
@@ -48,10 +60,10 @@ export default {
     "View differences": "Voir les différences",
     "Retry comparison": "Relancer la comparaison",
     "Comparison scope": "Portée de la comparaison",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "La comparaison utilise la taille actuelle du cadre et l’état du bouton dans votre navigateur.",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "Elle porte sur le bouton et ses descendants, tous les styles calculés et les pseudo-éléments ::before et ::after. Les classes générées et les styles en ligne sont comparés via leurs valeurs calculées. Les identifiants sont comparés par leurs références.",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "La comparaison utilise la taille actuelle des cadres et l’état du composant dans votre navigateur.",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "La comparaison couvre l’exemple et la liste de sélection ouverte, toutes les propriétés CSS calculées et les pseudo-éléments ::before et ::after. Les classes générées et les styles en ligne sont comparés selon leur style calculé, et les identifiants selon leur cible.",
     "CSS properties": "Propriétés CSS",
     "CSS variable checks": "Vérifications des variables CSS",
     "Inspect CSS variable differences":
@@ -82,7 +94,8 @@ export default {
       "Le sélecteur applique les styles de l’état choisi dans les deux cadres. Le focus clavier reste sur le sélecteur.",
     "Native pseudo-classes": "Pseudo-classes natives",
     testingTitle: "Méthodes de test",
-    testingPurpose: "Nous comparons AriaX et shadcn/ui dans les mêmes conditions pour que vous retrouviez en production la même apparence et le même comportement.",
+    testingPurpose:
+      "Nous comparons AriaX et shadcn/ui dans les mêmes conditions pour que vous retrouviez en production la même apparence et le même comportement.",
     comparisonTitle: "Comparaison avec shadcn/ui",
     comparisonDescription:
       "Nous comparons le DOM et les styles calculés pour un même exemple dans AriaX et shadcn/ui.",
@@ -165,8 +178,7 @@ export default {
     combobox: "Propose une liste d’options qui s’adapte à la saisie.",
     command:
       "Un menu de commandes pour effectuer des recherches et lancer rapidement des actions.",
-    "context-menu":
-      "Un clic droit ouvre un menu d’actions contextuelles.",
+    "context-menu": "Un clic droit ouvre un menu d’actions contextuelles.",
     "data-table":
       "Permet de créer des tableaux et des grilles de données avec TanStack Table.",
     "date-picker":
@@ -177,8 +189,7 @@ export default {
       "Un fournisseur qui définit le sens d’écriture dans l’application.",
     drawer:
       "Un panneau React qui s’ouvre en coulissant depuis un bord de l’écran.",
-    "dropdown-menu":
-      "Un bouton ouvre un menu d’actions.",
+    "dropdown-menu": "Un bouton ouvre un menu d’actions.",
     empty: "Affiche un état vide lorsqu’il n’y a aucun élément à présenter.",
     field:
       "Associe des libellés, des contrôles et du texte d’aide pour créer des champs de formulaire et des groupes de saisie accessibles.",

@@ -1,5 +1,16 @@
 export default {
   ui: {
+    "This selection is invalid.": "선택한 값이 유효하지 않습니다.",
+    "Vertical layout": "세로 배치",
+    "Invalid state": "오류 상태",
+    "Small size": "작은 크기",
+    "Show more": "더 보기",
+    "All": "전체",
+    Select: "셀렉트",
+    "Three-state checkbox": "3상태 체크박스",
+    "Toggle group": "토글 그룹",
+    Button: "버튼",
+    Example: "예제",
     "Example files": "예제 파일",
     "View code": "코드 보기",
     "{{count}} components found": "컴포넌트 {{count}}개",
@@ -25,22 +36,23 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "shadcn/ui의 디자인을 React Aria와 StyleX로 구현했습니다. 필요한 컴포넌트를 설치하고 소스를 직접 수정하세요.",
     "LIVE COMPONENT": "라이브 컴포넌트",
-    "Button style preview": "버튼 스타일 미리보기",
-    "Choose a style and try the button.":
-      "스타일을 선택하고 버튼을 눌러 보세요.",
+    "Live component preview": "컴포넌트 미리보기",
+    "Choose an example and try it with your mouse or keyboard.":
+      "예제를 고른 뒤 마우스나 키보드로 조작해 보세요.",
     "Button variant": "버튼 스타일",
     Outline: "윤곽선",
     Solid: "채움",
     Ghost: "고스트",
     Saved: "저장됨",
     "Try button": "눌러 보기",
-    "Live button comparison": "버튼 실시간 비교",
-    "Compare the rendered button in both implementations.":
-      "브라우저에서 두 버튼의 현재 DOM과 계산된 CSS를 확인하세요.",
-    "Disable both buttons": "두 버튼 비활성화",
-    "Checking buttons…": "버튼 비교 중…",
-    "Buttons match": "비교 항목 일치",
+    "Live component comparison": "컴포넌트 실시간 비교",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "두 예제의 DOM과 계산된 CSS를 비교합니다. 각 예제는 내부 상태를 따로 유지하므로, 같은 상태를 비교하려면 양쪽에서 같은 순서로 조작해야 할 수 있습니다. 포커스를 제외하고 비교하려면 마지막에 프레임 바깥을 클릭하세요.",
+    "Disabled": "비활성화",
+    "Checking components…": "컴포넌트 비교 중…",
+    "Components match": "비교 항목 일치",
     "Differences found": "차이가 있습니다",
+    "Focus state differs": "포커스 상태 다름",
     "Preview unavailable": "미리보기를 불러올 수 없습니다.",
     "Comparison unavailable": "비교할 수 없습니다",
     "DOM checks": "DOM 비교 항목",
@@ -48,10 +60,10 @@ export default {
     "View differences": "차이 보기",
     "Retry comparison": "다시 비교",
     "Comparison scope": "비교 범위",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "현재 브라우저의 프레임 크기와 버튼 상태를 기준으로 비교합니다.",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "버튼과 하위 노드의 DOM, 모든 CSS 속성의 계산값, ::before와 ::after 의사 요소를 확인합니다. 생성된 클래스와 인라인 스타일은 계산 결과로 비교하며, ID는 참조 관계를 확인합니다.",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "현재 브라우저의 프레임 크기와 컴포넌트 상태를 기준으로 비교합니다.",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "예제와 열린 셀렉트 목록에서 모든 계산된 CSS 속성과 ::before 및 ::after 의사 요소를 확인합니다. 생성된 클래스와 인라인 스타일은 계산된 스타일로, ID는 참조 대상으로 비교합니다.",
     "CSS properties": "CSS 속성",
     "CSS variable checks": "CSS 변수 비교 항목",
     "Inspect CSS variable differences": "CSS 변수 차이 보기",
@@ -80,7 +92,8 @@ export default {
       "선택한 상태의 스타일을 두 프레임에 함께 적용합니다. 실제 키보드 포커스는 선택 컨트롤에 유지됩니다.",
     "Native pseudo-classes": "브라우저의 실제 의사 클래스",
     testingTitle: "검증 방법",
-    testingPurpose: "실제 서비스에서도 shadcn/ui의 모양과 동작을 유지할 수 있도록, 두 구현을 같은 조건에서 비교합니다.",
+    testingPurpose:
+      "실제 서비스에서도 shadcn/ui의 모양과 동작을 유지할 수 있도록, 두 구현을 같은 조건에서 비교합니다.",
     comparisonTitle: "shadcn/ui 원본과 비교",
     comparisonDescription:
       "같은 예제를 AriaX와 shadcn/ui로 렌더링해 DOM 구조와 브라우저가 계산한 스타일을 비교합니다.",
@@ -139,12 +152,14 @@ export default {
       "사용자 이미지와 이미지를 불러올 수 없을 때의 대체 표시를 제공합니다.",
     badge: "상태나 분류를 짧은 배지로 표시합니다.",
     breadcrumb: "상위 페이지부터 현재 위치까지의 경로를 링크로 표시합니다.",
-    bubble: "대화 메시지를 여러 스타일의 말풍선으로 표시하고 정렬, 그룹화, 반응, 접기를 지원합니다.",
+    bubble:
+      "대화 메시지를 여러 스타일의 말풍선으로 표시하고 정렬, 그룹화, 반응, 접기를 지원합니다.",
     button: "버튼을 표시하거나 다른 요소에 버튼 스타일을 적용합니다.",
     "button-group": "관련 버튼을 한 그룹으로 묶어 일관된 스타일로 표시합니다.",
     calendar: "달력에서 날짜 하나 또는 날짜 범위를 선택합니다.",
     card: "머리말, 본문, 바닥글을 카드에 담습니다.",
-    carousel: "Embla로 구현한 애니메이션 캐러셀입니다. 스와이프하거나 탐색 버튼을 눌러 슬라이드를 넘깁니다.",
+    carousel:
+      "Embla로 구현한 애니메이션 캐러셀입니다. 스와이프하거나 탐색 버튼을 눌러 슬라이드를 넘깁니다.",
     chart: "Recharts로 만든 차트를 복사해 프로젝트에 추가할 수 있습니다.",
     checkbox: "항목의 선택 여부를 전환합니다.",
     "code-block":
@@ -161,7 +176,8 @@ export default {
     drawer: "화면 가장자리에서 밀려 나오는 React 패널입니다.",
     "dropdown-menu": "버튼을 눌러 작업 메뉴를 엽니다.",
     empty: "표시할 내용이 없을 때 안내를 제공합니다.",
-    field: "레이블, 입력 요소, 도움말을 연결해 접근성 있는 폼 필드와 필드 그룹을 구성합니다.",
+    field:
+      "레이블, 입력 요소, 도움말을 연결해 접근성 있는 폼 필드와 필드 그룹을 구성합니다.",
     "hover-card":
       "링크에 마우스를 올리거나 포커스를 두거나 길게 누르면 링크 대상을 미리 볼 수 있습니다.",
     input: "스타일과 접근성 기능을 갖춘 폼용 텍스트 입력 필드입니다.",
@@ -171,11 +187,14 @@ export default {
     item: "미디어, 제목, 설명, 작업을 한 항목에 표시합니다.",
     kbd: "키보드 키와 단축키를 표시합니다.",
     label: "입력 요소와 연결된 접근성 레이블을 표시합니다.",
-    marker: "대화에 인라인 상태, 시스템 안내, 테두리가 있는 행 또는 레이블이 있는 구분선을 표시합니다.",
-    message: "대화 메시지를 표시하며 아바타, 머리말, 바닥글, 정렬을 선택할 수 있습니다.",
+    marker:
+      "대화에 인라인 상태, 시스템 안내, 테두리가 있는 행 또는 레이블이 있는 구분선을 표시합니다.",
+    message:
+      "대화 메시지를 표시하며 아바타, 머리말, 바닥글, 정렬을 선택할 수 있습니다.",
     "message-scroller":
       "대화 차례에 스크롤 위치를 고정하고, 저장한 대화를 열거나 스트리밍 응답을 따라갑니다. 이전 대화를 불러와도 위치를 유지하며 원하는 메시지로 이동할 수 있습니다.",
-    "native-select": "HTML 기본 select 요소에 디자인 시스템의 스타일을 적용합니다.",
+    "native-select":
+      "HTML 기본 select 요소에 디자인 시스템의 스타일을 적용합니다.",
     pagination: "페이지 번호와 이전·다음 링크로 이동합니다.",
     popover: "버튼을 누르면 포털에 서식이 있는 콘텐츠를 표시합니다.",
     progress: "보통 진행률 막대로 작업의 진행 정도를 표시합니다.",
