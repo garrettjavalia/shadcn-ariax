@@ -1,5 +1,11 @@
 export default {
   ui: {
+    "This selection is invalid.": "選択した値は無効です。",
+    "Vertical layout": "縦配置",
+    "Invalid state": "エラー状態",
+    "Small size": "小さいサイズ",
+    "Show more": "さらに表示",
+    "All": "すべて",
     Select: "セレクト",
     "Three-state checkbox": "3 状態チェックボックス",
     "Toggle group": "トグルグループ",
@@ -40,12 +46,13 @@ export default {
     Saved: "保存済み",
     "Try button": "押してみる",
     "Live component comparison": "コンポーネントのライブ比較",
-    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
-      "DOM と計算済み CSS を比較します。各フレームの選択は独立しています。同じ状態のスタイルを見るには、左右で同じ項目を選んでください。",
-    "Disable both buttons": "両方のボタンを無効にする",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "DOM と計算済み CSS を比較します。各例は独立した状態を持つため、同じ状態を比較するには左右で同じ順序で操作する必要がある場合があります。フォーカスを外して比較するには、最後にフレームの外をクリックしてください。",
+    "Disabled": "無効",
     "Checking components…": "コンポーネントを比較中…",
     "Components match": "比較項目が一致",
     "Differences found": "差分があります",
+    "Focus state differs": "フォーカス状態が異なります",
     "Preview unavailable": "プレビューを表示できません。",
     "Comparison unavailable": "比較できません",
     "DOM checks": "DOM の比較項目",

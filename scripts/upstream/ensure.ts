@@ -50,7 +50,7 @@ export async function ensureRaw(force = false) {
       assert.equal(r.status, 0, `tar failed: ${r.error ?? r.stderr}`);
       return r.stdout;
     };
-    const names = tar(['-tzf', archive]).trim().split('\n');
+    const names = tar(['-tzf', archive]).trim().split(/\r?\n/);
     const prefix = `${config.repository.split('/')[1]}-${config.commit}/`;
     for (const name of names) assert.ok(name.startsWith(prefix) && !name.split('/').includes('..'), `Unsafe archive path: ${name}`);
     for (const path of config.paths) assert.ok(names.some(name => name === prefix + path || name.startsWith(prefix + path + '/')), `Missing pinned path: ${path}`);

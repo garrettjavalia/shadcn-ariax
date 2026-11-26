@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import { FieldError } from "react-aria-components";
 import type * as Controls from "./example-controls";
 
 export const exampleNames = {
@@ -14,11 +15,23 @@ export function ComponentExample({
   controls,
   locale,
   label,
+  isDisabled = false,
+  isInvalid = false,
+  size = "default",
+  outline = true,
+  vertical = false,
+  invalidMessage,
 }: {
   example: Exclude<Example, "button">;
   controls: typeof Controls;
   locale: string;
   label: string;
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+  size?: "sm" | "default";
+  outline?: boolean;
+  vertical?: boolean;
+  invalidMessage?: string;
 }) {
   const {
     Checkbox,
@@ -42,8 +55,11 @@ export function ComponentExample({
   if (example === "toggle-group")
     return (
       <ToggleGroup
+        size={size}
+        isDisabled={isDisabled}
         aria-label={label}
-        variant="outline"
+        variant={outline ? "outline" : "default"}
+        orientation={vertical ? "vertical" : "horizontal"}
         selectionMode="multiple"
         defaultSelectedKeys={["0"]}
       >
@@ -56,8 +72,14 @@ export function ComponentExample({
     );
   if (example === "select")
     return (
-      <Select aria-label={label} defaultValue="0">
-        <SelectTrigger>
+      <Select
+        aria-label={label}
+        defaultValue="0"
+        validationBehavior="aria"
+        isDisabled={isDisabled}
+        isInvalid={isInvalid}
+      >
+        <SelectTrigger size={size}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -67,6 +89,9 @@ export function ComponentExample({
             </SelectItem>
           ))}
         </SelectContent>
+        <FieldError style={{ color: "var(--destructive)" }}>
+          {invalidMessage}
+        </FieldError>
       </Select>
     );
   const count = days.filter(Boolean).length;
@@ -83,6 +108,8 @@ export function ComponentExample({
             style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
           >
             <Checkbox
+              isDisabled={isDisabled}
+              isInvalid={isInvalid}
               id={id + i}
               aria-label={name}
               isIndeterminate={i === 0 && count === 1}

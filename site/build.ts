@@ -176,6 +176,14 @@ async function main() {
     .map((file) => `<link rel="stylesheet" href="${base}${file}">`)
     .join("\n");
   const script = `<script type="module" src="${base}${entry.file}"></script>`;
+  const homeExamples = catalog.map(({ slug, title, blocks }) => {
+    const first = blocks.find(block => block.kind === "preview" && block.storyId);
+    assert.ok(first?.kind === "preview" && first.storyId, "Missing first preview: " + slug);
+    return { slug, title, name: first.name, story: first.storyId,
+      layout: previewLayouts.layouts[previewLayouts.examples[first.name] ?? 0],
+      documented: Object.hasOwn(previewLayouts.examples, first.name),
+      toaster: Boolean(first.source?.requirements?.toaster) };
+  });
   const nav = catalog.map(({ slug, title, description, blocks }) => ({
     slug,
     title,
@@ -301,6 +309,7 @@ async function main() {
         base: base + prefix,
         locale,
         messages: ui,
+        ...(page === "home" ? { homeExamples } : {}),
         page,
         nav: nav.map((item) => ({
           ...item,
@@ -387,7 +396,7 @@ ${forwardOldManager}
 })();
 </script>
 ${styles}
-${page === "component" ? `<link rel="stylesheet" href="${base}preview-layout.css">` : ""}
+${(page === "component" || page === "home") ? `<link rel="stylesheet" href="${base}preview-layout.css">` : ""}
 ${script}
 </head>
 <body>

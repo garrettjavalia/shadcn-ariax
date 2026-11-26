@@ -1,5 +1,11 @@
 export default {
   ui: {
+    "This selection is invalid.": "선택한 값이 유효하지 않습니다.",
+    "Vertical layout": "세로 배치",
+    "Invalid state": "오류 상태",
+    "Small size": "작은 크기",
+    "Show more": "더 보기",
+    "All": "전체",
     Select: "셀렉트",
     "Three-state checkbox": "3상태 체크박스",
     "Toggle group": "토글 그룹",
@@ -40,12 +46,13 @@ export default {
     Saved: "저장됨",
     "Try button": "눌러 보기",
     "Live component comparison": "컴포넌트 실시간 비교",
-    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
-      "두 구현의 DOM과 계산된 CSS를 비교합니다. 각 프레임은 선택 상태를 따로 유지합니다. 같은 상태의 스타일을 보려면 양쪽에서 같은 항목을 선택하세요.",
-    "Disable both buttons": "두 버튼 비활성화",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "두 예제의 DOM과 계산된 CSS를 비교합니다. 각 예제는 내부 상태를 따로 유지하므로, 같은 상태를 비교하려면 양쪽에서 같은 순서로 조작해야 할 수 있습니다. 포커스를 제외하고 비교하려면 마지막에 프레임 바깥을 클릭하세요.",
+    "Disabled": "비활성화",
     "Checking components…": "컴포넌트 비교 중…",
     "Components match": "비교 항목 일치",
     "Differences found": "차이가 있습니다",
+    "Focus state differs": "포커스 상태 다름",
     "Preview unavailable": "미리보기를 불러올 수 없습니다.",
     "Comparison unavailable": "비교할 수 없습니다",
     "DOM checks": "DOM 비교 항목",

@@ -111,7 +111,7 @@ async function installExamples(root: string, app: string) {
       [
         join(root, "node_modules/shadcn/dist/index.js"),
         "add",
-        ...files,
+        ...files.map((file) => `./${normalizePath(relative(app, file))}`),
         "--yes",
         "--overwrite",
         "--cwd",
@@ -198,7 +198,7 @@ export async function buildComparison(
       postcss: {
         plugins: [
           require("@stylexjs/postcss-plugin")({
-            include: [join(app, "components/ui/**/*.{ts,tsx}")],
+            include: [normalizePath(join(app, "components/ui/**/*.{ts,tsx}"))],
             babelConfig: babel,
             useCSSLayers: false,
           }),

@@ -1,5 +1,11 @@
 export default {
   ui: {
+    "This selection is invalid.": "La selección no es válida.",
+    "Vertical layout": "Disposición vertical",
+    "Invalid state": "Estado no válido",
+    "Small size": "Tamaño pequeño",
+    "Show more": "Mostrar más",
+    "All": "Todos",
     Select: "Selector",
     "Three-state checkbox": "Casilla de tres estados",
     "Toggle group": "Grupo de botones conmutables",
@@ -40,12 +46,13 @@ export default {
     Saved: "Guardado",
     "Try button": "Probar botón",
     "Live component comparison": "Comparación de componentes en vivo",
-    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
-      "Compara el DOM y el CSS calculado. Cada marco conserva su selección. Elige el mismo estado en ambos para comparar estilos.",
-    "Disable both buttons": "Desactivar ambos botones",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "Compara el DOM y el CSS calculado. Cada ejemplo mantiene su propio estado. Para comparar el mismo estado, puede que debas repetir los mismos pasos en ambos lados. Haz clic fuera de los dos marcos para quitar el foco.",
+    "Disabled": "Desactivado",
     "Checking components…": "Comparando componentes…",
     "Components match": "Los componentes coinciden",
     "Differences found": "Se encontraron diferencias",
+    "Focus state differs": "El estado del foco es diferente",
     "Preview unavailable": "La vista previa no está disponible.",
     "Comparison unavailable": "Comparación no disponible",
     "DOM checks": "Comprobaciones del DOM",

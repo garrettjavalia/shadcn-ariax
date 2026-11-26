@@ -21,8 +21,6 @@ import {
   Languages,
   ArrowRight,
   ArrowUpRight,
-  Check,
-  Code2,
   Layers3,
   ScanLine,
   Keyboard,
@@ -34,7 +32,6 @@ import {
   Zap,
 } from "lucide-react";
 import { GithubIcon } from "@storybook/icons";
-import { Badge } from "../src/ariax/ui/badge";
 import { Button, LinkButton } from "../src/ariax/ui/button";
 import { Card, CardContent, CardHeader } from "../src/ariax/ui/card";
 import {
@@ -61,9 +58,7 @@ import {
 import { Input } from "../src/ariax/ui/input";
 import { Kbd } from "../src/ariax/ui/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../src/ariax/ui/tabs";
-import * as exampleControls from "./example-controls";
-import { ComponentExample, exampleNames, type Example } from "./component-example";
-import { ComparisonDemo, ExamplePicker } from "./comparison-demo";
+import { ComparisonDemo, ComparisonChoice } from "./comparison-demo";
 import { ExampleCode } from "./example-code";
 import { I18nProvider, RouterProvider } from "react-aria-components";
 import { SidebarShortcutScope } from "../src/ariax/ui/sidebar";
@@ -86,6 +81,7 @@ export type SiteProps = {
   page: "home" | "installation" | "components" | "component" | "not-found";
   data?: CatalogPage;
   nav: NavItem[];
+  homeExamples?: { slug: string; title: string; name: string; story: string; layout: PreviewLayout; documented: boolean; toaster: boolean }[];
   guide?: { shared: string; vite: string; next: string };
   previewLayouts?: Record<
     string,
@@ -398,7 +394,7 @@ function HomeLinks({ base }: Pick<SiteProps, "base">) {
         variant="outline"
         size="lg"
       >
-        {t("Installation guide")} <ArrowUpRight />
+        {t("Installation guide")}
       </LinkButton>
     </div>
   );
@@ -408,12 +404,11 @@ function Home({
   base,
   assetBase,
   theme,
-}: Pick<SiteProps, "base" | "assetBase"> & { theme: "light" | "dark" }) {
+  homeExamples = [],
+}: Pick<SiteProps, "base" | "assetBase" | "homeExamples"> & { theme: "light" | "dark" }) {
   const t = useText();
-  const { i18n } = useTranslation();
-  const [example, setExample] = useState<Example>("button");
-  const [saved, setSaved] = useState(false);
-  const [variant, setVariant] = useState("outline");
+  const [slug, setSlug] = useState("button");
+  const example = homeExamples.find(item => item.slug === slug) ?? homeExamples[0];
   return (
     <main id="main">
       <section {...stylex.props(s.hero)}>
@@ -437,72 +432,30 @@ function Home({
         </div>
         <div {...stylex.props(s.heroBoard)}>
           <div {...stylex.props(s.boardHeader)}>
-            <span>
-              <span {...stylex.props(s.dot)} /> {t("LIVE COMPONENT")}
-            </span>
+            <h2 className="preview-board-title" aria-label={t("Live component preview")}>{t("LIVE COMPONENT")}</h2>
+            <div className="preview-example-picker dark">
+              {example && (
+                <ComparisonChoice
+                  label="Example"
+                  labels={Object.fromEntries(homeExamples.map(item => [item.slug, item.title]))}
+                  value={example.slug}
+                  onChange={setSlug}
+                  translateOptions={false}
+                  dark
+                />
+              )}
+            </div>
           </div>
           <div {...stylex.props(s.boardInner)}>
             <Card xstyle={s.demoCard}>
-              <CardHeader>
-                <Badge variant="outline" xstyle={s.demoBadge}>
-                  NOVA / NEUTRAL
-                </Badge>
-                <h2 {...stylex.props(s.boardTitle)}>
-                  {t("Live component preview")}
-                </h2>
-                <p {...stylex.props(s.boardCopy)}>
-                  {t(
-                    "Choose an example and try it with your mouse or keyboard.",
-                  )}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="preview-example-picker">
-                  <ExamplePicker value={example} onChange={setExample} />
-                </div>
-                {example === "button" ? (
-                  <Tabs
-                    selectedKey={variant}
-                    onSelectionChange={(key) => setVariant(String(key))}
-                    aria-label={t("Button variant")}
-                  >
-                    <TabsList aria-label={t("Button variant")}>
-                      <TabsTrigger id="outline">{t("Outline")}</TabsTrigger>
-                      <TabsTrigger id="default">{t("Solid")}</TabsTrigger>
-                      <TabsTrigger id="ghost">{t("Ghost")}</TabsTrigger>
-                    </TabsList>
-                    {(["outline", "default", "ghost"] as const).map((key) => (
-                      <TabsContent id={key} key={key} xstyle={s.demoAction}>
-                        <Button variant={key} onPress={() => setSaved(!saved)}>
-                          {saved ? <Check /> : <Zap />}
-                          {saved ? t("Saved") : t("Try button")}
-                        </Button>
-                      </TabsContent>
-                    ))}
-                  </Tabs>
-                ) : (
-                  <div {...stylex.props(s.demoAction)}>
-                    <ComponentExample
-                      key={example}
-                      example={example}
-                      controls={exampleControls}
-                      locale={i18n.language}
-                      label={t(exampleNames[example])}
-                    />
-                  </div>
-                )}
-              </CardContent>
+              {example && <div className="home-live-example">
+                <SidebarShortcutScope.Provider value="sidebar"><LivePreview key={example.story} {...example} eager /></SidebarShortcutScope.Provider>
+                {example.toaster && <Toaster theme={theme} />}
+              </div>}
             </Card>
           </div>
           <div {...stylex.props(s.boardFooter)}>
-            <Code2 size={15} />{" "}
-            {example === "button"
-              ? `<Button variant="${variant}" />`
-              : {
-                  "toggle-group": "<ToggleGroup />",
-                  checkbox: "<Checkbox />",
-                  select: "<Select />",
-                }[example]}
+            <p className="preview-board-hint">{t("Choose an example and try it with your mouse or keyboard.")}</p>
           </div>
         </div>
       </section>
@@ -1035,7 +988,7 @@ function SiteContent(props: SiteProps) {
         theme={mode}
         toggle={toggle}
       />
-      {page === "home" ? <Home base={base} assetBase={props.assetBase} theme={theme} /> : <Docs {...props} />}
+      {page === "home" ? <Home homeExamples={props.homeExamples} base={base} assetBase={props.assetBase} theme={theme} /> : <Docs {...props} />}
       <footer {...stylex.props(s.copyright)}>
         <small>© 2026 Minsuk Jung</small>
       </footer>
@@ -1147,19 +1100,11 @@ const s = stylex.create({
     paddingBlock: "clamp(1.625rem, 4vw, 3.875rem) clamp(1.5rem, 3.5vw, 3rem)",
     display: "grid",
     gridTemplateColumns: {
-      default: "1.12fr 1fr",
+      default: "minmax(0, 1fr) 35rem",
       "@media (max-width: 55rem)": "minmax(0, 1fr)",
     },
     alignItems: "center",
     gap: "clamp(2.2rem, 5vw, 6rem)",
-  },
-  dot: {
-    display: "inline-block",
-    width: "0.48rem",
-    height: "0.48rem",
-    borderRadius: "50%",
-    backgroundColor: "var(--ring)",
-    flexShrink: 0,
   },
   heroBrand: {
     fontSize: "clamp(3rem, 16cqi, 6rem)",
@@ -1196,56 +1141,67 @@ const s = stylex.create({
   },
   heroBoard: {
     minWidth: 0,
+    position: "relative",
+    paddingBlock: "4rem",
+    paddingInline: {
+      default: "4rem",
+      "@media (max-width: 40rem)": "clamp(0.25rem, 1.5vw, 0.625rem)",
+    },
+    width: {
+      default: "35rem",
+      "@media (max-width: 40rem)": "min(100%, 35rem)",
+    },
+    justifySelf: "center",
     backgroundColor: "var(--demo-background)",
+    backgroundImage:
+      "radial-gradient(circle at 1px 1px, var(--demo-dot) 1px, transparent 0)",
+    backgroundSize: "18px 18px",
     color: "var(--demo-foreground)",
     borderRadius: "1.15rem",
     boxShadow: "0 24px 72px rgba(23,35,20,.14)",
     overflow: "hidden",
   },
   boardHeader: {
+    position: "absolute",
+    insetInline: { default: "4rem", "@media (max-width: 40rem)": "0.75rem" },
+    top: 0,
+    height: "4rem",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "0.95rem 1.1rem",
+    gap: "0.5rem",
     fontFamily: "var(--font-mono)",
     fontSize: "0.67rem",
     letterSpacing: "0.09em",
-    borderBottom: "1px solid var(--demo-border)",
   },
   boardInner: {
     display: "grid",
+    gridTemplateColumns: "minmax(0, 1fr)",
     placeItems: "center",
-    padding: "clamp(1.35rem, 4vw, 3rem)",
-    minHeight: "21rem",
-    backgroundImage:
-      "radial-gradient(circle at 1px 1px, var(--demo-dot) 1px, transparent 0)",
-    backgroundSize: "18px 18px",
   },
   demoCard: {
-    width: "100%",
-    maxWidth: "22rem",
+    width: {
+      default: "27rem",
+      "@media (max-width: 40rem)": "100%",
+    },
+    minHeight: "18rem",
+    paddingTop: 0,
+    paddingBottom: 0,
+    display: "grid",
+    placeItems: "center",
     color: "var(--foreground)",
     boxShadow: "0 16px 40px rgba(0,0,0,.24)",
   },
-  demoBadge: {
-    width: "fit-content",
-    fontFamily: "var(--font-mono)",
-    fontSize: "0.62rem",
-    letterSpacing: "0.08em",
-  },
-  boardTitle: {
-    fontSize: "clamp(1.26rem, 3vw, 1.65rem)",
-    fontWeight: 720,
-    letterSpacing: "normal",
-  },
-  boardCopy: { lineHeight: 1.5, color: "var(--muted-foreground)" },
-  demoAction: { display: "grid", placeItems: "start", paddingTop: "0.8rem" },
   boardFooter: {
+    position: "absolute",
+    insetInline: { default: "4rem", "@media (max-width: 40rem)": "0.75rem" },
+    bottom: 0,
+    height: "4rem",
     display: "flex",
-    alignItems: "center",
-    gap: "0.5rem",
-    padding: "0.9rem 1.1rem",
-    borderTop: "1px solid var(--demo-border)",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "start",
+    gap: "0.15rem",
     fontFamily: "var(--font-mono)",
     fontSize: "0.74rem",
   },

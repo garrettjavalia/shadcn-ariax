@@ -12,6 +12,7 @@ import {
 import { Input } from "../src/ariax/ui/input";
 import { Label } from "../src/ariax/ui/label";
 import { compareButtons } from "./compare-buttons";
+import { focusSelectOnFrameEntry } from "./compare/frame-focus";
 import { exampleNames, type Example } from "./component-example";
 import "./comparison-demo.css";
 
@@ -21,6 +22,12 @@ type Result = "ready" | "loading" | "error";
 const frameNames = ["upstream", "ariax"] as const;
 const labels = ["shadcn/ui", "AriaX"];
 const buttonSelector = '[data-slot="button"]';
+const focusProperties = new Set([
+  ":focus",
+  ":focus-visible",
+  "data-focused",
+  "data-focus-visible",
+]);
 
 const variantLabels = {
   default: "Solid",
@@ -37,13 +44,17 @@ const stateLabels = {
   pressed: "Pressed",
 };
 
-function ComparisonChoice({
+export function ComparisonChoice({
+  translateOptions = true,
+  dark = false,
   label,
   isDisabled = false,
   value,
   labels,
   onChange,
 }: {
+  translateOptions?: boolean;
+  dark?: boolean;
   label: string;
   isDisabled?: boolean;
   value: string;
@@ -51,6 +62,15 @@ function ComparisonChoice({
   onChange: (key: string) => void;
 }) {
   const { t } = useTranslation();
+  const [portal, setPortal] = useState<HTMLElement>();
+  useEffect(() => {
+    if (!dark) return;
+    const container = document.createElement("div");
+    container.className = "dark";
+    document.body.append(container);
+    setPortal(container);
+    return () => container.remove();
+  }, [dark]);
   return (
     <div className="comparison-choice">
       <span>{t(label)}</span>
@@ -63,19 +83,22 @@ function ComparisonChoice({
         <SelectTrigger size="sm" aria-label={t(label)}>
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
-          {Object.entries(labels).map(([key, text]) => (
-            <SelectItem key={key} id={key} textValue={t(text)}>
-              {t(text)}
-            </SelectItem>
-          ))}
+        <SelectContent UNSTABLE_portalContainer={portal}>
+          {Object.entries(labels).map(([key, text]) => {
+            const name = translateOptions ? t(text) : text;
+            return (
+              <SelectItem key={key} id={key} textValue={name}>
+                {name}
+              </SelectItem>
+            );
+          })}
         </SelectContent>
       </Select>
     </div>
   );
 }
 
-export function ExamplePicker({
+function ExamplePicker({
   value,
   onChange,
 }: {
@@ -102,18 +125,27 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
     comparison.computedStyles.find((node) => node.path === selection) ??
     comparison.computedStyles[0];
   const needle = query.trim().toLowerCase();
+  const all = selection === "*";
+  const nodes = all ? comparison.computedStyles : selected ? [selected] : [];
   const different = new Set(
     (custom ? comparison.customPropertyDifferences : comparison.differences)
-      .filter((diff) => diff.kind === "style" && diff.path === selected?.path)
-      .map((diff) => diff.property),
+      .filter((diff) => diff.kind === "style")
+      .map((diff) => diff.path + "|" + diff.property),
   );
-  const rows = (
-    selected?.[custom ? "customProperties" : "properties"] ?? []
-  ).filter(
-    (row) =>
-      (!onlyDifferences || different.has(row.property)) &&
-      row.property.toLowerCase().includes(needle),
+  const rows = nodes.flatMap((node) =>
+    node[custom ? "customProperties" : "properties"]
+      .filter(
+        (row) =>
+          (!onlyDifferences || different.has(node.path + "|" + row.property)) &&
+          row.property.toLowerCase().includes(needle),
+      )
+      .map((row) => ({
+        ...row,
+        path: node.path,
+        key: node.path + "|" + row.property,
+      })),
   );
+  const [limit, setLimit] = useState(200);
   return (
     <div className="comparison-inspector">
       <h3>{t("Rendered DOM")}</h3>
@@ -159,7 +191,7 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
       <h3>{t("Computed CSS")}</h3>
       <div className="comparison-filters">
         <Select
-          selectedKey={selected?.path}
+          selectedKey={all ? "*" : selected?.path}
           onSelectionChange={(key) => setSelection(String(key))}
         >
           <Label>{t("Inspect element")}</Label>
@@ -167,6 +199,9 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem id="*" textValue={t("All")}>
+              {t("All")}
+            </SelectItem>
             {comparison.computedStyles.map((node) => (
               <SelectItem key={node.path} id={node.path} textValue={node.path}>
                 {node.path}
@@ -216,12 +251,15 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {(all ? rows.slice(0, limit) : rows).map((row) => (
               <tr
-                key={row.property}
-                data-different={different.has(row.property) || undefined}
+                key={row.key}
+                data-different={different.has(row.key) || undefined}
               >
-                <th scope="row">{row.property}</th>
+                <th scope="row">
+                  {all && row.path + " · "}
+                  {row.property}
+                </th>
                 <td>{row.upstream ?? "∅"}</td>
                 <td>{row.ariax ?? "∅"}</td>
               </tr>
@@ -233,6 +271,11 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
             )}
           </tbody>
         </table>
+        {all && rows.length > limit && (
+          <Button onPress={() => setLimit(limit + 200)}>
+            {t("Show more")}
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -350,17 +393,26 @@ export function ComparisonDemo({
   const { t, i18n } = useTranslation();
   const [example, setExample] = useState<Example>("button");
   const buttonExample = example === "button";
+  useEffect(() => {
+    window.addEventListener("pointerdown", focusSelectOnFrameEntry, true);
+    return () => window.removeEventListener("pointerdown", focusSelectOnFrameEntry, true);
+  }, []);
   const params = new URLSearchParams({
     example,
     lang: i18n.language,
     label: t(exampleNames[example]),
     saved: t("Saved"),
+    invalidMessage: t("This selection is invalid."),
   });
   const panel = useRef<HTMLDivElement>(null);
   const [variant, setVariant] = useState("default");
   const [state, setState] = useState("rest");
   const [comparison, setComparison] = useState<Comparison | null>(null);
   const [disabled, setDisabled] = useState(false);
+  const [small, setSmall] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+  const [outline, setOutline] = useState(true);
+  const [vertical, setVertical] = useState(false);
   const activeState = disabled ? "rest" : state;
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<Result>("loading");
@@ -450,6 +502,13 @@ export function ComparisonDemo({
       documents.set(frame, doc);
       root.dataset.compareVariant = variant;
       root.dataset.compareState = activeState;
+      root.toggleAttribute("data-small", small);
+      root.toggleAttribute(
+        "data-invalid",
+        invalid && (example === "checkbox" || example === "select"),
+      );
+      root.toggleAttribute("data-borderless", !outline);
+      root.toggleAttribute("data-vertical", vertical);
       root.classList.toggle("dark", theme === "dark");
       root.toggleAttribute("data-disabled", disabled);
       for (const event of events) doc.addEventListener(event, schedule, true);
@@ -502,19 +561,30 @@ export function ComparisonDemo({
     theme,
     variant,
     activeState,
+    small,
+    invalid,
+    outline,
+    vertical,
     example,
     buttonExample,
     i18n.language,
   ]);
 
   const matches = comparison?.differences.length === 0;
+  const domDifferences =
+    comparison?.differences.filter(({ kind }) => kind === "dom") ?? [];
+  const focusDiffers =
+    domDifferences.length > 0 &&
+    domDifferences.every(({ property }) => focusProperties.has(property));
+  const styleDifferenceCount =
+    (comparison?.differences.length ?? 0) - domDifferences.length;
   return (
     <div className="comparison-demo" ref={panel}>
       <div className="comparison-heading" data-section-heading>
         <h2>{t("Live component comparison")}</h2>
         <p>
           {t(
-            "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.",
+            "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.",
           )}
         </p>
       </div>
@@ -536,18 +606,60 @@ export function ComparisonDemo({
                 labels={stateLabels}
                 onChange={setState}
               />
+            </>
+          )}
+          {(example === "toggle-group" || example === "select") && (
+            <div className="comparison-control">
+              <Checkbox
+                id="comparison-example-style"
+                isSelected={small}
+                onChange={setSmall}
+              />
+              <Label htmlFor="comparison-example-style">
+                {t("Small size")}
+              </Label>
+            </div>
+          )}
+          {(example === "select" || example === "checkbox") && (
+            <div className="comparison-control">
+              <Checkbox
+                id="comparison-invalid"
+                isSelected={invalid}
+                onChange={setInvalid}
+              />
+              <Label htmlFor="comparison-invalid">{t("Invalid state")}</Label>
+            </div>
+          )}
+          {example === "toggle-group" && (
+            <>
               <div className="comparison-control">
                 <Checkbox
-                  id="disable-comparison-buttons"
-                  isSelected={disabled}
-                  onChange={setDisabled}
+                  id="comparison-outline"
+                  isSelected={outline}
+                  onChange={setOutline}
                 />
-                <Label htmlFor="disable-comparison-buttons">
-                  {t("Disable both buttons")}
+                <Label htmlFor="comparison-outline">{t("Outline")}</Label>
+              </div>
+              <div className="comparison-control">
+                <Checkbox
+                  id="comparison-vertical"
+                  isSelected={vertical}
+                  onChange={setVertical}
+                />
+                <Label htmlFor="comparison-vertical">
+                  {t("Vertical layout")}
                 </Label>
               </div>
             </>
           )}
+          <div className="comparison-control">
+            <Checkbox
+              id="disable-comparison-buttons"
+              isSelected={disabled}
+              onChange={setDisabled}
+            />
+            <Label htmlFor="disable-comparison-buttons">{t("Disabled")}</Label>
+          </div>
         </div>
         {buttonExample && (
           <p className="comparison-state-note">
@@ -556,7 +668,11 @@ export function ComparisonDemo({
             )}
           </p>
         )}
-        <div className="comparison-frames" data-example={example}>
+        <div
+          className="comparison-frames"
+          data-example={example}
+          data-vertical={(example === "toggle-group" && vertical) || undefined}
+        >
           {frameNames.map((name, i) => (
             <figure key={name}>
               <figcaption>{labels[i]}</figcaption>
@@ -579,11 +695,17 @@ export function ComparisonDemo({
               result === "ready"
                 ? matches
                   ? "Components match"
-                  : "Differences found"
+                  : focusDiffers
+                    ? "Focus state differs"
+                    : "Differences found"
                 : result === "loading"
                   ? "Checking components…"
                   : "Comparison unavailable",
             )}
+            {result === "ready" &&
+              focusDiffers &&
+              styleDifferenceCount > 0 &&
+              ` · ${t("Computed CSS")} (${styleDifferenceCount})`}
           </strong>
           {comparison && (
             <dl>

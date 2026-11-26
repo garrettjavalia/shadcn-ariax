@@ -1,5 +1,11 @@
 export default {
   ui: {
+    "This selection is invalid.": "This selection is invalid.",
+    "Vertical layout": "Vertical layout",
+    "Invalid state": "Invalid state",
+    "Small size": "Small size",
+    "Show more": "Show more",
+    "All": "All",
     Select: "Select",
     "Three-state checkbox": "Three-state checkbox",
     "Toggle group": "Toggle group",
@@ -39,12 +45,13 @@ export default {
     Saved: "Saved",
     "Try button": "Try button",
     "Live component comparison": "Live component comparison",
-    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
-      "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.",
-    "Disable both buttons": "Disable both buttons",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.",
+    "Disabled": "Disabled",
     "Checking components…": "Checking components…",
     "Components match": "Components match",
     "Differences found": "Differences found",
+    "Focus state differs": "Focus state differs",
     "Preview unavailable": "Preview unavailable.",
     "Comparison unavailable": "Comparison unavailable",
     "DOM checks": "DOM checks",

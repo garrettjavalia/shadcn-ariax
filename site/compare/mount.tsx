@@ -4,6 +4,7 @@ import {
   type Example,
 } from "../component-example";
 import { locales, defaultLocale } from "../i18n/locales";
+import { focusSelectOnFrameEntry } from "./frame-focus";
 import type * as Controls from "../example-controls";
 import { I18nProvider } from "react-aria-components";
 import { createRoot } from "react-dom/client";
@@ -25,7 +26,15 @@ const variants = [
 ] as const;
 type Variant = (typeof variants)[number];
 const states = ["rest", "hover", "focus-visible", "pressed"] as const;
-const keys = ["data-disabled", "data-compare-variant", "data-compare-state"];
+const keys = [
+  "data-disabled",
+  "data-compare-variant",
+  "data-compare-state",
+  "data-small",
+  "data-invalid",
+  "data-borderless",
+  "data-vertical",
+];
 
 function subscribe(update: () => void) {
   const observer = new MutationObserver(update);
@@ -47,12 +56,18 @@ export function mount(
   },
 ) {
   const { Button } = controls;
+  window.addEventListener("pointerdown", focusSelectOnFrameEntry, true);
   const html = document.documentElement;
   const root = document.getElementById("parity-root")!;
   const params = new URLSearchParams(location.search);
   const example = Object.keys(exampleNames).find(
     (key) => key === params.get("example"),
   ) as Example | undefined;
+  // Anchor the trigger while validation feedback and the popup use the space below.
+  if (example === "select") {
+    root.style.alignItems = "start";
+    root.style.paddingBlockStart = "2.5rem";
+  }
   const locale =
     locales.find((value) => value === params.get("lang")) ?? defaultLocale;
   html.lang = locale;
@@ -109,15 +124,33 @@ export function mount(
       </Button>
     );
   }
+  function NonButtonFixture({
+    example,
+  }: {
+    example: Exclude<Example, "button">;
+  }) {
+    useSyncExternalStore(subscribe, snapshot);
+    return (
+      <ComponentExample
+        example={example}
+        controls={controls}
+        locale={locale}
+        label={params.get("label") || exampleNames[example]}
+        isDisabled={html.hasAttribute("data-disabled")}
+        isInvalid={html.hasAttribute("data-invalid")}
+        invalidMessage={
+          params.get("invalidMessage") ?? "This selection is invalid."
+        }
+        outline={!html.hasAttribute("data-borderless")}
+        vertical={html.hasAttribute("data-vertical")}
+        size={html.hasAttribute("data-small") ? "sm" : "default"}
+      />
+    );
+  }
   createRoot(root).render(
     <I18nProvider locale={locale}>
       {example && example !== "button" ? (
-        <ComponentExample
-          example={example}
-          controls={controls}
-          locale={locale}
-          label={params.get("label") || exampleNames[example]}
-        />
+        <NonButtonFixture example={example} />
       ) : (
         <Fixture />
       )}

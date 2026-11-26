@@ -11,6 +11,11 @@ function deployedPath(path = "") {
   return deploymentPath + path;
 }
 
+async function readClipboardSource(page: Page) {
+  // Windows exposes system clipboard line endings as CRLF; <pre> uses LF.
+  return page.evaluate(async () => (await navigator.clipboard.readText()).replaceAll("\r\n", "\n"));
+}
+
 async function expectNoHorizontalOverflow(page: Page) {
   await expect
     .poll(() =>
@@ -37,9 +42,7 @@ test("landing page navigates to installation under the deployed base", async ({
   await page.goto("./");
   await expect(page).toHaveURL((url) => url.pathname === deployedPath());
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  const solid = page.getByRole("tab", { name: "Solid" });
-  await solid.click();
-  await expect(solid).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator(".home-live-example [data-preview-stage]").first()).toBeVisible();
 
   await page
     .locator(`a[href="${deployedPath(installationPath)}"]`)
@@ -90,7 +93,7 @@ test("installation code copies the visible file in each framework tab", async ({
       const source = await block.locator("pre code").textContent();
       await block.getByRole("button", { name: "Copy code" }).click();
       await expect
-        .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+        .poll(() => readClipboardSource(page))
         .toBe(source);
     }
   }
@@ -409,9 +412,7 @@ test("expanded code copies the displayed AriaX source", async ({
   expect(expected).not.toMatch(/@\/styles\/aria-nova\/ui/);
   await panel.getByRole("button", { name: "Copy code" }).click();
   await expect
-    .poll(() =>
-      page.evaluate(async () => (await navigator.clipboard.readText()).trim()),
-    )
+    .poll(async () => (await readClipboardSource(page)).trim())
     .toBe(expected);
 });
 
@@ -799,6 +800,12 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
   await expect(
     inspector.getByRole("rowheader", { name: "background-color", exact: true }),
   ).toBeVisible();
+  const elementPicker = inspector.getByRole("button", { name: /Inspect element$/ });
+  await elementPicker.click();
+  await page.getByRole("option", { name: "All", exact: true }).click();
+  await expect(inspector.getByRole("rowheader", { name: "button::before · background-color", exact: true })).toBeVisible();
+  await elementPicker.click();
+  await page.getByRole("option", { name: "button", exact: true }).click();
   const differencesOnly = inspector.getByRole("checkbox", { name: "Differences only" });
   await inspector.getByText("Differences only", { exact: true }).click();
   await expect(differencesOnly).toBeChecked();
@@ -869,7 +876,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     await expect(inspector.locator("pre").first()).toBeVisible();
   }
   const disabled = panel.getByRole("checkbox", {
-    name: "Disable both buttons",
+    name: "Disabled",
   });
   await disabled.focus();
   await page.keyboard.press("Space");
@@ -917,12 +924,14 @@ test("homepage examples keep preview and frame selections independent", async ({
   const panel = page.locator(".comparison-demo");
   const left = panel.frameLocator('iframe[title="shadcn/ui"]');
   const right = panel.frameLocator('iframe[title="AriaX"]');
+  await hero.getByRole("button", { name: /Example$/ }).click();
+  await page.getByRole("option", { name: "Accordion", exact: true }).click();
+  await expect(hero.locator('[data-preview-stage="accordion-demo"]')).toBeVisible();
   for (const name of ["Toggle group", "Three-state checkbox", "Select"]) {
-    for (const region of [hero, panel]) {
-      await region.getByRole("button", { name: /Example$/ }).click();
-      await page.getByRole("option", { name, exact: true }).click();
-    }
-    const examples = [hero, left, right];
+    await panel.getByRole("button", { name: /Example$/ }).click();
+    await page.getByRole("option", { name, exact: true }).click();
+    await expect(hero.locator('[data-preview-stage="accordion-demo"]')).toBeVisible();
+    const examples = [left, right];
     if (name === "Toggle group") {
       for (const region of examples)
         await expect(region.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "false");
@@ -945,4 +954,56 @@ test("homepage examples keep preview and frame selections independent", async ({
       await expect(right.locator('[data-slot="select-trigger"]')).toContainText("Mon");
     }
   }
+});
+
+test.describe("narrow mobile previews", () => {
+  test.use({ viewport: { width: 320, height: 844 }, isMobile: true, hasTouch: true });
+
+  test("the longest catalog name fits inside the preview header", async ({ page }) => {
+    await page.goto("./de/");
+    const picker = page.locator(".preview-example-picker button");
+    await picker.tap();
+    await page.getByRole("option", { name: "Message Scroller", exact: true }).tap();
+    await expect(picker).toHaveText("Message Scroller");
+    const header = page.locator(".preview-board-title").locator("..");
+    await expect.poll(() => header.evaluate(element => element.scrollWidth - element.clientWidth))
+      .toBeLessThanOrEqual(1);
+  });
+
+  test("comparison controls fit and the select trigger keeps its position", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await page.goto("./?lang=en-US");
+    const panel = page.locator(".comparison-demo");
+    const picker = panel.getByRole("button", { name: /Example$/ });
+    const frames = ["shadcn/ui", "AriaX"].map(title =>
+      panel.frameLocator(`iframe[title="${title}"]`),
+    );
+    await picker.tap();
+    await page.getByRole("option", { name: "Toggle group", exact: true }).tap();
+    for (const frame of frames) {
+      const group = frame.locator('[data-slot="toggle-group"]');
+      await expect.poll(() => group.evaluate(element => {
+        const bounds = element.getBoundingClientRect();
+        return bounds.left >= 0 && bounds.right <= innerWidth;
+      })).toBe(true);
+    }
+    await picker.tap();
+    await page.getByRole("option", { name: "Select", exact: true }).tap();
+    const triggers = frames.map(frame => frame.locator('[data-slot="select-trigger"]'));
+    const initialTop = await triggers[0].evaluate(element => element.getBoundingClientRect().top);
+    await panel.getByText("Invalid state", { exact: true }).tap();
+    for (const [index, trigger] of triggers.entries()) {
+      await expect(frames[index].getByText("This selection is invalid.", { exact: true })).toBeVisible();
+      await expect.poll(() => trigger.evaluate(element => element.getBoundingClientRect().top))
+        .toBe(initialTop);
+      await trigger.tap();
+      await frames[index].getByRole("option", { name: "Wed", exact: true }).tap();
+      await expect(trigger).toContainText("Wed");
+    }
+    await picker.tap();
+    await page.getByRole("option", { name: "Button", exact: true }).tap();
+    await expect(frames[0].locator("#parity-root button")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
 });
