@@ -1,5 +1,10 @@
 export default {
   ui: {
+    Select: "Seletor",
+    "Three-state checkbox": "Caixa de seleção de três estados",
+    "Toggle group": "Grupo de botões alternáveis",
+    Button: "Botão",
+    Example: "Exemplo",
     "Example files": "Arquivos do exemplo",
     "View code": "Ver código",
     "{{count}} components found": "Componentes encontrados: {{count}}",
@@ -25,20 +30,21 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "O visual do shadcn/ui com React Aria e StyleX. Instale cada componente com o código-fonte e adapte-o ao seu projeto.",
     "LIVE COMPONENT": "COMPONENTE INTERATIVO",
-    "Button style preview": "Prévia dos estilos de botão",
-    "Choose a style and try the button.": "Escolha um estilo e teste o botão.",
+    "Live component preview": "Prévia de componentes",
+    "Choose an example and try it with your mouse or keyboard.":
+      "Escolha um exemplo e experimente com o mouse ou o teclado.",
     "Button variant": "Variante do botão",
     Outline: "Contorno",
     Solid: "Sólido",
     Ghost: "Sem fundo",
     Saved: "Salvo",
     "Try button": "Testar botão",
-    "Live button comparison": "Comparação de botões ao vivo",
-    "Compare the rendered button in both implementations.":
-      "Confira o DOM atual e os estilos CSS calculados dos dois botões no navegador.",
+    "Live component comparison": "Comparação de componentes ao vivo",
+    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
+      "Compare o DOM e o CSS calculado. Cada quadro mantém sua seleção. Escolha o mesmo estado nos dois para comparar os estilos.",
     "Disable both buttons": "Desativar os dois botões",
-    "Checking buttons…": "Comparando botões…",
-    "Buttons match": "Os valores comparados coincidem",
+    "Checking components…": "Comparando componentes…",
+    "Components match": "Os componentes coincidem",
     "Differences found": "Diferenças encontradas",
     "Preview unavailable": "A prévia não está disponível.",
     "Comparison unavailable": "Comparação indisponível",
@@ -47,10 +53,10 @@ export default {
     "View differences": "Ver diferenças",
     "Retry comparison": "Tentar novamente",
     "Comparison scope": "Escopo da comparação",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "A comparação usa o tamanho atual do quadro e o estado do botão no seu navegador.",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "Verificamos a subárvore do botão, todos os estilos calculados e os pseudoelementos ::before e ::after. Classes geradas e estilos inline são comparados pelos valores calculados. Os IDs são comparados pelas referências.",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "A comparação usa o tamanho atual dos quadros e o estado do componente no seu navegador.",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "A comparação verifica o exemplo e a lista de seleção aberta, todas as propriedades CSS calculadas e os pseudoelementos ::before e ::after. Classes geradas e estilos em linha são comparados pelo estilo calculado e os IDs pela referência.",
     "CSS properties": "Propriedades CSS",
     "CSS variable checks": "Verificações de variáveis CSS",
     "Inspect CSS variable differences": "Ver diferenças nas variáveis CSS",
@@ -79,7 +85,8 @@ export default {
       "O seletor aplica os estilos do estado escolhido nos dois quadros. O foco do teclado permanece no seletor.",
     "Native pseudo-classes": "Pseudoclasses nativas",
     testingTitle: "Métodos de teste",
-    testingPurpose: "Comparamos o AriaX e o shadcn/ui nas mesmas condições para que, em produção, você possa contar com a aparência e o comportamento que já conhece do shadcn/ui.",
+    testingPurpose:
+      "Comparamos o AriaX e o shadcn/ui nas mesmas condições para que, em produção, você possa contar com a aparência e o comportamento que já conhece do shadcn/ui.",
     comparisonTitle: "Comparação com o shadcn/ui",
     comparisonDescription:
       "Comparamos o DOM e os estilos calculados do mesmo exemplo no AriaX e no shadcn/ui.",
@@ -142,8 +149,7 @@ export default {
       "Mostra o caminho até a página atual com uma hierarquia de links.",
     bubble:
       "Exibe mensagens em balões com vários estilos, alinhamento, agrupamento, reações e conteúdo recolhível.",
-    button:
-      "Exibe um botão ou aplica seu estilo a outro elemento.",
+    button: "Exibe um botão ou aplica seu estilo a outro elemento.",
     "button-group": "Agrupa botões relacionados com um estilo consistente.",
     calendar:
       "Permite selecionar uma data ou um intervalo de datas em um calendário.",
@@ -210,12 +216,12 @@ export default {
       "Estende o componente Dialog para exibir conteúdo que complementa a tela principal.",
     sidebar:
       "Permite montar e personalizar uma barra lateral com suporte a temas.",
-    skeleton:
-      "Exibe um marcador de posição enquanto o conteúdo é carregado.",
+    skeleton: "Exibe um marcador de posição enquanto o conteúdo é carregado.",
     slider:
       "Permite selecionar um valor dentro de um intervalo com um controle deslizante.",
     sonner: "Exibe notificações breves em React com o Sonner.",
-    spinner: "Um indicador giratório que mostra que o conteúdo está carregando.",
+    spinner:
+      "Um indicador giratório que mostra que o conteúdo está carregando.",
     switch: "Permite ativar e desativar uma configuração.",
     table: "Exibe dados em uma tabela que se adapta à largura disponível.",
     tabs: "Organiza o conteúdo em abas e exibe um painel por vez.",

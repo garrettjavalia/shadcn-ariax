@@ -769,7 +769,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
       .frameLocator('iframe[title="' + name + '"]')
       .getByRole("button", { name: "Button" }),
   );
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   for (const value of await result.locator("dd").allTextContents())
     expect(Number(value)).toBeGreaterThan(0);
   async function expectSiteTheme() {
@@ -832,7 +832,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     await choose(variantControl, label);
     for (const button of buttons)
       await expect(button).toHaveAttribute("data-variant", variant);
-    await expect(result).toContainText("Buttons match");
+    await expect(result).toContainText("Components match");
   }
   const before = await buttons[0].evaluate(
     (node) => getComputedStyle(node).boxShadow,
@@ -865,7 +865,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
       for (const button of buttons)
         await expect(button).toHaveAttribute("data-pressed", /^(?:true)?$/);
     }
-    await expect(result).toContainText("Buttons match");
+    await expect(result).toContainText("Components match");
     await expect(inspector.locator("pre").first()).toBeVisible();
   }
   const disabled = panel.getByRole("checkbox", {
@@ -874,7 +874,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
   await disabled.focus();
   await page.keyboard.press("Space");
   for (const button of buttons) await expect(button).toBeDisabled();
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   await disabled.press("Space");
   for (const button of buttons) await expect(button).toBeEnabled();
   await buttons[1].evaluate((button) =>
@@ -887,7 +887,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     .frameLocator('iframe[title="AriaX"]')
     .locator('[data-slot="button"]')
     .evaluate((button) => button.removeAttribute("aria-label"));
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   await page.emulateMedia({ colorScheme: "dark" });
   for (const button of buttons)
     await expect
@@ -904,9 +904,45 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     ),
   );
   expect(widths[0]).toBe(widths[1]);
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   await expectSiteTheme();
   expect(
     await panel.evaluate((node) => node.scrollWidth <= node.clientWidth),
   ).toBe(true);
+});
+
+test("homepage examples keep preview and frame selections independent", async ({ page }) => {
+  await page.goto("./");
+  const hero = page.locator("section").filter({ has: page.getByRole("heading", { name: "Live component preview" }) }).first();
+  const panel = page.locator(".comparison-demo");
+  const left = panel.frameLocator('iframe[title="shadcn/ui"]');
+  const right = panel.frameLocator('iframe[title="AriaX"]');
+  for (const name of ["Toggle group", "Three-state checkbox", "Select"]) {
+    for (const region of [hero, panel]) {
+      await region.getByRole("button", { name: /Example$/ }).click();
+      await page.getByRole("option", { name, exact: true }).click();
+    }
+    const examples = [hero, left, right];
+    if (name === "Toggle group") {
+      for (const region of examples)
+        await expect(region.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "false");
+      await left.getByRole("button", { name: "Tue" }).click();
+      await expect(left.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "true");
+      await expect(right.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "false");
+    } else if (name === "Three-state checkbox") {
+      for (const region of examples)
+        await expect(region.getByRole("checkbox").first()).toHaveJSProperty("indeterminate", true);
+      await left.getByText("Tue", { exact: true }).click();
+      await expect(left.getByRole("checkbox").first()).toBeChecked();
+      await expect(right.getByRole("checkbox").first()).toHaveJSProperty("indeterminate", true);
+    } else {
+      for (const region of examples)
+        await expect(region.locator('[data-slot="select-trigger"]').filter({ hasText: "Mon" })).toBeVisible();
+      await left.locator('[data-slot="select-trigger"]').click();
+      await expect(panel.locator(".comparison-inspector pre").first()).toContainText('data-slot="select-content"');
+      await left.getByRole("option", { name: "Wed" }).click();
+      await expect(left.locator('[data-slot="select-trigger"]')).toContainText("Wed");
+      await expect(right.locator('[data-slot="select-trigger"]')).toContainText("Mon");
+    }
+  }
 });

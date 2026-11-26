@@ -1,5 +1,10 @@
 export default {
   ui: {
+    Select: "Select",
+    "Three-state checkbox": "Three-state checkbox",
+    "Toggle group": "Toggle group",
+    Button: "Button",
+    Example: "Example",
     "Example files": "Example files",
     "View code": "View code",
     "{{count}} components found": "Components found: {{count}}",
@@ -24,20 +29,21 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.",
     "LIVE COMPONENT": "LIVE COMPONENT",
-    "Button style preview": "Button style preview",
-    "Choose a style and try the button.": "Choose a style and try the button.",
+    "Live component preview": "Live component preview",
+    "Choose an example and try it with your mouse or keyboard.":
+      "Choose an example and try it with your mouse or keyboard.",
     "Button variant": "Button variant",
     Outline: "Outline",
     Solid: "Solid",
     Ghost: "Ghost",
     Saved: "Saved",
     "Try button": "Try button",
-    "Live button comparison": "Live button comparison",
-    "Compare the rendered button in both implementations.":
-      "Inspect the current DOM and computed CSS of both buttons in your browser.",
+    "Live component comparison": "Live component comparison",
+    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
+      "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.",
     "Disable both buttons": "Disable both buttons",
-    "Checking buttons…": "Checking buttons…",
-    "Buttons match": "Buttons match",
+    "Checking components…": "Checking components…",
+    "Components match": "Components match",
     "Differences found": "Differences found",
     "Preview unavailable": "Preview unavailable.",
     "Comparison unavailable": "Comparison unavailable",
@@ -46,10 +52,10 @@ export default {
     "View differences": "View differences",
     "Retry comparison": "Retry comparison",
     "Comparison scope": "Comparison scope",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "This comparison runs in your browser at the current frame size and button state.",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "This comparison runs in your browser at the current frame size and component state.",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.",
     "CSS properties": "CSS properties",
     "CSS variable checks": "CSS variable checks",
     "Inspect CSS variable differences": "Inspect CSS variable differences",
@@ -78,7 +84,8 @@ export default {
       "The state control previews interaction styles in both frames. Keyboard focus stays on the control.",
     "Native pseudo-classes": "Native pseudo-classes",
     testingTitle: "Testing methods",
-    testingPurpose: "We compare AriaX with shadcn/ui under the same conditions so you can rely on familiar visuals and behavior in production.",
+    testingPurpose:
+      "We compare AriaX with shadcn/ui under the same conditions so you can rely on familiar visuals and behavior in production.",
     comparisonTitle: "Compare with shadcn/ui",
     comparisonDescription:
       "We compare the DOM and computed styles of the same example in AriaX and shadcn/ui.",
@@ -148,8 +155,7 @@ export default {
     card: "Displays a card with header, content, and footer.",
     carousel:
       "An animated carousel built with Embla. Move between slides with a swipe or the navigation buttons.",
-    chart:
-      "Charts built with Recharts that you can copy into your project.",
+    chart: "Charts built with Recharts that you can copy into your project.",
     checkbox:
       "A control that allows the user to toggle between checked and not checked.",
     "code-block":
@@ -165,8 +171,7 @@ export default {
     direction:
       "A provider component that sets the text direction for your application.",
     drawer: "A React panel that slides in from the edge of the screen.",
-    "dropdown-menu":
-      "Opens a menu of actions when a button is pressed.",
+    "dropdown-menu": "Opens a menu of actions when a button is pressed.",
     empty: "Use the Empty component to display an empty state.",
     field:
       "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
@@ -196,8 +201,7 @@ export default {
       "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
     "radio-group":
       "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
-    resizable:
-      "Resize panel groups and layouts with a pointer or keyboard.",
+    resizable: "Resize panel groups and layouts with a pointer or keyboard.",
     "scroll-area":
       "Augments native scroll functionality for custom, cross-browser styling.",
     select:
@@ -211,12 +215,10 @@ export default {
       "An input where the user selects a value from within a given range.",
     sonner: "Displays toast notifications in React.",
     spinner: "A spinning indicator that shows a loading state.",
-    switch:
-      "Turns a setting on or off.",
+    switch: "Turns a setting on or off.",
     table: "A responsive table component.",
     tabs: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    textarea:
-      "A form field for entering multiple lines of text.",
+    textarea: "A form field for entering multiple lines of text.",
     toggle: "A two-state button that can be either on or off.",
     "toggle-group": "A set of two-state buttons that can be toggled on or off.",
     tooltip:

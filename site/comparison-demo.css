@@ -217,12 +217,12 @@
 .comparison-demo .comparison-options .comparison-control {
   padding: 0.5rem 0;
 }
-.comparison-demo .comparison-choice {
+.comparison-choice {
   display: grid;
   gap: 0.25rem;
   min-width: 7rem;
 }
-.comparison-demo .comparison-choice > span,
+.comparison-choice > span,
 .comparison-demo .comparison-state-note {
   font-size: 0.8rem;
   color: var(--muted-foreground);
@@ -242,4 +242,15 @@
 }
 .comparison-demo .comparison-native th {
   text-align: start;
+}
+
+.comparison-frames[data-example="select"] iframe {
+  height: 16rem;
+}
+.comparison-frames[data-example="checkbox"] iframe {
+  height: 10rem;
+}
+
+.preview-example-picker {
+  margin-bottom: 0.75rem;
 }

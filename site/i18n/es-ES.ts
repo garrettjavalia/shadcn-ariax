@@ -1,5 +1,10 @@
 export default {
   ui: {
+    Select: "Selector",
+    "Three-state checkbox": "Casilla de tres estados",
+    "Toggle group": "Grupo de botones conmutables",
+    Button: "Botón",
+    Example: "Ejemplo",
     "Example files": "Archivos del ejemplo",
     "View code": "Ver código",
     "{{count}} components found": "Componentes encontrados: {{count}}",
@@ -25,20 +30,21 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "El diseño de shadcn/ui, con React Aria y StyleX. Instala cada componente con su código fuente y adáptalo a tu proyecto.",
     "LIVE COMPONENT": "COMPONENTE INTERACTIVO",
-    "Button style preview": "Vista previa de los estilos de botón",
-    "Choose a style and try the button.": "Elige un estilo y prueba el botón.",
+    "Live component preview": "Vista previa de componentes",
+    "Choose an example and try it with your mouse or keyboard.":
+      "Elige un ejemplo y pruébalo con el ratón o el teclado.",
     "Button variant": "Variante del botón",
     Outline: "Con borde",
     Solid: "Sólido",
     Ghost: "Sin fondo",
     Saved: "Guardado",
     "Try button": "Probar botón",
-    "Live button comparison": "Comparación de botones en vivo",
-    "Compare the rendered button in both implementations.":
-      "Consulta el DOM actual y los estilos CSS calculados de ambos botones en tu navegador.",
+    "Live component comparison": "Comparación de componentes en vivo",
+    "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.":
+      "Compara el DOM y el CSS calculado. Cada marco conserva su selección. Elige el mismo estado en ambos para comparar estilos.",
     "Disable both buttons": "Desactivar ambos botones",
-    "Checking buttons…": "Comparando botones…",
-    "Buttons match": "Los valores comparados coinciden",
+    "Checking components…": "Comparando componentes…",
+    "Components match": "Los componentes coinciden",
     "Differences found": "Se encontraron diferencias",
     "Preview unavailable": "La vista previa no está disponible.",
     "Comparison unavailable": "Comparación no disponible",
@@ -47,10 +53,10 @@ export default {
     "View differences": "Ver diferencias",
     "Retry comparison": "Reintentar la comparación",
     "Comparison scope": "Alcance de la comparación",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "La comparación se realiza en tu navegador con el tamaño actual del marco y el estado actual del botón.",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "Se comprueban el subárbol del botón, todos los estilos calculados y los pseudoelementos ::before y ::after. Las clases generadas y los estilos en línea se comparan mediante sus valores calculados. Los identificadores se comparan por sus referencias.",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "La comparación usa el tamaño actual de los marcos y el estado del componente en tu navegador.",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "Se inspeccionan el ejemplo y la lista de selección abierta, todas las propiedades CSS calculadas y los pseudoelementos ::before y ::after. Las clases generadas y los estilos en línea se comparan por su estilo calculado y los ID por su referencia.",
     "CSS properties": "Propiedades CSS",
     "CSS variable checks": "Comprobaciones de variables CSS",
     "Inspect CSS variable differences": "Ver diferencias en variables CSS",
@@ -79,7 +85,8 @@ export default {
       "El selector aplica los estilos del estado elegido en ambos marcos. El foco del teclado permanece en el selector.",
     "Native pseudo-classes": "Pseudoclases nativas",
     testingTitle: "Métodos de prueba",
-    testingPurpose: "Comparamos AriaX y shadcn/ui en las mismas condiciones para que en producción puedas contar con la apariencia y el comportamiento que ya conoces de shadcn/ui.",
+    testingPurpose:
+      "Comparamos AriaX y shadcn/ui en las mismas condiciones para que en producción puedas contar con la apariencia y el comportamiento que ya conoces de shadcn/ui.",
     comparisonTitle: "Comparación con shadcn/ui",
     comparisonDescription:
       "Comparamos el DOM y los estilos calculados del mismo ejemplo en AriaX y shadcn/ui.",
@@ -143,8 +150,7 @@ export default {
       "Muestra la ruta hasta la página actual mediante una jerarquía de enlaces.",
     bubble:
       "Muestra mensajes en bocadillos con varios estilos, alineación, agrupación, reacciones y contenido plegable.",
-    button:
-      "Muestra un botón o aplica su estilo a otro elemento.",
+    button: "Muestra un botón o aplica su estilo a otro elemento.",
     "button-group": "Agrupa botones relacionados con un estilo coherente.",
     calendar:
       "Permite elegir una fecha o un intervalo de fechas en un calendario.",
@@ -166,7 +172,8 @@ export default {
       "Permite elegir una fecha, un intervalo o un periodo predefinido.",
     dialog:
       "Abre un diálogo sobre la ventana principal u otro diálogo y bloquea la interacción con el contenido que queda detrás.",
-    direction: "Un proveedor que define la dirección del texto de la aplicación.",
+    direction:
+      "Un proveedor que define la dirección del texto de la aplicación.",
     drawer:
       "Muestra un panel de React que se desliza desde un borde de la pantalla.",
     "dropdown-menu": "Un botón abre un menú de acciones.",
@@ -217,7 +224,8 @@ export default {
     slider:
       "Permite seleccionar un valor dentro de un intervalo con un control deslizante.",
     sonner: "Muestra notificaciones breves de React con Sonner.",
-    spinner: "Un indicador giratorio que muestra que se está cargando contenido.",
+    spinner:
+      "Un indicador giratorio que muestra que se está cargando contenido.",
     switch: "Permite activar y desactivar un ajuste.",
     table: "Muestra datos en una tabla que se adapta al ancho disponible.",
     tabs: "Organiza el contenido en pestañas y muestra un panel cada vez.",

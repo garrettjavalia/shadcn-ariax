@@ -1,7 +1,16 @@
+import {
+  ComponentExample,
+  exampleNames,
+  type Example,
+} from "../component-example";
+import { locales, defaultLocale } from "../i18n/locales";
+import type * as Controls from "../example-controls";
+import { I18nProvider } from "react-aria-components";
 import { createRoot } from "react-dom/client";
 import {
   useSyncExternalStore,
   useLayoutEffect,
+  useState,
   type ComponentType,
   type ReactNode,
 } from "react";
@@ -28,15 +37,25 @@ function subscribe(update: () => void) {
 }
 
 export function mount(
-  Button: ComponentType<{
-    children: ReactNode;
-    isDisabled?: boolean;
-    variant: Variant;
-  }>,
+  controls: typeof Controls & {
+    Button: ComponentType<{
+      children: ReactNode;
+      isDisabled?: boolean;
+      variant: Variant;
+      onPress: () => void;
+    }>;
+  },
 ) {
+  const { Button } = controls;
   const html = document.documentElement;
   const root = document.getElementById("parity-root")!;
   const params = new URLSearchParams(location.search);
+  const example = Object.keys(exampleNames).find(
+    (key) => key === params.get("example"),
+  ) as Example | undefined;
+  const locale =
+    locales.find((value) => value === params.get("lang")) ?? defaultLocale;
+  html.lang = locale;
   if (params.has("theme"))
     html.classList.toggle("dark", params.get("theme") === "dark");
   if (params.has("disabled"))
@@ -47,6 +66,7 @@ export function mount(
   const snapshot = () =>
     JSON.stringify(keys.map((key) => html.getAttribute(key)));
   function Fixture() {
+    const [saved, setSaved] = useState(false);
     const [disabledFlag, requestedVariant, requestedState] = JSON.parse(
       useSyncExternalStore(subscribe, snapshot),
     ) as (string | null)[];
@@ -78,10 +98,29 @@ export function mount(
       root.dataset.readyDisabled = String(isDisabled);
     }, [variant, state, isDisabled]);
     return (
-      <Button isDisabled={isDisabled} variant={variant}>
-        Button
+      <Button
+        isDisabled={isDisabled}
+        variant={variant}
+        onPress={() => setSaved((value) => !value)}
+      >
+        {saved
+          ? params.get("saved") || "Saved"
+          : params.get("label") || "Button"}
       </Button>
     );
   }
-  createRoot(root).render(<Fixture />);
+  createRoot(root).render(
+    <I18nProvider locale={locale}>
+      {example && example !== "button" ? (
+        <ComponentExample
+          example={example}
+          controls={controls}
+          locale={locale}
+          label={params.get("label") || exampleNames[example]}
+        />
+      ) : (
+        <Fixture />
+      )}
+    </I18nProvider>,
+  );
 }

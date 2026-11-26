@@ -61,7 +61,9 @@ import {
 import { Input } from "../src/ariax/ui/input";
 import { Kbd } from "../src/ariax/ui/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../src/ariax/ui/tabs";
-import { ComparisonDemo } from "./comparison-demo";
+import * as exampleControls from "./example-controls";
+import { ComponentExample, exampleNames, type Example } from "./component-example";
+import { ComparisonDemo, ExamplePicker } from "./comparison-demo";
 import { ExampleCode } from "./example-code";
 import { I18nProvider, RouterProvider } from "react-aria-components";
 import { SidebarShortcutScope } from "../src/ariax/ui/sidebar";
@@ -402,8 +404,14 @@ function HomeLinks({ base }: Pick<SiteProps, "base">) {
   );
 }
 
-function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> & { theme: "light" | "dark" }) {
+function Home({
+  base,
+  assetBase,
+  theme,
+}: Pick<SiteProps, "base" | "assetBase"> & { theme: "light" | "dark" }) {
   const t = useText();
+  const { i18n } = useTranslation();
+  const [example, setExample] = useState<Example>("button");
   const [saved, setSaved] = useState(false);
   const [variant, setVariant] = useState("outline");
   return (
@@ -440,37 +448,61 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
                   NOVA / NEUTRAL
                 </Badge>
                 <h2 {...stylex.props(s.boardTitle)}>
-                  {t("Button style preview")}
+                  {t("Live component preview")}
                 </h2>
                 <p {...stylex.props(s.boardCopy)}>
-                  {t("Choose a style and try the button.")}
+                  {t(
+                    "Choose an example and try it with your mouse or keyboard.",
+                  )}
                 </p>
               </CardHeader>
               <CardContent>
-                <Tabs
-                  selectedKey={variant}
-                  onSelectionChange={(key) => setVariant(String(key))}
-                  aria-label={t("Button variant")}
-                >
-                  <TabsList aria-label={t("Button variant")}>
-                    <TabsTrigger id="outline">{t("Outline")}</TabsTrigger>
-                    <TabsTrigger id="default">{t("Solid")}</TabsTrigger>
-                    <TabsTrigger id="ghost">{t("Ghost")}</TabsTrigger>
-                  </TabsList>
-                  {(["outline", "default", "ghost"] as const).map((key) => (
-                    <TabsContent id={key} key={key} xstyle={s.demoAction}>
-                      <Button variant={key} onPress={() => setSaved(!saved)}>
-                        {saved ? <Check /> : <Zap />}
-                        {saved ? t("Saved") : t("Try button")}
-                      </Button>
-                    </TabsContent>
-                  ))}
-                </Tabs>
+                <div className="preview-example-picker">
+                  <ExamplePicker value={example} onChange={setExample} />
+                </div>
+                {example === "button" ? (
+                  <Tabs
+                    selectedKey={variant}
+                    onSelectionChange={(key) => setVariant(String(key))}
+                    aria-label={t("Button variant")}
+                  >
+                    <TabsList aria-label={t("Button variant")}>
+                      <TabsTrigger id="outline">{t("Outline")}</TabsTrigger>
+                      <TabsTrigger id="default">{t("Solid")}</TabsTrigger>
+                      <TabsTrigger id="ghost">{t("Ghost")}</TabsTrigger>
+                    </TabsList>
+                    {(["outline", "default", "ghost"] as const).map((key) => (
+                      <TabsContent id={key} key={key} xstyle={s.demoAction}>
+                        <Button variant={key} onPress={() => setSaved(!saved)}>
+                          {saved ? <Check /> : <Zap />}
+                          {saved ? t("Saved") : t("Try button")}
+                        </Button>
+                      </TabsContent>
+                    ))}
+                  </Tabs>
+                ) : (
+                  <div {...stylex.props(s.demoAction)}>
+                    <ComponentExample
+                      key={example}
+                      example={example}
+                      controls={exampleControls}
+                      locale={i18n.language}
+                      label={t(exampleNames[example])}
+                    />
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
           <div {...stylex.props(s.boardFooter)}>
-            <Code2 size={15} /> &lt;Button variant="{variant}" /&gt;
+            <Code2 size={15} />{" "}
+            {example === "button"
+              ? `<Button variant="${variant}" />`
+              : {
+                  "toggle-group": "<ToggleGroup />",
+                  checkbox: "<Checkbox />",
+                  select: "<Select />",
+                }[example]}
           </div>
         </div>
       </section>
@@ -524,7 +556,9 @@ function Home({ base, assetBase, theme }: Pick<SiteProps, "base" | "assetBase"> 
           <div data-section-heading {...stylex.props(s.sectionHeading)}>
             <h2>{t(section.title)}</h2>
             {section.description && (
-              <p {...stylex.props(s.testingPurpose)}>{t(section.description)}</p>
+              <p {...stylex.props(s.testingPurpose)}>
+                {t(section.description)}
+              </p>
             )}
           </div>
           <div {...stylex.props(s.featureGrid)}>

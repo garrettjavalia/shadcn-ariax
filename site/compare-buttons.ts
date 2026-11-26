@@ -67,7 +67,7 @@ function referencedId(element: Element, root: Element, id: string) {
     const container = root.contains(referenced)
       ? root
       : referenced.ownerDocument.documentElement;
-    let path = container === root ? "button" : "document";
+    let path = container === root ? root.localName : "document";
     const indices: number[] = [];
     for (
       let current = referenced;
@@ -181,6 +181,7 @@ function colorReader(doc: Document) {
 export function compareButtons(
   upstream: HTMLElement,
   ariax: HTMLElement,
+  example = "button",
 ): ButtonComparison {
   if (
     ![upstream, ariax].every(
@@ -188,7 +189,7 @@ export function compareButtons(
     )
   )
     throw new Error(
-      "Both comparison buttons must be mounted in browser documents.",
+      "Both comparison roots must be mounted in browser documents.",
     );
   const result: ButtonComparison = {
     states: { upstream: buttonState(upstream), ariax: buttonState(ariax) },
@@ -262,6 +263,16 @@ export function compareButtons(
   }
   function compare(a: Element, b: Element, path: string) {
     check("dom", path, "tag", a.localName, b.localName);
+    if (a.localName === "input" && b.localName === "input") {
+      for (const property of ["checked", "indeterminate"] as const)
+        check(
+          "dom",
+          path,
+          property,
+          String((a as HTMLInputElement)[property]),
+          String((b as HTMLInputElement)[property]),
+        );
+    }
     if (a.localName === "button" || b.localName === "button") {
       const labels = (element: Element) =>
         Array.from((element as HTMLButtonElement).labels ?? [])
@@ -428,7 +439,30 @@ export function compareButtons(
       }
     }
   }
-  compare(upstream, ariax, "button");
+  compare(upstream, ariax, example);
+  if (example === "select") {
+    const [left, right] = [upstream, ariax].map((root) => {
+      const popup = root.ownerDocument.querySelector<HTMLElement>(
+        '[data-slot="select-content"]',
+      );
+      return popup && !root.contains(popup) ? popup : null;
+    });
+    if (left || right) {
+      const path = "select/popup";
+      check(
+        "dom",
+        path,
+        "tag",
+        left?.localName ?? null,
+        right?.localName ?? null,
+      );
+      if (left) result.dom.upstream += "\n" + left.outerHTML;
+      if (right) result.dom.ariax += "\n" + right.outerHTML;
+      if (left && right) compare(left, right, path);
+      else if (left) inspectUnpaired(left, path, "upstream");
+      else if (right) inspectUnpaired(right, path, "ariax");
+    }
+  }
   result.cssPropertyCount = cssNames.size;
   return result;
 }

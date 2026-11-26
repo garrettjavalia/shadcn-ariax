@@ -12,6 +12,7 @@ import {
 import { Input } from "../src/ariax/ui/input";
 import { Label } from "../src/ariax/ui/label";
 import { compareButtons } from "./compare-buttons";
+import { exampleNames, type Example } from "./component-example";
 import "./comparison-demo.css";
 
 type Comparison = ReturnType<typeof compareButtons>;
@@ -19,7 +20,7 @@ type Result = "ready" | "loading" | "error";
 
 const frameNames = ["upstream", "ariax"] as const;
 const labels = ["shadcn/ui", "AriaX"];
-const buttonSelector = '#parity-root [data-slot="button"]';
+const buttonSelector = '[data-slot="button"]';
 
 const variantLabels = {
   default: "Solid",
@@ -74,6 +75,23 @@ function ComparisonChoice({
   );
 }
 
+export function ExamplePicker({
+  value,
+  onChange,
+}: {
+  value: Example;
+  onChange: (value: Example) => void;
+}) {
+  return (
+    <ComparisonChoice
+      label="Example"
+      labels={exampleNames}
+      value={value}
+      onChange={(key) => onChange(key as Example)}
+    />
+  );
+}
+
 function SnapshotInspector({ comparison }: { comparison: Comparison }) {
   const { t } = useTranslation();
   const [selection, setSelection] = useState("");
@@ -91,9 +109,10 @@ function SnapshotInspector({ comparison }: { comparison: Comparison }) {
   );
   const rows = (
     selected?.[custom ? "customProperties" : "properties"] ?? []
-  ).filter((row) =>
-    (!onlyDifferences || different.has(row.property)) &&
-    row.property.toLowerCase().includes(needle),
+  ).filter(
+    (row) =>
+      (!onlyDifferences || different.has(row.property)) &&
+      row.property.toLowerCase().includes(needle),
   );
   return (
     <div className="comparison-inspector">
@@ -328,7 +347,15 @@ export function ComparisonDemo({
   assetBase: string;
   theme: "light" | "dark";
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [example, setExample] = useState<Example>("button");
+  const buttonExample = example === "button";
+  const params = new URLSearchParams({
+    example,
+    lang: i18n.language,
+    label: t(exampleNames[example]),
+    saved: t("Saved"),
+  });
   const panel = useRef<HTMLDivElement>(null);
   const [variant, setVariant] = useState("default");
   const [state, setState] = useState("rest");
@@ -355,31 +382,30 @@ export function ComparisonDemo({
     };
     const inspect = () => {
       try {
-        const buttons = frames.map((frame) =>
-          documents
-            .get(frame)
-            ?.querySelector<HTMLButtonElement>(buttonSelector),
-        );
-        const [left, right] = buttons;
-        const committed = buttons.every((button) => {
-          const ready = button?.closest<HTMLElement>("#parity-root")?.dataset;
-          return (
-            ready?.readyVariant === variant &&
-            ready.readyState === activeState &&
-            ready.readyDisabled === String(disabled)
-          );
+        const [left, right] = frames.map((frame) => {
+          const doc = documents.get(frame);
+          if (!doc || new URL(doc.URL).searchParams.get("example") !== example)
+            return;
+          const root = doc.querySelector<HTMLElement>("#parity-root");
+          if (!root?.firstElementChild || doc.fonts.status === "loading")
+            return;
+          if (!buttonExample)
+            return root.querySelector<HTMLElement>(
+              example === "checkbox"
+                ? '[role="group"]'
+                : `[data-slot="${example}"]`,
+            );
+          const button = root.querySelector<HTMLButtonElement>(buttonSelector);
+          if (
+            root.dataset.readyVariant === variant &&
+            root.dataset.readyState === activeState &&
+            root.dataset.readyDisabled === String(disabled) &&
+            button?.disabled === disabled
+          )
+            return button;
         });
-        if (
-          !committed ||
-          !left ||
-          !right ||
-          left.ownerDocument.fonts.status === "loading" ||
-          right.ownerDocument.fonts.status === "loading" ||
-          left.disabled !== disabled ||
-          right.disabled !== disabled
-        )
-          return;
-        const comparison = compareButtons(left, right);
+        if (!left || !right) return;
+        const comparison = compareButtons(left, right, example);
         clearTimeout(deadline);
         setComparison(comparison);
         setResult("ready");
@@ -402,6 +428,8 @@ export function ComparisonDemo({
       "pointerup",
       "keydown",
       "keyup",
+      "change",
+      "animationend",
       "transitionend",
       "transitioncancel",
     ];
@@ -410,7 +438,12 @@ export function ComparisonDemo({
       const root = doc?.documentElement;
       // A navigating frame can expose its Document before the parser creates <html>.
       // Its load listener retries the connection once the document is ready.
-      if (!doc || !root || doc.URL === "about:blank" || documents.get(frame) === doc)
+      if (
+        !doc ||
+        !root ||
+        doc.URL === "about:blank" ||
+        documents.get(frame) === doc
+      )
         return;
       release.get(frame)?.();
       pending();
@@ -449,6 +482,7 @@ export function ComparisonDemo({
     }
     const onLoad = (event: Event) =>
       connect(event.currentTarget as HTMLIFrameElement);
+    setComparison(null);
     pending();
     for (const frame of frames) {
       frame.addEventListener("load", onLoad);
@@ -462,53 +496,73 @@ export function ComparisonDemo({
       cancelAnimationFrame(raf);
       clearTimeout(deadline);
     };
-  }, [attempt, disabled, theme, variant, activeState]);
+  }, [
+    attempt,
+    disabled,
+    theme,
+    variant,
+    activeState,
+    example,
+    buttonExample,
+    i18n.language,
+  ]);
 
   const matches = comparison?.differences.length === 0;
   return (
     <div className="comparison-demo" ref={panel}>
       <div className="comparison-heading" data-section-heading>
-        <h2>{t("Live button comparison")}</h2>
-        <p>{t("Compare the rendered button in both implementations.")}</p>
+        <h2>{t("Live component comparison")}</h2>
+        <p>
+          {t(
+            "Compare the DOM and computed CSS. Each frame keeps its own selection. Choose the same state on both sides to compare styles.",
+          )}
+        </p>
       </div>
       <div className="comparison-panel">
         <div className="comparison-options">
-          <ComparisonChoice
-            label="Button variant"
-            value={variant}
-            labels={variantLabels}
-            onChange={setVariant}
-          />
-          <ComparisonChoice
-            label="Button state"
-            isDisabled={disabled}
-            value={activeState}
-            labels={stateLabels}
-            onChange={setState}
-          />
-          <div className="comparison-control">
-            <Checkbox
-              id="disable-comparison-buttons"
-              isSelected={disabled}
-              onChange={setDisabled}
-            />
-            <Label htmlFor="disable-comparison-buttons">
-              {t("Disable both buttons")}
-            </Label>
-          </div>
-        </div>
-        <p className="comparison-state-note">
-          {t(
-            "The state control previews interaction styles in both frames. Keyboard focus stays on the control.",
+          <ExamplePicker value={example} onChange={setExample} />
+          {buttonExample && (
+            <>
+              <ComparisonChoice
+                label="Button variant"
+                value={variant}
+                labels={variantLabels}
+                onChange={setVariant}
+              />
+              <ComparisonChoice
+                label="Button state"
+                isDisabled={disabled}
+                value={activeState}
+                labels={stateLabels}
+                onChange={setState}
+              />
+              <div className="comparison-control">
+                <Checkbox
+                  id="disable-comparison-buttons"
+                  isSelected={disabled}
+                  onChange={setDisabled}
+                />
+                <Label htmlFor="disable-comparison-buttons">
+                  {t("Disable both buttons")}
+                </Label>
+              </div>
+            </>
           )}
-        </p>
-        <div className="comparison-frames">
+        </div>
+        {buttonExample && (
+          <p className="comparison-state-note">
+            {t(
+              "The state control previews interaction styles in both frames. Keyboard focus stays on the control.",
+            )}
+          </p>
+        )}
+        <div className="comparison-frames" data-example={example}>
           {frameNames.map((name, i) => (
             <figure key={name}>
               <figcaption>{labels[i]}</figcaption>
               <iframe
-                key={attempt}
-                src={assetBase + "compare/" + name + "/"}
+                key={example + attempt}
+                src={assetBase + "compare/" + name + "/?" + params}
                 title={labels[i]}
               />
             </figure>
@@ -524,10 +578,10 @@ export function ComparisonDemo({
             {t(
               result === "ready"
                 ? matches
-                  ? "Buttons match"
+                  ? "Components match"
                   : "Differences found"
                 : result === "loading"
-                  ? "Checking buttons…"
+                  ? "Checking components…"
                   : "Comparison unavailable",
             )}
           </strong>
@@ -571,12 +625,12 @@ export function ComparisonDemo({
           <summary>{t("Comparison scope")}</summary>
           <p>
             {t(
-              "This comparison runs in your browser at the current frame size and button state.",
+              "This comparison runs in your browser at the current frame size and component state.",
             )}
           </p>
           <p>
             {t(
-              "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.",
+              "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.",
             )}
           </p>
           {comparison && (
