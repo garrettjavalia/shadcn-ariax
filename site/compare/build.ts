@@ -14,9 +14,25 @@ import { fixtureStates } from "./states";
 
 const require = createRequire(import.meta.url);
 
-async function installButton(root: string, app: string) {
-  const schema = JSON.parse(
-    await readFile(join(root, "registry/button.json"), "utf8"),
+const fixtures = {
+  button: ["Button"],
+  "toggle-group": ["ToggleGroup", "ToggleGroupItem"],
+  checkbox: ["Checkbox"],
+  select: [
+    "Select",
+    "SelectTrigger",
+    "SelectValue",
+    "SelectContent",
+    "SelectItem",
+  ],
+};
+
+async function installExamples(root: string, app: string) {
+  const files = Object.keys(fixtures).map((name) =>
+    join(root, "registry", name + ".json"),
+  );
+  const schemas = await Promise.all(
+    files.map(async (file) => JSON.parse(await readFile(file, "utf8"))),
   );
   const packages = (entries: string[]) =>
     Object.fromEntries(
@@ -30,11 +46,15 @@ async function installButton(root: string, app: string) {
     writeFile(
       join(app, "package.json"),
       JSON.stringify({
-        name: "ariax-button-comparison",
+        name: "ariax-component-comparison",
         private: true,
         type: "module",
-        dependencies: packages(schema.dependencies),
-        devDependencies: packages(schema.devDependencies),
+        dependencies: packages(
+          schemas.flatMap((schema) => schema.dependencies),
+        ),
+        devDependencies: packages(
+          schemas.flatMap((schema) => schema.devDependencies),
+        ),
       }),
     ),
     writeFile(
@@ -91,7 +111,7 @@ async function installButton(root: string, app: string) {
       [
         join(root, "node_modules/shadcn/dist/index.js"),
         "add",
-        join(root, "registry/button.json"),
+        ...files.map((file) => `./${normalizePath(relative(app, file))}`),
         "--yes",
         "--overwrite",
         "--cwd",
@@ -123,38 +143,45 @@ export async function buildComparison(
   await Promise.all(
     implementations.map((name) => mkdir(join(app, name), { recursive: true })),
   );
-  await installButton(root, app);
+  await installExamples(root, app);
   const reference = join(root, "generated/reference/aria-nova");
-  // Keep the complete reference stylesheet while scanning only this fixture's component.
+  // Include utilities from the reference components imported by Select and ToggleGroup.
+  const sources = [
+    ...Object.keys(fixtures),
+    "toggle",
+    "input-group",
+    "input",
+    "textarea",
+  ]
+    .map((name) => `@source "../reference/aria-nova/ui/${name}.tsx";`)
+    .join("\n");
   const css = (await readFile(join(reference, "tailwind.css"), "utf8"))
     .replace(/^@source [^;]+;/gm, "")
     .replace(
       '"./cli.css"',
       JSON.stringify(normalizePath(relative(app, join(reference, "cli.css")))),
     );
-  await writeFile(
-    join(app, "reference.css"),
-    css + '\n@source "../reference/aria-nova/ui/button.tsx";\n',
-  );
+  await writeFile(join(app, "reference.css"), css + "\n" + sources + "\n");
   for (const name of implementations) {
     const folder = join(app, name);
     const upstream = name === "upstream";
-    const button = relative(
-      folder,
-      upstream
-        ? join(reference, "ui/button")
-        : join(app, "components/ui/button"),
-    );
+    const ui = upstream ? join(reference, "ui") : join(app, "components/ui");
+    const imports = Object.entries(fixtures)
+      .map(
+        ([module, names]) =>
+          `import { ${names.join(", ")} } from ${JSON.stringify(normalizePath(relative(folder, join(ui, module))))};`,
+      )
+      .join("\n");
     const stylesheet = upstream
       ? "../reference.css"
       : "../components/ui/ariax/styles/entry.css";
     await writeFile(
       join(folder, "entry.ts"),
-      `import ${JSON.stringify(stylesheet)};\nimport "../../../site/theme.css";\nimport {Button} from ${JSON.stringify(normalizePath(button))};\nimport {mount} from "../../../site/compare/mount";\nmount(Button);\n`,
+      `import ${JSON.stringify(stylesheet)};\nimport "../../../site/theme.css";\n${imports}\nimport {mount} from "../../../site/compare/mount";\nmount({ ${Object.values(fixtures).flat().join(", ")} });\n`,
     );
     await writeFile(
       join(folder, "index.html"),
-      '<!doctype html><html lang="en" data-ariax-themed><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Button</title><style>html,body{height:100%;margin:0;background:transparent}#parity-root{display:grid;place-items:center;height:100%}</style></head><body><main id="parity-root"></main><script type="module" src="./entry.ts"></script></body></html>',
+      '<!doctype html><html lang="en" data-ariax-themed><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Component preview</title><link rel="stylesheet" vite-ignore href="../../fonts/pretendard/font.css"><link rel="stylesheet" vite-ignore href="../../fonts/pretendard-jp/font.css"><style>html,body{height:100%;margin:0;background:transparent}#parity-root{display:grid;place-items:center;height:100%}</style></head><body><main id="parity-root"></main><script type="module" src="./entry.ts"></script></body></html>',
     );
   }
   await build({
@@ -163,12 +190,15 @@ export async function buildComparison(
     base: base + "compare/",
     publicDir: false,
     plugins: [tailwind(), react({ babel })],
-    resolve: { dedupe: ["react", "react-dom", "react-aria-components"] },
+    resolve: {
+      alias: { "@reference": reference, "@": app },
+      dedupe: ["react", "react-dom", "react-aria-components"],
+    },
     css: {
       postcss: {
         plugins: [
           require("@stylexjs/postcss-plugin")({
-            include: [join(app, "components/ui/**/*.{ts,tsx}")],
+            include: [normalizePath(join(app, "components/ui/**/*.{ts,tsx}"))],
             babelConfig: babel,
             useCSSLayers: false,
           }),

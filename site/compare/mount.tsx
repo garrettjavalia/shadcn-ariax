@@ -1,7 +1,17 @@
+import {
+  ComponentExample,
+  exampleNames,
+  type Example,
+} from "../component-example";
+import { locales, defaultLocale } from "../i18n/locales";
+import { focusSelectOnFrameEntry } from "./frame-focus";
+import type * as Controls from "../example-controls";
+import { I18nProvider } from "react-aria-components";
 import { createRoot } from "react-dom/client";
 import {
   useSyncExternalStore,
   useLayoutEffect,
+  useState,
   type ComponentType,
   type ReactNode,
 } from "react";
@@ -16,7 +26,15 @@ const variants = [
 ] as const;
 type Variant = (typeof variants)[number];
 const states = ["rest", "hover", "focus-visible", "pressed"] as const;
-const keys = ["data-disabled", "data-compare-variant", "data-compare-state"];
+const keys = [
+  "data-disabled",
+  "data-compare-variant",
+  "data-compare-state",
+  "data-small",
+  "data-invalid",
+  "data-borderless",
+  "data-vertical",
+];
 
 function subscribe(update: () => void) {
   const observer = new MutationObserver(update);
@@ -28,15 +46,31 @@ function subscribe(update: () => void) {
 }
 
 export function mount(
-  Button: ComponentType<{
-    children: ReactNode;
-    isDisabled?: boolean;
-    variant: Variant;
-  }>,
+  controls: typeof Controls & {
+    Button: ComponentType<{
+      children: ReactNode;
+      isDisabled?: boolean;
+      variant: Variant;
+      onPress: () => void;
+    }>;
+  },
 ) {
+  const { Button } = controls;
+  window.addEventListener("pointerdown", focusSelectOnFrameEntry, true);
   const html = document.documentElement;
   const root = document.getElementById("parity-root")!;
   const params = new URLSearchParams(location.search);
+  const example = Object.keys(exampleNames).find(
+    (key) => key === params.get("example"),
+  ) as Example | undefined;
+  // Anchor the trigger while validation feedback and the popup use the space below.
+  if (example === "select") {
+    root.style.alignItems = "start";
+    root.style.paddingBlockStart = "2.5rem";
+  }
+  const locale =
+    locales.find((value) => value === params.get("lang")) ?? defaultLocale;
+  html.lang = locale;
   if (params.has("theme"))
     html.classList.toggle("dark", params.get("theme") === "dark");
   if (params.has("disabled"))
@@ -47,6 +81,7 @@ export function mount(
   const snapshot = () =>
     JSON.stringify(keys.map((key) => html.getAttribute(key)));
   function Fixture() {
+    const [saved, setSaved] = useState(false);
     const [disabledFlag, requestedVariant, requestedState] = JSON.parse(
       useSyncExternalStore(subscribe, snapshot),
     ) as (string | null)[];
@@ -78,10 +113,47 @@ export function mount(
       root.dataset.readyDisabled = String(isDisabled);
     }, [variant, state, isDisabled]);
     return (
-      <Button isDisabled={isDisabled} variant={variant}>
-        Button
+      <Button
+        isDisabled={isDisabled}
+        variant={variant}
+        onPress={() => setSaved((value) => !value)}
+      >
+        {saved
+          ? params.get("saved") || "Saved"
+          : params.get("label") || "Button"}
       </Button>
     );
   }
-  createRoot(root).render(<Fixture />);
+  function NonButtonFixture({
+    example,
+  }: {
+    example: Exclude<Example, "button">;
+  }) {
+    useSyncExternalStore(subscribe, snapshot);
+    return (
+      <ComponentExample
+        example={example}
+        controls={controls}
+        locale={locale}
+        label={params.get("label") || exampleNames[example]}
+        isDisabled={html.hasAttribute("data-disabled")}
+        isInvalid={html.hasAttribute("data-invalid")}
+        invalidMessage={
+          params.get("invalidMessage") ?? "This selection is invalid."
+        }
+        outline={!html.hasAttribute("data-borderless")}
+        vertical={html.hasAttribute("data-vertical")}
+        size={html.hasAttribute("data-small") ? "sm" : "default"}
+      />
+    );
+  }
+  createRoot(root).render(
+    <I18nProvider locale={locale}>
+      {example && example !== "button" ? (
+        <NonButtonFixture example={example} />
+      ) : (
+        <Fixture />
+      )}
+    </I18nProvider>,
+  );
 }

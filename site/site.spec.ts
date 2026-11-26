@@ -11,6 +11,11 @@ function deployedPath(path = "") {
   return deploymentPath + path;
 }
 
+async function readClipboardSource(page: Page) {
+  // Windows exposes system clipboard line endings as CRLF; <pre> uses LF.
+  return page.evaluate(async () => (await navigator.clipboard.readText()).replaceAll("\r\n", "\n"));
+}
+
 async function expectNoHorizontalOverflow(page: Page) {
   await expect
     .poll(() =>
@@ -37,9 +42,7 @@ test("landing page navigates to installation under the deployed base", async ({
   await page.goto("./");
   await expect(page).toHaveURL((url) => url.pathname === deployedPath());
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  const solid = page.getByRole("tab", { name: "Solid" });
-  await solid.click();
-  await expect(solid).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator(".home-live-example [data-preview-stage]").first()).toBeVisible();
 
   await page
     .locator(`a[href="${deployedPath(installationPath)}"]`)
@@ -90,7 +93,7 @@ test("installation code copies the visible file in each framework tab", async ({
       const source = await block.locator("pre code").textContent();
       await block.getByRole("button", { name: "Copy code" }).click();
       await expect
-        .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+        .poll(() => readClipboardSource(page))
         .toBe(source);
     }
   }
@@ -409,9 +412,7 @@ test("expanded code copies the displayed AriaX source", async ({
   expect(expected).not.toMatch(/@\/styles\/aria-nova\/ui/);
   await panel.getByRole("button", { name: "Copy code" }).click();
   await expect
-    .poll(() =>
-      page.evaluate(async () => (await navigator.clipboard.readText()).trim()),
-    )
+    .poll(async () => (await readClipboardSource(page)).trim())
     .toBe(expected);
 });
 
@@ -757,6 +758,23 @@ for (const width of [320, 390]) {
   });
 }
 
+test("Japanese comparison buttons render with the bundled Japanese font", async ({ page }) => {
+  await page.goto("./ja/");
+  const panel = page.locator(".comparison-demo");
+  await panel.scrollIntoViewIfNeeded();
+  for (const name of ["shadcn/ui", "AriaX"]) {
+    const button = panel.frameLocator(`iframe[title="${name}"]`).getByRole("button").first();
+    await expect(button).toBeVisible();
+    await expect(button).toHaveCSS("font-family", /^"Pretendard JP Variable"/);
+    await expect.poll(() => button.evaluate(async (element) => {
+      await document.fonts.ready;
+      return [...document.fonts].some(face =>
+        face.family.replace(/["']/g, "") === "Pretendard JP Variable" && face.status === "loaded"
+      ) && element.ownerDocument.documentElement.lang === "ja-JP";
+    })).toBe(true);
+  }
+});
+
 test("homepage compares the rendered buttons and reports specific mismatches", async ({
   page,
 }) => {
@@ -769,7 +787,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
       .frameLocator('iframe[title="' + name + '"]')
       .getByRole("button", { name: "Button" }),
   );
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   for (const value of await result.locator("dd").allTextContents())
     expect(Number(value)).toBeGreaterThan(0);
   async function expectSiteTheme() {
@@ -799,6 +817,12 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
   await expect(
     inspector.getByRole("rowheader", { name: "background-color", exact: true }),
   ).toBeVisible();
+  const elementPicker = inspector.getByRole("button", { name: /Inspect element$/ });
+  await elementPicker.click();
+  await page.getByRole("option", { name: "All", exact: true }).click();
+  await expect(inspector.getByRole("rowheader", { name: "button::before · background-color", exact: true })).toBeVisible();
+  await elementPicker.click();
+  await page.getByRole("option", { name: "button", exact: true }).click();
   const differencesOnly = inspector.getByRole("checkbox", { name: "Differences only" });
   await inspector.getByText("Differences only", { exact: true }).click();
   await expect(differencesOnly).toBeChecked();
@@ -832,7 +856,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     await choose(variantControl, label);
     for (const button of buttons)
       await expect(button).toHaveAttribute("data-variant", variant);
-    await expect(result).toContainText("Buttons match");
+    await expect(result).toContainText("Components match");
   }
   const before = await buttons[0].evaluate(
     (node) => getComputedStyle(node).boxShadow,
@@ -865,16 +889,16 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
       for (const button of buttons)
         await expect(button).toHaveAttribute("data-pressed", /^(?:true)?$/);
     }
-    await expect(result).toContainText("Buttons match");
+    await expect(result).toContainText("Components match");
     await expect(inspector.locator("pre").first()).toBeVisible();
   }
   const disabled = panel.getByRole("checkbox", {
-    name: "Disable both buttons",
+    name: "Disabled",
   });
   await disabled.focus();
   await page.keyboard.press("Space");
   for (const button of buttons) await expect(button).toBeDisabled();
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   await disabled.press("Space");
   for (const button of buttons) await expect(button).toBeEnabled();
   await buttons[1].evaluate((button) =>
@@ -887,7 +911,7 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     .frameLocator('iframe[title="AriaX"]')
     .locator('[data-slot="button"]')
     .evaluate((button) => button.removeAttribute("aria-label"));
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   await page.emulateMedia({ colorScheme: "dark" });
   for (const button of buttons)
     await expect
@@ -904,9 +928,99 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
     ),
   );
   expect(widths[0]).toBe(widths[1]);
-  await expect(result).toContainText("Buttons match");
+  await expect(result).toContainText("Components match");
   await expectSiteTheme();
   expect(
     await panel.evaluate((node) => node.scrollWidth <= node.clientWidth),
   ).toBe(true);
+});
+
+test("homepage examples keep preview and frame selections independent", async ({ page }) => {
+  await page.goto("./");
+  const hero = page.locator("section").filter({ has: page.getByRole("heading", { name: "Live component preview" }) }).first();
+  const panel = page.locator(".comparison-demo");
+  const left = panel.frameLocator('iframe[title="shadcn/ui"]');
+  const right = panel.frameLocator('iframe[title="AriaX"]');
+  await hero.getByRole("button", { name: /Example$/ }).click();
+  await page.getByRole("option", { name: "Accordion", exact: true }).click();
+  await expect(hero.locator('[data-preview-stage="accordion-demo"]')).toBeVisible();
+  for (const name of ["Toggle group", "Three-state checkbox", "Select"]) {
+    await panel.getByRole("button", { name: /Example$/ }).click();
+    await page.getByRole("option", { name, exact: true }).click();
+    await expect(hero.locator('[data-preview-stage="accordion-demo"]')).toBeVisible();
+    const examples = [left, right];
+    if (name === "Toggle group") {
+      for (const region of examples)
+        await expect(region.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "false");
+      await left.getByRole("button", { name: "Tue" }).click();
+      await expect(left.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "true");
+      await expect(right.getByRole("button", { name: "Tue" })).toHaveAttribute("aria-pressed", "false");
+    } else if (name === "Three-state checkbox") {
+      for (const region of examples)
+        await expect(region.getByRole("checkbox").first()).toHaveJSProperty("indeterminate", true);
+      await left.getByText("Tue", { exact: true }).click();
+      await expect(left.getByRole("checkbox").first()).toBeChecked();
+      await expect(right.getByRole("checkbox").first()).toHaveJSProperty("indeterminate", true);
+    } else {
+      for (const region of examples)
+        await expect(region.locator('[data-slot="select-trigger"]').filter({ hasText: "Mon" })).toBeVisible();
+      await left.locator('[data-slot="select-trigger"]').click();
+      await expect(panel.locator(".comparison-inspector pre").first()).toContainText('data-slot="select-content"');
+      await left.getByRole("option", { name: "Wed" }).click();
+      await expect(left.locator('[data-slot="select-trigger"]')).toContainText("Wed");
+      await expect(right.locator('[data-slot="select-trigger"]')).toContainText("Mon");
+    }
+  }
+});
+
+test.describe("narrow mobile previews", () => {
+  test.use({ viewport: { width: 320, height: 844 }, isMobile: true, hasTouch: true });
+
+  test("the longest catalog name fits inside the preview header", async ({ page }) => {
+    await page.goto("./de/");
+    const picker = page.locator(".preview-example-picker button");
+    await picker.tap();
+    await page.getByRole("option", { name: "Message Scroller", exact: true }).tap();
+    await expect(picker).toHaveText("Message Scroller");
+    const header = page.locator(".preview-board-title").locator("..");
+    await expect.poll(() => header.evaluate(element => element.scrollWidth - element.clientWidth))
+      .toBeLessThanOrEqual(1);
+  });
+
+  test("comparison controls fit and the select trigger keeps its position", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await page.goto("./?lang=en-US");
+    const panel = page.locator(".comparison-demo");
+    const picker = panel.getByRole("button", { name: /Example$/ });
+    const frames = ["shadcn/ui", "AriaX"].map(title =>
+      panel.frameLocator(`iframe[title="${title}"]`),
+    );
+    await picker.tap();
+    await page.getByRole("option", { name: "Toggle group", exact: true }).tap();
+    for (const frame of frames) {
+      const group = frame.locator('[data-slot="toggle-group"]');
+      await expect.poll(() => group.evaluate(element => {
+        const bounds = element.getBoundingClientRect();
+        return bounds.left >= 0 && bounds.right <= innerWidth;
+      })).toBe(true);
+    }
+    await picker.tap();
+    await page.getByRole("option", { name: "Select", exact: true }).tap();
+    const triggers = frames.map(frame => frame.locator('[data-slot="select-trigger"]'));
+    const initialTop = await triggers[0].evaluate(element => element.getBoundingClientRect().top);
+    await panel.getByText("Invalid state", { exact: true }).tap();
+    for (const [index, trigger] of triggers.entries()) {
+      await expect(frames[index].getByText("This selection is invalid.", { exact: true })).toBeVisible();
+      await expect.poll(() => trigger.evaluate(element => element.getBoundingClientRect().top))
+        .toBe(initialTop);
+      await trigger.tap();
+      await frames[index].getByRole("option", { name: "Wed", exact: true }).tap();
+      await expect(trigger).toContainText("Wed");
+    }
+    await picker.tap();
+    await page.getByRole("option", { name: "Button", exact: true }).tap();
+    await expect(frames[0].locator("#parity-root button")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
 });

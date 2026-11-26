@@ -36,6 +36,7 @@
     "format:components": "prettier --write \"src/ariax/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/ariax/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\" playwright.config.ts",
     "build:site": "node --import tsx site/build.ts",
+    "dev:site": "node --import tsx site/dev.ts",
     "test:site": "node --import tsx --test site/catalog.test.ts site/compare-buttons.test.ts && playwright test --config site/playwright.config.ts",
     "check:site:examples": "node --import tsx site/check-examples.ts",
     "preview:site": "node --import tsx site/serve-static.ts"
@@ -91,6 +92,8 @@
     "pngjs": "7.0.0",
     "postcss": "8.5.29",
     "postcss-selector-parser": "7.1.6",
+    "pretendard": "1.3.9",
+    "pretendard-jp": "1.3.9",
     "prettier": "3.9.9",
     "radix-ui": "1.4.3",
     "react-i18next": "16.6.6",

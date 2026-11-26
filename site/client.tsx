@@ -1,4 +1,4 @@
-import { hydrateRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import type { ComponentType } from "react";
 import { Site, type SiteProps } from "./app";
 import { PreviewModules, previewComponents } from "./live-preview";
@@ -14,10 +14,12 @@ const modules = previewComponents(
 const app = document.getElementById("app");
 const data = document.getElementById("site-props")?.textContent;
 if (app && data) {
-  hydrateRoot(
-    app,
+  const content = (
     <PreviewModules.Provider value={modules}>
       <Site {...(JSON.parse(data) as SiteProps)} />
-    </PreviewModules.Provider>,
+    </PreviewModules.Provider>
   );
+  if (import.meta.env.DEV && !app.hasChildNodes())
+    createRoot(app).render(content);
+  else hydrateRoot(app, content);
 }

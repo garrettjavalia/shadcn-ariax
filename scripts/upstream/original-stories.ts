@@ -212,7 +212,7 @@ export async function generateOriginalStories(repo = root, upstream = rawRoot): 
       if (declaration?.type === 'FunctionDeclaration' && declaration.id) return [declaration.id.name];
       return [];
     });
-    const file = resolve(output, 'linked-' + source.replaceAll(/[/.]/g, '-') + '.stories.tsx');
+    const file = resolve(output, 'linked-' + source.replaceAll(/[\\/.]/g, '-') + '.stories.tsx');
     const lines = [`import fixtureMeta, * as fixtures from ${JSON.stringify(modulePath(file, resolve(repo, source)))};`];
     for (const [name, preview] of matches) lines.push(`import ${preview.exportName === 'default' ? '__Official' + name : `{ ${preview.exportName} as __Official${name} }`} from ${JSON.stringify(modulePath(file, resolve(repo, preview.source)))};`);
     // CSF needs literal title/id metadata, even though the rest comes from the fixture.

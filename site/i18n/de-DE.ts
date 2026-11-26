@@ -1,5 +1,16 @@
 export default {
   ui: {
+    "This selection is invalid.": "Diese Auswahl ist ungültig.",
+    "Vertical layout": "Vertikale Anordnung",
+    "Invalid state": "Fehlerzustand",
+    "Small size": "Kleine Größe",
+    "Show more": "Mehr anzeigen",
+    "All": "Alle",
+    Select: "Auswahlliste",
+    "Three-state checkbox": "Kontrollkästchen mit drei Zuständen",
+    "Toggle group": "Gruppe von Umschaltflächen",
+    Button: "Schaltfläche",
+    Example: "Beispiel",
     "Example files": "Beispieldateien",
     "View code": "Code anzeigen",
     "{{count}} components found": "Gefundene Komponenten: {{count}}",
@@ -25,22 +36,23 @@ export default {
     "The look of shadcn/ui, built with React Aria and StyleX. Install each component as editable source.":
       "Das Design von shadcn/ui, umgesetzt mit React Aria und StyleX. Installieren Sie die Komponenten als bearbeitbaren Quellcode.",
     "LIVE COMPONENT": "INTERAKTIVES BEISPIEL",
-    "Button style preview": "Vorschau der Button-Stile",
-    "Choose a style and try the button.":
-      "Wählen Sie einen Stil und probieren Sie den Button aus.",
+    "Live component preview": "Komponentenvorschau",
+    "Choose an example and try it with your mouse or keyboard.":
+      "Wähle ein Beispiel und probiere es mit Maus oder Tastatur aus.",
     "Button variant": "Button-Variante",
     Outline: "Kontur",
     Solid: "Gefüllt",
     Ghost: "Transparent",
     Saved: "Gespeichert",
     "Try button": "Ausprobieren",
-    "Live button comparison": "Live-Vergleich der Buttons",
-    "Compare the rendered button in both implementations.":
-      "Sehen Sie sich das aktuelle DOM und die berechneten CSS-Werte beider Buttons in Ihrem Browser an.",
-    "Disable both buttons": "Beide Buttons deaktivieren",
-    "Checking buttons…": "Buttons werden verglichen…",
-    "Buttons match": "Verglichene Werte stimmen überein",
+    "Live component comparison": "Live-Vergleich der Komponenten",
+    "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.":
+      "Vergleiche das DOM und das berechnete CSS. Jedes Beispiel verwaltet seinen eigenen Zustand. Für denselben Zustand musst du unter Umständen auf beiden Seiten dieselben Schritte ausführen. Klicke anschließend außerhalb beider Rahmen, um den Fokus zu entfernen.",
+    "Disabled": "Deaktiviert",
+    "Checking components…": "Komponenten werden verglichen…",
+    "Components match": "Komponenten stimmen überein",
     "Differences found": "Unterschiede gefunden",
+    "Focus state differs": "Fokuszustand unterscheidet sich",
     "Preview unavailable": "Die Vorschau ist nicht verfügbar.",
     "Comparison unavailable": "Vergleich nicht verfügbar",
     "DOM checks": "DOM-Prüfungen",
@@ -48,10 +60,10 @@ export default {
     "View differences": "Unterschiede anzeigen",
     "Retry comparison": "Erneut vergleichen",
     "Comparison scope": "Vergleichsumfang",
-    "This comparison runs in your browser at the current frame size and button state.":
-      "Der Vergleich läuft in Ihrem Browser mit der aktuellen Framegröße und dem aktuellen Zustand des Buttons.",
-    "It checks the button subtree, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
-      "Geprüft werden der DOM-Teilbaum des Buttons, alle berechneten Stile sowie die Pseudoelemente ::before und ::after. Generierte Klassen und Inline-Stile werden anhand ihrer berechneten Werte verglichen, IDs anhand ihrer Referenzen.",
+    "This comparison runs in your browser at the current frame size and component state.":
+      "Der Vergleich verwendet die aktuelle Rahmengröße und den Komponentenzustand in deinem Browser.",
+    "It checks the example and any open Select popup, all computed CSS properties, and the ::before and ::after pseudo-elements. Generated classes and inline style strings are represented by their computed styles. IDs are compared by reference.":
+      "Geprüft werden das Beispiel und die geöffnete Auswahlliste mit allen berechneten CSS-Eigenschaften sowie den Pseudoelementen ::before und ::after. Generierte Klassen und Inline-Stile werden anhand der berechneten Stile verglichen, IDs anhand ihrer Referenzen.",
     "CSS properties": "CSS-Eigenschaften",
     "CSS variable checks": "Prüfungen der CSS-Variablen",
     "Inspect CSS variable differences":
@@ -81,7 +93,8 @@ export default {
       "Die Zustandsauswahl zeigt die Interaktionsstile in beiden Frames. Der Tastaturfokus bleibt auf dem Auswahlfeld.",
     "Native pseudo-classes": "Native Pseudoklassen",
     testingTitle: "Testmethoden",
-    testingPurpose: "Damit Aussehen und Verhalten von shadcn/ui im Produktivbetrieb erhalten bleiben, vergleichen wir beide Implementierungen unter denselben Bedingungen.",
+    testingPurpose:
+      "Damit Aussehen und Verhalten von shadcn/ui im Produktivbetrieb erhalten bleiben, vergleichen wir beide Implementierungen unter denselben Bedingungen.",
     comparisonTitle: "Vergleich mit shadcn/ui",
     comparisonDescription:
       "Wir vergleichen die DOM-Struktur und die berechneten Stile desselben Beispiels in AriaX und shadcn/ui.",
@@ -174,8 +187,7 @@ export default {
       "Legt ein Dialogfenster über das Hauptfenster oder einen anderen Dialog und sperrt die Interaktion mit den darunterliegenden Inhalten.",
     direction: "Ein Provider legt die Schreibrichtung der Anwendung fest.",
     drawer: "Ein React-Panel, das vom Bildschirmrand aus eingeblendet wird.",
-    "dropdown-menu":
-      "Ein Button öffnet ein Menü mit Aktionen.",
+    "dropdown-menu": "Ein Button öffnet ein Menü mit Aktionen.",
     empty: "Zeigt einen Leerzustand an, wenn keine Inhalte vorhanden sind.",
     field:
       "Verbindet Beschriftungen, Steuerelemente und Hilfetexte zu barrierefreien Formularfeldern und Eingabegruppen.",
@@ -199,8 +211,7 @@ export default {
       "Ein natives HTML-Auswahlfeld mit dem Styling des Designsystems.",
     pagination:
       "Ermöglicht die Seitennavigation über Seitenzahlen sowie Links zur vorherigen und nächsten Seite.",
-    popover:
-      "Öffnet per Button formatierte Inhalte in einem Portal.",
+    popover: "Öffnet per Button formatierte Inhalte in einem Portal.",
     progress:
       "Zeigt den Fortschritt einer Aufgabe an, üblicherweise als Fortschrittsbalken.",
     questionnaire:

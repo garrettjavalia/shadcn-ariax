@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
-import { dirname, relative, resolve } from 'node:path';
+import { dirname, relative, resolve, sep } from 'node:path';
 import { parse } from '@babel/parser';
 
 export async function componentNames(root: string) {
@@ -46,5 +46,9 @@ export async function componentSources(root: string, name: string, pins: Record<
     }
   }
   await visit(resolve(base, `${name}${extension}`));
-  return { dependencies: [...dependencies].sort(), files: [...files].sort().map(path => ({ path: relative(root, path), type: path.endsWith('.tsx') ? 'registry:ui' : 'registry:file', target: `@ui/${relative(base, path)}` })) };
+  return { dependencies: [...dependencies].sort(), files: [...files].sort().map(path => ({
+    path: relative(root, path).split(sep).join('/'),
+    type: path.endsWith('.tsx') ? 'registry:ui' : 'registry:file',
+    target: `@ui/${relative(base, path).split(sep).join('/')}`,
+  })) };
 }

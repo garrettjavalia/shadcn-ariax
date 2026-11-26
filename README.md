@@ -199,7 +199,9 @@ The full local suite also checks interactions, geometry, scrolling, focus, pixel
 
 The public site is a Vite static build with an AriaX home page, installation guide, and searchable component catalog. It generates pages in English, Korean, Japanese, Spanish, Brazilian Portuguese, French, and German with interactive AriaX variants and their example source. The site detects the browser language on first load.
 
-The home page includes a live button comparison. It renders the pinned shadcn/ui button and the installed AriaX button in separate frames so you can inspect their DOM and computed styles in your browser.
+The home page previews the first documentation example for each component. The live comparison renders buttons, toggle groups, checkboxes, or selects from the pinned shadcn/ui revision and AriaX in separate frames for DOM and computed CSS inspection.
+
+Run `pnpm dev:site` to edit the site with Vite hot updates. It prepares the route data and examples on the first run. The default development URL is `http://127.0.0.1:4198/shadcn-ariax/`. Run `pnpm build:site` again after changing the generated catalog or route data.
 
 ```sh
 pnpm build:site

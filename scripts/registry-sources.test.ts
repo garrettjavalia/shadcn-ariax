@@ -23,6 +23,7 @@ test('registry discovers primary components and follows imports, reexports, type
     const result = await componentSources(root, 'parent', { react: '1.0.0', icons: '2.0.0', '@stylexjs/stylex': '3.0.0' });
     assert.deepEqual(result.dependencies, ['@stylexjs/stylex@3.0.0', 'icons@2.0.0', 'react@1.0.0']);
     assert.deepEqual(result.files.map(file => file.target), ['@ui/child.tsx', '@ui/parent.tsx', '@ui/styles.stylex.ts']);
+    assert.deepEqual(result.files.map(file => file.path), ['src/ariax/ui/child.tsx', 'src/ariax/ui/parent.tsx', 'src/ariax/ui/styles.stylex.ts']);
     await assert.rejects(componentSources(root, 'parent', { react: '1.0.0' }), /Pin imported package icons/);
     await writeFile(join(root, 'src/ariax/ui/parent.tsx'), 'import "./missing";');
     await assert.rejects(componentSources(root, 'parent', {}), /Missing relative import/);
