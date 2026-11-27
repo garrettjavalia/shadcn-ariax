@@ -303,3 +303,17 @@ html:lang(es) .hero-intro {
 .hero-line:first-child {
   color: var(--foreground);
 }
+
+.preview-compare-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.5rem;
+  color: var(--demo-foreground);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+#live-comparison {
+  scroll-margin-block-start: 5rem;
+}

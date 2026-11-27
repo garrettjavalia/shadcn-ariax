@@ -780,7 +780,10 @@ test("homepage compares the rendered buttons and reports specific mismatches", a
 }) => {
   await page.goto("./");
   const panel = page.locator(".comparison-demo");
-  await panel.scrollIntoViewIfNeeded();
+  await page.getByRole("link", { name: "Compare with the original" }).click();
+  await expect(page).toHaveURL(/#live-comparison$/);
+  await panel.getByRole("button", { name: /Toggle group Example$/ }).click();
+  await page.getByRole("option", { name: "Button", exact: true }).click();
   const result = panel.getByRole("status");
   const buttons = ["shadcn/ui", "AriaX"].map((name) =>
     panel

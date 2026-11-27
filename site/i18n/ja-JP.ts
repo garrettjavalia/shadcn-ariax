@@ -1,5 +1,6 @@
 export default {
   ui: {
+    "Compare with the original": "オリジナルと比較",
     "This selection is invalid.": "選択した値は無効です。",
     "Vertical layout": "縦配置",
     "Invalid state": "エラー状態",

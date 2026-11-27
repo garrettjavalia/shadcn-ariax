@@ -391,7 +391,7 @@ export function ComparisonDemo({
   theme: "light" | "dark";
 }) {
   const { t, i18n } = useTranslation();
-  const [example, setExample] = useState<Example>("button");
+  const [example, setExample] = useState<Example>("toggle-group");
   const buttonExample = example === "button";
   useEffect(() => {
     window.addEventListener("pointerdown", focusSelectOnFrameEntry, true);
@@ -581,7 +581,7 @@ export function ComparisonDemo({
   return (
     <div className="comparison-demo" ref={panel}>
       <div className="comparison-heading" data-section-heading>
-        <h2>{t("Live component comparison")}</h2>
+        <h2 id="live-comparison" tabIndex={-1}>{t("Live component comparison")}</h2>
         <p>
           {t(
             "Compare the DOM and computed CSS. Each example tracks its own state. To compare the same state, you may need to repeat the same actions on both sides, then move focus outside both frames.",

@@ -19,6 +19,7 @@ import { gfmTable, gfmTableHtml } from "micromark-extension-gfm-table";
 import {
   Monitor,
   Languages,
+  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Layers3,
@@ -456,6 +457,9 @@ function Home({
           </div>
           <div {...stylex.props(s.boardFooter)}>
             <p className="preview-board-hint">{t("Choose an example and try it with your mouse or keyboard.")}</p>
+            <a className="preview-compare-link" href="#live-comparison">
+              {t("Compare with the original")} <ArrowDown size={14} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>

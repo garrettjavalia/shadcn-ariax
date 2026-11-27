@@ -1,5 +1,6 @@
 export default {
   ui: {
+    "Compare with the original": "Comparar com o original",
     "This selection is invalid.": "Esta seleção é inválida.",
     "Vertical layout": "Disposição vertical",
     "Invalid state": "Estado inválido",
